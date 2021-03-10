@@ -21,7 +21,9 @@ public:
   ~Color(){};
 
   // Metodi
-  Color sum_colors(Color, Color);
+  Color operator+(Color);
+  Color operator-(Color);
+
   bool are_colors_close(Color, Color);
   bool are_close(float, float);
 
