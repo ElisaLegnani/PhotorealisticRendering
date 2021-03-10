@@ -1,3 +1,13 @@
+cmake_minimum_required(VERSION 3.12)
+
+project(raytracer
+    VERSION 1.0
+    DESCRIPTION "Hello world in C++"
+    LANGUAGES CXX
+    )
+    
+enable_testing()
+
 target_include_directories(trace PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE.include>
@@ -14,3 +24,9 @@ add_executable(colortest
     )
 
 target_link_libraries(colortest PUBLIC trace)
+
+add_test(NAME colortest
+    COMMAND colortest
+    )
+    
+target_compile_features(raytracer PUBLIC cxx_std_17)
