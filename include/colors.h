@@ -18,7 +18,12 @@ public:
   }
 
   // Distruttori
-  ~Color();
+  ~Color(){};
+
+  // Metodi
+  Color sum_colors(Color, Color);
+  bool are_colors_close(Color, Color);
+  bool are_close(float, float);
 
 private:
   float m_r, m_g, m_b;
