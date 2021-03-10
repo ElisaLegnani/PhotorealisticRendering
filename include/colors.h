@@ -23,8 +23,10 @@ public:
   // Metodi
   Color operator+(Color);
   Color operator-(Color);
+  Color operator*(Color);
+  Color operator*(float);
 
-  bool are_colors_close(Color, Color);
+  bool is_color_close(Color);
   bool are_close(float, float);
 
 private:
