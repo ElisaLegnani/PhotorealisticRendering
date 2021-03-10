@@ -1,8 +1,12 @@
 #include "colors.h"
 #include <cmath>
 
-Color Color::sum_colors(Color c1, Color c2) {
-  return Color(c1.m_r + c2.m_r, c1.m_g + c2.m_g, c1.m_b + c2.m_b);
+Color Color::operator+(Color c) {
+  return Color(m_r + c.m_r, m_g + c.m_g, m_b + c.m_b);
+}
+
+Color Color::operator-(Color c) {
+  return Color(m_r - c.m_r, m_g - c.m_g, m_b - c.m_b);
 }
 
 bool Color::are_colors_close(Color c1, Color c2) {
