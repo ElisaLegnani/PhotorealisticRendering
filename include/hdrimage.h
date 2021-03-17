@@ -21,12 +21,24 @@ public:
 
   ~HdrImage(){}
   
-  bool valid_coordinates(vector<Color> p, int x, int y) {
+  bool valid_coordinates(int x, int y) {
    return((x>=0) && (x<width) && (y>=0) && (y<height));
   }
   
   int pixel_offset(int x, int y){
     return y * width + x;
+  }
+  
+  Color get_pixel(int x, int y){
+    if(valid_coordinates(x,y)){
+      return pixels[pixel_offset(x,y)];
+    }else{abort();}
+  }
+  
+  void set_pixel(int x, int y, Color new_color){
+    if(valid_coordinates(x,y)){
+    pixels[pixel_offset(x,y)]=new_color;
+    }else{abort();}
   }
 
 };
