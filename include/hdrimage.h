@@ -15,8 +15,8 @@ public:
 
   ~HdrImage(){};
 
-  HdrImage valid_coordinates(vector<Color> pixels, float x, float y) {
-    return Color(m_r + c.m_r, m_g + c.m_g, m_b + c.m_b);
+  HdrImage valid_coordinates(vector<Color> p, float x, float y) {
+    
   }
 
 };
