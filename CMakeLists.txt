@@ -30,7 +30,17 @@ add_executable(colortest
 target_link_libraries(colortest PUBLIC trace)
 
 add_test(NAME colortest
-    COMMAND colortest
+    COMMAND colortest 
+    )
+
+add_executable(colortest2
+    test/colors2.cpp
+    )
+
+target_link_libraries(colortest2 PUBLIC trace)
+
+add_test(NAME colortest2
+    COMMAND colortest2 
     )
     
 target_compile_features(raytracer PUBLIC cxx_std_17)
