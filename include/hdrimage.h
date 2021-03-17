@@ -11,12 +11,16 @@ public:
   int width, height;
   vector<Color> pixels;
 
-  HdrImage(){}
+  HdrImage(w,h){};
 
   ~HdrImage(){};
 
   bool valid_coordinates(float x, float y) {
    return((x>=0) && (x<widht) && (y>=0) && (y<heigh)); 
+  }
+  
+  int pixel_offset(x,y){
+    return y * width + x;
   }
 
 };
