@@ -13,15 +13,17 @@ public:
   int width, height;
   vector<Color> pixels;
 
+  HdrImage(){};
+  
   HdrImage(int w, int h){
     width=w;
     height=h;
     pixels.resize(width*height);
   }
 
-  ~HdrImage(){}
+  ~HdrImage(){};
   
-  bool valid_coordinates(vector<Color> p, int x, int y) {
+  bool valid_coordinates(int x, int y) {
    return((x>=0) && (x<width) && (y>=0) && (y<height));
   }
   
