@@ -43,4 +43,14 @@ add_test(NAME colortest2
     COMMAND colortest2
     )
     
+add_executable(hdrimage
+    test/hdrimage.cpp
+    )
+
+target_link_libraries(hdrimage PUBLIC trace)
+
+add_test(NAME hdrimage
+    COMMAND hdrimage
+    )
+    
 target_compile_features(raytracer PUBLIC cxx_std_17)
