@@ -1,3 +1,5 @@
+#include <iostream>
+#include <vector>
 #include "colors.h"
 
 using namespace std;
@@ -11,15 +13,15 @@ public:
   int width, height;
   vector<Color> pixels;
 
-  HdrImage(w,h){};
+  HdrImage(int w, int h){};
 
   ~HdrImage(){};
 
-  bool valid_coordinates(float x, float y) {
-   return((x>=0) && (x<widht) && (y>=0) && (y<heigh)); 
+  bool valid_coordinates(int x, int y) {
+   return((x>=0) && (x<width) && (y>=0) && (y<height)); 
   }
   
-  int pixel_offset(x,y){
+  int pixel_offset(int x,int y){
     return y * width + x;
   }
 
