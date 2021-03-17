@@ -20,7 +20,7 @@ public:
   ~HdrImage(){}
   
   bool valid_coordinates(vector<Color> p, int x, int y) {
-   return((x>=0) && (x<widht) && (y>=0) && (y<heigh));
+   return((x>=0) && (x<width) && (y>=0) && (y<height));
   }
   
   int pixel_offset(int x, int y){
