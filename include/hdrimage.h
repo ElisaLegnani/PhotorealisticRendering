@@ -9,9 +9,13 @@ public:
   int width, height;
   std::vector<Color> pixels;
 
-  HdrImage() {}
+  HdrImage(w,h){};
 
   ~HdrImage(){};
+  
+  pixel_offset(x,y){
+    return
+  }
 };
 
 #endif
