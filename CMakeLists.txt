@@ -9,7 +9,7 @@ project(raytracer
 enable_testing()
 
 add_library(trace
-    src/colors.cpp
+    src/raytracer.cpp
     )
 
 target_include_directories(trace PUBLIC
