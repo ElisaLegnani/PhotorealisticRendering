@@ -4,7 +4,6 @@
 class Color {
 
 public:
-  // Costruttori
   Color() {
     m_r = 0.0;
     m_g = 0.0;
@@ -17,10 +16,8 @@ public:
     m_b = b;
   }
 
-  // Distruttori
   ~Color(){};
 
-  // Metodi
   Color operator+(Color);
   Color operator-(Color);
   Color operator*(Color);
