@@ -20,5 +20,12 @@ int main() {
     abort();
   }
 
+  Color reference_color = Color(1.0, 2.0, 3.0);
+  img.set_pixel(3, 2, reference_color);
+
+  if (img.get_pixel(3, 2).is_color_close(reference_color) == 0) {
+    abort();
+  }
+
   return 0;
 }
