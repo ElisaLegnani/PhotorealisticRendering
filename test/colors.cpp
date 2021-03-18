@@ -14,6 +14,12 @@ int main() {
   if ((c2 - c1).is_color_close(Color(4.0, 5.0, 6.0)) == 0) {
     abort();
   }
+  if ((c1 * c2).is_color_close(Color(5.0, 14.0, 27.0)) == 0) {
+    abort();
+  }
+  if ((c1 * x).is_color_close(Color(5.0, 10.0, 15.0)) == 0) {
+    abort();
+  }
   
   return 0;
 }
