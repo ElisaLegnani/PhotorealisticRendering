@@ -33,16 +33,6 @@ add_test(NAME colortest
     COMMAND colortest 
     )
 
-add_executable(colortest2
-    test/colors2.cpp
-    )
-
-target_link_libraries(colortest2 PUBLIC trace)
-
-add_test(NAME colortest2
-    COMMAND colortest2
-    )
-    
 add_executable(hdrimage
     test/hdrimage.cpp
     )
