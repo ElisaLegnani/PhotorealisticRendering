@@ -6,6 +6,8 @@
 class Color {
 
 public:
+  float m_r, m_g, m_b;
+  
   Color() {
     m_r = 0.0;
     m_g = 0.0;
@@ -40,9 +42,7 @@ public:
     float epsilon = 1e-10;
     return abs(x - y) < epsilon;
   }
-
-private:
-  float m_r, m_g, m_b;
+  
 };
 
 #endif
