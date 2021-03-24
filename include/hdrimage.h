@@ -51,16 +51,16 @@ public:
   }
   
   void save_pfm(stringstream sstr){
-    //
+    stringstream sstr;
     sstr << "PF\n" << width << " " << height << "\n" << endianness;
     string result{sstr.str()}; // perchè parentesi graffe? string result (sstr.str())
     
     for(int y=(height-1); y>=0; y--){
-      for(int x=0; x<weight; x++){
-        color=pixels[x,y]
-        write_float(sstr, color.m_r, Endianness::little_endian)
-        write_float(sstr, color.m_g, Endianness::little_endian)
-        write_float(sstr, color.m_b, Endianness::little_endian)
+      for(int x=0; x<width; x++){
+        Color color=pixels[x,y];
+        write_float(sstr, color.m_r, Endianness::little_endian);
+        write_float(sstr, color.m_g, Endianness::little_endian);
+        write_float(sstr, color.m_b, Endianness::little_endian);
       }
     }
   }
