@@ -51,7 +51,6 @@ public:
   }
   
   void save_pfm(stringstream sstr){
-    stringstream sstr;
     sstr << "PF\n" << width << " " << height << "\n" << endianness;
     string result{sstr.str()}; // perchè parentesi graffe? string result (sstr.str())
     
