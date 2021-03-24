@@ -13,9 +13,9 @@ using namespace std;
 class HdrImage { // reminder: 1. width 2. height
 
 public:
-  int width=0;
-  int height=0;
-  float endianness=-1.0; //o string?
+  int width;
+  int height;
+  string endianness=-1.0;
   vector<Color> pixels;
 
   HdrImage(){};
