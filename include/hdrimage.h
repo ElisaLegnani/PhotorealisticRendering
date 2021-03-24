@@ -1,6 +1,9 @@
 #include "colors.h"
+#include <string>
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include "write_float.h"
 
 using namespace std;
 
@@ -10,7 +13,9 @@ using namespace std;
 class HdrImage { // reminder: 1. width 2. height
 
 public:
-  int width, height;
+  int width=0;
+  int height=0;
+  float endianness=-1.0; //o string?
   vector<Color> pixels;
 
   HdrImage(){};
@@ -44,6 +49,13 @@ public:
       abort();
     }
   }
+  
+  /*void save_pfm(stringstream sstr){
+    //
+    sstr << "PF\n" << width << " " << height << "\n" << endianness;
+    string result{sstr.str()}; // perchè parentesi graffe? string result (sstr.str())
+    
+  }*/
 };
 
 #endif
