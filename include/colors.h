@@ -6,36 +6,36 @@
 class Color {
 
 public:
-  float m_r, m_g, m_b;
+  float r, g, b;
   
   Color() {
-    m_r = 0.0;
-    m_g = 0.0;
-    m_b = 0.0;
+    r = 0.0;
+    g = 0.0;
+    b = 0.0;
   }
 
-  Color(float r, float g, float b) {
-    m_r = r;
-    m_g = g;
-    m_b = b;
+  Color(float red, float green, float blue) {
+    r = red;
+    g = green;
+    b = blue;
   }
 
   ~Color(){};
 
   Color operator+(Color c) {
-    return Color(m_r + c.m_r, m_g + c.m_g, m_b + c.m_b);
+    return Color(r + c.r, g + c.g, b + c.b);
   }
   Color operator-(Color c) {
-    return Color(m_r - c.m_r, m_g - c.m_g, m_b - c.m_b);
+    return Color(r - c.r, g - c.g, b - c.b);
   }
   Color operator*(Color c) {
-    return Color(m_r * c.m_r, m_g * c.m_g, m_b * c.m_b);
+    return Color(r * c.r, g * c.g, b * c.b);
   }
-  Color operator*(float x) { return Color(m_r * x, m_g * x, m_b * x); }
+  Color operator*(float x) { return Color(r * x, g * x, b * x); }
 
   bool is_color_close(Color c) {
-    return are_close(m_r, c.m_r) && are_close(m_g, c.m_g) &&
-           are_close(m_b, c.m_b);
+    return are_close(r, c.r) && are_close(g, c.g) &&
+           are_close(b, c.b);
   }
 
   bool are_close(float x, float y) {
