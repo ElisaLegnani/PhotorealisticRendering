@@ -11,7 +11,7 @@ using namespace std;
 #ifndef _hdrimage_h_
 #define _hdrimage_h_
 
-# Written in little endian
+// Written in little endian
 
 class HdrImage { // reminder: 1. width 2. height
 
