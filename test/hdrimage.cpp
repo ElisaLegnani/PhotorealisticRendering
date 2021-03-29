@@ -56,7 +56,6 @@ int main() {
                         sizeof(reference_bytes) / sizeof(reference_bytes[0]));
 
   // cout << "Reference bytes" << endl << ref_string <<endl;
-
   // cout << "Stream bytes" << endl << sstr.str() <<endl;
 
   if (sstr.str() != ref_string) {
