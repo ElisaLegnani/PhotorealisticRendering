@@ -40,10 +40,19 @@ void write_float(std::stringstream &stream, float value,
   }
 }
 
-class HdrImage {  // Reminder: 1. width 2. height
+string read_line(stringstream &stream){
+  string result = "";
+  if(result!="\n"){
+    stream >> result;
+  }
+  return result;
+}
+
+class HdrImage { // Reminder: 1. width 2. height
 
 private:
-  void read_pfm(istream &stream);
+  void read_pfm(istream &stream){
+  }
 
 public:
   int width;
@@ -60,7 +69,7 @@ public:
 
   HdrImage(ifstream &stream) { read_pfm(stream); }
 
-  HdrImage(const string &filename) { 
+  HdrImage(const string &filename) {
     ifstream stream{filename};
     read_pfm(stream);
   }
@@ -89,12 +98,13 @@ public:
     }
   }
 
-  void save_pfm(stringstream &sstr, Endianness endianness) { // scrivere anche save_pfm che scriva su file (ofstream)?
+  void save_pfm(stringstream &sstr,
+                Endianness endianness) { // scrivere anche save_pfm che scriva su file (ofstream)?
 
     string endianness_str;
-    if (endianness==Endianness::little_endian){
+    if (endianness == Endianness::little_endian) {
       endianness_str = "-1.0";
-    }else if(endianness==Endianness::big_endian){
+    } else if (endianness == Endianness::big_endian) {
       endianness_str = "1.0";
     }
 
@@ -109,8 +119,6 @@ public:
       }
     }
   }
-
 };
-
 
 #endif

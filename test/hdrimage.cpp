@@ -4,6 +4,9 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
+#include <iostream>
+
+using namespace std;
 
 int main() {
 
@@ -29,6 +32,8 @@ int main() {
   if (img.get_pixel(3, 2).is_color_close(reference_color) == 0) {
     abort();
   }
+
+  // Test save_pfm()
 
   HdrImage img2(3, 2);
 
@@ -59,6 +64,15 @@ int main() {
   // cout << "Stream bytes" << endl << sstr.str() <<endl;
 
   if (sstr.str() != ref_string) {
+    abort();
+  }
+
+  // Test pfm_read_line()
+
+  stringstream sstr2;
+  sstr2 << "hello,\nworld";
+
+  if (read_line(sstr2) != "hello," || read_line(sstr2) != "world" || read_line(sstr2) != ""){
     abort();
   }
 
