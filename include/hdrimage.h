@@ -1,10 +1,10 @@
 #include "colors.h"
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <sstream>
 #include "write_float.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -18,7 +18,7 @@ class HdrImage { // reminder: 1. width 2. height
 public:
   int width;
   int height;
-  string endianness="-1.0";
+  string endianness = "-1.0";
   vector<Color> pixels;
 
   HdrImage(){};
@@ -52,20 +52,16 @@ public:
       abort();
     }
   }
-  
-  void save_pfm(stringstream &sstr){
+
+  void save_pfm(stringstream &sstr) { // scrivere anche save_pfm che scriva su file (ofstream)
     sstr << "PF\n" << width << " " << height << "\n" << endianness << "\n";
-    string result{sstr.str()};
-    
-    ofstream ostr;
-    ostr << result;
-    
-    for(int y=(height-1); y>=0; y--){
-      for(int x=0; x<width; x++){
-        Color color=get_pixel(x,y);
-        write_float(ostr, color.r, Endianness::little_endian);
-        write_float(ostr, color.g, Endianness::little_endian);
-        write_float(ostr, color.b, Endianness::little_endian);
+
+    for (int y = (height - 1); y >= 0; y--) {
+      for (int x = 0; x < width; x++) {
+        Color color = get_pixel(x, y);
+        write_float(sstr, color.r, Endianness::little_endian);
+        write_float(sstr, color.g, Endianness::little_endian);
+        write_float(sstr, color.b, Endianness::little_endian);
       }
     }
   }
