@@ -41,7 +41,6 @@ void write_float(std::stringstream &stream, float value,
 }
 
 class HdrImage {  // Reminder: 1. width 2. height
-                  // Written in little endian
 
 private:
   void read_pfm(istream &stream);
@@ -49,7 +48,6 @@ private:
 public:
   int width;
   int height;
-  string endianness = "-1.0";
   vector<Color> pixels;
 
   HdrImage(){};
@@ -91,9 +89,16 @@ public:
     }
   }
 
-  void save_pfm(stringstream &sstr) { // scrivere anche save_pfm che scriva su file (ofstream)
+  void save_pfm(stringstream &sstr, Endianness endianness) { // scrivere anche save_pfm che scriva su file (ofstream)?
 
-    sstr << "PF\n" << width << " " << height << "\n" << endianness << "\n";
+    string endianness_str;
+    if (endianness==Endianness::little_endian){
+      endianness_str = "-1.0";
+    }else if(endianness==Endianness::big_endian){
+      endianness_str = "1.0";
+    }
+
+    sstr << "PF\n" << width << " " << height << "\n" << endianness_str << "\n";
 
     for (int y{height - 1}; y >= 0; --y) {
       for (int x{}; x < width; ++x) {
