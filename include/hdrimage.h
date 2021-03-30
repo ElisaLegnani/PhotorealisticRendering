@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <exception>
 
 using namespace std;
 
@@ -12,6 +13,19 @@ using namespace std;
 #define _hdrimage_h_
 
 enum class Endianness { little_endian, big_endian };
+
+class InvalidPfmFileFormat: public exception{
+
+private:
+  string error_message;
+
+public:
+  explicit InvalidPfmFileFormat(const string& message): error_message(message){}
+
+  const char* what() const noexcept override{
+      return error_message.c_str();
+    }
+};
 
 void write_float(std::stringstream &stream, float value,
                  Endianness endianness) {
@@ -40,18 +54,79 @@ void write_float(std::stringstream &stream, float value,
   }
 }
 
-string read_line(stringstream &stream){
+string read_line(stringstream &stream){ //da riscrivere per istream?
   string result = "";
   if(result!="\n"){
     stream >> result;
   }
   return result;
 }
+/*
+def _read_float(stream, endianness=Endianness.LITTLE_ENDIAN):
+    format_str = _FLOAT_STRUCT_FORMAT[endianness]
+
+    try:
+        return struct.unpack(format_str, stream.read(4))[0]
+        
+    except struct.error:
+        # Capture the exception and convert it in a more appropriate type
+        raise InvalidPfmFileFormat("impossible to read binary data from the file")
+
+
+def _parse_endianness(line: str):
+    try:
+        value = float(line)
+    except ValueError:
+        raise InvalidPfmFileFormat("missing endianness specification")
+
+    if value == 1.0:
+        return Endianness.BIG_ENDIAN
+    elif value == -1.0:
+        return Endianness.LITTLE_ENDIAN
+    else:
+        raise InvalidPfmFileFormat("invalid endianness specification")
+
+def _parse_img_size(line: str):
+    elements = line.split(" ")
+    if len(elements) != 2:
+        raise InvalidPfmFileFormat("invalid image size specification")
+
+    try:
+        width, height = (int(elements[0]), int(elements[1]))
+        if (width < 0) or (height < 0):
+            raise ValueError()
+    except ValueError:
+        raise InvalidPfmFileFormat("invalid width/height")
+
+    return width, height
+}*/
 
 class HdrImage { // Reminder: 1. width 2. height
 
 private:
-  void read_pfm(istream &stream){
+  void read_pfm(stringstream &stream){
+
+    string magic = read_line(stream);
+    if(magic!="PF"){
+      throw InvalidPfmFileFormat("invalid magic in PFM file");
+    }
+
+    string img_size = read_line(stream);
+    /*width, height = parse_img_size(img_size);
+
+    endianness_line = read_line(stream);
+    endianness = parse_endianness(endianness_line);
+
+    result = HdrImage(width=width, height=height)
+    for y in range(height - 1, -1, -1):
+        for x in range(width):
+            (r, g, b) = [_read_float(stream, endianness) for i in range(3)]
+            result.set_pixel(x, y, Color(r, g, b))
+
+    return result
+
+  */
+
   }
 
 public:
@@ -67,10 +142,10 @@ public:
     pixels.resize(width * height);
   }
 
-  HdrImage(ifstream &stream) { read_pfm(stream); }
+  HdrImage(stringstream &stream) { read_pfm(stream); }
 
   HdrImage(const string &filename) {
-    ifstream stream{filename};
+    stringstream stream{filename};
     read_pfm(stream);
   }
 
@@ -113,9 +188,9 @@ public:
     for (int y{height - 1}; y >= 0; --y) {
       for (int x{}; x < width; ++x) {
         Color color = get_pixel(x, y);
-        write_float(sstr, color.r, Endianness::little_endian);
-        write_float(sstr, color.g, Endianness::little_endian);
-        write_float(sstr, color.b, Endianness::little_endian);
+        write_float(sstr, color.r, endianness);
+        write_float(sstr, color.g, endianness);
+        write_float(sstr, color.b, endianness);
       }
     }
   }
