@@ -61,45 +61,6 @@ string read_line(stringstream &stream){ //da riscrivere per istream?
   }
   return result;
 }
-/*
-def _read_float(stream, endianness=Endianness.LITTLE_ENDIAN):
-    format_str = _FLOAT_STRUCT_FORMAT[endianness]
-
-    try:
-        return struct.unpack(format_str, stream.read(4))[0]
-        
-    except struct.error:
-        # Capture the exception and convert it in a more appropriate type
-        raise InvalidPfmFileFormat("impossible to read binary data from the file")
-
-
-def _parse_endianness(line: str):
-    try:
-        value = float(line)
-    except ValueError:
-        raise InvalidPfmFileFormat("missing endianness specification")
-
-    if value == 1.0:
-        return Endianness.BIG_ENDIAN
-    elif value == -1.0:
-        return Endianness.LITTLE_ENDIAN
-    else:
-        raise InvalidPfmFileFormat("invalid endianness specification")
-
-def _parse_img_size(line: str):
-    elements = line.split(" ")
-    if len(elements) != 2:
-        raise InvalidPfmFileFormat("invalid image size specification")
-
-    try:
-        width, height = (int(elements[0]), int(elements[1]))
-        if (width < 0) or (height < 0):
-            raise ValueError()
-    except ValueError:
-        raise InvalidPfmFileFormat("invalid width/height")
-
-    return width, height
-}*/
 
 class HdrImage { // Reminder: 1. width 2. height
 
@@ -112,20 +73,7 @@ private:
     }
 
     string img_size = read_line(stream);
-    /*width, height = parse_img_size(img_size);
-
-    endianness_line = read_line(stream);
-    endianness = parse_endianness(endianness_line);
-
-    result = HdrImage(width=width, height=height)
-    for y in range(height - 1, -1, -1):
-        for x in range(width):
-            (r, g, b) = [_read_float(stream, endianness) for i in range(3)]
-            result.set_pixel(x, y, Color(r, g, b))
-
-    return result
-
-  */
+    
 
   }
 
