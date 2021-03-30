@@ -66,15 +66,13 @@ string read_line(stringstream &stream) { // da riscrivere per istream?
   return result;
 }
 
-uint32_t
-read_float(stringstream &stream,
-           Endianness endianness) { // da implementare endianness e exception
-                                    //+ va bene così?
-  uint32_t bytes[4];
-  stream.read((char *)bytes, 4);
-  uint32_t result =
-      bytes[3] | (bytes[2] << 24) | (bytes[1] << 16) | (bytes[0] << 8);
-  cout << result << endl;
+float read_float(
+    stringstream &stream,
+    Endianness endianness) { // da implementare endianness e exception
+
+  float result;
+  stream.read(reinterpret_cast<char *>(&result), sizeof(float));
+
   return result;
 }
 
@@ -124,10 +122,18 @@ private:
 
     width = size[0];
     height = size[1];
-    // for y in range(height - 1, -1, -1):
-    //  for x in range(width):
-    //    (r, g, b) = [_read_float(stream, endianness) for i in range(3)]
-    //  result.set_pixel(x, y, Color(r, g, b))
+    pixels.resize(width * height);
+
+    float rgb[3];
+
+    for (int y{height - 1}; y >= 0; --y) {
+      for (int x{}; x < width; ++x) {
+        for (int i{}; i < 3; ++i) {
+          rgb[i] = read_float(stream, Endianness::little_endian);
+        }
+        pixels[y * width + x] = Color(rgb[0], rgb[1], rgb[2]);
+      }
+    }
   }
 
 public:

@@ -91,6 +91,9 @@ int main() {
   if (img3.width != 3 || img3.height != 2) {
     abort();
   }
+  if (img3.get_pixel(0, 0).is_color_close(Color(1.0e1, 2.0e1, 3.0e1)) == 0 || img3.get_pixel(2, 1).is_color_close(Color(7.0e2, 8.0e2, 9.0e2)) == 0) {
+    abort();
+  }
 
   return 0;
 }
