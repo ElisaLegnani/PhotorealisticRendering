@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <fstream>
-#include <sstream>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -72,7 +72,23 @@ int main() {
   stringstream sstr2;
   sstr2 << "hello,\nworld";
 
-  if (read_line(sstr2) != "hello," || read_line(sstr2) != "world" || read_line(sstr2) != ""){
+  if (read_line(sstr2) != "hello," || read_line(sstr2) != "world" ||
+      read_line(sstr2) != "") {
+    abort();
+  }
+
+  // Test pfm_pase_img_size() - finire
+
+  vector<int> ref_img_size = {3, 2};
+
+  if (parse_img_size("3 2") != ref_img_size) {
+    abort();
+  }
+
+  // Test read_pfm()
+
+  HdrImage img3(sstr);
+  if (img3.width != 3 || img3.height != 2) {
     abort();
   }
 

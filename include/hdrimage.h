@@ -1,11 +1,11 @@
 #include "colors.h"
 #include <cstdint> // It contains uint8_t
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
-#include <exception>
 
 using namespace std;
 
@@ -14,17 +14,16 @@ using namespace std;
 
 enum class Endianness { little_endian, big_endian };
 
-class InvalidPfmFileFormat: public exception{
+class InvalidPfmFileFormat : public exception {
 
 private:
   string error_message;
 
 public:
-  explicit InvalidPfmFileFormat(const string& message): error_message(message){}
+  explicit InvalidPfmFileFormat(const string &message)
+      : error_message(message) {}
 
-  const char* what() const noexcept override{
-      return error_message.c_str();
-    }
+  const char *what() const noexcept override { return error_message.c_str(); }
 };
 
 void write_float(std::stringstream &stream, float value,
@@ -54,27 +53,81 @@ void write_float(std::stringstream &stream, float value,
   }
 }
 
-string read_line(stringstream &stream){ //da riscrivere per istream?
+string read_line(stringstream &stream) { // da riscrivere per istream?
   string result = "";
-  if(result!="\n"){
-    stream >> result;
+  string r = "";
+  while (stream && r != "\n") {
+    r = stream.get();
+    if (r == "\n" || !stream) {
+      break;
+    }
+    result.append(r);
   }
+  return result;
+}
+
+uint32_t
+read_float(stringstream &stream,
+           Endianness endianness) { // da implementare endianness e exception
+                                    //+ va bene così?
+  uint32_t bytes[4];
+  stream.read((char *)bytes, 4);
+  uint32_t result =
+      bytes[3] | (bytes[2] << 24) | (bytes[1] << 16) | (bytes[0] << 8);
+  cout << result << endl;
+  return result;
+}
+
+// implementare parse_endianness(string line){}
+
+vector<int> parse_img_size(string line) { // sistemare exceptions
+  string delimiter = " ";
+  size_t pos_start = 0, pos_end, delim_len = delimiter.length();
+  string token;
+  vector<int> result;
+
+  while ((pos_end = line.find(delimiter, pos_start)) != string::npos) {
+    token = line.substr(pos_start, pos_end - pos_start);
+    pos_start = pos_end + delim_len;
+    int token_int = stof(token);
+    result.push_back(token_int);
+  }
+
+  result.push_back(stof(line.substr(pos_start)));
+
+  if (result.size() != 2) {
+    throw InvalidPfmFileFormat("invalid image size specification");
+  }
+
+  if (result[0] < 0 || result[1] < 0) {
+    throw InvalidPfmFileFormat("invalid width/height");
+  }
+
   return result;
 }
 
 class HdrImage { // Reminder: 1. width 2. height
 
 private:
-  void read_pfm(stringstream &stream){
+  void read_pfm(stringstream &stream) {
 
     string magic = read_line(stream);
-    if(magic!="PF"){
+    if (magic != "PF") {
       throw InvalidPfmFileFormat("invalid magic in PFM file");
     }
 
     string img_size = read_line(stream);
-    
+    vector<int> size = parse_img_size(img_size);
 
+    string endianness_line = read_line(stream);
+    // endianness = parse_endianness(endianness_line);
+
+    width = size[0];
+    height = size[1];
+    // for y in range(height - 1, -1, -1):
+    //  for x in range(width):
+    //    (r, g, b) = [_read_float(stream, endianness) for i in range(3)]
+    //  result.set_pixel(x, y, Color(r, g, b))
   }
 
 public:
@@ -122,7 +175,8 @@ public:
   }
 
   void save_pfm(stringstream &sstr,
-                Endianness endianness) { // scrivere anche save_pfm che scriva su file (ofstream)?
+                Endianness endianness) { // scrivere anche save_pfm che scriva
+                                         // su file (ofstream)?
 
     string endianness_str;
     if (endianness == Endianness::little_endian) {
