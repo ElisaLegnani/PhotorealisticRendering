@@ -26,7 +26,7 @@ public:
   const char *what() const noexcept override { return error_message.c_str(); }
 };
 
-void write_float(std::stringstream &stream, float value,
+void write_float(ostream &stream, float value,
                  Endianness endianness) {
 
   // Convert "value" in a sequence of 32 bit
@@ -53,7 +53,7 @@ void write_float(std::stringstream &stream, float value,
   }
 }
 
-string read_line(stringstream &stream) { // da riscrivere per istream?
+string read_line(istream &stream) {
   string result = "";
   string r = "";
   while (stream && r != "\n") {
@@ -66,8 +66,7 @@ string read_line(stringstream &stream) { // da riscrivere per istream?
   return result;
 }
 
-float read_float(
-    stringstream &stream,
+float read_float(istream &stream,
     Endianness endianness) { // da implementare endianness e exception
 
   float result;
@@ -109,7 +108,7 @@ vector<int> parse_img_size(string line) { // sistemare exceptions
 class HdrImage { // Reminder: 1. width 2. height
 
 private:
-  void read_pfm(stringstream &stream) {
+  void read_pfm(istream &stream) {
 
     string magic = read_line(stream);
     if (magic != "PF") {
@@ -151,10 +150,10 @@ public:
     pixels.resize(width * height);
   }
 
-  HdrImage(stringstream &stream) { read_pfm(stream); }
+  HdrImage(istream &stream) { read_pfm(stream); }
 
   HdrImage(const string &filename) {
-    stringstream stream{filename};
+    ifstream stream{filename};
     read_pfm(stream);
   }
 
@@ -182,10 +181,8 @@ public:
     }
   }
 
-  void save_pfm(stringstream &sstr,
-                Endianness endianness) { // scrivere anche save_pfm che scriva
-                                         // su file (ofstream)?
-
+  void save_pfm(ostream &sstr,
+                Endianness endianness) {
     string endianness_str;
     if (endianness == Endianness::little_endian) {
       endianness_str = "-1.0";
@@ -215,7 +212,7 @@ public:
   }
   
   void normalize_image(float a){
-    
+
     for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a); //*luminosity da Eli
       }
     }

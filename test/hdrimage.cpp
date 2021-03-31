@@ -109,14 +109,14 @@ int main() {
   
 //  Test normalize_image
   
-  HdrImage img3(2, 1);
+  HdrImage img5(2, 1);
   
-  img3.set_pixel(0, 0, Color(  5.0,   10.0,   15.0))
-  img3.set_pixel(1, 0, Color(500.0, 1000.0, 1500.0))
+  img5.set_pixel(0, 0, Color(  5.0,   10.0,   15.0));
+  img5.set_pixel(1, 0, Color(500.0, 1000.0, 1500.0));
 
-  img.normalize_image(1000.0, 100.0)
+  img5.normalize_image(1000.0, 100.0);
   
-  if(img.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) ==0 || img.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) ==0 ){
+  if(img5.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) ==0 || img5.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) ==0 ){
     abort();
   }
 
