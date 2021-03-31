@@ -214,15 +214,13 @@ public:
     return pow(10, cum_sum / pixels.size());
   }
   
-  void normalization(){
-    float a=0.3;
+  void normalize_image(float a){
     
     for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a); //*luminosity da Eli
       }
     }
   
-  void normalization(float luminosity){
-    float a=0.3;
+  void normalize_image(float a, float luminosity){
     
     for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a*luminosity);
       }
