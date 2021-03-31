@@ -56,6 +56,7 @@ int main() {
   stringstream sstr;
   img2.save_pfm(sstr, Endianness::little_endian);
 
+//  conversione da unsigned char a string
   string ref_string(reference_bytes,
                     reference_bytes +
                         sizeof(reference_bytes) / sizeof(reference_bytes[0]));
