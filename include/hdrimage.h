@@ -202,6 +202,15 @@ public:
       }
     }
   }
+
+  float average_luminosity(float delta = 1e-10) {
+    float cum_sum = 0.0;
+    for (int i{}; i < pixels.size(); ++i) {
+      cum_sum += log10(delta + pixels[i].luminosity());
+    }
+
+    return pow(10, cum_sum / pixels.size());
+  }
 };
 
 #endif
