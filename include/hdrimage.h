@@ -104,6 +104,8 @@ vector<int> parse_img_size(string line) { // sistemare exceptions
   return result;
 }
 
+
+
 class HdrImage { // Reminder: 1. width 2. height
 
 private:
@@ -211,6 +213,19 @@ public:
 
     return pow(10, cum_sum / pixels.size());
   }
-};
+  
+  void normalization(){
+    float a=0.3;
+    
+    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a); //*luminosity da Eli
+      }
+    }
+  
+  void normalization(float luminosity){
+    float a=0.3;
+    
+    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a*luminosity);
+      }
+    }};
 
 #endif
