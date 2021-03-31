@@ -54,7 +54,7 @@ void write_float(ostream &stream, float value, Endianness endianness) {
 
 string read_line(istream &stream) {
   string result = "";
-  string r = "";
+  string r = "";  
   while (stream && r != "\n") {
     r = stream.get();
     if (r == "\n" || !stream) {
