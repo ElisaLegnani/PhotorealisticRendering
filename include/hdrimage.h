@@ -26,6 +26,7 @@ public:
   const char *what() const noexcept override { return error_message.c_str(); }
 };
 
+
 void write_float(std::stringstream &stream, float value,
                  Endianness endianness) {
 
@@ -104,6 +105,9 @@ vector<int> parse_img_size(string line) { // sistemare exceptions
   return result;
 }
 
+float clamp(float x){
+  return x/(1+x);
+}
 
 
 class HdrImage { // Reminder: 1. width 2. height
@@ -216,14 +220,21 @@ public:
   
   void normalize_image(float a){
     
-    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a); //*luminosity da Eli
-      }
+    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a/average_luminosity()); }
     }
   
   void normalize_image(float a, float luminosity){
     
-    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a*luminosity);
-      }
-    }};
+    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a/luminosity); }
+    }
+  
+  void clamp_image(){
+    for (int i=0; i<pixels.size(); i++){
+      pixels[i].r = clamp(pixels[i].r);
+      pixels[i].g = clamp(pixels[i].g);
+      pixels[i].b = clamp(pixels[i].b);
+    }
+  }
+};
 
 #endif
