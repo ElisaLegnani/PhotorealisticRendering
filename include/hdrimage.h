@@ -206,7 +206,6 @@ public:
     for (int i{}; i < pixels.size(); ++i) {
       cum_sum += log10(delta + pixels[i].luminosity());
     }
-
     return pow(10, cum_sum / pixels.size());
   }
 
