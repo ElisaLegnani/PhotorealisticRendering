@@ -26,8 +26,7 @@ public:
   const char *what() const noexcept override { return error_message.c_str(); }
 };
 
-void write_float(ostream &stream, float value,
-                 Endianness endianness) {
+void write_float(ostream &stream, float value, Endianness endianness) {
 
   // Convert "value" in a sequence of 32 bit
   uint32_t double_word{*((uint32_t *)&value)};
@@ -66,7 +65,8 @@ string read_line(istream &stream) {
   return result;
 }
 
-float read_float(istream &stream,
+float read_float(
+    istream &stream,
     Endianness endianness) { // da implementare endianness e exception
 
   float result;
@@ -102,8 +102,6 @@ vector<int> parse_img_size(string line) { // sistemare exceptions
 
   return result;
 }
-
-
 
 class HdrImage { // Reminder: 1. width 2. height
 
@@ -181,8 +179,7 @@ public:
     }
   }
 
-  void save_pfm(ostream &sstr,
-                Endianness endianness) {
+  void save_pfm(ostream &sstr, Endianness endianness) {
     string endianness_str;
     if (endianness == Endianness::little_endian) {
       endianness_str = "-1.0";
@@ -210,17 +207,18 @@ public:
 
     return pow(10, cum_sum / pixels.size());
   }
-  
-  void normalize_image(float a){
 
-    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a); //*luminosity da Eli
-      }
+  void normalize_image(float a) {
+    for (int i = 0; i < pixels.size(); i++) {
+      pixels[i] = pixels[i] * (a); //*luminosity da Eli
     }
-  
-  void normalize_image(float a, float luminosity){
-    
-    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a*luminosity);
-      }
-    }};
+  }
+
+  void normalize_image(float a, float luminosity) {
+    for (int i = 0; i < pixels.size(); i++) {
+      pixels[i] = pixels[i] * (a / luminosity);
+    }
+  }
+};
 
 #endif
