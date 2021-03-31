@@ -33,7 +33,7 @@ int main() {
     abort();
   }
 
-  // Test save_pfm()
+  // Test save_pfm
 
   HdrImage img2(3, 2);
 
@@ -60,14 +60,11 @@ int main() {
                     reference_bytes +
                         sizeof(reference_bytes) / sizeof(reference_bytes[0]));
 
-  // cout << "Reference bytes" << endl << ref_string <<endl;
-  // cout << "Stream bytes" << endl << sstr.str() <<endl;
-
   if (sstr.str() != ref_string) {
     abort();
   }
 
-  // Test pfm_read_line()
+  // Test pfm_read_line
 
   stringstream sstr2;
   sstr2 << "hello,\nworld";
@@ -77,7 +74,7 @@ int main() {
     abort();
   }
 
-  // Test pfm_pase_img_size() - finire
+  // Test pfm_pase_img_size
 
   vector<int> ref_img_size = {3, 2};
 
@@ -85,7 +82,7 @@ int main() {
     abort();
   }
 
-  // Test read_pfm()
+  // Test read_pfm
 
   HdrImage img3(sstr);
   if (img3.width != 3 || img3.height != 2) {
@@ -106,13 +103,13 @@ int main() {
   if ((img4.average_luminosity(0.0) == 100) == 0) {
     abort();
   }
-  
-//  Test normalize_image
+
+  //  Test normalize_image
 
   img4.normalize_image(1000.0, 100.0);
-  
-  if(img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) ==0 || img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) ==0 ){
-    cout << "Normalisation" <<endl;
+
+  if (img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) == 0 ||
+      img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) == 0) {
     abort();
   }
 
