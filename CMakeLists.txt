@@ -19,11 +19,18 @@ target_include_directories(trace PUBLIC
     $<INSTALL_INTERFACE:include>
     )
 
+include(FindPkgConfig)
+pkg_check_modules(GDLIB REQUIRED gdlib)
+
 add_executable(raytracer
     src/raytracer.cpp
     )
 
-target_link_libraries(raytracer PUBLIC trace)
+target_include_directories(raytracer PUBLIC ${GDLIB_INCLUDE_DIRS})
+target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
+target_link_libraries(raytracer ${GDLIB_LIBRARIES} trace) #va aggiunto PUBLIC?
+
+#target_link_libraries(raytracer PUBLIC trace)
 
 add_executable(colortest
     test/colors.cpp
