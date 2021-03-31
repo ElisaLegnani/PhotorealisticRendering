@@ -117,6 +117,7 @@ int main() {
   img5.normalize_image(1000.0, 100.0);
   
   if(img5.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) ==0 || img5.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) ==0 ){
+    cout << "Normalisation" <<endl;
     abort();
   }
 
