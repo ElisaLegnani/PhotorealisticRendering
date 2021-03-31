@@ -56,6 +56,7 @@ int main() {
   stringstream sstr;
   img2.save_pfm(sstr, Endianness::little_endian);
 
+//  conversione da unsigned char a string
   string ref_string(reference_bytes,
                     reference_bytes +
                         sizeof(reference_bytes) / sizeof(reference_bytes[0]));
@@ -111,6 +112,21 @@ int main() {
   if (img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) == 0 ||
       img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) == 0) {
     abort();
+  }
+  
+//  Test clamp_image
+
+  img4.set_pixel(0, 0, Color(0.5e1, 1.0e1, 1.5e1));
+  img4.set_pixel(1, 0, Color(0.5e3, 1.0e3, 1.5e3));
+
+  img4.clamp_image();
+
+      // Just check that the R/G/B values are within the expected boundaries
+  for(int i=0; i<img4.pixels.size(); i++){
+    
+        if(img4.pixels[i].r < 0 & img4.pixels[i].r > 1 || img4.pixels[i].g < 0 & img4.pixels[i].g > 1 || img4.pixels[i].b < 0 & img4.pixels[i].b > 1){
+          abort();
+        }
   }
 
   return 0;

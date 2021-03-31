@@ -26,7 +26,10 @@ public:
   const char *what() const noexcept override { return error_message.c_str(); }
 };
 
+
+
 void write_float(ostream &stream, float value, Endianness endianness) {
+
 
   // Convert "value" in a sequence of 32 bit
   uint32_t double_word{*((uint32_t *)&value)};
@@ -102,6 +105,11 @@ vector<int> parse_img_size(string line) { // sistemare exceptions
 
   return result;
 }
+
+float clamp(float x){
+  return x/(1+x);
+}
+
 
 class HdrImage { // Reminder: 1. width 2. height
 
@@ -208,15 +216,23 @@ public:
     return pow(10, cum_sum / pixels.size());
   }
 
-  void normalize_image(float a) {
-    for (int i = 0; i < pixels.size(); i++) {
-      pixels[i] = pixels[i] * (a); //*luminosity da Eli
+  
+  void normalize_image(float a){
+    
+    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a/average_luminosity()); }
     }
-  }
+  
+  void normalize_image(float a, float luminosity){
+    
+    for (int i=0; i<pixels.size(); i++){ pixels[i]=pixels[i]*(a/luminosity); }
+    }
+  
+  void clamp_image(){
+    for (int i=0; i<pixels.size(); i++){
+      pixels[i].r = clamp(pixels[i].r);
+      pixels[i].g = clamp(pixels[i].g);
+      pixels[i].b = clamp(pixels[i].b);
 
-  void normalize_image(float a, float luminosity) {
-    for (int i = 0; i < pixels.size(); i++) {
-      pixels[i] = pixels[i] * (a / luminosity);
     }
   }
 };
