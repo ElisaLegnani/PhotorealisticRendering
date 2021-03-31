@@ -22,7 +22,7 @@ int main() {
 
   // Test luminosity
 
-  if ((c1.luminosity() == 2) == 0 || (c2.luminosity() == 7) == 0) {
+  if (c1.are_close(c1.luminosity(), 2) == 0 || c2.are_close(c2.luminosity(), 7) == 0) {
     abort();
   }
 
