@@ -1,5 +1,5 @@
 #include "colors.h"
-#include "gd.h" /* The library's header file */
+#include <gd.h> /* The library's header file */
 #include "hdrimage.h"
 #include <iostream>
 #include <stdio.h>

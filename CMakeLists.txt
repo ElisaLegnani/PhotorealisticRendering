@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-project(raytracer
+project(helloworld
     VERSION 1.0
     DESCRIPTION "Hello world in C++"
     LANGUAGES CXX
@@ -21,16 +21,22 @@ target_include_directories(trace PUBLIC
 
 include(FindPkgConfig)
 pkg_check_modules(GDLIB REQUIRED gdlib)
+include_directories(${GDLIB_INCLUDE_DIRS})
+link_directories(${GDLIB_LIBRARY_DIRS})
+link_libraries(${GDLIB_LIBRARIES})
 
 add_executable(raytracer
     src/raytracer.cpp
     )
 
-target_include_directories(raytracer PUBLIC ${GDLIB_INCLUDE_DIRS})
-target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
-target_link_libraries(raytracer ${GDLIB_LIBRARIES} trace) #va aggiunto PUBLIC?
+#target_include_directories(raytracer PUBLIC ${GDLIB_INCLUDE_DIRS})
+#message(STATUS "${GDLIB_INCLUDE_DIRS}")
+#target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
+#target_link_directories(raytracer ${GDLIB_LIBRARY_DIRS})
+#target_link_libraries(raytracer trace) #va aggiunto PUBLIC?
+#message(STATUS "${GDLIB_LIBRARIES}")
 
-#target_link_libraries(raytracer PUBLIC trace)
+target_link_libraries(raytracer PUBLIC trace)
 
 add_executable(colortest
     test/colors.cpp
