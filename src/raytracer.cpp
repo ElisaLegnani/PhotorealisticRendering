@@ -60,6 +60,7 @@ int main(int argc, char *argv[]) {
     }
   }
 
+  
   f = fopen(png_filename, "wb");
 
   /* Output the image to the disk file in PNG format. */
