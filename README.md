@@ -5,4 +5,4 @@ A simple raytracer written in C++. It is written for the course *Numerical techn
 
 ## License
 
-[MIT]("https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md")
+[MIT](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md)
