@@ -12,17 +12,24 @@ int main() {
 
   HdrImage img(7, 4);
 
+//  Test constructor
+  
   if (img.width != 7 || img.height != 4) {
+    cerr << "Error: constructor sets wrong width and height." << endl;
     abort();
   }
 
+  //  Test valid_coordinates()
+  
   if (img.valid_coordinates(0, 0) == 0 || img.valid_coordinates(6, 3) == 0 ||
       img.valid_coordinates(-1, 0) != 0 || img.valid_coordinates(0, -1) != 0) {
+    cerr << "Error: valid_coordinates() method." << endl;
     abort();
   }
 
   if (img.pixel_offset(0, 0) != 0 || img.pixel_offset(3, 2) != 17 ||
       img.pixel_offset(6, 3) != (7 * 4 - 1)) {
+    cerr << "Error: pixel_offset() method." << endl;
     abort();
   }
 
@@ -30,6 +37,7 @@ int main() {
   img.set_pixel(3, 2, reference_color);
 
   if (img.get_pixel(3, 2).is_color_close(reference_color) == 0) {
+    cerr << "Error: get_pixel() method." << endl;
     abort();
   }
 
@@ -62,6 +70,7 @@ int main() {
                         sizeof(reference_bytes) / sizeof(reference_bytes[0]));
 
   if (sstr.str() != ref_string) {
+    cerr << "Error: save_pfm() method." << endl;
     abort();
   }
 
@@ -72,6 +81,7 @@ int main() {
 
   if (read_line(sstr2) != "hello," || read_line(sstr2) != "world" ||
       read_line(sstr2) != "") {
+    cerr << "Error: pfm_read_line() method." << endl;
     abort();
   }
 
@@ -80,17 +90,22 @@ int main() {
   vector<int> ref_img_size = {3, 2};
 
   if (parse_img_size("3 2") != ref_img_size) {
+    cerr << "Error: pfm_pase_img_size() method." << endl;
     abort();
   }
 
   // Test read_pfm
 
   HdrImage img3(sstr);
+  
   if (img3.width != 3 || img3.height != 2) {
+    cerr << "Error: read_pfm() method." << endl;
     abort();
   }
+  
   if (img3.get_pixel(0, 0).is_color_close(Color(1.0e1, 2.0e1, 3.0e1)) == 0 ||
       img3.get_pixel(2, 1).is_color_close(Color(7.0e2, 8.0e2, 9.0e2)) == 0) {
+    cerr << "Error: read_pfm() method." << endl;
     abort();
   }
 
@@ -102,6 +117,7 @@ int main() {
   img4.set_pixel(1, 0, Color(500.0, 1000.0, 1500.0));
 
   if ((img4.average_luminosity(0.0) == 100) == 0) {
+    cerr << "Error: average_luminosity() method." << endl;
     abort();
   }
 
@@ -111,6 +127,7 @@ int main() {
 
   if (img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) == 0 ||
       img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) == 0) {
+    cerr << "Error: normalize_image() method." << endl;
     abort();
   }
 
@@ -127,6 +144,7 @@ int main() {
     if (img4.pixels[i].r<0 & img4.pixels[i].r> 1 ||
         img4.pixels[i].g<0 & img4.pixels[i].g> 1 ||
         img4.pixels[i].b<0 & img4.pixels[i].b> 1) {
+      cerr << "Error: clamp_image() method." << endl;
       abort();
     }
   }
