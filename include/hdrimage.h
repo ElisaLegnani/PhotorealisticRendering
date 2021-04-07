@@ -201,7 +201,7 @@ public:
     }
   }
 
-  float average_luminosity(float delta = 1e-10) {
+  float average_luminosity(float delta) {
     float cum_sum = 0.0;
     for (int i{}; i < pixels.size(); ++i) {
       cum_sum += log10(delta + pixels[i].luminosity());
@@ -210,8 +210,9 @@ public:
   }
 
   void normalize_image(float a) {
+    float ave_lum = average_luminosity(1e-10);
     for (int i = 0; i < pixels.size(); i++) {
-      pixels[i] = pixels[i] * (a / average_luminosity());
+      pixels[i] = pixels[i] * (a / ave_lum);
     }
   }
 
