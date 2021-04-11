@@ -31,9 +31,9 @@ add_executable(raytracer
     )
 
 target_include_directories(raytracer PUBLIC ${GDLIB_INCLUDE_DIRS})
+target_link_directories(raytracer PUBLIC ${GDLIB_LIBRARY_DIRS})
 target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
-#target_link_directories(raytracer ${GDLIB_LIBRARY_DIRS})
-target_link_libraries(raytracer ${GDLIB_LIBRARIES} trace) #va aggiunto PUBLIC?
+target_link_libraries(raytracer PUBLIC ${GDLIB_LIBRARIES} trace) #va aggiunto PUBLIC?
 
 add_executable(colortest
     test/colors.cpp
