@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(raytracer
     VERSION 1.0
-    DESCRIPTION "Hello world in C++"
+    DESCRIPTION "Photorealistic Rendering in C++"
     LANGUAGES CXX
     )
     

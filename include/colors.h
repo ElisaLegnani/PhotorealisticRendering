@@ -26,11 +26,15 @@ public:
 
   ~Color(){};
 
+//  Operations on Colors
+  
   Color operator+(Color c) { return Color(r + c.r, g + c.g, b + c.b); }
   Color operator-(Color c) { return Color(r - c.r, g - c.g, b - c.b); }
   Color operator*(Color c) { return Color(r * c.r, g * c.g, b * c.b); }
   Color operator*(float x) { return Color(r * x, g * x, b * x); }
 
+//  Similarity level: need for test porpuse
+  
   bool is_color_close(Color c) {
     return are_close(r, c.r) && are_close(g, c.g) && are_close(b, c.b);
   }
