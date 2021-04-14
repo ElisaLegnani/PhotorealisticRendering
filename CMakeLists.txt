@@ -54,5 +54,15 @@ target_link_libraries(hdrimagetest PUBLIC trace)
 add_test(NAME hdrimagetest
     COMMAND hdrimagetest
     )
+
+add_executable(geometrytest
+    test/geometry.cpp
+    )
+
+target_link_libraries(geometrytest PUBLIC trace)
+
+add_test(NAME geometrytest
+    COMMAND geometrytest
+    )
     
 target_compile_features(raytracer PUBLIC cxx_std_17)
