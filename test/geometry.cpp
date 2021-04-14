@@ -1,8 +1,5 @@
 #include "geometry.h"
 #include <cstdlib>
-#include <iostream>
-
-using namespace std;
 
 int main() {
 
@@ -15,7 +12,9 @@ int main() {
   }
 
   if (((v1 + v2).is_close(Vec(5.0, 8.0, 11.0)) == 0) ||
-      ((v2 - v1).is_close(Vec(3.0, 4.0, 5.0)) == 0)) {
+      ((v2 - v1).is_close(Vec(3.0, 4.0, 5.0)) == 0) ||
+      ((2 * v1).is_close(Vec(2.0, 4.0, 6.0)) == 0) ||
+      ((v1 * 2).is_close(Vec(2.0, 4.0, 6.0)) == 0)) {
     cout << "Error: vector operators not working properly." << endl;
     abort();
   }
