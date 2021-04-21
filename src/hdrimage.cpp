@@ -1,4 +1,5 @@
 #include "hdrimage.h"
+#include <cmath>
 /*#include <cstdint>
 #include <exception>
 #include <sstream>*/
