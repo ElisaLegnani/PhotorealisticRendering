@@ -1,8 +1,4 @@
 #include "colors.h"
-#include <algorithm>
-#include <iostream>
-
-using namespace std;
 
 #ifndef _geometry_h_
 #define _geometry_h_
@@ -46,6 +42,17 @@ struct Vec {
   string print_string() {
     return string{"Vec(" + to_string(x) + ", " + to_string(y) + ", " +
                   to_string(z) + ")"};
+  }
+
+  float squared_norm() { return x*x + y*y + z*z; }
+
+  float norm() { return sqrt(squared_norm()); }
+
+  Vec normalize() {
+    norm = norm();
+    x /= norm;
+    y /= norm;
+    z /= norm;
   }
 };
 
@@ -106,5 +113,13 @@ Point operator*(const float &c, const Point &p) { return p * c; }
 Vec operator-(const Point &p1, const Point &p2) {
   return _diff<Point, Point, Vec>(p1, p2);
 }
+
+// Struct Normal
+
+struct Normal {
+  float x, y, z;
+
+  Normal(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
+};
 
 #endif
