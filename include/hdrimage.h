@@ -1,16 +1,10 @@
-#include "colors.h"
-#include <cstdint> // It contains uint8_t
-#include <exception>
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <string>
-#include <vector>
-
-using namespace std;
-
 #ifndef _hdrimage_h_
 #define _hdrimage_h_
+
+#include "colors.h"
+#include <vector>
+#include <string>
+#include <fstream>
 
 enum class Endianness { little_endian, big_endian };
 
@@ -40,8 +34,8 @@ vector<int> parse_img_size(string line);
 
 float clamp(float x);
 
-class HdrImage { // Reminder: 1. width 2. height
-
+class HdrImage {
+  
 private:
   void read_pfm(istream &stream);
 
