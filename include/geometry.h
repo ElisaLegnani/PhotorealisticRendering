@@ -1,4 +1,8 @@
 #include "colors.h"
+#include <cmath>
+#include <iostream>
+
+using namespace std;
 
 #ifndef _geometry_h_
 #define _geometry_h_
@@ -48,8 +52,8 @@ struct Vec {
 
   float norm() { return sqrt(squared_norm()); }
 
-  Vec normalize() {
-    norm = norm();
+  void normalize() {
+    float norm = norm();
     x /= norm;
     y /= norm;
     z /= norm;
