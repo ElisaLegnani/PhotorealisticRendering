@@ -5,7 +5,11 @@
 
 using namespace std;
 
-bool are_close(float x, float y);
+inline
+bool are_close(float x, float y) {
+  float epsilon = 1e-10;
+  return abs(x - y) < epsilon;
+}
 
 struct Color {
 
@@ -33,11 +37,6 @@ struct Color {
   Color operator*(float x) { return Color(r * x, g * x, b * x); }
 
 //  Similarity level: need for test porpuse
-  
-  bool are_close(float x, float y) {
-    float epsilon = 1e-10;
-    return abs(x - y) < epsilon;
-  }
   
   bool is_color_close(Color c) {
     return are_close(r, c.r) && are_close(g, c.g) && are_close(b, c.b);
