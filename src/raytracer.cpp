@@ -1,9 +1,8 @@
 #include "colors.h"
-#include <gd.h> /* The library's header file */
 #include "hdrimage.h"
 #include <iostream>
-#include <stdio.h>
-#include <string>
+#include <gd.h>
+/*#include <stdio.h>*/
 
 using namespace std;
 

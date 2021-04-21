@@ -1,5 +1,5 @@
 #include "colors.h"
-#include <cstdlib>
+/*#include <cstdlib>*/
 
 int main() {
 
@@ -22,7 +22,7 @@ int main() {
 
   // Test luminosity
 
-  if (c1.are_close(c1.luminosity(), 2) == 0 || c2.are_close(c2.luminosity(), 7) == 0) {
+  if (are_close(c1.luminosity(), 2) == 0 || are_close(c2.luminosity(), 7) == 0) {
     abort();
   }
 

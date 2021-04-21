@@ -1,8 +1,15 @@
 # Photorealistic Rendering
-A simple raytracer written in C++. It is written for the course *Numerical techniques for photorealistic image generation* (AY2020-2021).
+A simple raytracer for generating photorealistic images written in C++. It is developed for the course *Numerical techniques for photorealistic image generation* (University of Milan, AY2020-2021).
+
+*Note: it is a WIP project*
 
 ## Installation
 
+A C++ compiler is needed (C++11 or higher).
+You also have to install the following dependencies:
+- [Cmake](https://cmake.org/) (version 3.12 or higher);
+- [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
+
 ## License
 
-[MIT](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md)
+The code is released under a MIT license. See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).

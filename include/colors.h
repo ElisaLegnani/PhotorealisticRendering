@@ -1,12 +1,11 @@
-#include <algorithm>
-#include <cmath>
-#include <iostream>
-
-using namespace std;
-
 #ifndef _color_h_
 #define _color_h_
 
+#include <algorithm>
+
+using namespace std;
+
+inline
 bool are_close(float x, float y) {
   float epsilon = 1e-10;
   return abs(x - y) < epsilon;
@@ -47,3 +46,4 @@ struct Color {
 };
 
 #endif
+

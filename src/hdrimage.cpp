@@ -1,4 +1,9 @@
 #include "hdrimage.h"
+/*#include <cstdint>
+#include <exception>
+#include <sstream>*/
+
+using namespace std;
 
 void write_float(ostream &stream, float value, Endianness endianness) {
 
