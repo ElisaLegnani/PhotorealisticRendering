@@ -10,15 +10,18 @@ project(raytracer
     
 enable_testing()
 
+# MY LIBRARIES DECLARATIONS:
 add_library(trace
     src/hdrimage.cpp
     )
 
+# PATH TO MY LIBRARIES:
 target_include_directories(trace PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     )
 
+# OTHER LIBRARIES:
 include(FindPkgConfig)
 pkg_check_modules(GDLIB REQUIRED gdlib)
 
@@ -26,6 +29,7 @@ pkg_check_modules(GDLIB REQUIRED gdlib)
 #link_directories(${GDLIB_LIBRARY_DIRS})
 #link_libraries(${GDLIB_LIBRARIES})
 
+# EXECUTABLE:
 add_executable(raytracer
     src/raytracer.cpp
     )
@@ -35,6 +39,9 @@ target_link_directories(raytracer PUBLIC ${GDLIB_LIBRARY_DIRS})
 target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
 target_link_libraries(raytracer PUBLIC ${GDLIB_LIBRARIES} trace) #va aggiunto PUBLIC?
 
+
+# TESTS:
+#  colortest
 add_executable(colortest
     test/colors.cpp
     )
@@ -45,14 +52,26 @@ add_test(NAME colortest
     COMMAND colortest 
     )
 
+#  hdrimagetest
 add_executable(hdrimagetest
     test/hdrimage.cpp
     )
-
 target_link_libraries(hdrimagetest PUBLIC trace)
 
 add_test(NAME hdrimagetest
     COMMAND hdrimagetest
     )
+
+# geometrytest
+add_executable(geometrytest
+    test/geometry.cpp
+    )
+
+target_link_libraries(geometrytest PUBLIC trace)
+
+add_test(NAME geometrytest
+    COMMAND geometrytest
+    )
     
+# COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
