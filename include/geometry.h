@@ -50,10 +50,10 @@ struct Vec {
 
   float squared_norm() { return x*x + y*y + z*z; }
 
-  float norm() { return sqrt(squared_norm()); }
+  float norm() { return sqrt(this->squared_norm()); }
 
   void normalize() {
-    float norm = norm();
+    float norm = this->norm();
     x /= norm;
     y /= norm;
     z /= norm;
