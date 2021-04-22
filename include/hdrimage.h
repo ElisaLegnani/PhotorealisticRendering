@@ -8,16 +8,9 @@
 
 enum class Endianness { little_endian, big_endian };
 
-class InvalidPfmFileFormat : public exception {
-
-private:
-  string error_message;
-
+class InvalidPfmFileFormat : public runtime_error {
 public:
-  explicit InvalidPfmFileFormat(const string &message)
-      : error_message(message) {}
-
-  const char *what() const noexcept override { return error_message.c_str(); }
+  explicit InvalidPfmFileFormat(const string &message) noexcept : runtime_error(message) {}
 };
 
 void write_float(ostream &stream, float value, Endianness endianness);
@@ -66,7 +59,7 @@ public:
   Color get_pixel(int x, int y);
   void set_pixel(int x, int y, Color new_color);
 
-  void save_pfm(ostream &sstr, Endianness endianness);
+  void save_pfm(ostream &stream, Endianness endianness);
 
   float average_luminosity(float delta);
   void normalize_image(float a);

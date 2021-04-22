@@ -1,8 +1,7 @@
 #include "hdrimage.h"
 #include <cmath>
 /*#include <cstdint>
-#include <exception>
-#include <sstream>*/
+#include <exception>*/
 
 using namespace std;
 
@@ -134,7 +133,7 @@ void HdrImage::set_pixel(int x, int y, Color new_color) {
   }
 }
 
-void HdrImage::save_pfm(ostream &sstr, Endianness endianness) {
+void HdrImage::save_pfm(ostream &stream, Endianness endianness) {
   string endianness_str;
   if (endianness == Endianness::little_endian) {
     endianness_str = "-1.0";
@@ -142,14 +141,14 @@ void HdrImage::save_pfm(ostream &sstr, Endianness endianness) {
     endianness_str = "1.0";
   }
 
-  sstr << "PF\n" << width << " " << height << "\n" << endianness_str << "\n";
+  stream << "PF\n" << width << " " << height << "\n" << endianness_str << "\n";
 
   for (int y{height - 1}; y >= 0; --y) {
     for (int x{}; x < width; ++x) {
       Color color = get_pixel(x, y);
-      write_float(sstr, color.r, endianness);
-      write_float(sstr, color.g, endianness);
-      write_float(sstr, color.b, endianness);
+      write_float(stream, color.r, endianness);
+      write_float(stream, color.g, endianness);
+      write_float(stream, color.b, endianness);
     }
   }
 }
