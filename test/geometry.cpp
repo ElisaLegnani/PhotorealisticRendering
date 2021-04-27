@@ -83,5 +83,10 @@ int main() {
     abort();
   }
 
+  // Test Transformation
+
+  Transformation t1;
+  cout << t1.print_string();
+
   return 0;
 }
