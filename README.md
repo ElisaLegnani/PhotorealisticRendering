@@ -12,6 +12,7 @@ You also have to install the following dependencies:
 - [Cmake](https://cmake.org/) (version 3.12 or higher);
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
 
+
 ## License
 
 The code is released under a MIT license. See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).

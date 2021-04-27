@@ -54,6 +54,23 @@ float read_float(
   return result;
 }
 
+Endianness parse_endianness(string line) {
+  float endianness;
+  try {
+    endianness = stof(line);
+  } catch (invalid_argument) {
+    throw InvalidPfmFileFormat("missing endianness specification");
+  }
+
+  if (endianness == -1.0) {
+    return Endianness::little_endian;
+  } else if (endianness == 1.0) {
+    return Endianness::big_endian;
+  } else {
+    throw InvalidPfmFileFormat("invalid endianness specification");
+  }
+}
+
 vector<int> parse_img_size(string line) { // sistemare exceptions
   string delimiter = " ";
   size_t pos_start = 0, pos_end, delim_len = delimiter.length();
@@ -93,7 +110,7 @@ void HdrImage::read_pfm(istream &stream) {
   vector<int> size = parse_img_size(img_size);
 
   string endianness_line = read_line(stream);
-  // endianness = parse_endianness(endianness_line);
+  Endianness endianness = parse_endianness(endianness_line);
 
   width = size[0];
   height = size[1];
@@ -104,7 +121,7 @@ void HdrImage::read_pfm(istream &stream) {
   for (int y{height - 1}; y >= 0; --y) {
     for (int x{}; x < width; ++x) {
       for (int i{}; i < 3; ++i) {
-        rgb[i] = read_float(stream, Endianness::little_endian);
+        rgb[i] = read_float(stream, endianness);
       }
       pixels[y * width + x] = Color(rgb[0], rgb[1], rgb[2]);
     }

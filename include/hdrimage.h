@@ -2,15 +2,17 @@
 #define _hdrimage_h_
 
 #include "colors.h"
-#include <vector>
-#include <string>
 #include <fstream>
+#include <string>
+#include <vector>
 
 enum class Endianness { little_endian, big_endian };
 
 class InvalidPfmFileFormat : public runtime_error {
 public:
-  explicit InvalidPfmFileFormat(const string &message) noexcept : runtime_error(message) {}
+
+  explicit InvalidPfmFileFormat(const string &message) noexcept
+      : runtime_error(message) {}
 };
 
 void write_float(ostream &stream, float value, Endianness endianness);
@@ -21,14 +23,14 @@ float read_float(
     istream &stream,
     Endianness endianness); // da implementare endianness e exception
 
-// implementare parse_endianness(string line);
+Endianness parse_endianness(string line);
 
 vector<int> parse_img_size(string line);
 
 float clamp(float x);
 
 class HdrImage {
-  
+
 private:
   void read_pfm(istream &stream);
 
