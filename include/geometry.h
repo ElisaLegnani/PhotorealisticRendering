@@ -2,6 +2,8 @@
 #include <cmath>
 #include <iostream>
 
+// CREARE GEOMETRY.CPP ?
+
 using namespace std;
 
 #ifndef _geometry_h_
@@ -22,29 +24,20 @@ Out _prod(const In1 &a, const float &b) {
   return Out{a.x * b, a.y * b, a.z * b};
 }
 
-template <typename In, typename Out> // Da controllare
+/*template <typename In, typename Out> // Da controllare
 Out _copy(const In &b) {
   return Out{b.x, b.y, b.z};
-}
-
-/*bool are_xy_close(float x, float y) { //ha senso ridefinirla o usiamo colors.h?  // toglierei
- float epsilon = 1e-10; return abs(x - y) < epsilon;
 }*/
 
-/*bool are_xyz_close(Vec v1, Vec v2) { //Non lo usiamo all'interno dei metodi, ma utile per confronto Vecs in generale -> lo chiamerei are_Vec_close - oppure creiamo template
-  return are_close(v1.x, v2.x) && are_close(v1.y, v2.y) && are_close(v1.z, v2.z);
-}*/
-
-/*template <typename In1, typename In2> // Da usare per Vec, Point, Normal
- bool _are_xyz_close(const In1 &a, const In2 &b){
+template <typename In> bool are_xyz_close(const In &a, const In &b){ //meglio con template! non ci sono problemi con copy e move constructors
   return are_close(a.x, b.x) && are_close(a.y, b.y) && are_close(a.z, b.z);
- }
- Da usare (nel main): _are_xyz_close<Vec, Vec>(v1, v2)*/
+}
 
 /* string print_string(string type, float x, float y, float z){ //poi possiamo chiamare print all'interno.
   return string{type+"(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"}
  }
  Da usare: string print(){ return print_string("Vec",x,y,z)} */
+
  
 //–––––––––––––––––––––– Struct Vec –––––––––––––––––––––––––––––––––––
 
@@ -53,13 +46,17 @@ struct Vec {
 
   Vec(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
   
-  Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor da implementare in .cpp? // Vec(const Vec &); piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
-  Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor // Vec(const Vec &&);
-//  Move constructor: to create temporary objects for quick operations (no memory needed)
+  Vec(const Vec &); // Copy constructor
+  Vec(const Vec &&); // Move constructor
+
+  //Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor da implementare in .cpp? // Vec(const Vec &); piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
+  //Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor // Vec(const Vec &&);
+  //Move constructor: to create temporary objects for quick operations (no memory needed)
   
-  bool is_close(Vec v) {
+  // meglio con template
+  /*bool is_close(Vec v) {
     return are_close(x, v.x) && are_close(y, v.y) && are_close(z, v.z);
-  }
+  }*/ 
 
   string print_string() {
     return string{"Vec(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
@@ -99,9 +96,9 @@ Vec cross(const Vec &v1, const Vec &v2) {
   return Vec(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
 }
 
-Vec operator=(const Vec &v) {
+/*Vec operator=(const Vec &v) {
   return _copy<Vec, Vec>(v);
-}
+}*/
 
 //–––––––––––––––––––––– Struct Point –––––––––––––––––––––––––––––––––––
 
@@ -109,12 +106,13 @@ struct Point {
   float x, y, z;
 
   Point(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
-  // Point(const Point &); // Copy constructor
-  // Point(const Point &&); // Move constructor
+  Point(const Point &); // Copy constructor
+  Point(const Point &&); // Move constructor
 
-  bool is_close(Point p) {
+  // meglio con template
+  /*bool is_close(Point p) {
     return are_close(x, p.x) && are_close(y, p.y) && are_close(z, p.z);
-  }
+  }*/
 
   string print_string() {
     return string{"Point(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
@@ -137,10 +135,10 @@ Point operator*(const float &c, const Point &p) { return p * c; }
 Vec operator-(const Point &p1, const Point &p2) {
   return _diff<Point, Point, Vec>(p1, p2);
 }
-
+/*
 Point operator=(const Point &p) {
   return _copy<Point, Point>(p);
-}
+}*/
 
 //–––––––––––––––––––––– Struct Normal –––––––––––––––––––––––––––––––––––
 
@@ -148,16 +146,19 @@ struct Normal {
   float x, y, z;
 
   Normal(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
-  
-  bool is_close(Normal n) {
+  Normal(const Normal &); // Copy constructor
+  Normal(const Normal &&); // Move constructor
+
+  // meglio con template
+  /*bool is_close(Normal n) {
     return are_close(x, n.x) && are_close(y, n.y) && are_close(z, n.z);
-  }
+  }*/
 
   string print_string() {
     return string{"Normal(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
   }
   
-//  Da implementare anche le altre?
+//  Da implementare anche le altre? - non credo
 };
 
 //–––––––––––––––––––––– Unit vectors i, j, k –––––––––––––––––––––––––––––––––––
