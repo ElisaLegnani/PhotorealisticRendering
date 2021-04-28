@@ -152,10 +152,4 @@ struct Normal {
 //  Da implementare anche le altre? - non credo
 };
 
-//–––––––––––––––––––––– Unit vectors i, j, k –––––––––––––––––––––––––––––––––––
-
-Vec VEC_X(1.0, 0.0, 0.0);
-Vec VEC_Y(0.0, 1.0, 0.0);
-Vec VEC_Z(0.0, 0.0, 1.0);
-
 #endif

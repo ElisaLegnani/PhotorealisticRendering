@@ -3,12 +3,20 @@
 #include <iostream>
 #include <sstream>
 
-//–––––––––––––––––––––– Struct Transformation –––––––––––––––––––––––––––––––––––
+//–––––––––––––––––––––– Unit vectors i, j, k –––––––––––––––––––––––––––––––––––
+
+Vec VEC_X(1.0, 0.0, 0.0);
+Vec VEC_Y(0.0, 1.0, 0.0);
+Vec VEC_Z(0.0, 0.0, 1.0);
+
+//–––––––––––––––––––––– Identity matrix –––––––––––––––––––––––––––––––––––
 
 float IDENTITY_MATR4x4[4][4] = {{1.0, 0.0, 0.0, 0.0},
                                 {0.0, 1.0, 0.0, 0.0},
                                 {0.0, 0.0, 1.0, 0.0},
                                 {0.0, 0.0, 0.0, 1.0}};
+
+//–––––––––––––––––––––– Functions for Struct Transformation –––––––––––––––––––––––––––––––––––
 
 bool are_matr_close(float m1[4][4], float m2[4][4]){
   for (int i{}; i<4; ++i){
@@ -29,6 +37,7 @@ void matr_prod(const float m1[4][4], const float m2[4][4], float m[4][4]){
   }
 }
 
+//–––––––––––––––––––––– Struct Transformation –––––––––––––––––––––––––––––––––––
 
 Transformation::Transformation(float M[4][4], float invM[4][4]){
     for (int i{}; i<4; ++i){
