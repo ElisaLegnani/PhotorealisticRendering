@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     
     before_install:
-  - sudo apt install libgd-dev
+    - sudo apt install libgd-dev
 
     steps:
     - uses: actions/checkout@v2
