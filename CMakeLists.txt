@@ -72,6 +72,17 @@ target_link_libraries(geometrytest PUBLIC trace)
 add_test(NAME geometrytest
     COMMAND geometrytest
     )
+
+# transformationtest
+add_executable(transformationtest
+    test/transformation.cpp
+    )
+
+target_link_libraries(transformationtest PUBLIC trace)
+
+add_test(NAME transformationtest
+    COMMAND transformationtest
+    )
     
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
