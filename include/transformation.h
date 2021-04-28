@@ -45,10 +45,8 @@ struct Transformation {
 
   Transformation inverse();
 
-  Transformation translation(Vec); //implementare
-
-  //implementare tutte le altre trasformazioni!
-
 };
+
+Transformation translation(Vec);
 
 #endif
