@@ -32,7 +32,7 @@ template <typename In> bool are_xyz_close(const In &a, const In &b){
   return are_close(a.x, b.x) && are_close(a.y, b.y) && are_close(a.z, b.z);
 }
 
-string xyz_string(string type, float x, float y, float z){
+inline string xyz_string(string type, float x, float y, float z){
   return string{type+"(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
  }
 
@@ -72,22 +72,22 @@ struct Vec {
   }
 };
 
-Vec operator+(const Vec &v1, const Vec &v2) {
+inline Vec operator+(const Vec &v1, const Vec &v2) {
   return _sum<Vec, Vec, Vec>(v1, v2);
 }
 
-Vec operator-(const Vec &v1, const Vec &v2) {
+inline Vec operator-(const Vec &v1, const Vec &v2) {
   return _diff<Vec, Vec, Vec>(v1, v2);
 }
 
-Vec operator*(const Vec &v1, const float &c) { return _prod<Vec, Vec>(v1, c); }
-Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
+inline Vec operator*(const Vec &v1, const float &c) { return _prod<Vec, Vec>(v1, c); }
+inline Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
 
 // Scalar product
-float dot(const Vec &v1, const Vec &v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
+inline float dot(const Vec &v1, const Vec &v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
 
 // Vector product
-Vec cross(const Vec &v1, const Vec &v2) {
+inline Vec cross(const Vec &v1, const Vec &v2) {
   return Vec(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
 }
 
@@ -113,20 +113,20 @@ bool is_close(Point p) {
   
 };
 
-Point operator+(const Point &p, const Vec &v) {
+inline Point operator+(const Point &p, const Vec &v) {
   return _sum<Point, Vec, Point>(p, v);
 }
 
-Point operator-(const Point &p, const Vec &v) {
+inline Point operator-(const Point &p, const Vec &v) {
   return _diff<Point, Vec, Point>(p, v);
 }
 
-Point operator*(const Point &p, const float &c) {
+inline Point operator*(const Point &p, const float &c) {
   return _prod<Point, Point>(p, c);
 }
-Point operator*(const float &c, const Point &p) { return p * c; }
+inline Point operator*(const float &c, const Point &p) { return p * c; }
 
-Vec operator-(const Point &p1, const Point &p2) {
+inline Vec operator-(const Point &p1, const Point &p2) {
   return _diff<Point, Point, Vec>(p1, p2);
 }
 /*

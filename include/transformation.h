@@ -9,29 +9,14 @@
 
 //–––––––––––––––––––––– Struct Transformation –––––––––––––––––––––––––––––––––––
 
-float IDENTITY_MATR4x4[4][4] = {{1.0, 0.0, 0.0, 0.0},
+/*float IDENTITY_MATR4x4[4][4] = {{1.0, 0.0, 0.0, 0.0},
                                 {0.0, 1.0, 0.0, 0.0},
                                 {0.0, 0.0, 1.0, 0.0},
-                                {0.0, 0.0, 0.0, 1.0}};
+                                {0.0, 0.0, 0.0, 1.0}};*/
 
-bool are_matr_close(float m1[4][4], float m2[4][4]){
-  for (int i{}; i<4; ++i){
-    for (int j{}; j<4; ++j){
-      if(!(are_close(m1[i][j], m2[i][j]))) return false;
-    }
-  }
-  return true;
-}
+bool are_matr_close(float [4][4], float [4][4]);
 
-void matr_prod(const float m1[4][4], const float m2[4][4], float m[4][4]){
-  for (int i{}; i<4; ++i){
-    for (int j{}; j<4; ++j){
-      for (int k{}; k<4; ++k){
-        m[i][j] += m1[i][k] * m[k][j];
-      }  
-    }
-  }
-}
+void matr_prod(const float m1[4][4], const float [4][4], float [4][4]);
 
 struct Transformation {
 
@@ -50,46 +35,20 @@ struct Transformation {
 
   Transformation(){};
 
-  Transformation(float M[4][4], float invM[4][4]){
-    for (int i{}; i<4; ++i){
-      for (int j{}; j<4; ++j){
-        m[i][j] = M[i][j];
-        invm[i][j] = invM[i][j];
-      }
-    }
-  };
+  Transformation(float [4][4], float [4][4]);
   
-  string print_string() {
-    ostringstream stream;
-    stream << "Transformation \n";
-    for (int i{}; i<4; ++i){
-      for (int j{}; j<4; ++j){
-        stream << m[i][j] << " ";
-      }
-      stream << "\n";
-    }
-    return stream.str();
-  }
+  string get_string();
 
-  bool is_close(Transformation t){
-    return are_matr_close(m, t.m) && are_matr_close(invm, t.invm);
-  }
+  bool is_close(Transformation);
+  
+  bool is_consistent();
 
-  bool is_consistent(){
-    float prod[4][4] = {};
-    matr_prod(m, invm, prod);
-    return are_matr_close(prod, IDENTITY_MATR4x4);
-  }
+  Transformation inverse();
 
-  Transformation inverse(){
-    return Transformation{invm, m};
-  }
+  Transformation translation(Vec); //implementare
+
+  //implementare tutte le altre trasformazioni!
 
 };
-
-Transformation translation(Vec); //implementare
-
-//implementare tutte le altre trasformazioni!
-
 
 #endif

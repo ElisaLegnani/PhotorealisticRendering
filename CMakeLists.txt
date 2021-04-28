@@ -13,7 +13,9 @@ enable_testing()
 # MY LIBRARIES DECLARATIONS:
 add_library(trace
     src/hdrimage.cpp
+    src/transformation.cpp
     )
+
 
 # PATH TO MY LIBRARIES:
 target_include_directories(trace PUBLIC
