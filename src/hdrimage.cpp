@@ -1,5 +1,7 @@
 #include "hdrimage.h"
+#include <iostream>
 #include <cmath>
+#include <gd.h>
 /*#include <cstdint>
 #include <exception>*/
 
@@ -197,4 +199,43 @@ void HdrImage::clamp_image() {
     pixels[i].g = clamp(pixels[i].g);
     pixels[i].b = clamp(pixels[i].b);
   }
+}
+
+void HdrImage::write_ldr_image(const string &filename, float gamma) {
+  gdImagePtr img;
+  FILE *f;
+
+  // "True color" is the old name for 24-bit RGB images
+  img = gdImageCreateTrueColor(width, height);
+
+  for (int row{}; row < height; ++row) {
+    for (int col{}; col < width; ++col) {
+      int red, green, blue;
+      Color c = get_pixel(col, row);
+      red = int (255 * pow(c.r, 1/gamma));
+      green = int (255 * pow(c.g, 1/gamma));
+      blue = int (255 * pow(c.b, 1/gamma));;      
+      gdImageSetPixel(img, col, row, gdImageColorExact(img, red, green, blue));
+    }
+  }
+
+  const char* file = filename.c_str();
+  f = fopen(file, "wb");
+
+  string filename_str = string (filename);
+  size_t find = filename_str.find(".");
+  string format = filename_str.substr(find);
+
+  // Output the image to the disk file in PNG format
+  if(format==".png"){
+    gdImagePng(img, f);
+    cout << "PNG image ready!" << endl;
+  } else if (format == ".jpg"){
+    gdImageJpeg(img, f, -1);
+    cout << "JPG image ready!" << endl;
+  }
+
+  fclose(f);
+  gdImageDestroy(img);
+
 }

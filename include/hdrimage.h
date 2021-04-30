@@ -67,6 +67,8 @@ public:
   void normalize_image(float a);
   void normalize_image(float a, float luminosity);
   void clamp_image();
+  void write_ldr_image(const string &filename, float gamma);
+
 };
 
 #endif
