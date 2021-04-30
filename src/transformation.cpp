@@ -76,6 +76,37 @@ bool Transformation::is_consistent() {
 
 Transformation Transformation::inverse() { return Transformation{invm, m}; }
 
+Transformation operator*(Transformation t1, Transformation t2){
+  float m_prod[4][4] = {};
+  float invm_prod[4][4] = {};
+  matr_prod(t1.m, t2.m, m_prod);
+  matr_prod(t2.invm, t1.invm, invm_prod); // Reverse order (A B)^-1 = B^-1 A^-1
+  return Transformation(m_prod, invm_prod);
+}
+
+Point operator*(Transformation t, Point p){
+  Point prod(p.x * t.m[0][0] + p.y * t.m[0][1] + p.z * t.m[0][2],
+            p.x * t.m[1][0] + p.y * t.m[1][1] + p.z * t.m[1][2],
+            p.x * t.m[2][0] + p.y * t.m[2][1] + p.z * t.m[2][2]);
+  
+  float w = p.x * t.m[3][0] + p.y * t.m[3][1] + p.z * t.m[3][2] + t.m[3][3];
+
+  if (w == 1.0) return p;
+  else return Point(p.x / w, p.y / w, p.z / w);
+}
+
+Vec operator*(Transformation t, Vec v){
+  return Vec(v.x * t.m[0][0] + v.y * t.m[0][1] + v.z * t.m[0][2],
+              v.x * t.m[1][0] + v.y * t.m[1][1] + v.z * t.m[1][2],
+              v.x * t.m[2][0] + v.y * t.m[2][1] + v.z * t.m[2][2]);
+}
+
+Normal operator*(Transformation t, Normal n){
+  return Normal(n.x * t.m[0][0] + n.y * t.m[1][0] + n.z * t.m[2][0],
+                n.x * t.m[0][1] + n.y * t.m[1][1] + n.z * t.m[2][1],
+                n.x * t.m[0][2] + n.y * t.m[1][2] + n.z * t.m[2][2]);
+}
+
 Transformation translation(Vec v){
 
   float mt[4][4]={{1.0, 0.0, 0.0, v.x},

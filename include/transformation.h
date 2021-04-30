@@ -47,6 +47,11 @@ struct Transformation {
 
 };
 
+Transformation operator*(Transformation, Transformation);
+Point operator*(Transformation, Point);
+Vec operator*(Transformation, Vec);
+Normal operator*(Transformation, Normal);
+
 Transformation translation(Vec);
 
 #endif
