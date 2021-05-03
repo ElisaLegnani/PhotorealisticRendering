@@ -47,11 +47,17 @@ struct Transformation {
 
 };
 
+//–––––––––––––– Operations –––––––––––––––
 Transformation operator*(Transformation, Transformation);
 Point operator*(Transformation, Point);
 Vec operator*(Transformation, Vec);
 Normal operator*(Transformation, Normal);
 
+//–––––––––––––– Transformations –––––––––––––––
 Transformation translation(Vec);
+Transformation scaling(Vec);
+Transformation rotation_x(float);
+Transformation rotation_y(float);
+Transformation rotation_z(float);
 
 #endif

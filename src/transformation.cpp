@@ -121,3 +121,72 @@ Transformation translation(Vec v){
 
   return Transformation(mt, invmt);
 }
+
+Transformation scaling(Vec v){
+
+  float ms[4][4]={{v.x, 0.0, 0.0, 0.0},
+                  {0.0, v.y, 0.0, 0.0},
+                  {0.0, 0.0, v.z, 0.0},
+                  {0.0, 0.0, 0.0, 1.0}};
+
+  float invms[4][4]={{1/v.x, 0.0, 0.0, 0.0},
+                    {0.0, 1/v.y, 0.0, 0.0},
+                    {0.0, 0.0, 1/v.z, 0.0},
+                    {0.0, 0.0, 0.0, 1.0}};
+
+  return Transformation(ms, invms);
+}
+
+Transformation rotation_x(float theta_rad){ //verifica in rad (es <lim_sup)?
+
+  float sinT=sin(theta_rad);
+  float cosT=cos(theta_rad);
+  
+  float mrx[4][4]={{1.0, 0.0, 0.0, 0.0},
+                  {0.0, cosT, -sinT, 0.0},
+                  {0.0, sinT, cosT, 0.0},
+                  {0.0, 0.0, 0.0, 1.0}};
+
+  float invmrx[4][4]={{1.0, 0.0, 0.0, 0.0},
+                    {0.0, cosT, sinT, 0.0},
+                    {0.0, -sinT, cosT, 0.0},
+                    {0.0, 0.0, 0.0, 1.0}};
+
+  return Transformation(mrx, invmrx);
+}
+
+Transformation rotation_y(float theta_rad){
+
+  float sinT=sin(theta_rad);
+  float cosT=cos(theta_rad);
+  
+  float mry[4][4]={{cosT, 0.0, sinT, 0.0},
+                  {0.0, 1.0, 0.0, 0.0},
+                  {-sinT, 0.0, cosT, 0.0},
+                  {0.0, 0.0, 0.0, 1.0}};
+
+  float invmry[4][4]={{cosT, 0.0, -sinT, 0.0},
+                    {0.0, 1.0, 0.0, 0.0},
+                    {sinT, 0.0, cosT, 0.0},
+                    {0.0, 0.0, 0.0, 1.0}};
+
+  return Transformation(mry, invmry);
+}
+
+Transformation rotation_z(float theta_rad){
+
+  float sinT=sin(theta_rad);
+  float cosT=cos(theta_rad);
+  
+  float mrz[4][4]={{cosT, -sinT, 0.0, 0.0},
+                  {sinT, cosT, 0.0, 0.0},
+                  {0.0, 0.0, 1.0, 0.0},
+                  {0.0, 0.0, 0.0, 1.0}};
+
+  float invmrz[4][4]={{cosT, sinT, 0.0, 0.0},
+                    {-sinT, cosT, 0.0, 0.0},
+                    {0.0, 0.0, 1.0, 0.0},
+                    {0.0, 0.0, 0.0, 1.0}};
+
+  return Transformation(mrz, invmrz);
+}

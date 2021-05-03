@@ -4,6 +4,10 @@
 
 int main() {
 
+  Vec VEC_X(1.0, 0.0, 0.0);
+  Vec VEC_Y(0.0, 1.0, 0.0);
+  Vec VEC_Z(0.0, 0.0, 1.0);
+
 /*test get_string da fare
   Transformation t1;
   cout << t1.get_string();
@@ -198,11 +202,53 @@ int main() {
   Transformation tr3 = translation(Vec(5.0, 8.0, 11.0));
 
   if (prod2.is_close(tr3) == 0) {
-    cout << "Error: translation()." << endl;
+    cout << "Error: transflation() or matrix product operator." << endl;
     abort();
   }
   
+  // Test scaling
   
+  Transformation sc1=scaling(Vec(2.0,5.0,10.0));
+  
+  if (sc1.is_consistent() == 0) {
+    cout << "Error: scaling()." << endl;
+    abort();
+  }
+  
+  Transformation sc2=scaling(Vec(3.0,2.0,4.0));
+  
+  if (sc2.is_consistent() == 0) {
+    cout << "Error: scaling()." << endl;
+    abort();
+  }
+  
+  Transformation sc3=scaling(Vec(6.0,10.0,40.0));
+  Transformation prod3=sc1*sc2;
+  
+  if (prod3.is_close(sc3) == 0) {
+    cout << "Error: scaling() or matrix product operator." << endl;
+    abort();
+  }
 
-  return 0;
+// Test rotations
+
+Transformation rx1=rotation_x(0.1);
+Transformation ry1=rotation_y(0.1);
+Transformation rz1=rotation_z(0.1);
+
+if (rx1.is_consistent() == 0 | ry1.is_consistent() == 0 | rz1.is_consistent() == 0) {
+  cout << "Error: rotation_*()." << endl;
+  abort();
+}
+  
+  Transformation rx2=rotation_x(M_PI*0.5);
+  Transformation ry2=rotation_y(M_PI*0.5);
+  Transformation rz2=rotation_z(M_PI*0.5);
+
+if ((rx2*VEC_Y).is_close(VEC_Z) == 0 | (ry2*VEC_Z).is_close(VEC_X) == 0 | (rz2*VEC_X).is_close(VEC_Y) == 0) {
+  cout << "Error: rotation_*()." << endl;
+  abort();
+}
+
+return 0;
 }
