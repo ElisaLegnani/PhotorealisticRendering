@@ -84,14 +84,14 @@ Transformation operator*(Transformation t1, Transformation t2){
   return Transformation(m_prod, invm_prod);
 }
 
-Point operator*(Transformation t, Point p){
-  Point prod(p.x * t.m[0][0] + p.y * t.m[0][1] + p.z * t.m[0][2],
-            p.x * t.m[1][0] + p.y * t.m[1][1] + p.z * t.m[1][2],
-            p.x * t.m[2][0] + p.y * t.m[2][1] + p.z * t.m[2][2]);
+Point operator*(Transformation t, Point p){ // prima era prod invece che newp
+  Point newp(p.x * t.m[0][0] + p.y * t.m[0][1] + p.z * t.m[0][2], //+t.m[0][3]
+            p.x * t.m[1][0] + p.y * t.m[1][1] + p.z * t.m[1][2], //+t.m[1][3]
+            p.x * t.m[2][0] + p.y * t.m[2][1] + p.z * t.m[2][2]); //+t.m[2][3]
   
   float w = p.x * t.m[3][0] + p.y * t.m[3][1] + p.z * t.m[3][2] + t.m[3][3];
 
-  if (w == 1.0) return p;
+  if (w == 1.0) return newp; //prima era p (errore ?)
   else return Point(p.x / w, p.y / w, p.z / w);
 }
 
@@ -101,10 +101,10 @@ Vec operator*(Transformation t, Vec v){
               v.x * t.m[2][0] + v.y * t.m[2][1] + v.z * t.m[2][2]);
 }
 
-Normal operator*(Transformation t, Normal n){
-  return Normal(n.x * t.m[0][0] + n.y * t.m[1][0] + n.z * t.m[2][0],
-                n.x * t.m[0][1] + n.y * t.m[1][1] + n.z * t.m[2][1],
-                n.x * t.m[0][2] + n.y * t.m[1][2] + n.z * t.m[2][2]);
+Normal operator*(Transformation t, Normal n){ // n'=(M-1)^t * n
+  return Normal(n.x * t.invm[0][0] + n.y * t.invm[1][0] + n.z * t.invm[2][0],
+                n.x * t.invm[0][1] + n.y * t.invm[1][1] + n.z * t.invm[2][1],
+                n.x * t.invm[0][2] + n.y * t.invm[1][2] + n.z * t.invm[2][2]);
 }
 
 Transformation translation(Vec v){

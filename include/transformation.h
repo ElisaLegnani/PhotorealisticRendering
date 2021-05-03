@@ -16,7 +16,7 @@
 
 bool are_matr_close(float [4][4], float [4][4]);
 
-void matr_prod(const float m1[4][4], const float [4][4], float [4][4]);
+void matr_prod(const float [4][4], const float [4][4], float [4][4]);
 
 struct Transformation {
 
