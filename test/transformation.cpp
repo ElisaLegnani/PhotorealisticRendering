@@ -3,30 +3,24 @@
 #include <cstdlib>
 
 //–––––––––– Functions supporting tests –––––––––––––––
-void test_consistency(Transformation t){
-  if (t.is_consistent() == 0) {
-    cout << "Error: is_consistent()." << endl;
-    abort();
-  }
-}
 
-void test_closeness(Transformation t1, Transformation t2){
-  if (t1.is_close(t2) == 0) {
-    cout << "Error: is_close()." << endl;
-    abort();
-  }
-}
-
-void test_consistency(Transformation t, string s){
+void test_consistency(Transformation t, string s="is_consistent()"){
   if (t.is_consistent() == 0) {
     cout << "Error: "<< s <<"." << endl;
     abort();
   }
 }
 
-void test_closeness(Transformation t1, Transformation t2, string s){
+void test_closeness(Transformation t1, Transformation t2, string s="is_close()"){
   if (t1.is_close(t2) == 0) {
     cout << "Error: "<< s <<"." << endl;
+    abort();
+  }
+}
+
+void test_not_closeness(Transformation t1, Transformation t2, string s="is_close()"){
+  if (t1.is_close(t2) != 0) {
+    cout << "Error: "<<s<<"." << endl;
     abort();
   }
 }
@@ -64,11 +58,11 @@ int main() {
 
   Transformation t3(m, invm);
   t3.m[2][2] += 1.0;
-  test_closeness(t1, t3);
+  test_not_closeness(t1, t3);
 
   Transformation t4(m, invm);
   t4.invm[2][2] += 1.0;
-  test_closeness(t1, t4);
+  test_not_closeness(t1, t4);
   
 
   // Test operator*
@@ -143,7 +137,7 @@ int main() {
 
   Transformation prod = t1 * t8;
   test_consistency(prod, "operator* with inverse()");
-  test_closeness(prod, t1, "operator* with inverse()");
+  test_not_closeness(prod, t1, "operator* with inverse()");
 
   // Test translation
 
