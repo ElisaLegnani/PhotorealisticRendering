@@ -47,8 +47,8 @@ struct Vec {
 // Vec(const Vec &); // Copy constructor
 // Vec(const Vec &&); // Move constructor
 
-//  Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor da implementare in .cpp? // Vec(const Vec &); piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
-//  Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor // Vec(const Vec &&);
+  Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor da implementare in .cpp? // Vec(const Vec &); piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
+  Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor // Vec(const Vec &&);
   //Move constructor: to create temporary objects for quick operations (no memory needed)
   
   bool is_close(Vec v) {
@@ -102,8 +102,8 @@ struct Point {
 
   Point(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
   
-  Point(const Point &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor: piu elegante?
-  Point(const Point &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor
+  Point(const Point &pc){ x=pc.x; y=pc.y; z=pc.z; } // Copy constructor: piu elegante?
+  Point(const Point &&pm) : x{pm.x}, y{pm.y}, z{pm.z} {} // Move constructor
   
 bool is_close(Point p) {
     return are_close(x, p.x) && are_close(y, p.y) && are_close(z, p.z);
