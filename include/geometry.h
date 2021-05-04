@@ -1,6 +1,7 @@
 #include "colors.h"
-#include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -17,94 +18,138 @@ Out _diff(const In1 &a, const In2 &b) {
   return Out{a.x - b.x, a.y - b.y, a.z - b.z};
 }
 
-template <typename In1, typename Out> Out _prod(const In1 &a, const float &b) {
+template <typename In1, typename Out>
+Out _prod(const In1 &a, const float &b) {
   return Out{a.x * b, a.y * b, a.z * b};
 }
 
-/*bool are_xy_close(float x, float y) { //ha senso ridefinirla o usiamo
-colors.h? float epsilon = 1e-10; return abs(x - y) < epsilon;
+/*template <typename In, typename Out> // Da controllare
+Out _copy(const In &b) {
+  return Out{b.x, b.y, b.z};
 }*/
 
-/*bool are_xyz_close(Vec v1, Vec v2) {
-  return are_close(v1.x, v2.x) && are_close(v1.y, v2.y) && are_close(v1.z,
-v2.z);
-}*/
+template <typename In> bool are_xyz_close(const In &a, const In &b){
+  return are_close(a.x, b.x) && are_close(a.y, b.y) && are_close(a.z, b.z);
+}
 
-// Struct Vec
+inline string xyz_string(string type, float x, float y, float z){
+  return string{type+"(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
+ }
+
+ 
+//–––––––––––––––––––––– Struct Vec –––––––––––––––––––––––––––––––––––
 
 struct Vec {
   float x, y, z;
 
   Vec(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
-  // Vec(const Vec &); // Copy constructor
-  // Vec(const Vec &&); // Move constructor
+  
+// Vec(const Vec &); // Copy constructor
+// Vec(const Vec &&); // Move constructor
 
+  Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor da implementare in .cpp? // Vec(const Vec &); piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
+  Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor // Vec(const Vec &&);
+  //Move constructor: to create temporary objects for quick operations (no memory needed)
+  
   bool is_close(Vec v) {
     return are_close(x, v.x) && are_close(y, v.y) && are_close(z, v.z);
   }
 
-  string print_string() {
-    return string{"Vec(" + to_string(x) + ", " + to_string(y) + ", " +
-                  to_string(z) + ")"};
+  string get_string(){ return xyz_string("Vec",x,y,z);}
+
+//  ||v||2
+  float squared_norm() { return x*x + y*y + z*z; }
+
+//  ||v||
+  float norm() { return sqrt(this->squared_norm()); }
+
+// v -> v/||v||
+  void normalize() {
+    float norm = this->norm();
+    x /= norm;
+    y /= norm;
+    z /= norm;
   }
 };
 
-Vec operator+(const Vec &v1, const Vec &v2) {
+inline Vec operator+(const Vec &v1, const Vec &v2) {
   return _sum<Vec, Vec, Vec>(v1, v2);
 }
 
-Vec operator-(const Vec &v1, const Vec &v2) {
+inline Vec operator-(const Vec &v1, const Vec &v2) {
   return _diff<Vec, Vec, Vec>(v1, v2);
 }
 
-Vec operator*(const Vec &v1, const float &c) { return _prod<Vec, Vec>(v1, c); }
-Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
+inline Vec operator*(const Vec &v1, const float &c) { return _prod<Vec, Vec>(v1, c); }
+inline Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
 
 // Scalar product
-float dot(const Vec &v1, const Vec &v2) {
-  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
-}
+inline float dot(const Vec &v1, const Vec &v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
 
 // Vector product
-Vec cross(const Vec &v1, const Vec &v2) {
-  return Vec(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z,
-             v1.x * v2.y - v1.y * v2.x);
+inline Vec cross(const Vec &v1, const Vec &v2) {
+  return Vec(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
 }
 
-// Struct Point
+/*Vec operator=(const Vec &v) {
+  return _copy<Vec, Vec>(v);
+}*/
+
+//–––––––––––––––––––––– Struct Point –––––––––––––––––––––––––––––––––––
 
 struct Point {
   float x, y, z;
 
   Point(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
-  // Point(const Point &); // Copy constructor
-  // Point(const Point &&); // Move constructor
-
-  bool is_close(Point p) {
+  
+  Point(const Point &pc){ x=pc.x; y=pc.y; z=pc.z; } // Copy constructor: piu elegante?
+  Point(const Point &&pm) : x{pm.x}, y{pm.y}, z{pm.z} {} // Move constructor
+  
+bool is_close(Point p) {
     return are_close(x, p.x) && are_close(y, p.y) && are_close(z, p.z);
   }
 
-  string print_string() {
-    return string{"Point(" + to_string(x) + ", " + to_string(y) + ", " +
-                  to_string(z) + ")"};
-  }
+  string get_string(){ return xyz_string("Point",x,y,z);}
+  
 };
 
-Point operator+(const Point &p, const Vec &v) {
+inline Point operator+(const Point &p, const Vec &v) {
   return _sum<Point, Vec, Point>(p, v);
 }
 
-Point operator-(const Point &p, const Vec &v) {
+inline Point operator-(const Point &p, const Vec &v) {
   return _diff<Point, Vec, Point>(p, v);
 }
 
-Point operator*(const Point &p, const float &c) {
+inline Point operator*(const Point &p, const float &c) {
   return _prod<Point, Point>(p, c);
 }
-Point operator*(const float &c, const Point &p) { return p * c; }
+inline Point operator*(const float &c, const Point &p) { return p * c; }
 
-Vec operator-(const Point &p1, const Point &p2) {
+inline Vec operator-(const Point &p1, const Point &p2) {
   return _diff<Point, Point, Vec>(p1, p2);
 }
+/*
+Point operator=(const Point &p) {
+  return _copy<Point, Point>(p);
+}*/
+
+//–––––––––––––––––––––– Struct Normal –––––––––––––––––––––––––––––––––––
+
+struct Normal {
+  float x, y, z;
+
+  Normal(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
+  Normal(const Normal &); // Copy constructor
+  Normal(const Normal &&); // Move constructor
+
+  bool is_close(Normal n) {
+    return are_close(x, n.x) && are_close(y, n.y) && are_close(z, n.z);
+  }
+
+  string get_string() { return xyz_string("Normal",x,y,z);}
+  
+//  Da implementare anche le altre? - non credo
+};
 
 #endif
