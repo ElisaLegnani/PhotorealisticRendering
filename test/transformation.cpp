@@ -83,18 +83,6 @@ int main() {
                       {-5.55, 3.15, -0.4, 6.45},
                       {-0.9, 0.7, -0.2, 1.1}};
 
-  /*float prova[4][4] ={};
-  matr_prod(m2, invm2, prova);
-  for (int i{}; i < 4; ++i) {
-    for (int j{}; j < 4; ++j) {
-      cout << prova[i][j] << " ";
-    }
-    cout << "\n";
-  }*/
-
-  // ATTENZIONE: altro errore di precisione nella moltiplicazione
-  // aumentare epsilon=10^-6/10^-5 in are_close!
-
   Transformation t5(m2, invm2);
   test_consistency(t5);
 
