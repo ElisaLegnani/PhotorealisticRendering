@@ -28,8 +28,8 @@ int main() {
       are_close(dot(v1, v2), 40.0) == 0 ||
       (cross(v1, v2)).is_close(Vec(-2.0, 4.0, -2.0)) == 0 ||
       (cross(v2, v1)).is_close(Vec(2.0, -4.0, 2.0)) == 0 ||
-      are_close(v1.squared_norm(), 14.0) == 0 //||
-      //((are_close(pow(v1.norm(),2), 14.0)) == 0)
+      are_close(v1.squared_norm(), 14.0) == 0 ||
+      are_close(pow(v1.norm(),2), 14.0 == 0)
       ){
     cout << "Error: vector operators not working properly." << endl;
     abort();
@@ -45,7 +45,6 @@ int main() {
   cout << p1.get_string() << endl;
   cout << p2.get_string() << endl;
   
-/*
   if (p1.is_close(p1) == 0 || p1.is_close(p2) != 0) {
     cout << "Error: constructor sets wrong point coordinates." << endl;
     abort();
@@ -58,7 +57,6 @@ int main() {
     cout << "Error: point operators not working properly." << endl;
     abort();
   }
-*/
   
 
 //  Test are_xyz_close (as template)
@@ -76,8 +74,8 @@ int main() {
       are_close(dot(v1, v2), 40.0) == 0 ||
       are_xyz_close((cross(v1, v2)), Vec(-2.0, 4.0, -2.0)) == 0 ||
       are_xyz_close((cross(v2, v1)), Vec(2.0, -4.0, 2.0)) == 0 ||
-      are_close(v1.squared_norm(), 14.0) == 0 //||
-      //are_close(pow(v1.norm(),2), 14.0) == 0
+      are_close(v1.squared_norm(), 14.0) == 0 ||
+      are_close(pow(v1.norm(),2), 14.0) == 0
       ) {
     cout << "Error: vector operators not working properly." << endl;
     abort();
