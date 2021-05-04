@@ -84,15 +84,15 @@ Transformation operator*(Transformation t1, Transformation t2){
   return Transformation(m_prod, invm_prod);
 }
 
-Point operator*(Transformation t, Point p){ // prima era prod invece che newp
-  Point newp(p.x * t.m[0][0] + p.y * t.m[0][1] + p.z * t.m[0][2], //+t.m[0][3]
-            p.x * t.m[1][0] + p.y * t.m[1][1] + p.z * t.m[1][2], //+t.m[1][3]
-            p.x * t.m[2][0] + p.y * t.m[2][1] + p.z * t.m[2][2]); //+t.m[2][3]
+Point operator*(Transformation t, Point p){
+  Point newp(p.x * t.m[0][0] + p.y * t.m[0][1] + p.z * t.m[0][2] + t.m[0][3],
+            p.x * t.m[1][0] + p.y * t.m[1][1] + p.z * t.m[1][2] + t.m[1][3],
+            p.x * t.m[2][0] + p.y * t.m[2][1] + p.z * t.m[2][2] + t.m[2][3]);
   
   float w = p.x * t.m[3][0] + p.y * t.m[3][1] + p.z * t.m[3][2] + t.m[3][3];
 
-  if (w == 1.0) return newp; //prima era p (errore ?)
-  else return Point(p.x / w, p.y / w, p.z / w);
+  if (w == 1.0) return newp;
+  else return Point(newp.x / w, newp.y / w, newp.z / w);
 }
 
 Vec operator*(Transformation t, Vec v){
