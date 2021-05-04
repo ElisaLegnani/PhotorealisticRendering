@@ -91,6 +91,17 @@ target_link_libraries(transformationtest PUBLIC trace)
 add_test(NAME transformationtest
     COMMAND transformationtest
     )
+
+# raytest
+add_executable(raytest
+    test/ray.cpp
+    )
+
+target_link_libraries(raytest PUBLIC trace)
+
+add_test(NAME raytest
+    COMMAND raytest
+    )
     
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
