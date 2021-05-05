@@ -4,10 +4,6 @@
 #ifndef _camera_h_
 #define _camera_h_
 
-inline Vec VEC_X(1.0, 0.0, 0.0);
-inline Vec VEC_Y(0.0, 1.0, 0.0);
-inline Vec VEC_Z(0.0, 0.0, 1.0);
-
 struct Camera {
   virtual Ray fire_ray(float, float) = 0;
 };
@@ -19,9 +15,9 @@ struct OrthogonalCamera : public Camera {
   OrthogonalCamera(float a = 1.0, Transformation t = Transformation()) : aspect_ratio{a}, transformation{t} {}
   
   Ray fire_ray(float u, float v){
-    Point o = Point();
-    Vec d = VEC_X;
-    return Ray(o, d, 1.0); //transformation
+    Point o = Point(-1.0, (1.0-2.0*u)*aspect_ratio, 2.0*v-1.0);
+    Vec d = Vec(1.0, 0.0, 0.0); //VEC_X
+    return Ray(o, d, 1.0, INFINITY, 0).transform(transformation);
   }
 };
 

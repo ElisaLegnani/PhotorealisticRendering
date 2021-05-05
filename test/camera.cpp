@@ -40,9 +40,9 @@ int main() {
   // Verify that the ray hitting the corners have the right coordinates
 
   test_closeness(ray1.at(1.0), Point(0.0, 2.0, -1.0), "OrthogonalCamera, wrong hitting coordinates");
-  test_closeness(ray1.at(1.0), Point(0.0, -2.0, -1.0), "OrthogonalCamera, wrong hitting coordinates");
-  test_closeness(ray1.at(1.0), Point(0.0, 2.0, 1.0), "OrthogonalCamera, wrong hitting coordinates");
-  test_closeness(ray1.at(1.0), Point(0.0, -2.0, 1.0), "OrthogonalCamera, wrong hitting coordinates");
+  test_closeness(ray2.at(1.0), Point(0.0, -2.0, -1.0), "OrthogonalCamera, wrong hitting coordinates");
+  test_closeness(ray3.at(1.0), Point(0.0, 2.0, 1.0), "OrthogonalCamera, wrong hitting coordinates");
+  test_closeness(ray4.at(1.0), Point(0.0, -2.0, 1.0), "OrthogonalCamera, wrong hitting coordinates");
   
   return 0;
 }
