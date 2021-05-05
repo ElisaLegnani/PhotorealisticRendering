@@ -5,13 +5,6 @@
 
 //–––––––––– Functions supporting tests –––––––––––––––
 
-void test_consistency(Transformation t, string s="is_consistent()"){
-  if (t.is_consistent() == 0) {
-    cout << "Error: "<< s <<"." << endl;
-    abort();
-  }
-}
-
 void test_closeness(Ray r1, Ray r2, string s="is_close()"){
   if (r1.is_close(r2) == 0) {
     cout << "Error: "<< s <<"." << endl;
@@ -36,6 +29,13 @@ void test_closeness(Point p1, Point p2, string s="is_close()"){
     abort();
   }
 }
+
+void test_closeness(Vec v1, Vec v2, string s="is_close()"){
+  if (v1.is_close(v2) == 0) {
+    cout << "Error: "<< s <<"." << endl;
+    abort();
+  }
+}
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 int main() {
@@ -44,8 +44,6 @@ int main() {
   Ray ray2(Point(1.0, 2.0, 3.0), Vec(5.0, 4.0, -1.0));
   Ray ray3(Point(5.0, 1.0, 4.0), Vec(3.0, 9.0, 4.0));
 
-  cout << "Origin1: "; ray1.origin.get_string();
-  cout << "Dir1:"; ray1.dir.get_string();
   test_closeness(ray1, ray2);
   test_not_closeness(ray1,ray3);
   
@@ -58,13 +56,14 @@ int main() {
 
   //  Test transform
   
-  /*
   Ray ray5(Point(1.0, 2.0, 3.0), Vec(6.0, 5.0, 4.0));
-  Transformation tr=translation(Vec(10.0, 11.0, 12.0)) * rotation_x(90.0));
- Ray transformed=
-          transformed = ray.transform(transformation)
-          assert transformed.origin.is_close(Point(11.0, 8.0, 14.0))
-          assert transformed.dir.is_close(Vec(6.0, -4.0, 5.0))*/
+  
+  Transformation tr=translation(Vec(10.0, 11.0, 12.0))* rotation_x(M_PI*0.5);
+  
+  Ray transformed=ray5.transform(tr);
+  
+  test_closeness(transformed.origin,Point(11.0, 8.0, 14.0), "transform() on origin");
+  test_closeness(transformed.dir,Vec(6.0, -4.0, 5.0), "transform() on direction");
 
 return 0;
 }
