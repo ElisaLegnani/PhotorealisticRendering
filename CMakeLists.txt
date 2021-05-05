@@ -113,6 +113,17 @@ target_link_libraries(cameratest PUBLIC trace)
 add_test(NAME cameratest
     COMMAND cameratest
     )
+
+# imagetracer
+add_executable(imagetracertest
+    test/imagetracer.cpp
+    )
+
+target_link_libraries(imagetracertest PUBLIC trace)
+
+add_test(NAME imagetracertest
+    COMMAND imagetracertest
+    )
     
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
