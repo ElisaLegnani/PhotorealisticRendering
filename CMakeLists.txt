@@ -91,6 +91,39 @@ target_link_libraries(transformationtest PUBLIC trace)
 add_test(NAME transformationtest
     COMMAND transformationtest
     )
+
+# raytest
+add_executable(raytest
+    test/ray.cpp
+    )
+
+target_link_libraries(raytest PUBLIC trace)
+
+add_test(NAME raytest
+    COMMAND raytest
+    )
+
+# camera
+add_executable(cameratest
+    test/camera.cpp
+    )
+
+target_link_libraries(cameratest PUBLIC trace)
+
+add_test(NAME cameratest
+    COMMAND cameratest
+    )
+
+# imagetracer
+add_executable(imagetracertest
+    test/imagetracer.cpp
+    )
+
+target_link_libraries(imagetracertest PUBLIC trace)
+
+add_test(NAME imagetracertest
+    COMMAND imagetracertest
+    )
     
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
