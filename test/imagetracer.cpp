@@ -45,13 +45,13 @@ int main() {
 
   // Test image coverage
 
-  /*tracer.fire_all_rays(lambda ray: Color(1.0, 2.0, 3.0));
-  
-  for (int row{}; row < image.height; ++row) {
-    for (int col{}; row < image.width; ++col) {
-      test_closeness(image.get_pixel(col, row), Color(1.0, 2.0, 3.0), "Image coverage");
+  tracer.fire_all_rays([](Ray ray) -> Color{ return Color(1.0, 2.0, 3.0);} );
+
+  for (int row{}; row < tracer.image.height; ++row) {
+    for (int col{}; col < tracer.image.width; ++col) {
+      test_closeness(tracer.image.get_pixel(col, row), Color(1.0, 2.0, 3.0), "Image coverage");
     }
-  }*/
+  }
 
   return 0;
 }

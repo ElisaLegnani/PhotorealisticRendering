@@ -1,6 +1,7 @@
 #include "hdrimage.h"
 #include "camera.h"
 #include "colors.h"
+#include <functional>
 
 #ifndef _imageracer_h_
 #define _imagetracer_h_
@@ -18,7 +19,7 @@ struct ImageTracer {
     return camera.fire_ray(u,v);
   }
 
-  void fire_all_rays(Color func(Ray)){
+  void fire_all_rays(function<Color(Ray)> func){
     for (int row{}; row<image.height; ++row){
       for(int col{};col<image.width;++col){
         Ray ray=fire_ray(col,row);
