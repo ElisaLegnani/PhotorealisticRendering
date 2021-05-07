@@ -22,10 +22,12 @@ jobs:
 
     - name: Install dependencies (Linux)
       run: "sudo apt install libgd-dev"
+      run: "sudo apt-get install catch2"
       if: matrix.os == 'ubuntu-latest'
       
     - name: Install dependencies (MacOS)
       run: "brew install gd"
+      run: "brew install catch2"
       if: matrix.os == 'macos-latest'
         
     - name: Configure CMake

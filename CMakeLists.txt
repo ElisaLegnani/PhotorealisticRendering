@@ -16,7 +16,6 @@ add_library(trace
     src/transformation.cpp
     )
 
-
 # PATH TO MY LIBRARIES:
 target_include_directories(trace PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -26,10 +25,6 @@ target_include_directories(trace PUBLIC
 # OTHER LIBRARIES:
 include(FindPkgConfig)
 pkg_check_modules(GDLIB REQUIRED gdlib)
-
-#include_directories(${GDLIB_INCLUDE_DIRS})
-#link_directories(${GDLIB_LIBRARY_DIRS})
-#link_libraries(${GDLIB_LIBRARIES})
 
 # EXECUTABLE:
 add_executable(raytracer
@@ -41,20 +36,18 @@ target_link_directories(trace PUBLIC ${GDLIB_LIBRARY_DIRS})
 target_compile_options(trace PUBLIC ${GDLIB_CFLAGS})
 target_link_libraries(trace PUBLIC ${GDLIB_LIBRARIES})
 
-#target_include_directories(raytracer PUBLIC ${GDLIB_INCLUDE_DIRS})
-#target_link_directories(raytracer PUBLIC ${GDLIB_LIBRARY_DIRS})
-#target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
-#target_link_libraries(raytracer PUBLIC ${GDLIB_LIBRARIES} trace)
 target_link_libraries(raytracer PUBLIC trace)
 
+find_package(Catch2 REQUIRED)
 
 # TESTS:
+
 #  colortest
 add_executable(colortest
     test/colors.cpp
     )
 
-target_link_libraries(colortest PUBLIC trace)
+target_link_libraries(colortest PUBLIC trace PRIVATE Catch2::Catch2)
 
 add_test(NAME colortest
     COMMAND colortest 
