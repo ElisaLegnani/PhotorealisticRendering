@@ -7,6 +7,7 @@ int main() {
   Vec v1(1.0, 2.0, 3.0);
   Vec v2(4.0, 6.0, 8.0);
   Vec v3(v1);
+  Vec v4=move(v1);
  
   if (v1.is_close(v1) == 0 || v1.is_close(v2) != 0) {
     cout << "Error: Vec constructor or is_close()." << endl;
@@ -15,6 +16,11 @@ int main() {
   
   if (v1.is_close(v3) == 0) {
     cout << "Error: Vec copy constructor." << endl;
+    abort();
+  }
+  
+  if (v1.is_close(v4) == 0) {
+    cout << "Error: Vec move constructor." << endl;
     abort();
   }
   
@@ -46,6 +52,7 @@ int main() {
   Point p1(1.0, 2.0, 3.0);
   Point p2(4.0, 6.0, 8.0);
   Point p3=p1;
+  Point p4=move(p1);
   
   if (p1.is_close(p1) == 0 || p1.is_close(p2) != 0) {
     cout << "Error: Point constructor or is_close()." << endl;
@@ -54,6 +61,10 @@ int main() {
   
   if (p1.is_close(p3) == 0) {
     cout << "Error: Point copy constructor." << endl;
+    abort();
+  }
+  if (p1.is_close(p4) == 0) {
+    cout << "Error: Point move constructor." << endl;
     abort();
   }
   
