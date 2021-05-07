@@ -1,7 +1,5 @@
 #include "transformation.h"
 #include "ray.h"
-#include <algorithm>
-#include <cstdlib>
 
 //–––––––––– Functions supporting tests –––––––––––––––
 

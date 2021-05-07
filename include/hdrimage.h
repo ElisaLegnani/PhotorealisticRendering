@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <gd.h>
 
 enum class Endianness { little_endian, big_endian };
 

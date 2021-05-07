@@ -1,14 +1,4 @@
 #include "transformation.h"
-#include <cmath>
-#include <iostream>
-#include <sstream>
-
-//–––––––––––––––––––––– Unit vectors i, j, k
-//–––––––––––––––––––––––––––––––––––
-
-Vec VEC_X(1.0, 0.0, 0.0);
-Vec VEC_Y(0.0, 1.0, 0.0);
-Vec VEC_Z(0.0, 0.0, 1.0);
 
 //–––––––––––––––––––––– Identity matrix –––––––––––––––––––––––––––––––––––
 

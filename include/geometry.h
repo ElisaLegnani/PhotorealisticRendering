@@ -1,4 +1,4 @@
-#include "colors.h"
+#include "functions.h"
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -43,13 +43,9 @@ struct Vec {
   float x, y, z;
 
   Vec(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
-  
-// Vec(const Vec &); // Copy constructor
-// Vec(const Vec &&); // Move constructor
 
-  Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor da implementare in .cpp? // Vec(const Vec &); piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
-  Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor // Vec(const Vec &&);
-  //Move constructor: to create temporary objects for quick operations (no memory needed)
+  Vec(const Vec &vc){ x=vc.x; y=vc.y; z=vc.z; } // Copy constructor //piu elegante, ma da verificare: Vec(const Vec &vc):Vec(*vc.x,*vc.y,*vc.z) {}
+  Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor: to create temporary objects for quick operations (no memory needed)
   
   bool is_close(Vec v) {
     return are_close(x, v.x) && are_close(y, v.y) && are_close(z, v.z);
@@ -102,7 +98,7 @@ struct Point {
 
   Point(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
   
-  Point(const Point &pc){ x=pc.x; y=pc.y; z=pc.z; } // Copy constructor: piu elegante?
+  Point(const Point &pc){ x=pc.x; y=pc.y; z=pc.z; } // Copy constructor
   Point(const Point &&pm) : x{pm.x}, y{pm.y}, z{pm.z} {} // Move constructor
   
 bool is_close(Point p) {
@@ -140,16 +136,15 @@ struct Normal {
   float x, y, z;
 
   Normal(float X = 0, float Y = 0, float Z = 0) : x{X}, y{Y}, z{Z} {}
-  Normal(const Normal &); // Copy constructor
-  Normal(const Normal &&); // Move constructor
+  Normal(const Normal &nc){ x=nc.x; y=nc.y; z=nc.z; } // Copy constructor
+  Normal(const Normal &&nm) : x{nm.x}, y{nm.y}, z{nm.z} {} // Move constructor
 
   bool is_close(Normal n) {
     return are_close(x, n.x) && are_close(y, n.y) && are_close(z, n.z);
   }
 
   string get_string() { return xyz_string("Normal",x,y,z);}
-  
-//  Da implementare anche le altre? - non credo
+
 };
 
 #endif

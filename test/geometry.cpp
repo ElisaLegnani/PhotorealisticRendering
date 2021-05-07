@@ -1,6 +1,4 @@
 #include "geometry.h"
-#include <algorithm>
-#include <cstdlib>
 
 int main() {
 
@@ -8,12 +6,7 @@ int main() {
 
   Vec v1(1.0, 2.0, 3.0);
   Vec v2(4.0, 6.0, 8.0);
-  
-  cout << v1.get_string()<< endl;
-  cout << v2.get_string() << endl;
   Vec v3(v1);
-  
-  cout << v3.get_string()<< endl;
  
   if (v1.is_close(v1) == 0 || v1.is_close(v2) != 0) {
     cout << "Error: constructor sets wrong vector coordinates." << endl;
@@ -41,9 +34,6 @@ int main() {
 
   Point p1(1.0, 2.0, 3.0);
   Point p2(4.0, 6.0, 8.0);
-
-  cout << p1.get_string() << endl;
-  cout << p2.get_string() << endl;
   
   if (p1.is_close(p1) == 0 || p1.is_close(p2) != 0) {
     cout << "Error: constructor sets wrong point coordinates." << endl;

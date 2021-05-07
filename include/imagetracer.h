@@ -9,7 +9,7 @@
 struct ImageTracer {
 
   HdrImage image;
-  Camera &camera; //giusto? altrimenti: cannot declare parameter ‘cam’ to be of abstract type ‘Camera’
+  Camera &camera;
 
   ImageTracer(HdrImage img, Camera &cam): image{img}, camera{cam} {};
 
