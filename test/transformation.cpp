@@ -28,7 +28,7 @@ int main() {
 
 /*test get_string da fare
   Transformation t1;
-  cout << t1.get_string();
+  cout << t1.get_string() <<endl;
 */
 
   float m[4][4] = {{1.0, 2.0, 3.0, 4.0},

@@ -37,14 +37,18 @@ int main() {
       (v1 * 2).is_close(Vec(2.0, 4.0, 6.0)) == 0 ||
       are_close(dot(v1, v2), 40.0) == 0 ||
       (cross(v1, v2)).is_close(Vec(-2.0, 4.0, -2.0)) == 0 ||
-      (cross(v2, v1)).is_close(Vec(2.0, -4.0, 2.0)) == 0 ||
-      are_close(v1.squared_norm(), 14.0) == 0 ||
-      are_close(pow(v1.norm(),2), 14.0 == 0)
+      (cross(v2, v1)).is_close(Vec(2.0, -4.0, 2.0)) == 0
       ){
-    cout << "Error: Vec operators not working properly." << endl;
+    cout << "Error: Vec operators." << endl;
     abort();
   }
 
+  if (are_close(v1.squared_norm(), 14.0) == 0 ||
+      are_close(pow(v1.norm(),2), 14.0) == 0
+      ){
+    cout << "Error: Vec normal." << endl;
+    abort();
+  }
 
 
   // –––––––––––––––– Test Point
@@ -79,7 +83,7 @@ int main() {
       (p1 + v2).is_close(Point(5.0, 8.0, 11.0)) == 0 ||
       (p2 - p1).is_close(Vec(3.0, 4.0, 5.0)) == 0 ||
       (p1 - v2).is_close(Point(-3.0, -4.0, -5.0)) == 0) {
-    cout << "Error: Point operators not working properly." << endl;
+    cout << "Error: Point operators." << endl;
     abort();
   }
   
