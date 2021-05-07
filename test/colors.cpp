@@ -16,6 +16,6 @@ TEST_CASE( "Colors operators", "[colors]" ) {
 }
 
 TEST_CASE( "Luminosity", "[colors]" ) {
-    REQUIRE( are_close(c1.luminosity(), 3) );
+    REQUIRE( are_close(c1.luminosity(), 2) );
     REQUIRE( are_close(c2.luminosity(), 7) );
 }
