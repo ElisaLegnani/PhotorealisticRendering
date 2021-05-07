@@ -22,13 +22,19 @@ jobs:
 
     - name: Install dependencies (Linux)
       run: "sudo apt install libgd-dev"
+      if: matrix.os == 'ubuntu-latest'
+      
+    - name: Install Catch2 (Linux)
       run: "sudo apt-get install catch2"
       if: matrix.os == 'ubuntu-latest'
       
     - name: Install dependencies (MacOS)
       run: "brew install gd"
-      run: "brew install catch2"
       if: matrix.os == 'macos-latest'
+      
+    - name: Install Catch2 (MacOS)
+      run: "brew install catch2"
+      if: matrix.os == 'ubuntu-latest'
         
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
