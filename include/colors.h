@@ -1,15 +1,9 @@
 #ifndef _color_h_
 #define _color_h_
 
-#include <algorithm>
+#include "functions.h"
 
 using namespace std;
-
-inline
-bool are_close(float x, float y) {
-  float epsilon = 1e-4;
-  return abs(x - y) < epsilon;
-}
 
 struct Color {
 

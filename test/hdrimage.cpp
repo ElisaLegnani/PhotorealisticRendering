@@ -1,10 +1,6 @@
 #include "hdrimage.h"
 #include <iostream>
 #include <sstream>
-/*#include "colors.h"
-#include <cstdint>
-#include <cstdlib>
-#include <fstream>*/
 
 using namespace std;
 

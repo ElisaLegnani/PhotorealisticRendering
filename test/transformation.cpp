@@ -1,6 +1,4 @@
 #include "transformation.h"
-#include <algorithm>
-#include <cstdlib>
 
 //–––––––––– Functions supporting tests –––––––––––––––
 
@@ -27,10 +25,6 @@ void test_not_closeness(Transformation t1, Transformation t2, string s="is_close
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 int main() {
-
-  Vec VEC_X(1.0, 0.0, 0.0);
-  Vec VEC_Y(0.0, 1.0, 0.0);
-  Vec VEC_Z(0.0, 0.0, 1.0);
 
 /*test get_string da fare
   Transformation t1;

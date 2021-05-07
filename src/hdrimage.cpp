@@ -1,9 +1,6 @@
 #include "hdrimage.h"
 #include <iostream>
 #include <cmath>
-#include <gd.h>
-/*#include <cstdint>
-#include <exception>*/
 
 using namespace std;
 

@@ -42,7 +42,7 @@ int main() {
 
 
   //Test transform
-  Transformation tr = translation(-1*Vec(0.0, 1.0, 0.0) * 2.0) * rotation_z(M_PI/2.0); //risolvere VEC_Y & -vec & rotation(rad-deg) !
+  Transformation tr = translation(-1*VEC_Y * 2.0) * rotation_z(M_PI/2.0); //risolvere -vec & rotation(rad-deg) !
   OrthogonalCamera cam2(1.0, tr);
   Ray ray = cam2.fire_ray(0.5, 0.5);
   test_closeness(ray.at(1.0), Point(0.0, -2.0, 0.0), "OrthogonalCamera, transform");
@@ -71,7 +71,7 @@ int main() {
 
 
   // Test transform
-  Transformation tr2 = translation(-1*Vec(0.0, 1.0, 0.0) * 2.0) * rotation_z(M_PI/2.0); //risolvere VEC_Y & -vec & rotation(rad-deg) !
+  Transformation tr2 = translation(-1*VEC_Y * 2.0) * rotation_z(M_PI/2.0); //risolvere -vec & rotation(rad-deg) !
   OrthogonalCamera cam4(1.0, tr2);
   Ray ray9 = cam4.fire_ray(0.5, 0.5);
   test_closeness(ray9.at(1.0), Point(0.0, -2.0, 0.0), "OrthogonalCamera, transform");

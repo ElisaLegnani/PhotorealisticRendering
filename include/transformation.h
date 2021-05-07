@@ -1,27 +1,24 @@
-#include "colors.h"
+#include "functions.h"
 #include "geometry.h"
-#include <cmath>
-#include <iostream>
-#include <sstream>
 
 #ifndef _transformation_h_
 #define _transformation_h_
 
-//–––––––––––––––––––––– Struct Transformation –––––––––––––––––––––––––––––––––––
+//–––––––––––––––––––––– Unit vectors i, j, k
+//–––––––––––––––––––––––––––––––––––
 
-/*float IDENTITY_MATR4x4[4][4] = {{1.0, 0.0, 0.0, 0.0},
-                                {0.0, 1.0, 0.0, 0.0},
-                                {0.0, 0.0, 1.0, 0.0},
-                                {0.0, 0.0, 0.0, 1.0}};*/
+#define VEC_X Vec(1.0, 0.0, 0.0)
+#define VEC_Y Vec(0.0, 1.0, 0.0)
+#define VEC_Z Vec(0.0, 0.0, 1.0)
+
+//–––––––––––––––––––––– Struct Transformation –––––––––––––––––––––––––––––––––––
 
 bool are_matr_close(float [4][4], float [4][4]);
 
 void matr_prod(const float [4][4], const float [4][4], float [4][4]);
 
-struct Transformation {
 
-  //float m[4][4] = IDENTITY_MATR4x4;  //error: array must be initialized with a brace-enclosed initializer
-  //float invm[4][4] = IDENTITY_MATR4x4;
+struct Transformation {
 
   float m[4][4] = {{1.0, 0.0, 0.0, 0.0},
                    {0.0, 1.0, 0.0, 0.0},

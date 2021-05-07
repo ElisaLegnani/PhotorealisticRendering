@@ -1,8 +1,5 @@
-#include "colors.h"
 #include "hdrimage.h"
 #include <iostream>
-#include <gd.h>
-/*#include <stdio.h>*/
 
 using namespace std;
 

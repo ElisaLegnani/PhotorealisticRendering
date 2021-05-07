@@ -1,6 +1,5 @@
 #include "geometry.h"
 #include "transformation.h"
-#include <cmath>
 
 #ifndef _ray_h_
 #define _ray_h_

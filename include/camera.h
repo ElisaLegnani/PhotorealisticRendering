@@ -16,7 +16,7 @@ struct OrthogonalCamera : public Camera {
   
   Ray fire_ray(float u, float v){
     Point o = Point(-1.0, (1.0-2.0*u)*aspect_ratio, 2.0*v-1.0);
-    Vec d = Vec(1.0, 0.0, 0.0); //VEC_X
+    Vec d = VEC_X;
     return Ray(o, d, 1.0, INFINITY, 0).transform(transformation);
   }
 };
