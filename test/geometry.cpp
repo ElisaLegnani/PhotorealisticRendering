@@ -1,5 +1,29 @@
 #include "geometry.h"
 
+//–––––––––– Functions supporting tests –––––––––––––––
+
+void test_consistency(Vec t, string s="is_consistent()"){
+  if (t.is_consistent() == 0) {
+    cout << "Error: "<< s <<"." << endl;
+    abort();
+  }
+}
+
+void test_closeness(Vec t1, Vec t2, string s="is_close()"){
+  if (t1.is_close(t2) == 0) {
+    cout << "Error: "<< s <<"." << endl;
+    abort();
+  }
+}
+
+void test_not_closeness(Vec t1, Vec t2, string s="is_close()"){
+  if (t1.is_close(t2) != 0) {
+    cout << "Error: "<<s<<"." << endl;
+    abort();
+  }
+}
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
 int main() {
 
   // –––––––––––––––– Test Vec
