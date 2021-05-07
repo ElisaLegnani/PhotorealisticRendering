@@ -4,8 +4,7 @@
 #ifndef _transformation_h_
 #define _transformation_h_
 
-//–––––––––––––––––––––– Unit vectors i, j, k
-//–––––––––––––––––––––––––––––––––––
+//––––––––––––––––––––– Unit vectors i, j, k ––––––––––––––––––––––––––––––––––
 
 #define VEC_X Vec(1.0, 0.0, 0.0)
 #define VEC_Y Vec(0.0, 1.0, 0.0)

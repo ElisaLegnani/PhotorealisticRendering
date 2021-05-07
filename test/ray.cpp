@@ -56,7 +56,7 @@ int main() {
   
   Ray ray5(Point(1.0, 2.0, 3.0), Vec(6.0, 5.0, 4.0));
   
-  Transformation tr=translation(Vec(10.0, 11.0, 12.0))* rotation_x(M_PI*0.5);
+  Transformation tr=translation(Vec(10.0, 11.0, 12.0))* rotation_x(90.0);
   
   Ray transformed=ray5.transform(tr);
   

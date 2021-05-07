@@ -169,9 +169,9 @@ Transformation rz1=rotation_z(0.1);
   test_consistency(ry1, "rotation_y()");
   test_consistency(rz1, "rotation_z()");
   
-  Transformation rx2=rotation_x(M_PI*0.5);
-  Transformation ry2=rotation_y(M_PI*0.5);
-  Transformation rz2=rotation_z(M_PI*0.5);
+  Transformation rx2=rotation_x(90.0);
+  Transformation ry2=rotation_y(90.0);
+  Transformation rz2=rotation_z(90.0);
 
 // da sistemare
 if ((rx2*VEC_Y).is_close(VEC_Z) == 0 | (ry2*VEC_Z).is_close(VEC_X) == 0 | (rz2*VEC_X).is_close(VEC_Y) == 0) {
