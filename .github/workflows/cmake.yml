@@ -25,7 +25,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       
     - name: Install Catch2 (Linux)
-      run: "sudo apt-get install catch2"
+      run: "sudo apt install catch2"
       if: matrix.os == 'ubuntu-latest'
       
     - name: Install dependencies (MacOS)
