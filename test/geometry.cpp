@@ -120,5 +120,33 @@ int main() {
     abort();
   }
   
+  // –––––––––––––––– Test Normal
+
+  Normal n1(1.0, 2.0, 3.0);
+  Normal n2(4.0, 6.0, 8.0);
+  Normal n3(n1);
+  Normal n4=move(n1);
+ 
+  if (n1.is_close(n1) == 0 || n1.is_close(n2) != 0) {
+    cout << "Error: Normal constructor or is_close()." << endl;
+    abort();
+  }
+  
+  if (n1.is_close(n3) == 0) {
+    cout << "Error: Normal copy constructor." << endl;
+    abort();
+  }
+  
+  if (n1.is_close(n4) == 0) {
+    cout << "Error: Normal move constructor." << endl;
+    abort();
+  }
+  
+  n3=n2;
+  if (n2.is_close(n3) == 0) {
+    cout << "Error: Normal assignment operator." << endl;
+    abort();
+  }
+  
   return 0;
 }

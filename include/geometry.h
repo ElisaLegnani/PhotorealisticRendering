@@ -133,7 +133,7 @@ struct Normal {
   Normal(const Normal &nc)  : x{nc.x}, y{nc.y}, z{nc.z} {} // Copy constructor
   Normal(const Normal &&nm) : x{nm.x}, y{nm.y}, z{nm.z} {} // Move constructor
 
-  Normal& operator=(const Normal &n){ return *this; } // Assignment operator
+  Normal& operator=(const Normal &n){  x=n.x; y=n.y; z=n.z; return *this; } // Assignment operator
   
   bool is_close(Normal n) {
     return are_close(x, n.x) && are_close(y, n.y) && are_close(z, n.z);
