@@ -1,14 +1,13 @@
 #include "transformation.h"
 
-//–––––––––––––––––––––– Identity matrix –––––––––––––––––––––––––––––––––––
+//––––––––––––– Identity matrix –––––––––––––––––––––––––––––––––––
 
 float IDENTITY_MATR4x4[4][4] = {{1.0, 0.0, 0.0, 0.0},
                                 {0.0, 1.0, 0.0, 0.0},
                                 {0.0, 0.0, 1.0, 0.0},
                                 {0.0, 0.0, 0.0, 1.0}};
 
-//–––––––––––––––––––––– Functions for Struct Transformation
-//–––––––––––––––––––––––––––––––––––
+//––––––––––––– Functions for Struct Transformation –––––––––––––––––––––––––
 
 bool are_matr_close(float m1[4][4], float m2[4][4]) {
   for (int i{}; i < 4; ++i) {
@@ -30,8 +29,7 @@ void matr_prod(const float m1[4][4], const float m2[4][4], float m3[4][4]) {
   }
 }
 
-//–––––––––––––––––––––– Struct Transformation
-//–––––––––––––––––––––––––––––––––––
+//––––––––––––– Struct Transformation ––––––––––––––––––––––––
 
 Transformation::Transformation(float M[4][4], float invM[4][4]) {
   for (int i{}; i < 4; ++i) {
@@ -40,7 +38,7 @@ Transformation::Transformation(float M[4][4], float invM[4][4]) {
       invm[i][j] = invM[i][j];
     }
   }
-};
+}
 
 string Transformation::get_string() {
   ostringstream stream;
@@ -65,6 +63,8 @@ bool Transformation::is_consistent() {
 }
 
 Transformation Transformation::inverse() { return Transformation{invm, m}; }
+
+//––––––––––––– Transformation operators ––––––––––––––––––––––––
 
 Transformation operator*(Transformation t1, Transformation t2){
   float m_prod[4][4] = {};
@@ -97,6 +97,8 @@ Normal operator*(Transformation t, Normal n){ // n'=(M-1)^t * n
                 n.x * t.invm[0][2] + n.y * t.invm[1][2] + n.z * t.invm[2][2]);
 }
 
+//––––––––––––– Translation ––––––––––––––––––––––––
+
 Transformation translation(Vec v){
 
   float mt[4][4]={{1.0, 0.0, 0.0, v.x},
@@ -111,6 +113,8 @@ Transformation translation(Vec v){
 
   return Transformation(mt, invmt);
 }
+
+//––––––––––––– Scaling ––––––––––––––––––––––––
 
 Transformation scaling(Vec v){
 
@@ -127,10 +131,19 @@ Transformation scaling(Vec v){
   return Transformation(ms, invms);
 }
 
-Transformation rotation_x(float theta_rad){ //verifica in rad (es <lim_sup)?
+//––––––––––––– Rotations ––––––––––––––––––––––––
 
-  float sinT=sin(theta_rad);
-  float cosT=cos(theta_rad);
+//––––––––––––– X-rotation ––––––––––––––––––––––––
+
+Transformation rotation_x(float theta){
+
+  if(theta>360){
+    cerr<< "Angle input in rotation transformations must be in degree"<<endl;
+    abort();
+  }
+  
+  float sinT=sin(theta*M_PI/180);
+  float cosT=cos(theta*M_PI/180);
   
   float mrx[4][4]={{1.0, 0.0, 0.0, 0.0},
                   {0.0, cosT, -sinT, 0.0},
@@ -145,10 +158,17 @@ Transformation rotation_x(float theta_rad){ //verifica in rad (es <lim_sup)?
   return Transformation(mrx, invmrx);
 }
 
-Transformation rotation_y(float theta_rad){
+//––––––––––––– Y-rotation ––––––––––––––––––––––––
 
-  float sinT=sin(theta_rad);
-  float cosT=cos(theta_rad);
+Transformation rotation_y(float theta){
+  
+  if(theta>360){
+    cerr<< "Angle input in rotation transformations must be in degree"<<endl;
+    abort();
+  }
+  
+  float sinT=sin(theta*M_PI/180);
+  float cosT=cos(theta*M_PI/180);
   
   float mry[4][4]={{cosT, 0.0, sinT, 0.0},
                   {0.0, 1.0, 0.0, 0.0},
@@ -162,11 +182,17 @@ Transformation rotation_y(float theta_rad){
 
   return Transformation(mry, invmry);
 }
+//––––––––––––– Y-rotation ––––––––––––––––––––––––
 
-Transformation rotation_z(float theta_rad){
+Transformation rotation_z(float theta){
 
-  float sinT=sin(theta_rad);
-  float cosT=cos(theta_rad);
+  if(theta>360){
+    cerr<< "Angle input in rotation transformations must be in degree"<<endl;
+    abort();
+  }
+  
+  float sinT=sin(theta*M_PI/180);
+  float cosT=cos(theta*M_PI/180);
   
   float mrz[4][4]={{cosT, -sinT, 0.0, 0.0},
                   {sinT, cosT, 0.0, 0.0},
