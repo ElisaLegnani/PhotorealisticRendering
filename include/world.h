@@ -1,6 +1,6 @@
 #include "hitrecord.h"
-#include "ray.h"
 #include "shapes.h"
+#include <vector>
 
 #ifndef _world_h_
 #define _world_h_
@@ -21,7 +21,15 @@ struct World {
   /**
    * Add a new shape to the world
    */
-  void add(Shape s){
+  void add(Shape &s){
+    shapes.push_back(s);
   }
-  
+
+  /**
+   * Check whether a light ray intersects any of the shapes in the world 
+   */
+  //HitRecord ray_intersection(Ray ray)
+    
 };
+
+#endif

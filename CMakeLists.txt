@@ -125,5 +125,16 @@ add_test(NAME imagetracertest
     COMMAND imagetracertest
     )
     
+# world
+add_executable(worldtest
+    test/world.cpp
+    )
+
+target_link_libraries(worldtest PUBLIC trace)
+
+add_test(NAME worldtest
+    COMMAND worldtest
+    )
+
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
