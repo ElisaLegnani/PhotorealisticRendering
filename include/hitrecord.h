@@ -16,7 +16,7 @@ struct Vec2d {
   float v = 0.0;
 
   bool is_close(Vec2d vec) {
-    return are_close(x, vec.u) && are_close(y, vec.v);
+    return are_close(u, vec.u) && are_close(v, vec.v);
   }
 };
 
@@ -40,7 +40,7 @@ struct HitRecord {
   HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r)
       : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) {}
 
-  bool is_close(Hitrecord hitrec) {
+  bool is_close(HitRecord hitrec) {
     return world_point.is_close(hitrec.world_point) &&
            normal.is_close(hitrec.normal) &&
            surface_point.is_close(hitrec.surface_point) &&
