@@ -6,7 +6,9 @@
 
 /**
  * A 2D vector representing a point on a surface
- * with coordinates u, v
+ * 
+ * @param u
+ * @param v
  */
 struct Vec2d {
 
@@ -20,12 +22,12 @@ struct Vec2d {
 
 /**
  * A struct containing information about a ray & shape intersection
- * Parameters:
- *  - `world_point`
- *  - `normal`
- *  - `surface_point`
- *  - `t`
- *  - `ray`
+ *
+ * @param world_point
+ * @param normal
+ * @param surface_point
+ * @param t
+ * @param ray
  */
 struct HitRecord {
 
@@ -34,6 +36,9 @@ struct HitRecord {
   Vec2d surface_point;
   float t;
   Ray ray;
+
+  HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r)
+      : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) {}
 
   bool is_close(Hitrecord hitrec) {
     return world_point.is_close(hitrec.world_point) &&
