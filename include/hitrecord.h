@@ -12,8 +12,10 @@
  */
 struct Vec2d {
 
-  float u = 0.0;
-  float v = 0.0;
+  float u;
+  float v;
+  
+  Vec2d(float U=0.0, float V=0.0) : u(U),v(V){}
 
   bool is_close(Vec2d vec) {
     return are_close(u, vec.u) && are_close(v, vec.v);
@@ -37,6 +39,7 @@ struct HitRecord {
   float t;
   Ray ray;
 
+  HitRecord();
   HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r)
       : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) {}
 

@@ -14,6 +14,7 @@ enable_testing()
 add_library(trace
     src/hdrimage.cpp
     src/transformation.cpp
+    src/shapes.cpp
     )
 
 
