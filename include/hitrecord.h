@@ -38,10 +38,12 @@ struct HitRecord {
   Vec2d surface_point;
   float t;
   Ray ray;
+  bool init = false;
 
-  HitRecord();
+  HitRecord(){ init = false; }
+
   HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r)
-      : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) {}
+      : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) { init = true; }
 
   bool is_close(HitRecord hitrec) {
     return world_point.is_close(hitrec.world_point) &&

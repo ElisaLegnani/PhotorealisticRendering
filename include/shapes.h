@@ -3,9 +3,6 @@
 #include "ray.h"
 #include "hitrecord.h"
 
-// tutto in sospesssooooo
-// https://stackoverflow.com/questions/7425241/how-to-return-null-object-in-c
-
 #ifndef _shapes_h_
 #define _shapes_h_
 

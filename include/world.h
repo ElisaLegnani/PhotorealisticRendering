@@ -1,6 +1,7 @@
 #include "hitrecord.h"
 #include "shapes.h"
 #include <vector>
+#include <memory>
 
 #ifndef _world_h_
 #define _world_h_
@@ -14,22 +15,30 @@
  */
 struct World {
 
-  vector<Shape> shapes;
+  vector<shared_ptr<Shape>> shapes;
 
-  World(){};
-
-  /**
+    /**
    * Add a new shape to the world
    */
-  void add(Shape &s){
+  void add(shared_ptr<Shape> s){
     shapes.push_back(s);
   }
 
   /**
    * Check whether a light ray intersects any of the shapes in the world 
    */
-  //HitRecord ray_intersection(Ray ray)
-    
+  HitRecord ray_intersection(Ray ray){
+    HitRecord closest;
+    for(int i{}; i<shapes.size(); ++i){
+      HitRecord intersection = shapes[i]->ray_intersection(ray);
+      if(intersection.init){
+        if(!closest.init || intersection.t < closest.t){
+          closest = intersection;
+        }
+      }
+    } 
+    return closest;
+  }    
 };
 
 #endif
