@@ -1,46 +1,47 @@
 #include "hdrimage.h"
+#include "catch_amalgamated.hpp"
 #include <iostream>
 #include <sstream>
 
+#define CATCH_CONFIG_MAIN
+
 using namespace std;
 
-int main() {
+HdrImage img(7, 4);
 
-  HdrImage img(7, 4);
+TEST_CASE("Hdrimage constructor", "[hdrimage]") {
+  REQUIRE(img.width == 7);
+  REQUIRE(img.height == 4);
+}
 
-//  Test constructor
-  
-  if (img.width != 7 || img.height != 4) {
-    cerr << "Error: constructor sets wrong width and height." << endl;
-    abort();
-  }
+TEST_CASE("Hdrimage valid_coordinates", "[hdrimage]") {
+  REQUIRE(img.valid_coordinates(0, 0));
+  REQUIRE(img.valid_coordinates(6, 3));
+  REQUIRE(!img.valid_coordinates(-1, 0));
+  REQUIRE(!img.valid_coordinates(0, -1));
+}
 
-  //  Test valid_coordinates()
-  
-  if (img.valid_coordinates(0, 0) == 0 || img.valid_coordinates(6, 3) == 0 ||
-      img.valid_coordinates(-1, 0) != 0 || img.valid_coordinates(0, -1) != 0) {
-    cerr << "Error: valid_coordinates() method." << endl;
-    abort();
-  }
+TEST_CASE("Hdrimage pixel_offset", "[hdrimage]") {
+  REQUIRE(img.pixel_offset(0, 0) == 0);
+  REQUIRE(img.pixel_offset(3, 2) == 17);
+  REQUIRE(img.pixel_offset(6, 3) == (7 * 4 - 1));
+}
 
-  if (img.pixel_offset(0, 0) != 0 || img.pixel_offset(3, 2) != 17 ||
-      img.pixel_offset(6, 3) != (7 * 4 - 1)) {
-    cerr << "Error: pixel_offset() method." << endl;
-    abort();
-  }
+TEST_CASE("Hdrimage get_pixel", "[hdrimage]") {
 
   Color reference_color = Color(1.0, 2.0, 3.0);
   img.set_pixel(3, 2, reference_color);
 
-  if (img.get_pixel(3, 2).is_color_close(reference_color) == 0) {
-    cerr << "Error: get_pixel() method." << endl;
-    abort();
-  }
+  REQUIRE(img.get_pixel(3, 2).is_color_close(reference_color));
+}
 
-  // Test save_pfm
+// ––––––––––––––––– Test PFM methods  –––––––––––––––––
+
+stringstream sstr;
+
+TEST_CASE("Hdrimage save_pfm", "[hdrimage]") {
 
   HdrImage img2(3, 2);
-
   img2.set_pixel(0, 0, Color(1.0e1, 2.0e1, 3.0e1));
   img2.set_pixel(1, 0, Color(4.0e1, 5.0e1, 6.0e1));
   img2.set_pixel(2, 0, Color(7.0e1, 8.0e1, 9.0e1));
@@ -57,77 +58,68 @@ int main() {
       0x00, 0x00, 0x20, 0x42, 0x00, 0x00, 0x48, 0x42, 0x00, 0x00, 0x70, 0x42,
       0x00, 0x00, 0x8c, 0x42, 0x00, 0x00, 0xa0, 0x42, 0x00, 0x00, 0xb4, 0x42};
 
-  stringstream sstr;
   img2.save_pfm(sstr, Endianness::little_endian);
 
-  //  conversione da unsigned char a string
+  // conversione da unsigned char a string
   string ref_string(reference_bytes,
                     reference_bytes +
                         sizeof(reference_bytes) / sizeof(reference_bytes[0]));
 
-  if (sstr.str() != ref_string) {
-    cerr << "Error: save_pfm() method." << endl;
-    abort();
-  }
+  REQUIRE(sstr.str() == ref_string);
+}
 
-  // Test pfm_read_line
+TEST_CASE("Hdrimage pfm_read_line", "[hdrimage]") {
 
   stringstream sstr2;
   sstr2 << "hello,\nworld";
 
-  if (read_line(sstr2) != "hello," || read_line(sstr2) != "world" ||
-      read_line(sstr2) != "") {
-    cerr << "Error: pfm_read_line() method." << endl;
-    abort();
-  }
+  REQUIRE(read_line(sstr2) == "hello,");
+  REQUIRE(read_line(sstr2) == "world");
+  REQUIRE(read_line(sstr2) == "");
+}
 
-  // Test pfm_pase_img_size
+TEST_CASE("Hdrimage pfm_pase_img_size", "[hdrimage]") {
 
   vector<int> ref_img_size = {3, 2};
 
-  if (parse_img_size("3 2") != ref_img_size) {
-    cerr << "Error: pfm_pase_img_size() method." << endl;
-    abort();
-  }
+  REQUIRE(parse_img_size("3 2") == ref_img_size);
+}
 
-  // Test read_pfm
+TEST_CASE("Hdrimage read_pfm", "[hdrimage]") {
 
   HdrImage img3(sstr);
-  
-  if (img3.width != 3 || img3.height != 2) {
-    cerr << "Error: read_pfm() method." << endl;
-    abort();
-  }
-  
-  if (img3.get_pixel(0, 0).is_color_close(Color(1.0e1, 2.0e1, 3.0e1)) == 0 ||
-      img3.get_pixel(2, 1).is_color_close(Color(7.0e2, 8.0e2, 9.0e2)) == 0) {
-    cerr << "Error: read_pfm() method." << endl;
-    abort();
-  }
 
-  // Test average_luminosity
+  REQUIRE(img3.width == 3);
+  REQUIRE(img3.height == 2);
+  REQUIRE(img3.get_pixel(0, 0).is_color_close(Color(1.0e1, 2.0e1, 3.0e1)));
+  REQUIRE(img3.get_pixel(2, 1).is_color_close(Color(7.0e2, 8.0e2, 9.0e2)));
+}
 
-  HdrImage img4(2, 1);
+// ––––––––––––––––– Test average_luminosity  –––––––––––––––––
+
+HdrImage img4(2, 1);
+
+TEST_CASE("Hdrimage average_luminosity", "[hdrimage]") {
 
   img4.set_pixel(0, 0, Color(5.0, 10.0, 15.0));
   img4.set_pixel(1, 0, Color(500.0, 1000.0, 1500.0));
 
-  if ((img4.average_luminosity(0.0) == 100) == 0) {
-    cerr << "Error: average_luminosity() method." << endl;
-    abort();
-  }
+  REQUIRE(img4.average_luminosity(0.0) == 100);
+}
 
-  //  Test normalize_image
+// ––––––––––––––––– Test normalize_image –––––––––––––––––
+
+TEST_CASE("Hdrimage normalize_image", "[hdrimage]") {
 
   img4.normalize_image(1000.0, 100.0);
 
-  if (img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)) == 0 ||
-      img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)) == 0) {
-    cerr << "Error: normalize_image() method." << endl;
-    abort();
-  }
+  REQUIRE(img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)));
+  REQUIRE(img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)));
+}
 
-  //  Test clamp_image
+// ––––––––––––––––– Test clamp_image –––––––––––––––––
+
+TEST_CASE("Hdrimage clamp_image", "[hdrimage]") {
 
   img4.set_pixel(0, 0, Color(0.5e1, 1.0e1, 1.5e1));
   img4.set_pixel(1, 0, Color(0.5e3, 1.0e3, 1.5e3));
@@ -136,14 +128,11 @@ int main() {
 
   // Just check that the R/G/B values are within the expected boundaries
   for (int i = 0; i < img4.pixels.size(); i++) {
-
-    if (img4.pixels[i].r<0 & img4.pixels[i].r> 1 ||
-        img4.pixels[i].g<0 & img4.pixels[i].g> 1 ||
-        img4.pixels[i].b<0 & img4.pixels[i].b> 1) {
-      cerr << "Error: clamp_image() method." << endl;
-      abort();
-    }
+    REQUIRE(img4.pixels[i].r > 0);
+    REQUIRE(img4.pixels[i].r < 1);
+    REQUIRE(img4.pixels[i].g > 0);
+    REQUIRE(img4.pixels[i].g < 1);
+    REQUIRE(img4.pixels[i].b > 0);
+    REQUIRE(img4.pixels[i].b < 1);
   }
-
-  return 0;
 }
