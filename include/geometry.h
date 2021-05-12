@@ -102,7 +102,7 @@ struct Point {
 
   string get_string(){ return xyz_string("Point",x,y,z);}
   
-  Vec to_vec(){return Vec(z,y,z);}
+  Vec to_vec(){return Vec(x,y,z);}
   
 };
 
