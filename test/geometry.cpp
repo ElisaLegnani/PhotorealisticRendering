@@ -1,7 +1,8 @@
 #include "geometry.h"
+#include "catch_amalgamated.hpp"
 
 #define CATCH_CONFIG_MAIN
-#include <catch2/catch.hpp>
+
 
 // ––––––––––––––––– Test Vec –––––––––––––––––
 

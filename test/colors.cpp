@@ -1,9 +1,9 @@
 #include "colors.h"
 #include <iostream>
+#include "catch_amalgamated.hpp"
 
 #define CATCH_CONFIG_MAIN // This tells Catch to provide a main() - only do this
                           // in one cpp file
-#include <catch2/catch.hpp>
 
 Color c1(1.0, 2.0, 3.0);
 Color c2(5.0, 7.0, 9.0);

@@ -14,6 +14,7 @@ enable_testing()
 add_library(trace
     src/hdrimage.cpp
     src/transformation.cpp
+    src/catch_amalgamated.cpp
     )
 
 # PATH TO MY LIBRARIES:
@@ -38,7 +39,6 @@ target_link_libraries(trace PUBLIC ${GDLIB_LIBRARIES})
 
 target_link_libraries(raytracer PUBLIC trace)
 
-find_package(Catch2 REQUIRED)
 
 # TESTS:
 
@@ -47,7 +47,7 @@ add_executable(colortest
     test/colors.cpp
     )
 
-target_link_libraries(colortest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(colortest PUBLIC trace)
 
 add_test(NAME colortest
     COMMAND colortest 
@@ -57,7 +57,7 @@ add_test(NAME colortest
 add_executable(hdrimagetest
     test/hdrimage.cpp
     )
-target_link_libraries(hdrimagetest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(hdrimagetest PUBLIC trace)
 
 add_test(NAME hdrimagetest
     COMMAND hdrimagetest
@@ -68,7 +68,7 @@ add_executable(geometrytest
     test/geometry.cpp
     )
 
-target_link_libraries(geometrytest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(geometrytest PUBLIC trace)
 
 add_test(NAME geometrytest
     COMMAND geometrytest
@@ -79,7 +79,7 @@ add_executable(transformationtest
     test/transformation.cpp
     )
 
-target_link_libraries(transformationtest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(transformationtest PUBLIC trace)
 
 add_test(NAME transformationtest
     COMMAND transformationtest
@@ -90,7 +90,7 @@ add_executable(raytest
     test/ray.cpp
     )
 
-target_link_libraries(raytest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(raytest PUBLIC trace)
 
 add_test(NAME raytest
     COMMAND raytest
@@ -101,7 +101,7 @@ add_executable(cameratest
     test/camera.cpp
     )
 
-target_link_libraries(cameratest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(cameratest PUBLIC trace)
 
 add_test(NAME cameratest
     COMMAND cameratest
@@ -112,7 +112,7 @@ add_executable(imagetracertest
     test/imagetracer.cpp
     )
 
-target_link_libraries(imagetracertest PUBLIC trace PRIVATE Catch2::Catch2)
+target_link_libraries(imagetracertest PUBLIC trace)
 
 add_test(NAME imagetracertest
     COMMAND imagetracertest
