@@ -104,7 +104,7 @@ add_test(NAME raytest
     COMMAND raytest
     )
 
-# camera
+# cameratest
 add_executable(cameratest
     test/camera.cpp
     )
@@ -115,7 +115,7 @@ add_test(NAME cameratest
     COMMAND cameratest
     )
 
-# imagetracer
+# imagetracertest
 add_executable(imagetracertest
     test/imagetracer.cpp
     )
@@ -125,8 +125,19 @@ target_link_libraries(imagetracertest PUBLIC trace)
 add_test(NAME imagetracertest
     COMMAND imagetracertest
     )
+
+# shapetest
+add_executable(shapetest
+    test/shapes.cpp
+    )
+
+target_link_libraries(shapetest PUBLIC trace)
+
+add_test(NAME shapetest
+    COMMAND shapetest
+    )
     
-# world
+# worldtest
 add_executable(worldtest
     test/world.cpp
     )
