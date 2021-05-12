@@ -20,11 +20,10 @@ TEST_CASE("Vec copy constructor", "[vector]") { REQUIRE(v1.is_close(v3)); }
 
 TEST_CASE("Vec move constructor", "[vector]") { REQUIRE(v1.is_close(v4)); }
 
-/*v3=v2; // error:'v3’ does not name a type! perchè?
-
 TEST_CASE( "Vec assignment operator", "[vector]" ) {
+    v3=v2;
     REQUIRE( v2.is_close(v3) );
-}*/
+}
 
 TEST_CASE("Vec operators", "[vector]") {
   REQUIRE((-v1).is_close(Vec(-1.0, -2.0, -3.0)));
@@ -55,11 +54,10 @@ TEST_CASE("Point copy constructor", "[point]") { REQUIRE(p1.is_close(p3)); }
 
 TEST_CASE("Point move constructor", "[point]") { REQUIRE(p1.is_close(p4)); }
 
-/*p3=p2;
-
 TEST_CASE( "Point assignment operator", "[point]" ) {
+    p3=p2;
     REQUIRE( p2.is_close(p3) );
-}*/
+}
 
 TEST_CASE("Point operators", "[point]") {
   REQUIRE((-p1).is_close(Point(-1.0, -2.0, -3.0)));
@@ -118,8 +116,7 @@ TEST_CASE("Normal copy constructor", "[normal]") { REQUIRE(n1.is_close(n3)); }
 
 TEST_CASE("Normal move constructor", "[normal]") { REQUIRE(n1.is_close(n4)); }
 
-/*n3=n2;
-
-TEST_CASE("Normal move constructor", "[normal]") {
+TEST_CASE("Normal assignment operator", "[normal]") {
+  n3=n2;
   REQUIRE(n2.is_close(n3));
-}*/
+}
