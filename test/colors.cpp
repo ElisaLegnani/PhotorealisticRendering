@@ -10,10 +10,10 @@ Color c2(5.0, 7.0, 9.0);
 float x = 5.0;
 
 TEST_CASE("Color operators", "[color]") {
-  REQUIRE((c1 + c2).is_color_close(Color(6.0, 9.0, 12.0)));
-  REQUIRE((c2 - c1).is_color_close(Color(4.0, 5.0, 6.0)));
-  REQUIRE((c1 * c2).is_color_close(Color(5.0, 14.0, 27.0)));
-  REQUIRE((c1 * x).is_color_close(Color(5.0, 10.0, 15.0)));
+  REQUIRE((c1 + c2).is_close(Color(6.0, 9.0, 12.0)));
+  REQUIRE((c2 - c1).is_close(Color(4.0, 5.0, 6.0)));
+  REQUIRE((c1 * c2).is_close(Color(5.0, 14.0, 27.0)));
+  REQUIRE((c1 * x).is_close(Color(5.0, 10.0, 15.0)));
 }
 
 TEST_CASE("Color luminosity", "[color]") {

@@ -32,7 +32,7 @@ TEST_CASE("Hdrimage get_pixel", "[hdrimage]") {
   Color reference_color = Color(1.0, 2.0, 3.0);
   img.set_pixel(3, 2, reference_color);
 
-  REQUIRE(img.get_pixel(3, 2).is_color_close(reference_color));
+  REQUIRE(img.get_pixel(3, 2).is_close(reference_color));
 }
 
 // ––––––––––––––––– Test PFM methods  –––––––––––––––––
@@ -91,8 +91,8 @@ TEST_CASE("Hdrimage read_pfm", "[hdrimage]") {
 
   REQUIRE(img3.width == 3);
   REQUIRE(img3.height == 2);
-  REQUIRE(img3.get_pixel(0, 0).is_color_close(Color(1.0e1, 2.0e1, 3.0e1)));
-  REQUIRE(img3.get_pixel(2, 1).is_color_close(Color(7.0e2, 8.0e2, 9.0e2)));
+  REQUIRE(img3.get_pixel(0, 0).is_close(Color(1.0e1, 2.0e1, 3.0e1)));
+  REQUIRE(img3.get_pixel(2, 1).is_close(Color(7.0e2, 8.0e2, 9.0e2)));
 }
 
 // ––––––––––––––––– Test average_luminosity  –––––––––––––––––
@@ -113,8 +113,8 @@ TEST_CASE("Hdrimage normalize_image", "[hdrimage]") {
 
   img4.normalize_image(1000.0, 100.0);
 
-  REQUIRE(img4.get_pixel(0, 0).is_color_close(Color(0.5e2, 1.0e2, 1.5e2)));
-  REQUIRE(img4.get_pixel(1, 0).is_color_close(Color(0.5e4, 1.0e4, 1.5e4)));
+  REQUIRE(img4.get_pixel(0, 0).is_close(Color(0.5e2, 1.0e2, 1.5e2)));
+  REQUIRE(img4.get_pixel(1, 0).is_close(Color(0.5e4, 1.0e4, 1.5e4)));
 }
 
 // ––––––––––––––––– Test clamp_image –––––––––––––––––
