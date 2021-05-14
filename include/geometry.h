@@ -54,11 +54,9 @@ struct Vec {
 
   float norm() { return sqrt(this->squared_norm()); } //  ||v||
 
-  void normalize() { // v -> v/||v||
+  Vec normalize() { // v -> v/||v||
     float norm = this->norm();
-    x /= norm;
-    y /= norm;
-    z /= norm;
+    return Vec(x /= norm, y /= norm, z /= norm);
   }
 };
 
@@ -142,6 +140,15 @@ struct Normal {
   }
 
   string get_string() { return xyz_string("Normal",x,y,z);}
+
+  float squared_norm() { return x*x + y*y + z*z; } //  ||v||2
+
+  float norm() { return sqrt(this->squared_norm()); } //  ||v||
+
+  Normal normalize() { // v -> v/||v||
+    float norm = this->norm();
+    return Normal(x /= norm, y /= norm, z /= norm);
+  }
 
 };
 
