@@ -7,10 +7,53 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 ## Installation
 
-A C++ compiler is needed (C++11 or higher).
+### Dependencies
+
+A C++ compiler is needed (C++14 or higher).
 You also have to install the following dependencies:
 - [Cmake](https://cmake.org/) (version 3.12 or higher);
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
+
+### Install from git repository
+
+Clone this repository with the commands: 
+```sh
+$ git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
+$ cd PhotorealisticRendering
+```
+
+Compile:
+
+```sh
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
+
+Executables files can be found in the `build` directory.
+
+For testing, run in the `build` directory:
+
+```sh
+$ ctest
+```
+
+## Usage
+
+### Convert HDR image to LDR
+
+```sh
+$ ./raytracer pfm2ldr
+```
+
+### Create demo image
+
+```sh
+$ ./raytracer demo
+```
+
+More infos coming soon!
 
 
 ## License
