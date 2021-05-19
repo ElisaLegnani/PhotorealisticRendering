@@ -12,6 +12,7 @@ struct Ray {
   float tmax = INFINITY;
   int depth = 0;
 
+  Ray(){};
   Ray(Point o, Vec d) : origin{o}, dir{d} {}
   Ray(Point o, Vec d, float tm, float tM, int n) : origin{o}, dir{d} , tmin{tm}, tmax{tM}, depth{n} {}
 

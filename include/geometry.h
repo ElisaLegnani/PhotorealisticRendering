@@ -54,11 +54,9 @@ struct Vec {
 
   float norm() { return sqrt(this->squared_norm()); } //  ||v||
 
-  void normalize() { // v -> v/||v||
+  Vec normalize() { // v -> v/||v||
     float norm = this->norm();
-    x /= norm;
-    y /= norm;
-    z /= norm;
+    return Vec(x /= norm, y /= norm, z /= norm);
   }
 };
 
@@ -102,6 +100,8 @@ struct Point {
 
   string get_string(){ return xyz_string("Point",x,y,z);}
   
+  Vec to_vec(){return Vec(x,y,z);}
+  
 };
 
 inline Point operator+(const Point &p, const Vec &v) {
@@ -117,7 +117,7 @@ inline Point operator*(const Point &p, const float &c) {
 }
 inline Point operator*(const float &c, const Point &p) { return p * c; }
 
-inline Point operator-(const Point &p) { return p * (-1); }
+inline Point operator-(const Point &p) { return p * (-1); } //?
 
 inline Vec operator-(const Point &p1, const Point &p2) {
   return _diff<Point, Point, Vec>(p1, p2);
@@ -141,6 +141,17 @@ struct Normal {
 
   string get_string() { return xyz_string("Normal",x,y,z);}
 
+  float squared_norm() { return x*x + y*y + z*z; } //  ||v||2
+
+  float norm() { return sqrt(this->squared_norm()); } //  ||v||
+
+  Normal normalize() { // v -> v/||v||
+    float norm = this->norm();
+    return Normal(x /= norm, y /= norm, z /= norm);
+  }
+
 };
+
+inline Normal operator-(const Normal &n) { return _prod<Normal, Normal>(n, -1.0); }
 
 #endif

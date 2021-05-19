@@ -3,10 +3,12 @@
 
 #define CATCH_CONFIG_MAIN
 
+// Setup
 HdrImage image(4, 2);
-PerspectiveCamera camera(1.0, 2.0);
+shared_ptr<Camera> camera = make_shared<PerspectiveCamera>(1.0, 2.0);
 ImageTracer tracer(image, camera);
 
+// Test orientation
 TEST_CASE("ImageTracer orientation", "[imagetracer]") {
 
   Ray top_left_ray = tracer.fire_ray(0, 0, 0.0, 0.0);

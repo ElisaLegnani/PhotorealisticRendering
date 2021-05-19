@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
 
 project(raytracer
     VERSION 1.0
@@ -14,6 +15,7 @@ enable_testing()
 add_library(trace
     src/hdrimage.cpp
     src/transformation.cpp
+    src/shapes.cpp
     src/catch_amalgamated.cpp
     )
 
@@ -96,7 +98,7 @@ add_test(NAME raytest
     COMMAND raytest
     )
 
-# camera
+# cameratest
 add_executable(cameratest
     test/camera.cpp
     )
@@ -107,7 +109,7 @@ add_test(NAME cameratest
     COMMAND cameratest
     )
 
-# imagetracer
+# imagetracertest
 add_executable(imagetracertest
     test/imagetracer.cpp
     )
@@ -117,6 +119,28 @@ target_link_libraries(imagetracertest PUBLIC trace)
 add_test(NAME imagetracertest
     COMMAND imagetracertest
     )
+
+# shapetest
+add_executable(shapetest
+    test/shapes.cpp
+    )
+
+target_link_libraries(shapetest PUBLIC trace)
+
+add_test(NAME shapetest
+    COMMAND shapetest
+    )
     
+# worldtest
+add_executable(worldtest
+    test/world.cpp
+    )
+
+target_link_libraries(worldtest PUBLIC trace)
+
+add_test(NAME worldtest
+    COMMAND worldtest
+    )
+
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
