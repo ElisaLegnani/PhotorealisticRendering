@@ -220,7 +220,7 @@ void HdrImage::write_ldr_image(const string &filename, float gamma) {
   f = fopen(file, "wb");
 
   string filename_str = string (filename);
-  size_t find = filename_str.find(".");
+  size_t find = filename_str.find_last_of(".");
   string format = filename_str.substr(find);
 
   // Output the image to the disk file in PNG format
