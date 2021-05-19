@@ -104,9 +104,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
   // Place two other balls in the bottom/left part of the cube, so that we can
   // check if there are issues with the orientation of the image
   world.add(make_shared<Sphere>(translation(Vec(0.0, 0.0, -0.5)) *
-                                scaling(Vec(0.05, 0.05, 0.05))));
+                                scaling(Vec(0.1, 0.1, 0.1))));
   world.add(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
-                                scaling(Vec(0.05, 0.05, 0.05))));
+                                scaling(Vec(0.1, 0.1, 0.1))));
 
   // Initialize a camera
   Transformation camera_tr =
