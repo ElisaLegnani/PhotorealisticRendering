@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(raytracer
@@ -14,8 +14,8 @@ enable_testing()
 add_library(trace
     src/hdrimage.cpp
     src/transformation.cpp
+    src/catch_amalgamated.cpp
     )
-
 
 # PATH TO MY LIBRARIES:
 target_include_directories(trace PUBLIC
@@ -27,10 +27,6 @@ target_include_directories(trace PUBLIC
 include(FindPkgConfig)
 pkg_check_modules(GDLIB REQUIRED gdlib)
 
-#include_directories(${GDLIB_INCLUDE_DIRS})
-#link_directories(${GDLIB_LIBRARY_DIRS})
-#link_libraries(${GDLIB_LIBRARIES})
-
 # EXECUTABLE:
 add_executable(raytracer
     src/raytracer.cpp
@@ -41,14 +37,11 @@ target_link_directories(trace PUBLIC ${GDLIB_LIBRARY_DIRS})
 target_compile_options(trace PUBLIC ${GDLIB_CFLAGS})
 target_link_libraries(trace PUBLIC ${GDLIB_LIBRARIES})
 
-#target_include_directories(raytracer PUBLIC ${GDLIB_INCLUDE_DIRS})
-#target_link_directories(raytracer PUBLIC ${GDLIB_LIBRARY_DIRS})
-#target_compile_options(raytracer PUBLIC ${GDLIB_CFLAGS})
-#target_link_libraries(raytracer PUBLIC ${GDLIB_LIBRARIES} trace)
 target_link_libraries(raytracer PUBLIC trace)
 
 
 # TESTS:
+
 #  colortest
 add_executable(colortest
     test/colors.cpp
