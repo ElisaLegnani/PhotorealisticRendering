@@ -32,7 +32,7 @@ struct Color {
 
 //  Similarity level: need for test porpuse
   
-  bool is_color_close(Color c) {
+  bool is_close(Color c) {
     return are_close(r, c.r) && are_close(g, c.g) && are_close(b, c.b);
   }
 
