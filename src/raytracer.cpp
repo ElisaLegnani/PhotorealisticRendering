@@ -42,11 +42,14 @@ int main(int argc, char *argv[]) {
     img.clamp_image();
 
     img.write_ldr_image(out_filename, gamma);
+    cout << "LDR image written to " << out_filename << endl;
 
   }
 
   else if (strcmp(argv[1], "demo") == 0) {
 
+    string out_pfm_filename;
+    string out_png_filename;
     string cameratype;
     int width, height;
     float angle_deg;
@@ -60,15 +63,21 @@ int main(int argc, char *argv[]) {
       cin >> height;
       cout << "Insert angle of view (deg): ";
       cin >> angle_deg;
+      cout << "Insert output PFM filename: ";
+      cin >> out_pfm_filename;
+      cout << "Insert output PNG filename: ";
+      cin >> out_png_filename;
     }
     else {
       cameratype = argv[2];
       width = atoi(argv[3]);
       height = atoi(argv[4]);
       angle_deg = atof(argv[5]);
+      out_pfm_filename = argv[6];
+      out_png_filename = argv[7];
     }
 
-    demo(width, height, angle_deg, cameratype, "demo.pfm", "demo.png");
+    demo(width, height, angle_deg, cameratype, out_pfm_filename, out_png_filename);
   }
 
   return 0;
@@ -123,12 +132,12 @@ void demo(int width, int height, float angle_deg, string cameratype,
   // Save the HDR image
   ofstream stream(pfm_output);
   tracer.image.save_pfm(stream, Endianness::little_endian);
-  cout << "HDR demo image written to demo.pfm" << endl;
+  cout << "HDR demo image written to " << pfm_output << endl;
 
   // Apply tone-mapping to the image
   tracer.image.normalize_image(1.0);
   tracer.image.clamp_image();
 
   tracer.image.write_ldr_image(png_output, 1.0);
-  cout << "PNG demo image written to demo.png" << endl;
+  cout << "PNG demo image written to " << png_output << endl;
 }
