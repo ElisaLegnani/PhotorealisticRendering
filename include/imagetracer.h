@@ -2,6 +2,8 @@
 #include "camera.h"
 #include "colors.h"
 #include <functional>
+#include <iostream>
+#include <memory>
 
 #ifndef _imageracer_h_
 #define _imagetracer_h_
@@ -9,14 +11,14 @@
 struct ImageTracer {
 
   HdrImage image;
-  Camera &camera;
+  shared_ptr<Camera> camera;
 
-  ImageTracer(HdrImage img, Camera &cam): image{img}, camera{cam} {};
+  ImageTracer(HdrImage img, shared_ptr<Camera> cam): image{img}, camera{cam} {};
 
   Ray fire_ray(int col, int row, float u_pixel=0.5, float v_pixel=0.5){
     float u = (col + u_pixel) / image.width;
     float v = 1.0 - (row + v_pixel) / image.height;
-    return camera.fire_ray(u,v);
+    return camera->fire_ray(u,v);
   }
 
   void fire_all_rays(function<Color(Ray)> func){

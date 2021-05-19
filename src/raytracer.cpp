@@ -74,13 +74,13 @@ void demo(int width, int height, float angle_deg, string cameratype, string pfm_
 
   // Initialize a camera
   Transformation camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 0.0));
-  /*if(cameratype == "orthogonal") {
-    OrthogonalCamera camera(width / height, camera_tr);
+  shared_ptr<Camera> camera;
+
+  if(cameratype == "orthogonal") {
+    camera = make_shared<OrthogonalCamera>(width / height, camera_tr);
   } else if(cameratype == "perspective") {
-    PerspectiveCamera camera(1.0, width / height, camera_tr);
-  }*/
-  
-  OrthogonalCamera camera(width / height, camera_tr);
+    camera = make_shared<PerspectiveCamera>(1.0, width / height, camera_tr);
+  }
 
   // Run the ray-tracer
   ImageTracer tracer(image, camera);

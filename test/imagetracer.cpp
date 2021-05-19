@@ -28,7 +28,7 @@ int main() {
 
   //Setup
   HdrImage image(4, 2);
-  PerspectiveCamera camera(1.0, 2.0);
+  shared_ptr<Camera> camera = make_shared<PerspectiveCamera>(1.0, 2.0);
   ImageTracer tracer(image, camera);
 
   // Test orientation
