@@ -24,9 +24,9 @@ struct Sphere : public Shape {
   
 };
 
-struct Plane : public Shape {
+/*struct Plane : public Shape {
   
-};
+};*/
 
 
 #endif
