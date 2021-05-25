@@ -142,5 +142,16 @@ add_test(NAME worldtest
     COMMAND worldtest
     )
 
+# materialtest
+add_executable(materialtest
+    test/materials.cpp
+    )
+
+target_link_libraries(materialtest PUBLIC trace)
+
+add_test(NAME materialtest
+    COMMAND materialtest
+    )
+
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
