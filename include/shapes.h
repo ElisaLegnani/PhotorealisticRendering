@@ -2,6 +2,7 @@
 #include "transformation.h"
 #include "ray.h"
 #include "hitrecord.h"
+#include "materials.h"
 
 #ifndef _shapes_h_
 #define _shapes_h_
@@ -17,8 +18,9 @@ struct Shape{
 struct Sphere : public Shape {
   
   Transformation transformation;
+  Material material;
 
-  Sphere(Transformation t = Transformation()) : transformation{t} {}
+  Sphere(Transformation t = Transformation(), Material m = Material()) : transformation{t}, material{m} {}
   
   HitRecord ray_intersection(Ray);
   
