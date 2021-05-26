@@ -1,3 +1,4 @@
+#include <memory>
 #include "hitrecord.h"
 #include "hdrimage.h"
 
@@ -53,6 +54,27 @@ struct CheckeredPigment : public Pigment {
         if((u % 2) == (v % 2)) return color1;
         else return color2;
     }
+};
+
+struct BRDF{
+
+    shared_ptr<Pigment> pigment;
+
+    BRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(Color(1.0, 1.0, 1.0))) : pigment{p} {} //white
+
+    Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv){
+        return Color(0.0, 0.0, 0.0); //black
+    }
+
+    //virtual Ray scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth) = 0;
+};
+
+struct Material{
+    //BRDF brdf;
+    shared_ptr<Pigment> emitted_radiance;
+
+    Material(shared_ptr<Pigment> p = make_shared<UniformPigment>(Color(0.0, 0.0, 0.0))) : emitted_radiance{p} {}
+    //Material(shared_ptr<BRDF> _brdf = make_shared<DiffuseBRDF>(), shared_ptr<Pigment> p = make_shared<UniformPigment>(Color(0.0, 0.0, 0.0))) : brdf{_brdf}, emitted_radiance{p} {}
 };
 
 #endif
