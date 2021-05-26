@@ -42,9 +42,15 @@ TEST_CASE("Shapes transformation", "[shapes]"){
 
   Ray ray2(Point(13, 0, 0), -VEC_X);
   HitRecord intersection2 = sphere.ray_intersection(ray2);
-
+  
+  INFO(intersection2.world_point.get_string());
+  INFO(intersection2.normal.get_string());
+  INFO(intersection2.surface_point.get_string());
+  INFO(intersection2.t);
+  
   REQUIRE(intersection2.init);
   REQUIRE(intersection2.is_close(HitRecord(Point(11.0, 0.0, 0.0), Normal(1.0, 0.0, 0.0), Vec2d(0.0, 0.0), 2.0, ray2)));
+
 
   //  -----------------------------------------Questo test fallisce su MAC!
   /*test_closeness(intersection5, HitRecord(Point(11.0, 0.0, 0.0), Normal(1.0, 0.0, 0.0), Vec2d(0.0, 0.0), 2.0, ray5));*/
@@ -90,7 +96,12 @@ TEST_CASE("Shapes uv coordinates", "[shapes]"){
 
   //  -----------------------------------------Questo test fallisce su MAC!
   Ray ray4(Point(0.0, -2.0, 0.0), -VEC_Y);
-  REQUIRE(sphere.ray_intersection(ray4).surface_point.is_close(Vec2d(0.75, 0.5)));
+  HitRecord intersection2=sphere.ray_intersection(ray4);
+  INFO(intersection2.world_point.get_string());
+  INFO(intersection2.normal.get_string());
+  INFO(intersection2.surface_point.get_string());
+  INFO(intersection2.t);
+  REQUIRE(intersection2.surface_point.is_close(Vec2d(0.75, 0.5)));
 
   Ray ray5(Point(2.0, 0.0, 0.5), -VEC_X);
     REQUIRE(sphere.ray_intersection(ray5).surface_point.is_close(Vec2d(0.0, 1/3)));
