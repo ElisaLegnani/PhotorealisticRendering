@@ -1,4 +1,4 @@
 *~
 *.o
 build/
-examples/
+examples/demo/image*
