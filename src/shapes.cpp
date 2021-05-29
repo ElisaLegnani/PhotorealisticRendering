@@ -33,9 +33,7 @@ HitRecord Sphere::ray_intersection(Ray ray) {
 
   float delta = b * b - 4.0 * a * c;
 
-  if (delta <= 0.0) {
-    return HitRecord();
-  }
+  if (delta <= 0.0) return HitRecord();
 
   float tmin = (-b - sqrt(delta)) / 2.0 / a;
   float tmax = (-b + sqrt(delta)) / 2.0 / a;
@@ -71,8 +69,10 @@ bool Sphere::check_if_intersection(Ray ray){
   float tmin = (-b - sqrt(delta)) / 2.0 / a;
   float tmax = (-b + sqrt(delta)) / 2.0 / a;
   
-  return (inv_ray.tmin < tmin < inv_ray.tmax || inv_ray.tmin < tmax < inv_ray.tmax);
+  return ((tmin > inv_ray.tmin && tmin < inv_ray.tmax) || (tmax > inv_ray.tmin && tmax < inv_ray.tmax));
 }
+
+//––––––––––––– Sub-struct Plane ––––––––––––––––––––––––
 
 HitRecord Plane::ray_intersection(Ray ray){
   Ray inv_ray(ray.transform(transformation.inverse()));
@@ -88,9 +88,7 @@ HitRecord Plane::ray_intersection(Ray ray){
   Point hit_point = inv_ray.at(t);
 
   float normal_z_dir=1.;
-  if (inv_ray.dir.z > 0.0){
-    normal_z_dir=-1.;
-  }
+  if (inv_ray.dir.z > 0.0) normal_z_dir=-1.;
   
        return HitRecord((transformation * hit_point),
            transformation * Normal(0.0, 0.0, normal_z_dir),
@@ -105,5 +103,5 @@ bool Plane::check_if_intersection(Ray ray){
   
   double t = - inv_ray.origin.z / inv_ray.dir.z;
 
-  return (inv_ray.tmin <t< inv_ray.tmax);
+  return (t >inv_ray.tmin && t< inv_ray.tmax);
 }
