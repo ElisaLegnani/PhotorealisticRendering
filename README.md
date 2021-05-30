@@ -162,6 +162,10 @@ $ ./generate-animation.sh
   
 ## Expectations
 
+## Contributing
+
+Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
+
 
 ## License
 
