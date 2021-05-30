@@ -5,7 +5,7 @@
 
 using namespace std;
 
-void demo(int, int, float, string, string, string);
+void demo(int, int, float, string, string);
 
 int main(int argc, char *argv[]) {
 
@@ -49,8 +49,7 @@ int main(int argc, char *argv[]) {
 
   else if (strcmp(argv[1], "demo") == 0) {
 
-    string out_pfm_filename;
-    string out_png_filename;
+    string filename;
     string cameratype;
     int width, height;
     float angle_deg;
@@ -64,28 +63,25 @@ int main(int argc, char *argv[]) {
       cin >> height;
       cout << "Insert angle of view (deg): ";
       cin >> angle_deg;
-      cout << "Insert output PFM filename: ";
-      cin >> out_pfm_filename;
-      cout << "Insert output PNG filename: ";
-      cin >> out_png_filename;
+      cout << "Insert output filename (PFM/PNG/JPG): ";
+      cin >> filename;
     }
     else {
       cameratype = argv[2];
       width = atoi(argv[3]);
       height = atoi(argv[4]);
       angle_deg = atof(argv[5]);
-      out_pfm_filename = argv[6];
-      out_png_filename = argv[7];
+      filename = argv[6];
     }
 
-    demo(width, height, angle_deg, cameratype, out_pfm_filename, out_png_filename);
+    demo(width, height, angle_deg, cameratype, filename);
   }
 
   return 0;
 }
 
 void demo(int width, int height, float angle_deg, string cameratype,
-          string pfm_output, string png_output) {
+          string output) {
 
   HdrImage image(width, height);
 
@@ -130,15 +126,35 @@ void demo(int width, int height, float angle_deg, string cameratype,
     }
   });
 
-  // Save the HDR image
+  //  Understand format output file (PFM/PNG/JPG)
+  string filename_str = string(output);
+  size_t find = filename_str.find_last_of(".");
+  string format = filename_str.substr(find);
+
+  // Output the image to the disk file in PNG format
+  if(format==".pfm"){
+    
+    ofstream stream(output);
+    tracer.image.save_pfm(stream, Endianness::little_endian);
+    cout << "PFM demo image: " << output << endl;
+  } else if (format == ".png" || format == ".jpg"){
+    
+    tracer.image.normalize_image(0.3);
+    tracer.image.clamp_image();
+
+    tracer.image.write_ldr_image(output, 1.0);
+    cout << "LDR demo image: " << output << endl;
+  }
+  
+  /*// Save the HDR image
   ofstream stream(pfm_output);
   tracer.image.save_pfm(stream, Endianness::little_endian);
-  cout << "HDR demo image written to " << pfm_output << endl;
+  cout << "PFM demo image: " << pfm_output << endl;
 
   // Apply tone-mapping to the image
-  tracer.image.normalize_image(1.0);
+  tracer.image.normalize_image(0.3);
   tracer.image.clamp_image();
 
   tracer.image.write_ldr_image(png_output, 1.0);
-  cout << "PNG demo image written to " << png_output << endl;
+  cout << "PNG demo image: " << png_output << endl;*/
 }

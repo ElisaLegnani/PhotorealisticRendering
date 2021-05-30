@@ -3,4 +3,5 @@
 build/
 examples/pfm2ldr/*.png
 examples/pfm2ldr/*.jpg
+examples/image*
 examples/demo.mp4

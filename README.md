@@ -123,13 +123,12 @@ You can choose :
   - image width;
   - image height;
   - angle of view (deg);
-  - output HDR filename (PFM);
-  - LDR filename (PNG);
+  - output filename (PFM/PNG/JPG);
   
 again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
 
 ```sh
-$ ./raytracer demo perspective width height angle output_file.pfm output_file.png
+$ ./raytracer demo perspective width height angle output_file.png
 ```
   
   ### Example:
@@ -141,19 +140,19 @@ $ ./generate-image.sh ANGLE
 ```
   which automatically run the following code:
   ```sh
-$ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.pfm demo/imageANGLE.png
+$ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.png
   ```
   
   and you just need to set the `ANGLE` (deg) from which you look at the scene.
   
   ### Animation:
   
-  In the `examples\demo` directory, there are actually already provided all images from 0 to 360 degree angle in order to create an animation, running the code:
+  In the `examples\demo` directory, there are actually already provided all images from 0 to 359 degree angle in order to create an animation, running the code:
   
   ```sh
 $ ./generate-animation.sh
 ```
-  
+*Note: it takes some minutes to generate.*
   
   <p align="center">
     <img src="./img/demo.gif" width="400">

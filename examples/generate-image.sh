@@ -7,7 +7,7 @@ fi
 
 readonly angle="$1"
 readonly angleNNN=$(printf "%03d" $angle)
-readonly pfmfile=demo/image$angleNNN.pfm
+#readonly pfmfile=demo/image$angleNNN.pfm
 readonly pngfile=demo/image$angleNNN.png
 
-time ../build/./raytracer demo perspective 640 480 $angle $pfmfile $pngfile
+time ../build/./raytracer demo perspective 640 480 $angle $pngfile
