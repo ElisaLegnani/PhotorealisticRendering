@@ -147,11 +147,12 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.png
   
   ### Animation:
   
-  In the `examples\demo` directory, there are actually already provided all images from 0 to 359 degree angle in order to create an animation, running the code:
+  In the `examples\demo` directory, you may generate an animation of the demo scene, rotating 360 deg around the objects, through running the code:
   
   ```sh
 $ ./generate-animation.sh
 ```
+  
 *Note: it takes some minutes to generate.*
   
   <p align="center">
