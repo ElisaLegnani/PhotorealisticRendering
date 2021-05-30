@@ -56,17 +56,6 @@ $ ./raytracer demo
 
 More infos coming soon!
 
-{::comment}
-it is required to provide infos as... ecc..
-{:/comment}
-
-## Play with it!
-It is provided a directory called `examples`, where you may play with the code and learn it better.
-
-{::comment}
-contenuto di cartella e istruzioni (con tendina che si apre)
-{:/comment}
-
 ## License
 
 The code is released under a MIT license. See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).

@@ -1,5 +1,5 @@
 #include "shapes.h"
-#include <cmath>
+
 //––––––––––––– Functions for Struct Sphere –––––––––––––––––––––––––
 
 Vec2d _sphere_point_to_uv(Point sp) {
