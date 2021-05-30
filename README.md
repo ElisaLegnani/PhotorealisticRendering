@@ -4,6 +4,9 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 *Note: it is a WIP project*
 
+## Explanation
+
+More infos coming soon! Stay tuned!
 
 ## Installation
 
@@ -146,11 +149,15 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.pfm demo/i
   ### Animation:
   
   In the `examples\demo` directory, there are actually already provided all images from 0 to 360 degree angle in order to create an animation, running the code:
-    ```sh
-$ ./generate-animation.sh
-  ```
   
-  ![GIF demo](img/demo.gif)
+  ```sh
+$ ./generate-animation.sh
+```
+  
+  
+  <p align="center">
+    <img src="./img/demo.gif" width="400">
+  </p>
   
 </details>
   
