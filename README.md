@@ -42,6 +42,18 @@ $ ctest
 
 ## Usage
 
+The code now implementes two features (*WIP*):
+- converts HDR image to LDR: `pfm2ldr`
+- creates a demo image: `demo`
+
+In the  `build` directory, run: 
+  
+```sh
+$ ./raytracer pfm2ldr/demo
+```
+
+For further details, see below.
+
 <details><summary><b>Convert HDR image to LDR</b></summary>
 
   In the  `build` directory: 
@@ -58,13 +70,13 @@ $ ctest
 
   You can set these properties directy by command line or being followed step by step:
 
-  Command line:
+  #### Command line:
 
   ```sh
   $ ./raytracer pfm2ldr input_file.pfm 0.3 1.0 output_file.jpg
   ```
 
-  Step by step:
+  #### Step by step:
 
   ```sh
   $ ./raytracer pfm2ldr
@@ -83,10 +95,13 @@ $ ctest
   ```sh
   $ ./raytracer pfm2ldr ../examples/pfm2ldr/memorial.pfm 0.3 1.0 ../examples/pfm2ldr/memorial_0.3_1.0.png
   ```
+
   
+ 
   <p align="center">
-  <img src="./img/example1.png" width="1000">
+  <img src="./img/example1.png" width="700">
 </p>
+  
 </details>
 
 
@@ -100,14 +115,47 @@ $ ./raytracer demo
 
 It is also provided a demo image, composed by ten white spheres on a black screen.
 
-You can choose the camera type (orthogonal/perspective), the image width and height, the angle of view (deg), the output HDR filename (PFM) and LDR filename (PNG), again directly or step by step.
+You can choose :
+  - camera type (orthogonal/perspective);
+  - image width;
+  - image height;
+  - angle of view (deg);
+  - output HDR filename (PFM);
+  - LDR filename (PNG);
+  
+again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
 
 ```sh
-$ ./raytracer demo perspective 640 480 0 output_file.pfm output_file.png
+$ ./raytracer demo perspective width height angle output_file.pfm output_file.png
 ```
+  
+  ### Example:
+  
+ You may easily try the code running in the `examples` directory:
+  
+  ```sh
+$ ./generate-image.sh ANGLE
+```
+  which automatically run the following code:
+  ```sh
+$ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.pfm demo/imageANGLE.png
+  ```
+  
+  and you just need to set the `ANGLE` (deg) from which you look at the scene.
+  
+  ### Animation:
+  
+  In the `examples\demo` directory, there are actually already provided all images from 0 to 360 degree angle in order to create an animation, running the code:
+    ```sh
+$ ./generate-animation.sh
+  ```
+  
+  ![GIF demo](img/demo.gif)
   
 </details>
   
+## Expectations
+
 
 ## License
 
