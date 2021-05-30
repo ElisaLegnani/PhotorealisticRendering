@@ -23,10 +23,11 @@ int main(int argc, char *argv[]) {
     if (argv[2] == NULL) {
       cout << "Insert input PFM filename: ";
       cin >> pfm_filename;
-      cout << "Insert a: ";
+      cout << "Insert luminosity normalization factor a (0<a<1, 0.3 by default): ";
       cin >> a;
-      cout << "Insert gamma: ";
+      cout << "Insert monitor calibration factor gamma (1.0 by default): ";
       cin >> gamma;
+      cout << "You may change a and gamma according to the image visualization preferences."<<endl;
       cout << "Insert output PNG/JPG filename: ";
       cin >> out_filename;
     } else {
@@ -55,7 +56,7 @@ int main(int argc, char *argv[]) {
     float angle_deg;
 
     if (argv[2] == NULL) {
-      cout << "Insert camera type (othogonal/perspective): ";
+      cout << "Insert camera type (orthogonal/perspective): ";
       cin >> cameratype;
       cout << "Insert demo image width: ";
       cin >> width;

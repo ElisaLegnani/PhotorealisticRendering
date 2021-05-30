@@ -1,4 +1,6 @@
 *~
 *.o
 build/
-examples/demo/image*
+examples/pfm2ldr/*.png
+examples/pfm2ldr/*.jpg
+examples/demo.mp4
