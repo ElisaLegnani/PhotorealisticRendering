@@ -13,7 +13,7 @@ struct Renderer {
 
   Renderer(World w, Color bc = BLACK): world{w}, background_color{bc} {}
 
-  virtual Color call(Ray ray) = 0;
+  virtual Color operator()(Ray ray) = 0;
 };
 
 
@@ -28,7 +28,7 @@ struct OnOffRenderer : public Renderer{
   
   OnOffRenderer(World w, Color bc = BLACK, Color c = WHITE): Renderer(w,bc), color{c} {}
   
-  Color call(Ray ray){
+  Color operator()(Ray ray){
     if(world.ray_intersection(ray).init){
       return color;
     }else{
@@ -43,7 +43,7 @@ struct FlatRenderer : public Renderer{
   
   FlatRenderer(World w, Color bc = BLACK): Renderer(w,bc) {}
   
-  Color call(Ray ray){
+  Color operator()(Ray ray){
     
     HitRecord hit = world.ray_intersection(ray);
     

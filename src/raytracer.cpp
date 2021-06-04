@@ -157,7 +157,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
     }
   });
 
-  //tracer.fire_all_rays([&](Ray ray) -> Color{ renderer->call(ray); });
+//  tracer.fire_all_rays([&](Ray ray) -> Color {(*renderer)(ray);});
 
   //  Understand format output file (PFM/PNG/JPG)
   string filename_str = string(output);
