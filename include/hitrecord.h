@@ -18,6 +18,7 @@ IN THE SOFTWARE.
 
 #include "geometry.h"
 #include "ray.h"
+#include "material.h"
 #include <string>
 
 #ifndef _hitrecord_h_
@@ -52,6 +53,7 @@ struct Vec2d {
  * @param surface_point
  * @param t
  * @param ray
+ * @param material
  */
 struct HitRecord {
 
@@ -60,6 +62,7 @@ struct HitRecord {
   Vec2d surface_point;
   float t;
   Ray ray;
+  Material material;
   bool init = false;
 
   HitRecord(){ init = false; }
