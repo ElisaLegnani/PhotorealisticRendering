@@ -38,7 +38,7 @@ struct Color {
     return are_close(r, c.r) && are_close(g, c.g) && are_close(b, c.b);
   }
 
-  float luminosity() { return (max(max(r, g), b) + min(min(r, g), b)) / 2.0; }
+  float luminosity() { return (fmax(fmax(r, g), b) + fmin(fmin(r, g), b)) / 2.0; }
 };
 
 //––––––––––––––––––––– Color white and black ––––––––––––––––––––––––––––––––––

@@ -1,10 +1,10 @@
 #ifndef _functions_h_
 #define _functions_h_
 
-#include <algorithm>
+#include <cmath>
 
 inline bool are_close(float x, float y, float epsilon = 1e-4) {
-  return abs(x - y) < epsilon;
+  return fabs(x - y) < epsilon;
 }
 
 #endif

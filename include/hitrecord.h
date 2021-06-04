@@ -1,5 +1,6 @@
 #include "geometry.h"
 #include "ray.h"
+#include <string>
 
 #ifndef _hitrecord_h_
 #define _hitrecord_h_
@@ -19,6 +20,9 @@ struct Vec2d {
 
   bool is_close(Vec2d vec) {
     return are_close(u, vec.u) && are_close(v, vec.v);
+  }
+  string get_string(){
+    return string{"Vec2d(" + to_string(u) + ", " + to_string(v) +")"};
   }
 };
 
