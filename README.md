@@ -10,7 +10,8 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 ### Dependencies
 
 A C++ compiler is needed (C++14 or higher).
-You also have to install the following dependencies:
+
+You also need to install the following dependencies:
 - [Cmake](https://cmake.org/) (version 3.12 or higher);
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
 
@@ -54,7 +55,6 @@ $ ./raytracer demo
 ```
 
 More infos coming soon!
-
 
 ## License
 
