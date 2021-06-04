@@ -1,7 +1,5 @@
 *~
 *.o
 build/
-examples/pfm2ldr/*.png
-examples/pfm2ldr/*.jpg
-examples/image*
-examples/demo.mp4
+examples/demo/img
+examples/demo/*.mp4
