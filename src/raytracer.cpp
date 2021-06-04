@@ -10,11 +10,11 @@ void demo(int, int, float, string, string);
 int main(int argc, char *argv[]) {
 
   if (argv[1] == NULL) {
-    cout << "Insert command: pfm2ldr or demo" << endl;
+    cout << "Insert command: hdr2ldr or demo" << endl;
     return 0;
   }
 
-  if (strcmp(argv[1], "pfm2ldr") == 0) {
+  if (strcmp(argv[1], "hdr2ldr") == 0) {
 
     string pfm_filename;
     string out_filename;

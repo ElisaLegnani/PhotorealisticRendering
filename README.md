@@ -46,13 +46,13 @@ $ ctest
 ## Usage
 
 The code now implementes two features (*WIP*):
-- converts HDR image to LDR: `pfm2ldr`
+- converts HDR image to LDR: `hdr2ldr`
 - creates a demo image: `demo`
 
 In the  `build` directory, run: 
   
 ```sh
-$ ./raytracer pfm2ldr/demo
+$ ./raytracer hdr2ldr/demo
 ```
 
 For further details, see below.
@@ -62,7 +62,7 @@ For further details, see below.
   In the  `build` directory: 
   
   ```sh
-  $ ./raytracer pfm2ldr
+  $ ./raytracer hdr2ldr
   ```
 
   The HDR image format supported is PFM, while LDR ones are PNG and JPG.
@@ -76,13 +76,13 @@ For further details, see below.
   #### Command line:
 
   ```sh
-  $ ./raytracer pfm2ldr input_file.pfm 0.3 1.0 output_file.jpg
+  $ ./raytracer hdr2ldr input_file.pfm 0.3 1.0 output_file.jpg
   ```
 
   #### Step by step:
 
   ```sh
-  $ ./raytracer pfm2ldr
+  $ ./raytracer hdr2ldr
   Insert input PFM filename: input_file.pfm
   Insert luminosity normalization factor a (0<a<1, 0.3 by default): 0.3
   Insert monitor calibration factor gamma (1.0 by default): 1.0
@@ -92,11 +92,11 @@ For further details, see below.
   
   ### Example:
   
-  In the `examples/pfm2ldr` directory, there is a PFM input file called `memorial.pfm`.
+  In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
   You can play with the code and parameters simply running (in the `build` directory):
   
   ```sh
-  $ ./raytracer pfm2ldr ../examples/pfm2ldr/memorial.pfm 0.3 1.0 ../examples/pfm2ldr/memorial_0.3_1.0.png
+  $ ./raytracer hdr2ldr ../examples/hdr2ldr/memorial.pfm 0.3 1.0 ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
 
   
