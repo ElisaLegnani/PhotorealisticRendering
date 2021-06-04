@@ -133,7 +133,7 @@ $ ./raytracer demo perspective width height angle output_file.png
   
   ### Example:
   
- You may easily try the code running in the `examples` directory:
+ You may easily try the code running in the `examples\demo` directory:
   
   ```sh
 $ ./generate-image.sh ANGLE
@@ -147,13 +147,13 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.png
   
   ### Animation:
   
-  In the `examples\demo` directory, you may generate an animation of the demo scene, rotating 360 deg around the objects, through running the code:
+  In the `examples\demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
+  In order to run the code, you need to install `parallel` : `sudo apt install parallel` (or `brew install parallel` if you use Homebrew).
+  This is needed to run in parallel the code and steap up the execution, otherwise it would take several minutes.
   
   ```sh
 $ ./generate-animation.sh
 ```
-  
-*Note: it takes some minutes to generate.*
   
   <p align="center">
     <img src="./img/demo.gif" width="400">
