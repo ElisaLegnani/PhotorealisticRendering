@@ -29,7 +29,7 @@ struct OnOffRenderer : public Renderer{
   OnOffRenderer(World w, Color bc = BLACK, Color c = WHITE): Renderer(w,bc), color{c} {}
   
   Color call(Ray ray){
-    if(world.ray_interaction(ray).init){
+    if(world.ray_intersection(ray).init){
       return color;
     }else{
       return background_color;
@@ -52,11 +52,12 @@ struct FlatRenderer : public Renderer{
       return background_color;
   
     }else{
-      Material material = hit.shape.material;
+      Material material = hit.material;
       
-      return (material.brdf.pigment.get_color(hit.surface_point) +
-              material.emitted_radiance.get_color(hit.surface_point));
+      return (material.brdf->pigment->get_color(hit.surface_point) +
+              material.emitted_radiance->get_color(hit.surface_point));
     }
+  }
 };
 
 #endif

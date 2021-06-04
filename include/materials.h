@@ -17,7 +17,6 @@ IN THE SOFTWARE.
 */
 
 #include "hdrimage.h"
-#include "hitrecord.h"
 #include "pcg.h"
 #include "ray.h"
 #include <memory>

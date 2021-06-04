@@ -18,6 +18,7 @@ IN THE SOFTWARE.
 
 #include "imagetracer.h"
 #include "world.h"
+#include "render.h"
 #include <iostream>
 #include <string.h>
 
@@ -143,9 +144,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
-    renderer = make_shared<OnOffRenderer>(world, Color background_color=BLACK);
+    renderer = make_shared<OnOffRenderer>(world, BLACK);
   } else if (algorithm == "flat") {
-    renderer = make_shared<FlatRenderer>(world, Color background_color=BLACK);
+    renderer = make_shared<FlatRenderer>(world, BLACK);
   }
 
   tracer.fire_all_rays([&](Ray ray) -> Color {
@@ -155,6 +156,8 @@ void demo(int width, int height, float angle_deg, string cameratype,
       return BLACK;
     }
   });
+
+  //tracer.fire_all_rays([&](Ray ray) -> Color{ renderer->call(ray); });
 
   //  Understand format output file (PFM/PNG/JPG)
   string filename_str = string(output);
