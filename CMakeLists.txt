@@ -153,5 +153,16 @@ add_test(NAME materialtest
     COMMAND materialtest
     )
 
+# pcgtest
+add_executable(pcgtest
+    test/pcg.cpp
+    )
+
+target_link_libraries(pcgtest PUBLIC trace)
+
+add_test(NAME pcgtest
+    COMMAND pcgtest
+    )
+    
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
