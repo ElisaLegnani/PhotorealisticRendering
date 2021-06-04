@@ -4,6 +4,9 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 *Note: it is a WIP project*
 
+## Explanation
+
+More infos coming soon! Stay tuned!
 
 ## Installation
 
@@ -42,19 +45,131 @@ $ ctest
 
 ## Usage
 
-### Convert HDR image to LDR
+The code now implementes two features (*WIP*):
+- converts HDR image to LDR: `hdr2ldr`
+- creates a demo image: `demo`
 
+In the  `build` directory, run: 
+  
 ```sh
-$ ./raytracer pfm2ldr
+$ ./raytracer hdr2ldr/demo
 ```
 
-### Create demo image
+For further details, see below.
 
+<details><summary><b>Convert HDR image to LDR</b></summary>
+
+  In the  `build` directory: 
+  
+  ```sh
+  $ ./raytracer hdr2ldr
+  ```
+
+  The HDR image format supported is PFM, while LDR ones are PNG and JPG.
+
+  Some parameters need to be set according to the preferences in the output image visualisation:
+  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity (default value: 0.3);
+  - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: 1.0);
+
+  You can set these properties directy by command line or being followed step by step:
+
+  #### Command line:
+
+  ```sh
+  $ ./raytracer hdr2ldr input_file.pfm 0.3 1.0 output_file.jpg
+  ```
+
+  #### Step by step:
+
+  ```sh
+  $ ./raytracer hdr2ldr
+  Insert input PFM filename: input_file.pfm
+  Insert luminosity normalization factor a (0<a<1, 0.3 by default): 0.3
+  Insert monitor calibration factor gamma (1.0 by default): 1.0
+  You may rerun the program and change a and gamma according to the image visualization preferences.
+  Insert output PNG/JPG filename: output_file.png
+  ```
+  
+  ### Example:
+  
+  In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
+  You can play with the code and parameters simply running (in the `build` directory):
+  
+  ```sh
+  $ ./raytracer hdr2ldr ../examples/hdr2ldr/memorial.pfm 0.3 1.0 ../examples/hdr2ldr/memorial_0.3_1.0.png
+  ```
+
+  
+ 
+  <p align="center">
+  <img src="./img/example1.png" width="700">
+</p>
+  
+</details>
+
+
+<details><summary><b>Create demo image</b></summary>
+
+In the  `build` directory: 
+  
 ```sh
 $ ./raytracer demo
 ```
 
-More infos coming soon!
+It is also provided a demo image, composed by ten white spheres on a black screen.
+
+You can choose :
+  - camera type (orthogonal/perspective);
+  - image width;
+  - image height;
+  - angle of view (deg);
+  - output filename (PFM/PNG/JPG);
+  
+again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
+
+```sh
+$ ./raytracer demo perspective width height angle output_file.png
+```
+  
+  ### Example:
+  
+ You may easily try the code running in the `examples\demo` directory:
+  
+  ```sh
+$ ./generate-image.sh ANGLE
+```
+  which automatically run the following code:
+  ```sh
+$ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.png
+  ```
+  
+  and you just need to set the `ANGLE` (deg) from which you look at the scene.
+  
+  ### Animation:
+  
+  In the `examples\demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
+  
+  In order to run the code, you need to:
+  - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel` if you use Homebrew);
+  - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF CORES` in the command line;
+  
+  This is needed to run in parallel the code and steap up the execution, otherwise it would take several minutes.
+  
+  ```sh
+$ ./generate-animation.sh NUM_OF_CORES
+```
+  
+  <p align="center">
+    <img src="./img/demo.gif" width="400">
+  </p>
+  
+</details>
+  
+## Expectations
+
+## Contributing
+
+Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
 
 ## License
 
