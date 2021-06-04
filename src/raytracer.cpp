@@ -23,7 +23,7 @@ IN THE SOFTWARE.
 
 using namespace std;
 
-void demo(int, int, float, string, string);
+void demo(int, int, float, string, string, string);
 
 int main(int argc, char *argv[]) {
 
@@ -67,10 +67,11 @@ int main(int argc, char *argv[]) {
 
   else if (strcmp(argv[1], "demo") == 0) {
 
-    string filename;
     string cameratype;
     int width, height;
     float angle_deg;
+    string algorithm;
+    string filename;
 
     if (argv[2] == NULL) {
       cout << "Insert camera type (orthogonal/perspective): ";
@@ -81,6 +82,8 @@ int main(int argc, char *argv[]) {
       cin >> height;
       cout << "Insert angle of view (deg): ";
       cin >> angle_deg;
+      cout << "Insert renderer algorithm (onoff/flat): ";
+      cin >> algorithm;
       cout << "Insert output filename (PFM/PNG/JPG): ";
       cin >> filename;
     }
@@ -89,17 +92,18 @@ int main(int argc, char *argv[]) {
       width = atoi(argv[3]);
       height = atoi(argv[4]);
       angle_deg = atof(argv[5]);
-      filename = argv[6];
+      algorithm = argv[6];
+      filename = argv[7];
     }
 
-    demo(width, height, angle_deg, cameratype, filename);
+    demo(width, height, angle_deg, cameratype, filename, algorithm);
   }
 
   return 0;
 }
 
 void demo(int width, int height, float angle_deg, string cameratype,
-          string output) {
+          string algorithm, string output) {
 
   HdrImage image(width, height);
 
@@ -136,6 +140,14 @@ void demo(int width, int height, float angle_deg, string cameratype,
 
   // Run the ray-tracer
   ImageTracer tracer(image, camera);
+
+  shared_ptr<Renderer> renderer;
+  if (algorithm == "onoff") {
+    renderer = make_shared<OnOffRenderer>(world, Color background_color=BLACK);
+  } else if (algorithm == "flat") {
+    renderer = make_shared<FlatRenderer>(world, Color background_color=BLACK);
+  }
+
   tracer.fire_all_rays([&](Ray ray) -> Color {
     if (world.ray_intersection(ray).init) {
       return WHITE;
@@ -164,15 +176,4 @@ void demo(int width, int height, float angle_deg, string cameratype,
     cout << "LDR demo image: " << output << endl;
   }
   
-  /*// Save the HDR image
-  ofstream stream(pfm_output);
-  tracer.image.save_pfm(stream, Endianness::little_endian);
-  cout << "PFM demo image: " << pfm_output << endl;
-
-  // Apply tone-mapping to the image
-  tracer.image.normalize_image(0.3);
-  tracer.image.clamp_image();
-
-  tracer.image.write_ldr_image(png_output, 1.0);
-  cout << "PNG demo image: " << png_output << endl;*/
 }
