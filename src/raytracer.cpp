@@ -123,9 +123,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
   ImageTracer tracer(image, camera);
   tracer.fire_all_rays([&](Ray ray) -> Color {
     if (world.ray_intersection(ray).init) {
-      return Color(1.0, 1.0, 1.0); // white
+      return WHITE;
     } else {
-      return Color(0.0, 0.0, 0.0); // black
+      return BLACK;
     }
   });
 

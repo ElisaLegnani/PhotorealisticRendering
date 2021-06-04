@@ -5,6 +5,8 @@
 
 using namespace std;
 
+//–––––––––––––––––––––– Struct Color –––––––––––––––––––––––––––––––––––
+
 struct Color {
 
   float r, g, b;
@@ -39,5 +41,10 @@ struct Color {
   float luminosity() { return (max(max(r, g), b) + min(min(r, g), b)) / 2.0; }
 };
 
+//––––––––––––––––––––– Color white and black ––––––––––––––––––––––––––––––––––
+
+#define WHITE Color(1.0, 1.0, 1.0)
+#define BLACK Color(0.0, 0.0, 0.0)
+ 
 #endif
 
