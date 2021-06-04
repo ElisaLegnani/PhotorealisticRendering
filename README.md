@@ -148,11 +148,15 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.png
   ### Animation:
   
   In the `examples\demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
-  In order to run the code, you need to install `parallel` : `sudo apt install parallel` (or `brew install parallel` if you use Homebrew).
+  
+  In order to run the code, you need to:
+  - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel` if you use Homebrew);
+  - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF CORES` in the command line;
+  
   This is needed to run in parallel the code and steap up the execution, otherwise it would take several minutes.
   
   ```sh
-$ ./generate-animation.sh
+$ ./generate-animation.sh NUM_OF_CORES
 ```
   
   <p align="center">
