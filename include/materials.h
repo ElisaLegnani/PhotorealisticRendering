@@ -1,6 +1,8 @@
 #include <memory>
 #include "hitrecord.h"
 #include "hdrimage.h"
+#include "pcg.h"
+#include "ray.h"
 
 #ifndef _materials_h_
 #define _materials_h_
@@ -60,21 +62,30 @@ struct BRDF{
 
     shared_ptr<Pigment> pigment;
 
-    BRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(Color(1.0, 1.0, 1.0))) : pigment{p} {} //white
+    BRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(WHITE)) : pigment{p} {}
 
-    Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv){
-        return Color(0.0, 0.0, 0.0); //black
-    }
+    Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv){ return BLACK; }
 
-    //virtual Ray scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth) = 0;
+//    virtual Ray scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth) = 0;
 };
 
+struct DiffuseBRDF : public BRDF {
+  float reflectance;
+  
+  DiffuseBRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(WHITE), float refl = 1.) : pigment{p} , reflectance{refl} {}
+  
+  Color eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv){
+    return pigment.get_color(uv)*(reflectance/MI_PI);
+  }
+  
+//  Ray  scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth){}
+}
+
 struct Material{
-    //BRDF brdf;
+    shared_ptr<BRDF> brdf;
     shared_ptr<Pigment> emitted_radiance;
 
-    Material(shared_ptr<Pigment> p = make_shared<UniformPigment>(Color(0.0, 0.0, 0.0))) : emitted_radiance{p} {}
-    //Material(shared_ptr<BRDF> _brdf = make_shared<DiffuseBRDF>(), shared_ptr<Pigment> p = make_shared<UniformPigment>(Color(0.0, 0.0, 0.0))) : brdf{_brdf}, emitted_radiance{p} {}
+  Material(shared_ptr<BRDF> _brdf = make_shared<DiffuseBRDF>(), shared_ptr<Pigment> p = make_shared<UniformPigment>(BLACK)) : brdf{_brdf}, emitted_radiance{p} {}
 };
 
 #endif
