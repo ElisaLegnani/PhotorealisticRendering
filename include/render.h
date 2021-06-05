@@ -52,10 +52,9 @@ struct FlatRenderer : public Renderer{
       return background_color;
   
     }else{
-      Material material = hit.material;
       
-      return (material.brdf->pigment->get_color(hit.surface_point) +
-              material.emitted_radiance->get_color(hit.surface_point));
+      return (hit.shape->material.brdf->pigment->get_color(hit.surface_point) +
+              hit.shape->material.emitted_radiance->get_color(hit.surface_point));
     }
   }
 };
