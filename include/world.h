@@ -16,7 +16,6 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 IN THE SOFTWARE.
 */
 
-#include "hitrecord.h"
 #include "shapes.h"
 #include <vector>
 #include <memory>

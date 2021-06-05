@@ -19,8 +19,8 @@ IN THE SOFTWARE.
 #include "geometry.h"
 #include "transformation.h"
 #include "ray.h"
-#include "hitrecord.h"
 #include "materials.h"
+#include <string>
 
 #ifndef _shapes_h_
 #define _shapes_h_
@@ -38,6 +38,41 @@ Vec2d _sphere_point_to_uv(Point);
  */
 Normal _sphere_normal(Point, Vec);
 
+struct Shape;
+
+/**
+ * A struct containing information about a ray & shape intersection
+ *
+ * @param world_point
+ * @param normal
+ * @param surface_point
+ * @param t
+ * @param ray
+ * @param material
+ */
+struct HitRecord {
+
+  Point world_point;
+  Normal normal;
+  Vec2d surface_point;
+  float t;
+  Ray ray;
+  Material material;
+  bool init = false;
+
+  HitRecord(){ init = false; }
+
+  HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r)
+      : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) { init = true; }
+
+  bool is_close(HitRecord hitrec) {
+    return world_point.is_close(hitrec.world_point) &&
+           normal.is_close(hitrec.normal) &&
+           surface_point.is_close(hitrec.surface_point) &&
+           are_close(t, hitrec.t) && ray.is_close(hitrec.ray);
+  }
+};
+
 
 //––––––––––––– Abstract struct Shapes ––––––––––––––––––––––––
 //
@@ -48,6 +83,12 @@ Normal _sphere_normal(Point, Vec);
  * with virtual methods ray_intersection(Ray) to be implemented in derived structs.
  */
 struct Shape{
+
+  Transformation transformation;
+  Material material;
+
+  Shape(Transformation t = Transformation(), Material m = Material()) : transformation{t}, material{m} {}
+
   virtual HitRecord ray_intersection(Ray) = 0;
   virtual bool check_if_intersection(Ray) = 0;
 };
@@ -60,11 +101,8 @@ struct Shape{
  * @param transformation changes properties of the unit sphere, through rescaling and translating it.
  */
 struct Sphere : public Shape {
-  
-  Transformation transformation;
-  Material material;
 
-  Sphere(Transformation t = Transformation(), Material m = Material()) : transformation{t}, material{m} {}
+  Sphere(Transformation t = Transformation(), Material m = Material()) : Shape(t,m) {}
   
   //Se il vostro linguaggio lo supporta, il tipo di ritorno dovrebbe essere nullable.
   /**
@@ -91,9 +129,8 @@ struct Sphere : public Shape {
  * @param transformation changes properties of the unit sphere, through translating and rotating it.
  */
 struct Plane : public Shape {
-  Transformation transformation;
   
-  Plane(Transformation t = Transformation()) : transformation{t} {}
+  Plane(Transformation t = Transformation(), Material m = Material()) : Shape(t,m) {}
   
   /**
    Checks if the given ray hits the plane
