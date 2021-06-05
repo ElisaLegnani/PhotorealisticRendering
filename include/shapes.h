@@ -59,6 +59,7 @@ struct HitRecord {
   Ray ray;
   Material material;
   bool init = false;
+  shared_ptr<Shape> shape;
 
   HitRecord(){ init = false; }
 
