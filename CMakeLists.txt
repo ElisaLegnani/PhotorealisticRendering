@@ -163,6 +163,17 @@ target_link_libraries(pcgtest PUBLIC trace)
 add_test(NAME pcgtest
     COMMAND pcgtest
     )
+
+# rendertest
+add_executable(rendertest
+    test/render.cpp
+    )
+
+target_link_libraries(rendertest PUBLIC trace)
+
+add_test(NAME rendertest
+    COMMAND rendertest
+    )
     
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)
