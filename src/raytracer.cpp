@@ -97,7 +97,7 @@ int main(int argc, char *argv[]) {
       filename = argv[7];
     }
 
-    demo(width, height, angle_deg, cameratype, filename, algorithm);
+    demo(width, height, angle_deg, cameratype, algorithm, filename);
   }
 
   return 0;
@@ -149,15 +149,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
     renderer = make_shared<FlatRenderer>(world);
   }
 
-  tracer.fire_all_rays([&](Ray ray) -> Color {
-    if (world.ray_intersection(ray).init) {
-      return WHITE;
-    } else {
-      return BLACK;
-    }
-  });
-
-  //tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); });
+  tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); });
 
   //  Understand format output file (PFM/PNG/JPG)
   string filename_str = string(output);
