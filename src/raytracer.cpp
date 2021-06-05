@@ -144,9 +144,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
-    renderer = make_shared<OnOffRenderer>(world, BLACK);
+    renderer = make_shared<OnOffRenderer>(world);
   } else if (algorithm == "flat") {
-    renderer = make_shared<FlatRenderer>(world, BLACK);
+    renderer = make_shared<FlatRenderer>(world);
   }
 
   tracer.fire_all_rays([&](Ray ray) -> Color {
@@ -157,7 +157,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
     }
   });
 
-//  tracer.fire_all_rays([&](Ray ray) -> Color {(*renderer)(ray);});
+  //tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); });
 
   //  Understand format output file (PFM/PNG/JPG)
   string filename_str = string(output);
