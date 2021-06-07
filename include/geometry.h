@@ -193,5 +193,25 @@ struct Vec2d {
   }
 };
 
+struct ONB {
+
+  Vec e1, e2, e3;
+
+  ONB(Normal normal) {
+
+    float sign;
+    if (normal.z > 0.0)
+      sign = 1.0;
+    else 
+      sign = -1.0;
+
+    float a = -1.0 / (sign + normal.z);
+    float b = normal.x * normal.y * a;
+
+    e1 = Vec(1.0 + sign * normal.x * normal.x * a, sign * b, -sign * normal.x);
+    e2 = Vec(b, sign + normal.y * normal.y * a, -normal.y);
+    e3 = Vec(normal.x, normal.y, normal.z);
+  }
+};
 
 #endif
