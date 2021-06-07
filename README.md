@@ -90,7 +90,7 @@ For further details, see below.
   ```sh
   $ ./raytracer hdr2ldr
   Insert input PFM filename: input_file.pfm
-  Insert luminosity normalization factor a (0&lt;a&lt;1, 0.3 by default): 0.3
+  Insert luminosity normalization factor a (0 < a < 1, 0.3 by default): 0.3
   Insert monitor calibration factor gamma (1.0 by default): 1.0
   You may rerun the program and change a and gamma according to the image visualization preferences.
   Insert output PNG/JPG filename: output_file.png
