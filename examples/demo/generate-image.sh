@@ -7,6 +7,7 @@ fi
 
 readonly angle="$1"
 readonly angleNNN=$(printf "%03d" $angle)
+readonly algorithm="flat"
 readonly pngfile=img/image$angleNNN.png
 
-time ../../build/./raytracer demo perspective 640 480 $angle $pngfile
+time ../../build/./raytracer demo perspective 640 480 $angle $algorithm $pngfile
