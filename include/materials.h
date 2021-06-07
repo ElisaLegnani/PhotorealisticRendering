@@ -92,7 +92,7 @@ struct BRDF {
 
   Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv) { return BLACK; }
 
-  // virtual Ray scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth) = 0;
+  virtual Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth) = 0;
 };
 
 //––––––––––––– Sub-struct Diffuse BRDF ––––––––––––––––––––––––
@@ -108,7 +108,18 @@ struct DiffuseBRDF : public BRDF {
     return pigment->get_color(uv) * (reflectance / M_PI);
   }
 
-  // Ray  scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth){}
+  Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth){
+
+    // Cosine-weighted distribution around the z (local) axis
+    ONB onb(n);
+    float cos_theta_sq = pcg.random_float();
+    float cos_theta = sqrt(cos_theta_sq);
+    float sin_theta = sqrt(1.0 - cos_theta_sq);
+    float phi = 2.0 * M_PI * pcg.random_float();
+    Vec dir(onb.e1 * cos(phi) * cos_theta + onb.e2 * sin(phi) * cos_theta + onb.e3 * sin_theta);
+
+    return Ray(interaction_point, dir, 1.0e-3, INFINITY, depth);
+  }
 };
 
 //––––––––––––– Struct Material ––––––––––––––––––––––––
