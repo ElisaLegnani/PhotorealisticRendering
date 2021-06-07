@@ -46,7 +46,7 @@ public:
   }
 
   float random_float() {
-    return random() / UINT32_MAX;
+    return random() / float(0xffffffff);
   }
 };
 
