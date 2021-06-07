@@ -69,7 +69,7 @@ HitRecord Sphere::ray_intersection(Ray ray) {
 
   return HitRecord((transformation * hit_point),
                    (transformation * _sphere_normal(hit_point, inv_ray.dir)),
-                   (_sphere_point_to_uv(hit_point)), first_hit_t, ray);
+                   (_sphere_point_to_uv(hit_point)), first_hit_t, ray, material);
 }
 
 bool Sphere::check_if_intersection(Ray ray){
@@ -110,7 +110,7 @@ HitRecord Plane::ray_intersection(Ray ray){
   
        return HitRecord((transformation * hit_point),
            transformation * Normal(0.0, 0.0, normal_z_dir),
-          Vec2d(hit_point.x - floor(hit_point.x), hit_point.y - floor(hit_point.y)), t, ray);
+          Vec2d(hit_point.x - floor(hit_point.x), hit_point.y - floor(hit_point.y)), t, ray, material);
 }
 
 bool Plane::check_if_intersection(Ray ray){

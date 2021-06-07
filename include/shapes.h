@@ -40,6 +40,7 @@ Normal _sphere_normal(Point, Vec);
 
 struct Shape;
 
+//––––––––––––– Struct HitRecord –––––––––––––––––––––––––
 /**
  * A struct containing information about a ray & shape intersection
  *
@@ -57,14 +58,14 @@ struct HitRecord {
   Vec2d surface_point;
   float t;
   Ray ray;
+//  shared_ptr<Shape> shape;
   Material material;
   bool init = false;
-  shared_ptr<Shape> shape;
 
   HitRecord(){ init = false; }
 
-  HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r)
-      : world_point(wp), normal(n), surface_point(sp), t(T), ray(r) { init = true; }
+  HitRecord(Point wp, Normal n, Vec2d sp, float T, Ray r, Material m = Material())
+  : world_point(wp), normal(n), surface_point(sp), t(T), ray(r), material{m} { init = true; }
 
   bool is_close(HitRecord hitrec) {
     return world_point.is_close(hitrec.world_point) &&
