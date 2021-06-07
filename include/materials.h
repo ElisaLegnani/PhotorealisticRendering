@@ -24,10 +24,12 @@ IN THE SOFTWARE.
 #ifndef _materials_h_
 #define _materials_h_
 
+//––––––––––––– Abstract struct Pigment ––––––––––––––––––––––––
 struct Pigment {
   virtual Color get_color(Vec2d uv) = 0;
 };
 
+//––––––––––––– Sub-struct Uniform Pigment ––––––––––––––––––––––––
 struct UniformPigment : public Pigment {
 
   Color color;
@@ -37,6 +39,7 @@ struct UniformPigment : public Pigment {
   Color get_color(Vec2d uv) { return color; }
 };
 
+//––––––––––––– Sub-struct Image Pigment ––––––––––––––––––––––––
 struct ImagePigment : public Pigment {
 
   HdrImage image;
@@ -57,6 +60,7 @@ struct ImagePigment : public Pigment {
   }
 };
 
+//––––––––––––– Sub-struct Checkered Pigment ––––––––––––––––––––––––
 struct CheckeredPigment : public Pigment {
 
   Color color1;
@@ -78,6 +82,7 @@ struct CheckeredPigment : public Pigment {
   }
 };
 
+//––––––––––––– Abstract struct BRDF ––––––––––––––––––––––––
 struct BRDF {
 
   shared_ptr<Pigment> pigment;
@@ -89,6 +94,8 @@ struct BRDF {
 
   // virtual Ray scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth) = 0;
 };
+
+//––––––––––––– Sub-struct Diffuse BRDF ––––––––––––––––––––––––
 
 struct DiffuseBRDF : public BRDF {
 
@@ -104,6 +111,7 @@ struct DiffuseBRDF : public BRDF {
   // Ray  scatter_ray(PCG pcg, Vec dir_in, Vec interaction_point, Normal n, int depth){}
 };
 
+//––––––––––––– Struct Material ––––––––––––––––––––––––
 struct Material {
 
   shared_ptr<BRDF> brdf;

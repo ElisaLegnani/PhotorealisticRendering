@@ -53,8 +53,8 @@ struct FlatRenderer : public Renderer{
   
     }else{
       
-      return (hit.shape->material.brdf->pigment->get_color(hit.surface_point) +
-              hit.shape->material.emitted_radiance->get_color(hit.surface_point));
+      return (hit.material.brdf->pigment->get_color(hit.surface_point) +
+              hit.material.emitted_radiance->get_color(hit.surface_point));
     }
   }
 };
