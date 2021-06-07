@@ -122,7 +122,7 @@ In the  `build` directory run:
 $ ./raytracer demo
 ```
 
-It is also provided a demo image, composed by ten white spheres on a black screen.
+It is also provided a demo image, composed by ten spheres on a black screen.
 
 You can choose :
   - camera type (orthogonal/perspective);
