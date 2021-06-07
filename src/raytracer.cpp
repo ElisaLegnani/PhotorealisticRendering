@@ -111,21 +111,36 @@ void demo(int width, int height, float angle_deg, string cameratype,
   // Create a world and populate it with a few shapes
   World world;
 
-  Color sphere_color3(250.0, 2.0, 100.0);
-  Color sphere_color4(250.0, 200.0, 100.0);
-  /*HdrImage img("../examples/hdr2ldr/memorial.pfm");
-  img.normalize_image(30.0, 0.5);
-  img.clamp_image();*/
-  
-//  Material material2(make_shared<DiffuseBRDF>(make_shared<ImagePigment>(img)));
-  Material material2(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(sphere_color3, sphere_color4)));
+  Color sphere_color1(0.0, 0.0, 100.0);
+  Color sphere_color2(0.0, 100.0, 0.0);
+  Color sphere_color3(0.0, 100.0, 100.0);
+  Color sphere_color4(100.0, 100.0, 0.0);
+ 
+  HdrImage img_pigment("../examples/hdr2ldr/memorial.pfm");
+  img_pigment.normalize_image(0.3);
+  img_pigment.clamp_image();
+  Material material7(make_shared<DiffuseBRDF>(make_shared<ImagePigment>(img_pigment)));
+
+  Material material1(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color1)));
+  Material material2(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color2)));
+  Material material3(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color3)));
+  Material material4(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color4)));
+  Material material5(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(sphere_color3, sphere_color4)));
+  Material material6(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(sphere_color1, sphere_color2)));
+  Material material;
   
   for (int x{}; x < 2; ++x) {
     for (int y{}; y < 2; ++y) {
       for (int z{}; z < 2; ++z) {
+
+        if (x==y && x==z) material = material1;
+        else if(x==y && x!=z) material = material2;
+        else if(x!=y && x==z) material = material3;
+        else material = material4;
+
         world.add(
             make_shared<Sphere>(translation(Vec(x - 0.5, y - 0.5, z - 0.5)) *
-                                scaling(Vec(0.1, 0.1, 0.1)), Material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(100.*(x+1), 100.*(y+1), 100.*(z+1)), Color(150.*z, 150.*x, 150.*y))))));
+                                scaling(Vec(0.1, 0.1, 0.1)), material));
       }
     }
   }
@@ -133,9 +148,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
   // Place two other balls in the bottom/left part of the cube, so that we can
   // check if there are issues with the orientation of the image
   world.add(make_shared<Sphere>(translation(Vec(0.0, 0.0, -0.5)) *
-                                scaling(Vec(0.1, 0.1, 0.1)),material2));
+                                scaling(Vec(0.1, 0.1, 0.1)),material5));
   world.add(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
-                                scaling(Vec(0.1, 0.1, 0.1)), material2));
+                                scaling(Vec(0.1, 0.1, 0.1)), material6));
 
   // Initialize a camera
   Transformation camera_tr =
