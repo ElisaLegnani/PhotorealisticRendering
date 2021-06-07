@@ -45,21 +45,27 @@ $ ctest
 
 ## Usage
 
-The code now implementes two features (*WIP*):
+The code now implements two features (*WIP*):
 - converts HDR image to LDR: `hdr2ldr`
 - creates a demo image: `demo`
 
 In the  `build` directory, run: 
   
 ```sh
-$ ./raytracer hdr2ldr/demo
+$ ./raytracer hdr2ldr
+
+```
+or:
+
+```sh
+$ ./raytracer demo
 ```
 
 For further details, see below.
 
 <details><summary><b>Convert HDR image to LDR</b></summary>
 
-  In the  `build` directory: 
+  In the  `build` directory run: 
   
   ```sh
   $ ./raytracer hdr2ldr
@@ -84,7 +90,7 @@ For further details, see below.
   ```sh
   $ ./raytracer hdr2ldr
   Insert input PFM filename: input_file.pfm
-  Insert luminosity normalization factor a (0<a<1, 0.3 by default): 0.3
+  Insert luminosity normalization factor a (0 < a < 1, 0.3 by default): 0.3
   Insert monitor calibration factor gamma (1.0 by default): 1.0
   You may rerun the program and change a and gamma according to the image visualization preferences.
   Insert output PNG/JPG filename: output_file.png
@@ -110,7 +116,7 @@ For further details, see below.
 
 <details><summary><b>Create demo image</b></summary>
 
-In the  `build` directory: 
+In the  `build` directory run: 
   
 ```sh
 $ ./raytracer demo
@@ -123,31 +129,32 @@ You can choose :
   - image width;
   - image height;
   - angle of view (deg);
+  - renderer algorithm (onoff/flat)
   - output filename (PFM/PNG/JPG);
   
 again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
 
 ```sh
-$ ./raytracer demo perspective width height angle output_file.png
+$ ./raytracer demo perspective width height angle renderer output_file.png
 ```
   
   ### Example:
   
- You may easily try the code running in the `examples\demo` directory:
+ You may easily try the code running in the `examples/demo` directory:
   
   ```sh
 $ ./generate-image.sh ANGLE
 ```
   which automatically run the following code:
   ```sh
-$ ../build/./raytracer demo perspective 640 480 ANGLE demo/imageANGLE.png
+$ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
   ```
   
   and you just need to set the `ANGLE` (deg) from which you look at the scene.
   
   ### Animation:
   
-  In the `examples\demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
+  In the `examples/demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
   In order to run the code, you need to:
   - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel` if you use Homebrew);
