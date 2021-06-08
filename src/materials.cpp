@@ -57,3 +57,26 @@ Ray DiffuseBRDF :: scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Nor
 
   return Ray(interaction_point, dir, 1.0e-3, INFINITY, depth);
 }
+
+//––––––––––––– Sub-struct Specular BRDF ––––––––––––––––––––––––
+Color SpecularBRDF :: eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv) {
+  float theta_in = acos(dot(in_dir.normalize(), n.normalize()));
+  float theta_out = acos(dot(out_dir.normalize(), n.normalize()));
+
+  if (fabs(theta_in - theta_out) < threshold_angle_rad)
+    return pigment->get_color(uv);
+  else
+    return BLACK;
+
+}
+
+Ray SpecularBRDF :: scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth) {
+  // There is no need to use the PCG here, as the reflected direction is always completely deterministic 
+  // for a perfect mirror
+  Vec ray_dir(dir_in.x, dir_in.y, dir_in.z);
+  ray_dir.normalize();
+  n.normalize();
+  float dot_prod = dot(ray_dir, n);
+
+  return Ray(interaction_point, (ray_dir - n * 2 * dot_prod), 1e-5, INFINITY, depth);
+}

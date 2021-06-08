@@ -91,6 +91,20 @@ struct DiffuseBRDF : public BRDF {
   Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
 };
 
+//––––––––––––– Sub-struct Specular BRDF ––––––––––––––––––––––––
+
+struct SpecularBRDF : public BRDF {
+
+  float threshold_angle_rad;
+
+  SpecularBRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(WHITE), float ang = M_PI/180.0)
+      : BRDF(p), threshold_angle_rad{ang} {}
+
+  Color eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv);
+
+  Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
+};
+
 //––––––––––––– Struct Material ––––––––––––––––––––––––
 struct Material {
 
