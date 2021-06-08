@@ -40,6 +40,17 @@ Out _prod(const In1 &a, const float &b) {
   return Out{a.x * b, a.y * b, a.z * b};
 }
 
+// Scalar product
+template <typename In1, typename In2> float _dot(const In1 &a, const In2 &b) {
+  return {a.x * b.x + a.y * b.y + a.z * b.z};
+}
+
+// Vector product
+template <typename In1, typename In2, typename Out>
+Out _cross(const In1 &a, const In2 &b) {
+  return Out{a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x};
+}
+
 template <typename In> bool are_xyz_close(const In &a, const In &b){
   return are_close(a.x, b.x) && are_close(a.y, b.y) && are_close(a.z, b.z);
 }
@@ -90,13 +101,9 @@ inline Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
 
 inline Vec operator-(const Vec &v) { return v * (-1); }
 
-// Scalar product
-inline float dot(const Vec &v1, const Vec &v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
+inline float dot(const Vec &v1, const Vec &v2) { return _dot<Vec, Vec>(v1, v2); }
 
-// Vector product
-inline Vec cross(const Vec &v1, const Vec &v2) {
-  return Vec(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
-}
+inline Vec cross(const Vec &v1, const Vec &v2) { return _cross<Vec, Vec, Vec>(v1, v2); }
 
 
 //–––––––––––––––––––––– Struct Point –––––––––––––––––––––––––––––––––––
@@ -170,6 +177,25 @@ struct Normal {
 };
 
 inline Normal operator-(const Normal &n) { return _prod<Normal, Normal>(n, -1.0); }
+
+inline Normal operator*(const Normal &n, const float &c) { return _prod<Normal, Normal>(n, c); }
+
+inline float dot(const Normal &n1, const Normal &n2) { return _dot<Normal, Normal>(n1, n2); }
+
+inline Normal cross(const Normal &n1, const Normal &n2) { return _cross<Normal, Normal, Normal>(n1, n2); }
+
+inline float dot(const Vec &v, const Normal &n) { return _dot<Vec, Normal>(v, n); }
+
+inline Vec cross(const Vec &v, const Normal &n) { return _cross<Vec, Normal, Vec>(v, n); }
+
+inline Vec operator+(const Vec &v, const Normal &n) {
+  return _sum<Vec, Normal, Vec>(v, n);
+}
+
+inline Vec operator-(const Vec &v, const Normal &n) {
+  return _diff<Vec, Normal, Vec>(v, n);
+}
+
 
 
 /**
