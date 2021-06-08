@@ -46,18 +46,7 @@ struct ImagePigment : public Pigment {
 
   ImagePigment(HdrImage i) : image{i} {}
 
-  Color get_color(Vec2d uv) {
-
-    int col = int(uv.u * image.width);
-    int row = int(uv.v * image.height);
-
-    if (col >= image.width)
-      col = image.width - 1;
-    if (row >= image.height)
-      row = image.height - 1;
-
-    return image.get_pixel(col, row);
-  }
+  Color get_color(Vec2d uv);
 };
 
 //––––––––––––– Sub-struct Checkered Pigment ––––––––––––––––––––––––
@@ -70,16 +59,7 @@ struct CheckeredPigment : public Pigment {
   CheckeredPigment(Color c1, Color c2, int ns = 10)
       : color1{c1}, color2{c2}, n_steps{ns} {}
 
-  Color get_color(Vec2d uv) {
-
-    int u = int(floor(uv.u * n_steps));
-    int v = int(floor(uv.v * n_steps));
-
-    if ((u % 2) == (v % 2))
-      return color1;
-    else
-      return color2;
-  }
+  Color get_color(Vec2d uv);
 };
 
 //––––––––––––– Abstract struct BRDF ––––––––––––––––––––––––
@@ -108,18 +88,7 @@ struct DiffuseBRDF : public BRDF {
     return pigment->get_color(uv) * (reflectance / M_PI);
   }
 
-  Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth){
-
-    // Cosine-weighted distribution around the z (local) axis
-    ONB onb(n);
-    float cos_theta_sq = pcg.random_float();
-    float cos_theta = sqrt(cos_theta_sq);
-    float sin_theta = sqrt(1.0 - cos_theta_sq);
-    float phi = 2.0 * M_PI * pcg.random_float();
-    Vec dir(onb.e1 * cos(phi) * cos_theta + onb.e2 * sin(phi) * cos_theta + onb.e3 * sin_theta);
-
-    return Ray(interaction_point, dir, 1.0e-3, INFINITY, depth);
-  }
+  Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
 };
 
 //––––––––––––– Struct Material ––––––––––––––––––––––––

@@ -16,6 +16,7 @@ add_library(trace
     src/hdrimage.cpp
     src/transformation.cpp
     src/shapes.cpp
+    src/materials.cpp
     src/catch_amalgamated.cpp
     )
 
