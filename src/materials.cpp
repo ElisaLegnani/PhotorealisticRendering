@@ -45,7 +45,7 @@ Color CheckeredPigment :: get_color(Vec2d uv) {
 }
 
 //––––––––––––– Sub-struct Diffuse BRDF ––––––––––––––––––––––––
-Ray DiffuseBRDF :: scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth){
+Ray DiffuseBRDF :: scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth){
 
   // Cosine-weighted distribution around the z (local) axis
   ONB onb(n);
@@ -70,7 +70,7 @@ Color SpecularBRDF :: eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv) {
 
 }
 
-Ray SpecularBRDF :: scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth) {
+Ray SpecularBRDF :: scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth) {
   // There is no need to use the PCG here, as the reflected direction is always completely deterministic 
   // for a perfect mirror
   Vec ray_dir(dir_in.x, dir_in.y, dir_in.z);

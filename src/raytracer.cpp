@@ -116,7 +116,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
   Color sphere_color3(0.0, 100.0, 100.0);
   Color sphere_color4(100.0, 100.0, 0.0);
  
-  HdrImage img_pigment("../examples/demo/sunset.pfm");
+  HdrImage img_pigment("../examples/hdr2ldr/memorial.pfm");
   img_pigment.normalize_image(0.3);
   img_pigment.clamp_image();
   Material material7(make_shared<DiffuseBRDF>(make_shared<ImagePigment>(img_pigment)));
@@ -187,7 +187,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
   } else if (algorithm == "flat") {
     renderer = make_shared<FlatRenderer>(world3);
   }else if (algorithm == "pathtracer") {
-    renderer = make_shared<PathTracer>(world3, BLACK, 100,6);
+    renderer = make_shared<PathTracer>(world3, BLACK, 200, 6, 4);
   }
 
   tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); }); //***
