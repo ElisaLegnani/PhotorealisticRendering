@@ -105,6 +105,7 @@ struct SpecularBRDF : public BRDF {
   Ray scatter_ray(PCG pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
 };
 
+
 //––––––––––––– Struct Material ––––––––––––––––––––––––
 struct Material {
 

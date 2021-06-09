@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
       cin >> height;
       cout << "Insert angle of view (deg): ";
       cin >> angle_deg;
-      cout << "Insert renderer algorithm (onoff/flat): ";
+      cout << "Insert renderer algorithm (onoff/flat/pathtracer): ";
       cin >> algorithm;
       cout << "Insert output filename (PFM/PNG/JPG): ";
       cin >> filename;
@@ -116,7 +116,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
   Color sphere_color3(0.0, 100.0, 100.0);
   Color sphere_color4(100.0, 100.0, 0.0);
  
-  HdrImage img_pigment("../examples/hdr2ldr/memorial.pfm");
+  HdrImage img_pigment("../examples/demo/sunset.pfm");
   img_pigment.normalize_image(0.3);
   img_pigment.clamp_image();
   Material material7(make_shared<DiffuseBRDF>(make_shared<ImagePigment>(img_pigment)));
@@ -151,10 +151,25 @@ void demo(int width, int height, float angle_deg, string cameratype,
                                 scaling(Vec(0.1, 0.1, 0.1)),material5));
   world.add(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
                                 scaling(Vec(0.1, 0.1, 0.1)), material6));
-
+  World world2;
+  world2.add(make_shared<Sphere>(scaling(Vec(1., 1., 1.)), material7));
+  
+//  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+  World world3;
+  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(1.0, 0.9, 0.5)));
+  Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5)))); //SpecularBRDF>());
+  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.3, 0.4, 0.8))));
+  Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.6, 0.2, 0.3))));
+  
+  world3.add(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.4)), sky_material));
+  world3.add(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
+  world3.add(make_shared<Sphere>(translation(Vec(0., 0.,1.)), sphere_material));
+  world3.add(make_shared<Sphere>(translation(Vec(1., 1.,2.5)), Material(make_shared<SpecularBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))))));
+  world3.add(make_shared<Sphere>(translation(Vec(1., 2.5,0.)), mirror_material));
+             
   // Initialize a camera
   Transformation camera_tr =
-      rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 0.0));
+      rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 1.0));
   shared_ptr<Camera> camera;
 
   if (cameratype == "orthogonal") {
@@ -168,9 +183,11 @@ void demo(int width, int height, float angle_deg, string cameratype,
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
-    renderer = make_shared<OnOffRenderer>(world);
+    renderer = make_shared<OnOffRenderer>(world3);
   } else if (algorithm == "flat") {
-    renderer = make_shared<FlatRenderer>(world);
+    renderer = make_shared<FlatRenderer>(world3);
+  }else if (algorithm == "pathtracer") {
+    renderer = make_shared<PathTracer>(world3, BLACK, 100,6);
   }
 
   tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); }); //***
@@ -188,7 +205,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
     cout << "PFM demo image: " << output << endl;
   } else if (format == ".png" || format == ".jpg"){
     
-    tracer.image.normalize_image(0.3, 0.5);
+    tracer.image.normalize_image(1.);
     tracer.image.clamp_image();
 
     tracer.image.write_ldr_image(output, 1.0);

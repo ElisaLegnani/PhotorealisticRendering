@@ -6,6 +6,8 @@
 #ifndef _render_h_
 #define _render_h_
 
+//––––––––––––– Abstract struct Render ––––––––––––––––––––––––
+
 struct Renderer {
 
   World world;
@@ -16,6 +18,7 @@ struct Renderer {
   virtual Color operator()(Ray ray) = 0;
 };
 
+//––––––––––––– Sub-struct OnOffRender ––––––––––––––––––––––––
 /**
  A renderer with
  - ON mode (default: white)
@@ -37,6 +40,7 @@ struct OnOffRenderer : public Renderer {
   }
 };
 
+//––––––––––––– Sub-struct FlatRender ––––––––––––––––––––––––
 struct FlatRenderer : public Renderer {
 
   FlatRenderer(World w, Color bc = BLACK) : Renderer(w, bc) {}
@@ -57,6 +61,7 @@ struct FlatRenderer : public Renderer {
   }
 };
 
+//––––––––––––– Sub-struct PathTracer ––––––––––––––––––––––––
 struct PathTracer : public Renderer {
 
   PCG pcg;
@@ -93,7 +98,7 @@ struct PathTracer : public Renderer {
         // Terminate prematurely
     }
 
-    Color cum_radiance;
+    Color cum_radiance(BLACK);
     if (hit_color_lum > 0.0){  // Only do costly recursions if it's worth it
       for (int i{}; i < num_of_rays; ++i){
         Ray new_ray = hit_material.brdf->scatter_ray(pcg, hit.ray.dir, hit.world_point, hit.normal, (ray.depth + 1));
@@ -106,5 +111,9 @@ struct PathTracer : public Renderer {
     return emitted_radiance + cum_radiance * (1.0 / num_of_rays);
   }
 };
+//––––––––––––– Sub-struct PointLightTracer ––––––––––––––––––––––––
+struct PointLightTracer : public Renderer {
+};
+//–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 #endif
