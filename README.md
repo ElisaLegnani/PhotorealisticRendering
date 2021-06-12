@@ -159,9 +159,9 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
   In order to run the code, you need to:
   - install `ffmpeg` : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
   - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel`);
-  - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF CORES` in the command line;
+  - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF_CORES` in the command line;
   
-  This is needed to run in parallel the code and steap up the execution, otherwise it would take several minutes.
+  This is needed to run in parallel the code and speed up the execution, otherwise it would take several minutes.
   
   ```sh
 $ ./generate-animation.sh NUM_OF_CORES
