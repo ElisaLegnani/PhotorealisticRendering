@@ -109,7 +109,7 @@ For further details, see below.
   Insert output PNG/JPG filename: output_file.png
   ```
   
-  ### Example:
+  #### Example:
   
   In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
   You can play with the code and parameters simply running (in the `build` directory):
@@ -127,7 +127,7 @@ For further details, see below.
 </details>
 
 
-<details><summary><b>Create demo image</b></summary>
+### <details><summary><b>Create demo image</b></summary>
 
 In the  `build` directory run: 
   
@@ -151,7 +151,7 @@ again directly or step by step. Here it is shown the command line to run it dire
 $ ./raytracer demo perspective width height angle renderer output_file.png
 ```
   
-  ### Example:
+ #### Example:
   
  You may easily try the code running in the `examples/demo` directory:
   
@@ -165,7 +165,7 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
   
   and you just need to set the `ANGLE` (deg) from which you look at the scene.
   
-  ### Animation:
+  #### Animation:
   
   In the `examples/demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
