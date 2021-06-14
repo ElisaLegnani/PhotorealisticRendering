@@ -11,8 +11,8 @@ It is developed for the course [*Numerical techniques for photorealistic image g
   - [Dependencies](#dependencies)
   - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
-  - [Convert HDR image to LDR](#convert-HDR-image-to-LDR)
-  - [Create demo image](#create-demo-image)
+  - [Convert HDR image to LDR]
+  - [Create demo image]
 - [Expectations](#expectations)
 - [Contributing](#contributing)
 - [License](#license)
@@ -76,7 +76,7 @@ $ ./raytracer demo
 
 For further details, see below.
 
-<details><summary><h3>Convert HDR image to LDR</h3></summary>
+<details><summary><b>Convert HDR image to LDR</b></summary>
 
   In the  `build` directory run: 
   
@@ -127,7 +127,7 @@ For further details, see below.
 </details>
 
 
-<details><summary><h3>Create demo image</h3></summary>
+<details><summary><b>Create demo image</b></summary>
 
   In the  `build` directory run: 
   
