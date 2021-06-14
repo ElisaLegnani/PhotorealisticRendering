@@ -117,12 +117,10 @@ For further details, see below.
   ```sh
   $ ./raytracer hdr2ldr ../examples/hdr2ldr/memorial.pfm 0.3 1.0 ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
-
-  
  
   <p align="center">
-  <img src="./img/example1.png" width="700">
-</p>
+    <img src="./img/example1.png" width="700">
+  </p>
   
 </details>
 
@@ -135,30 +133,34 @@ For further details, see below.
   $ ./raytracer demo
   ```
 
-  It is also provided a demo image, composed by ten spheres on a black screen.
+  Two demo images are provided:
+  - one composed by ten spheres on a black screen and rendered with the onoff or the flat renderer;
+  - the other representing a complex scene rendered with the pathtracer algorithm.
 
   You can choose :
-    - camera type (orthogonal/perspective);
-    - image width;
-    - image height;
-    - angle of view (deg);
-    - renderer algorithm (onoff/flat)
-    - output filename (PFM/PNG/JPG);
+  - camera type (orthogonal/perspective);
+  - image width;
+  - image height;
+  - angle of view (deg);
+  - renderer algorithm (onoff/flat/pathtracer);
+  - output filename (PFM/PNG/JPG);
+  - number of rays (if using pathtracer algorithm);
+  - maximum depth (if using pathtracer algorithm);
   
   again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
 
   ```sh
-  $ ./raytracer demo perspective width height angle renderer output_file.png
+  $ ./raytracer demo perspective width height angle renderer output_file.png n_rays max_depth
   ```
   
-  #### Example:
+  #### Example 1: onoff and flat renderers
   
   You may easily try the code running in the `examples/demo` directory:
   
   ```sh
   $ ./generate-image.sh ANGLE
   ```
-  which automatically run the following code:
+  which automatically runs the following code:
   ```sh
   $ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
   ```
@@ -181,7 +183,30 @@ For further details, see below.
   ```
   
   <p align="center">
-    <img src="./img/demo.gif" width="400">
+    <img src="./img/demo_flat.gif" width="400">
+  </p>
+  
+  The same can be done using the onoff renderer, just changing the renderer to `onoff` in the `examples/demo/generate-image.sh` script before running `generate-animation.sh`:
+
+  ```sh
+  $ ../build/./raytracer demo perspective 640 480 ANGLE onoff img/imageANGLE.png
+  ```
+  
+  <p align="center">
+    <img src="./img/demo_onoff.gif" width="400">
+  </p>
+  
+  
+  #### Example 2: pathtracer renderer
+  
+  Running the following in the `build` directory:
+  ```sh
+  $ ./raytracer demo perspective 700 350 0 pathtracer ../img/demo_pathtracer.png 10 2
+  ```
+  you should obtain this image
+  
+  <p align="center">
+    <img src="./img/demo_pathtracer.png" width="600">
   </p>
   
 </details>
