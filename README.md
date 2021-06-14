@@ -76,7 +76,7 @@ $ ./raytracer demo
 
 For further details, see below.
 
-<details><summary><b>Convert HDR image to LDR</b></summary>
+### <details><summary><b>Convert HDR image to LDR</b></summary>
 
   In the  `build` directory run: 
   
@@ -187,6 +187,8 @@ $ ./generate-animation.sh NUM_OF_CORES
 </details>
   
 ## Expectations
+
+More infos coming soon! Stay tuned!
 
 ## Contributing
 
