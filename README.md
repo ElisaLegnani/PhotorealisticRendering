@@ -76,9 +76,9 @@ $ ./raytracer demo
 
 For further details, see below.
 
-<details><summary><a name="convert"><b>Convert HDR image to LDR</b></a></summary>
+<details><summary><b>Convert HDR image to LDR</b></summary>
 
-  In the  `build` directory run: 
+  <a name="convert">In</a> the  `build` directory run: 
   
   ```sh
   $ ./raytracer hdr2ldr
@@ -127,9 +127,9 @@ For further details, see below.
 </details>
 
 
-<details><summary><a name="demo"><b>Create demo image</b></a></summary>
+<details><summary><b>Create demo image</b></summary>
 
-  In the  `build` directory run: 
+  <a name="convert">In</a> the  `build` directory run: 
   
   ```sh
   $ ./raytracer demo
