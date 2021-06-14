@@ -21,6 +21,12 @@ IN THE SOFTWARE.
 #ifndef _pcg_h_
 #define _pcg_h_
 
+/**
+ * A class implementing a PCG pseudo-random number generator
+ *
+ * @param state
+ * @param inc
+ */
 class PCG {
 
 public:
@@ -35,6 +41,7 @@ public:
     random();
   }
 
+  /** Returns a new random number and advances PCG's state */
   uint32_t random() {
     uint64_t oldstate = state;
     state = uint64_t(oldstate * 6364136223846793005 + inc);
@@ -45,6 +52,7 @@ public:
     return uint32_t((xorshifted >> rot) | (xorshifted << ((-rot) & 31)));
   }
 
+  /** Returns a random number uniformly distributed over [0,1] */
   float random_float() {
     return random() / float(0xffffffff);
   }
