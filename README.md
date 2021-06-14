@@ -9,7 +9,7 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 - [Explanation](#explanation)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
-  - [Installation from git repository](#installation-from-git-repository)
+  - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
   - [Convert HDR image to LDR](#convert-HDR-image-to-LDR)
   - [Create demo image](#create-demo-image)
