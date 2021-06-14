@@ -4,6 +4,19 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 *Note: it is a WIP project*
 
+## Table of Contents
+
+- [Explanation](#explanation)
+- [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Installation from git repository](#installation-from-git-repository)
+- [Usage](#usage)
+  - [Convert HDR image to LDR](#convert-HDR-image-to-LDR)
+  - [Create demo image](#create-demo-image)
+- [Expectations](#expectations)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Explanation
 
 More infos coming soon! Stay tuned!
