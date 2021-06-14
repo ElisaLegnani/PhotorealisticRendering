@@ -4,6 +4,19 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 *Note: it is a WIP project*
 
+## Table of Contents
+
+- [Explanation](#explanation)
+- [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [Install from git repository](#install-from-git-repository)
+- [Usage](#usage)
+  - [Convert HDR image to LDR](#convert)
+  - [Create demo image](#demo)
+- [Expectations](#expectations)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Explanation
 
 More infos coming soon! Stay tuned!
@@ -63,7 +76,7 @@ $ ./raytracer demo
 
 For further details, see below.
 
-<details><summary><b>Convert HDR image to LDR</b></summary>
+<details><summary name="convert"><b>Convert HDR image to LDR</b></summary>
 
   In the  `build` directory run: 
   
@@ -96,7 +109,7 @@ For further details, see below.
   Insert output PNG/JPG filename: output_file.png
   ```
   
-  ### Example:
+  #### Example:
   
   In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
   You can play with the code and parameters simply running (in the `build` directory):
@@ -114,45 +127,45 @@ For further details, see below.
 </details>
 
 
-<details><summary><b>Create demo image</b></summary>
+<details><summary name="demo"><b>Create demo image</b></summary>
 
-In the  `build` directory run: 
-  
-```sh
-$ ./raytracer demo
-```
-
-It is also provided a demo image, composed by ten spheres on a black screen.
-
-You can choose :
-  - camera type (orthogonal/perspective);
-  - image width;
-  - image height;
-  - angle of view (deg);
-  - renderer algorithm (onoff/flat)
-  - output filename (PFM/PNG/JPG);
-  
-again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
-
-```sh
-$ ./raytracer demo perspective width height angle renderer output_file.png
-```
-  
-  ### Example:
-  
- You may easily try the code running in the `examples/demo` directory:
+  In the  `build` directory run: 
   
   ```sh
-$ ./generate-image.sh ANGLE
-```
+  $ ./raytracer demo
+  ```
+
+  It is also provided a demo image, composed by ten spheres on a black screen.
+
+  You can choose :
+    - camera type (orthogonal/perspective);
+    - image width;
+    - image height;
+    - angle of view (deg);
+    - renderer algorithm (onoff/flat)
+    - output filename (PFM/PNG/JPG);
+  
+  again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
+
+  ```sh
+  $ ./raytracer demo perspective width height angle renderer output_file.png
+  ```
+  
+  #### Example:
+  
+  You may easily try the code running in the `examples/demo` directory:
+  
+  ```sh
+  $ ./generate-image.sh ANGLE
+  ```
   which automatically run the following code:
   ```sh
-$ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
+  $ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
   ```
   
   and you just need to set the `ANGLE` (deg) from which you look at the scene.
   
-  ### Animation:
+  #### Animation:
   
   In the `examples/demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
@@ -164,8 +177,8 @@ $ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
   This is needed to run in parallel the code and speed up the execution, otherwise it would take several minutes.
   
   ```sh
-$ ./generate-animation.sh NUM_OF_CORES
-```
+  $ ./generate-animation.sh NUM_OF_CORES
+  ```
   
   <p align="center">
     <img src="./img/demo.gif" width="400">
@@ -174,6 +187,8 @@ $ ./generate-animation.sh NUM_OF_CORES
 </details>
   
 ## Expectations
+
+More infos coming soon! Stay tuned!
 
 ## Contributing
 
