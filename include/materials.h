@@ -25,11 +25,20 @@ IN THE SOFTWARE.
 #define _materials_h_
 
 //––––––––––––– Abstract struct Pigment ––––––––––––––––––––––––
+/**
+ * An abstract struct representing a pigment:
+ * a function that associates a color with each point on a parametric surface
+ */
 struct Pigment {
   virtual Color get_color(Vec2d uv) = 0;
 };
 
 //––––––––––––– Sub-struct Uniform Pigment ––––––––––––––––––––––––
+/**
+ * A uniform pigment: a uniform color all over the surface
+ *
+ * @param color
+ */
 struct UniformPigment : public Pigment {
 
   Color color;
@@ -40,6 +49,11 @@ struct UniformPigment : public Pigment {
 };
 
 //––––––––––––– Sub-struct Image Pigment ––––––––––––––––––––––––
+/**
+ * A pigment that textures the surface with a PFM image
+ *
+ * @param image PFM format
+ */
 struct ImagePigment : public Pigment {
 
   HdrImage image;
@@ -50,6 +64,14 @@ struct ImagePigment : public Pigment {
 };
 
 //––––––––––––– Sub-struct Checkered Pigment ––––––––––––––––––––––––
+/**
+ * A pigment that textures the surface with a checkered pattern,
+ * with tunable number of rows/colums
+ *
+ * @param color1
+ * @param color2
+ * @param n_steps
+ */
 struct CheckeredPigment : public Pigment {
 
   Color color1;
@@ -63,6 +85,11 @@ struct CheckeredPigment : public Pigment {
 };
 
 //––––––––––––– Abstract struct BRDF ––––––––––––––––––––––––
+/** 
+ * An abstract struct representing a Bidirectional Reflectance Distribution Function
+ *
+ * @param pigment
+ */
 struct BRDF {
 
   shared_ptr<Pigment> pigment;
@@ -76,7 +103,11 @@ struct BRDF {
 };
 
 //––––––––––––– Sub-struct Diffuse BRDF ––––––––––––––––––––––––
-
+/** 
+ * A struct representing an ideal diffuse BRDF
+ *
+ * @param reflectance
+ */
 struct DiffuseBRDF : public BRDF {
 
   float reflectance;
@@ -92,7 +123,11 @@ struct DiffuseBRDF : public BRDF {
 };
 
 //––––––––––––– Sub-struct Specular BRDF ––––––––––––––––––––––––
-
+/** 
+ * A struct representing an ideal mirror BRDF
+ *
+ * @param threshold_angle_rad
+ */
 struct SpecularBRDF : public BRDF {
 
   float threshold_angle_rad;
@@ -107,6 +142,13 @@ struct SpecularBRDF : public BRDF {
 
 
 //––––––––––––– Struct Material ––––––––––––––––––––––––
+/** 
+ * A struct representing a material
+ *
+ * @param brdf
+ * @param emitted_radiance
+ */
+
 struct Material {
 
   shared_ptr<BRDF> brdf;

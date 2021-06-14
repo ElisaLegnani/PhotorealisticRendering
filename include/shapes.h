@@ -31,10 +31,10 @@ IN THE SOFTWARE.
 Vec2d _sphere_point_to_uv(Point);
 
 /**
- Evaluates the normal of the sphere in a given point
- 
- @param sphere_point
- @param ray_dir needs to evalute the normal direction: if inward (+) or outward (-) refered to the given ray direction
+ * Evaluates the normal of the sphere in a given point
+ *
+ * @param sphere_point
+ * @param ray_dir needs to evalute the normal direction: if inward (+) or outward (-) refered to the given ray direction
  */
 Normal _sphere_normal(Point, Vec);
 
@@ -108,16 +108,18 @@ struct Sphere : public Shape {
   
   //Se il vostro linguaggio lo supporta, il tipo di ritorno dovrebbe essere nullable.
   /**
-   Checks if the given ray hits the sphere
-   @param Ray Input ray to check
-   @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to faulse if no intersection happens)
+   * Checks if the given ray hits the sphere
+   *
+   * @param Ray Input ray to check
+   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to faulse if no intersection happens)
    */
   HitRecord ray_intersection(Ray);
   
   /**
-   Checks if the given ray hits the sphere
-   @param ray Input ray to check
-   @return boolean value
+   * Checks if the given ray hits the sphere
+   * 
+   * @param ray Input ray to check
+   * @return boolean value
    */
   bool check_if_intersection(Ray);
   
@@ -135,16 +137,18 @@ struct Plane : public Shape {
   Plane(Transformation t = Transformation(), Material m = Material()) : Shape(t,m) {}
   
   /**
-   Checks if the given ray hits the plane
-   @param ray Input ray to check
-   @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to faulse if no intersection happens)
+   * Checks if the given ray hits the plane
+   *
+   * @param ray Input ray to check
+   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to faulse if no intersection happens)
    */
   HitRecord ray_intersection(Ray);
   
   /**
-   Checks if the given ray hits the sphere
-   @param ray Input ray to check
-   @return boolean value
+   * Checks if the given ray hits the sphere
+   * 
+   * @param ray Input ray to check
+   * @return boolean value
    */
   bool check_if_intersection(Ray);
     

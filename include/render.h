@@ -1,3 +1,21 @@
+/*
+The MIT License (MIT)
+
+Copyright © 2021 Elisa Legnani, Adele Zaini
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+*/
+
 #include "colors.h"
 #include "materials.h"
 #include "ray.h"
@@ -7,7 +25,12 @@
 #define _render_h_
 
 //––––––––––––– Abstract struct Render ––––––––––––––––––––––––
-
+/**
+ * An abstract struct implementing a solver of the rendering equation
+ *
+ * @param world
+ * @param background_color
+ */
 struct Renderer {
 
   World world;
@@ -15,15 +38,18 @@ struct Renderer {
 
   Renderer(World w, Color bc = BLACK) : world{w}, background_color{bc} {}
 
+  /** Estimates the radiance along a ray */
   virtual Color operator()(Ray ray) = 0;
 };
 
 //––––––––––––– Sub-struct OnOffRender ––––––––––––––––––––––––
 /**
- A renderer with
- - ON mode (default: white)
- - OFF mode (default: black)
- Used mainly for debugging porpuses
+ * A renderer with
+ * - ON mode (default: white)
+ * - OFF mode (default: black)
+ * Used mainly for debugging purposes
+ *
+ * @param color of the world's shapes hit by a ray
  */
 struct OnOffRenderer : public Renderer {
   Color color;
@@ -41,6 +67,11 @@ struct OnOffRenderer : public Renderer {
 };
 
 //––––––––––––– Sub-struct FlatRender ––––––––––––––––––––––––
+/**
+ * A flat renderer:
+ * it estimates the solution of the rendering equation neglecting any contribution of the light
+ * it uses the pigment of each surface to compute the final radiance
+ */
 struct FlatRenderer : public Renderer {
 
   FlatRenderer(World w, Color bc = BLACK) : Renderer(w, bc) {}
@@ -62,6 +93,15 @@ struct FlatRenderer : public Renderer {
 };
 
 //––––––––––––– Sub-struct PathTracer ––––––––––––––––––––––––
+/**
+ * A path-tracing renderer
+ *
+ * @param pcg
+ * @param num_of_rays number of rays thrown at each iteration
+ * @param max_depth maximum depth of the rays
+ * @param russian_roulette_limit allows the algorithm to complete the calculation
+ even if max_depth is set to infinity, using the Roussian roulette method
+ */
 struct PathTracer : public Renderer {
 
   PCG pcg;
