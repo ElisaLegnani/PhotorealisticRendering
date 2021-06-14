@@ -76,7 +76,7 @@ $ ./raytracer demo
 
 For further details, see below.
 
-<details><summary><b>Convert HDR image to LDR</b></summary>
+<details><summary><h3>Convert HDR image to LDR</h3></summary>
 
   In the  `build` directory run: 
   
@@ -127,7 +127,7 @@ For further details, see below.
 </details>
 
 
-<details><summary><b>Create demo image</b></summary>
+<details><summary><h3>Create demo image</h3></summary>
 
   In the  `build` directory run: 
   
