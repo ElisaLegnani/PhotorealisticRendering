@@ -24,7 +24,7 @@ IN THE SOFTWARE.
 
 using namespace std;
 
-void demo(int, int, float, string, string, string);
+void demo(int, int, float, string, string, string, int, int);
 
 int main(int argc, char *argv[]) {
 
@@ -73,6 +73,7 @@ int main(int argc, char *argv[]) {
     float angle_deg;
     string algorithm;
     string filename;
+    int n_rays = 0, max_depth = 0;
 
     if (argv[2] == NULL) {
       cout << "Insert camera type (orthogonal/perspective): ";
@@ -85,6 +86,12 @@ int main(int argc, char *argv[]) {
       cin >> angle_deg;
       cout << "Insert renderer algorithm (onoff/flat/pathtracer): ";
       cin >> algorithm;
+      if (algorithm == "pathtracer"){
+        cout << "Insert number of rays: ";
+        cin >> n_rays;
+        cout << "Insert max depth: ";
+        cin >> max_depth;
+      }
       cout << "Insert output filename (PFM/PNG/JPG): ";
       cin >> filename;
     }
@@ -95,16 +102,20 @@ int main(int argc, char *argv[]) {
       angle_deg = atof(argv[5]);
       algorithm = argv[6];
       filename = argv[7];
+      if (algorithm == "pathtracer"){
+        n_rays = atoi(argv[8]);
+        max_depth = atoi(argv[9]);
+      }
     }
 
-    demo(width, height, angle_deg, cameratype, algorithm, filename);
+    demo(width, height, angle_deg, cameratype, algorithm, filename, n_rays, max_depth);
   }
 
   return 0;
 }
 
 void demo(int width, int height, float angle_deg, string cameratype,
-          string algorithm, string output) {
+          string algorithm, string output, int n_rays, int max_depth) {
 
   HdrImage image(width, height);
 
@@ -115,11 +126,6 @@ void demo(int width, int height, float angle_deg, string cameratype,
   Color sphere_color2(0.0, 100.0, 0.0);
   Color sphere_color3(0.0, 100.0, 100.0);
   Color sphere_color4(100.0, 100.0, 0.0);
- 
-  HdrImage img_pigment("../examples/hdr2ldr/memorial.pfm");
-  img_pigment.normalize_image(0.3);
-  img_pigment.clamp_image();
-  Material material7(make_shared<DiffuseBRDF>(make_shared<ImagePigment>(img_pigment)));
 
   Material material1(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color1)));
   Material material2(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color2)));
@@ -151,27 +157,35 @@ void demo(int width, int height, float angle_deg, string cameratype,
                                 scaling(Vec(0.1, 0.1, 0.1)),material5));
   world.add(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
                                 scaling(Vec(0.1, 0.1, 0.1)), material6));
-  World world2;
-  world2.add(make_shared<Sphere>(scaling(Vec(1., 1., 1.)), material7));
   
 //  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  World world3;
-  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(1.0, 0.9, 0.5)));
-  Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5)))); //SpecularBRDF>());
-  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.3, 0.4, 0.8))));
-  Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.6, 0.2, 0.3))));
+  World world2;
+
+  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(0.6, 0.8, 1.0)));
+  Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))));
+  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.8, 0.2, 0.5))));
+  Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.5, 0.3, 0.3))));
+
+  HdrImage img_pigment("../examples/hdr2ldr/sky.pfm");
+  img_pigment.normalize_image(0.3);
+  img_pigment.clamp_image();
+  Material image_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<ImagePigment>(img_pigment));
   
-  world3.add(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.4)), sky_material));
-  world3.add(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
-  world3.add(make_shared<Sphere>(translation(Vec(0., 0.,1.)), sphere_material));
-  world3.add(make_shared<Sphere>(translation(Vec(1., 1.,2.5)), Material(make_shared<SpecularBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))))));
-  world3.add(make_shared<Sphere>(translation(Vec(1., 2.5,0.)), mirror_material));
+  world2.add(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.8))*rotation_z(150), image_material));
+  world2.add(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
+  world2.add(make_shared<Sphere>(translation(Vec(0., 0., 0.8))*scaling(Vec(0.8,0.8,0.8)), sphere_material));
+  world2.add(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
+  world2.add(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
              
   // Initialize a camera
-  Transformation camera_tr =
-      rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 1.0));
-  shared_ptr<Camera> camera;
+  Transformation camera_tr;
+  if (algorithm == "onoff" || algorithm == "flat") {
+    camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 0.0));
+  } else if (algorithm == "pathtracer") {
+    camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 1.0));
+  }
 
+  shared_ptr<Camera> camera;
   if (cameratype == "orthogonal") {
     camera = make_shared<OrthogonalCamera>(width / height, camera_tr);
   } else if (cameratype == "perspective") {
@@ -181,13 +195,16 @@ void demo(int width, int height, float angle_deg, string cameratype,
   // Run the ray-tracer
   ImageTracer tracer(image, camera);
 
+  PCG pcg(42, 54); // non si riescono a cambiare i parametri di PCG!!
+  int rr_lim = 3;
+
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
-    renderer = make_shared<OnOffRenderer>(world3);
+    renderer = make_shared<OnOffRenderer>(world);
   } else if (algorithm == "flat") {
-    renderer = make_shared<FlatRenderer>(world3);
-  }else if (algorithm == "pathtracer") {
-    renderer = make_shared<PathTracer>(world3, BLACK, 200, 6, 4);
+    renderer = make_shared<FlatRenderer>(world);
+  } else if (algorithm == "pathtracer") {
+    renderer = make_shared<PathTracer>(world2, BLACK, pcg, n_rays, max_depth, rr_lim);
   }
 
   tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); }); //***
