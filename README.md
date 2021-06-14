@@ -11,8 +11,8 @@ It is developed for the course [*Numerical techniques for photorealistic image g
   - [Dependencies](#dependencies)
   - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
-  - [Convert HDR image to LDR]
-  - [Create demo image]
+  - Convert HDR image to LDR
+  - Create demo image
 - [Expectations](#expectations)
 - [Contributing](#contributing)
 - [License](#license)
