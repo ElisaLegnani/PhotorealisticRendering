@@ -109,8 +109,8 @@ struct PathTracer : public Renderer {
   int max_depth;
   int russian_roulette_limit;
 
-  PathTracer(World w, Color bc = BLACK, PCG pcg = PCG(), int nrays = 10, int maxd = 2, int rrlim = 3)
-      : Renderer(w, bc), num_of_rays{nrays}, max_depth{maxd}, russian_roulette_limit{rrlim} {}
+  PathTracer(World w, Color bc = BLACK, PCG _pcg = PCG(), int nrays = 10, int maxd = 2, int rrlim = 3)
+      : Renderer(w, bc), pcg{_pcg}, num_of_rays{nrays}, max_depth{maxd}, russian_roulette_limit{rrlim} {}
 
   Color operator()(Ray ray) {
     

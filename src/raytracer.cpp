@@ -195,7 +195,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
   // Run the ray-tracer
   ImageTracer tracer(image, camera);
 
-  PCG pcg(42, 54); // non si riescono a cambiare i parametri di PCG!!
+  PCG pcg;
   int rr_lim = 3;
 
   shared_ptr<Renderer> renderer;
