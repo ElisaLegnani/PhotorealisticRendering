@@ -223,39 +223,26 @@ struct ONB {
 
   Vec e1, e2, e3;
 
-  ONB(float x, float y, float z);
-
-  ONB(Vec normal) { //Normalized vector!
+  ONB(float x, float y, float z) {
 
     float sign;
-    if (normal.z > 0.0)
+    if (z > 0.0)
       sign = 1.0;
     else 
       sign = -1.0;
 
-    float a = -1.0 / (sign + normal.z);
-    float b = normal.x * normal.y * a;
+    float a = -1.0 / (sign + z);
+    float b = x * y * a;
 
-    e1 = Vec(1.0 + sign * normal.x * normal.x * a, sign * b, -sign * normal.x);
-    e2 = Vec(b, sign + normal.y * normal.y * a, -normal.y);
-    e3 = Vec(normal.x, normal.y, normal.z);
+    e1 = Vec(1.0 + sign * x * x * a, sign * b, -sign * x);
+    e2 = Vec(b, sign + y * y * a, -y);
+    e3 = Vec(x, y, z);
   }
 
-  ONB(Normal normal) {
+  ONB(Normal normal) : ONB(normal.x, normal.y, normal.z) {}
 
-    float sign;
-    if (normal.z > 0.0)
-      sign = 1.0;
-    else 
-      sign = -1.0;
+  ONB(Vec normal) : ONB(normal.x, normal.y, normal.z) {} // Normalized vector
 
-    float a = -1.0 / (sign + normal.z);
-    float b = normal.x * normal.y * a;
-
-    e1 = Vec(1.0 + sign * normal.x * normal.x * a, sign * b, -sign * normal.x);
-    e2 = Vec(b, sign + normal.y * normal.y * a, -normal.y);
-    e3 = Vec(normal.x, normal.y, normal.z);
-  }
 };
 
 #endif
