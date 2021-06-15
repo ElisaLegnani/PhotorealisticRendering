@@ -223,6 +223,8 @@ struct ONB {
 
   Vec e1, e2, e3;
 
+  ONB(float x, float y, float z);
+
   ONB(Vec normal) { //Normalized vector!
 
     float sign;
