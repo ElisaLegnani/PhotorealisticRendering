@@ -20,9 +20,11 @@ IN THE SOFTWARE.
 #define _scene_h_
 
 enum class TokenType {
-  LITERAL_NUMBER;
-  LITERAL_STRING;
-}
+  LITERAL_NUMBER,
+  LITERAL_STRING,
+  SYMBOL,
+  KEYWORD,
+};
 
 union TokenValue {
   float number;
@@ -30,7 +32,7 @@ union TokenValue {
 
   TokenValue() : number{0.0} {}
   ~TokenValue() {}
-}
+}:
 
 struct Token {
   TokenType type;
@@ -38,7 +40,15 @@ struct Token {
 
   Token() : type(TokenType::LITERAL_NUMBER) {}
 
-  void 
+  void assign_number(float val) {
+      type = TokenType::LITERAL_NUMBER;
+      value.number = val;
+  }
+
+  void assign_string(const string & s) {
+      type = TokenType::LITERAL_STRING;
+      value.string = s;
+  }
 };
 
 #endif
