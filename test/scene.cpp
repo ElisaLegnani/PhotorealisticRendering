@@ -21,8 +21,7 @@ IN THE SOFTWARE.
 
 #define CATCH_CONFIG_MAIN
 
-TEST_CASE("TOKEN_KEYWORD", "[token]") {
-  Token token;
-  
+TEST_CASE("Token Keyword", "[token]") {
+ Token token;
 
 }

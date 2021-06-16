@@ -175,6 +175,17 @@ target_link_libraries(rendertest PUBLIC trace)
 add_test(NAME rendertest
     COMMAND rendertest
     )
-    
+
+# scenetest
+add_executable(scenetest
+    test/scene.cpp
+    )
+
+target_link_libraries(scenetest PUBLIC trace)
+
+add_test(NAME scenetest
+    COMMAND scenetest
+    )
+
 # COMPILER FEAUTURES:
 target_compile_features(raytracer PUBLIC cxx_std_17)

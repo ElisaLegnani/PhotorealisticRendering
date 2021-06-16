@@ -16,13 +16,21 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 IN THE SOFTWARE.
 */
 
-#include<iostream>
+#include <iostream>
+
+using namespace std;
 
 /*#define WHITESPACE = {" ", "\t", "\n", "\r"}
 #define SYMBOLS = {"(",")","<",">","[","]","*"}*/
 
 #ifndef _scene_h_
 #define _scene_h_
+
+struct SourceLocation {
+  string file_name{""};
+  int line_num{};
+  int col_num{};
+};
 
 enum class Keyword{
   MATERIAL, PLANE, SPHERE, DIFFUSE, SPECULAR, UNIFORM, CHECKERED, IMAGE, IDENTITY, TRANSLATION, ROTATION_X, ROTATION_Y, ROTATION_Z, SCALING, CAMERA, ORTHOGONAL, PERSPECTIVE, FLOAT,
@@ -35,20 +43,20 @@ enum class TokenType {
 
 union TokenValue {
   float number;
-  string string;
+  string str;
   char symbol;
   Keyword key;
 
   TokenValue() : number{0.0} {}
   ~TokenValue() {}
-}:
+};
 
 struct Token {
   SourceLocation location;
   TokenType type;
   TokenValue value;
 
-  Token(SourceLocation loc) : location{loc} {}
+  Token(SourceLocation loc = SourceLocation()) : location{loc} {}
 
   void assign_number(float val) {
       type = TokenType::LITERAL_NUMBER;
@@ -57,7 +65,7 @@ struct Token {
 
   void assign_string(const string & s) {
       type = TokenType::LITERAL_STRING;
-      value.string = s;
+      value.str = s;
   }
   
   void assign_symbol(char sym) {
@@ -72,19 +80,13 @@ struct Token {
   
   void assign_identifier(const string & s) {
       type = TokenType::IDENTIFIER;
-      value.string = s;
+      value.str = s;
   }
   
   void assign_stoptoken() {
       type = TokenType::STOPTOKEN;
   }
   
-};
-
-struct SourceLocation {
-  string file_name{""};
-  int line_num{};
-  int col_num{};
 };
 
 struct ParserError{
@@ -94,33 +96,33 @@ struct ParserError{
 
 struct InputStream{
   
-  istream stream_in;
+  istream &stream_in;
   SourceLocation location;
   int tabulations;
-  char saved_char = "";
+  char saved_char;
   SourceLocation saved_location;
   Token saved_token;
   
-  InuputStream(string file, int tab = 8) : location{file, 1, 1}, tabulations{tab} , saved_location{location} {} //?
+  InputStream(istream &stream, int tab = 8) : stream_in{stream}, tabulations{tab} {}
    
   void update_location(char character){
-    if(character == "") return;
-    else if (character == "\n"){
+    if(character == '\0') return;
+    else if (character == '\n'){
       location.line_num += 1;
       location.col_num += 1;
-    }else if(character =="\t"){
+    }else if(character =='\t'){
       location.col_num += tabulations;
     }else{
-      col_num += 1;
+      location.col_num += 1;
     }
   }
   
   char read_character(){
     
     char ch;
-    if(saved_char != ""){
-      ch{saved_char};
-      saved_char = "";
+    if(saved_char != '\0'){
+      ch = saved_char;
+      saved_char = '\0';
     }else{
       stream_in >> ch;
     }
@@ -131,16 +133,16 @@ struct InputStream{
   }
   
   void unread_character(char ch){
-    if(saved_char == "") return;
-    saved_char{ch};
-    location{saved_location}
+    if(saved_char == '\0') return;
+    saved_char = ch;
+    location = saved_location;
   }
   
   void skip_whitespaces(){
     char ch = read_character();
-    while(ch == " " or ch == "\t" or ch == "\n" or ch == "\r"){
+    while(ch == ' ' or ch == '\t' or ch == '\n' or ch == '\r'){
       ch = read_character();
-      if(ch == "") return;
+      if(ch == '\0') return;
     }
     unread_character(ch);
   }
