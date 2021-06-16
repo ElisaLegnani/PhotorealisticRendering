@@ -3,3 +3,4 @@
 build/
 examples/demo/img
 examples/demo/*.mp4
+.DS_Store

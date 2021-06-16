@@ -1,3 +1,21 @@
+/*
+The MIT License (MIT)
+
+Copyright © 2021 Elisa Legnani, Adele Zaini
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+IN THE SOFTWARE.
+*/
+
 #include "functions.h"
 #include <iostream>
 #include <sstream>
@@ -20,6 +38,17 @@ Out _diff(const In1 &a, const In2 &b) {
 template <typename In1, typename Out>
 Out _prod(const In1 &a, const float &b) {
   return Out{a.x * b, a.y * b, a.z * b};
+}
+
+// Scalar product
+template <typename In1, typename In2> float _dot(const In1 &a, const In2 &b) {
+  return {a.x * b.x + a.y * b.y + a.z * b.z};
+}
+
+// Vector product
+template <typename In1, typename In2, typename Out>
+Out _cross(const In1 &a, const In2 &b) {
+  return Out{a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x};
 }
 
 template <typename In> bool are_xyz_close(const In &a, const In &b){
@@ -72,13 +101,9 @@ inline Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
 
 inline Vec operator-(const Vec &v) { return v * (-1); }
 
-// Scalar product
-inline float dot(const Vec &v1, const Vec &v2) { return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z; }
+inline float dot(const Vec &v1, const Vec &v2) { return _dot<Vec, Vec>(v1, v2); }
 
-// Vector product
-inline Vec cross(const Vec &v1, const Vec &v2) {
-  return Vec(v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x);
-}
+inline Vec cross(const Vec &v1, const Vec &v2) { return _cross<Vec, Vec, Vec>(v1, v2); }
 
 
 //–––––––––––––––––––––– Struct Point –––––––––––––––––––––––––––––––––––
@@ -152,5 +177,72 @@ struct Normal {
 };
 
 inline Normal operator-(const Normal &n) { return _prod<Normal, Normal>(n, -1.0); }
+
+inline Normal operator*(const Normal &n, const float &c) { return _prod<Normal, Normal>(n, c); }
+
+inline float dot(const Normal &n1, const Normal &n2) { return _dot<Normal, Normal>(n1, n2); }
+
+inline Normal cross(const Normal &n1, const Normal &n2) { return _cross<Normal, Normal, Normal>(n1, n2); }
+
+inline float dot(const Vec &v, const Normal &n) { return _dot<Vec, Normal>(v, n); }
+
+inline Vec cross(const Vec &v, const Normal &n) { return _cross<Vec, Normal, Vec>(v, n); }
+
+inline Vec operator+(const Vec &v, const Normal &n) {
+  return _sum<Vec, Normal, Vec>(v, n);
+}
+
+inline Vec operator-(const Vec &v, const Normal &n) {
+  return _diff<Vec, Normal, Vec>(v, n);
+}
+
+
+
+/**
+ * A 2D vector representing a point on a surface
+ * 
+ * @param u
+ * @param v
+ */
+struct Vec2d {
+
+  float u;
+  float v;
+  
+  Vec2d(float U=0.0, float V=0.0) : u(U),v(V){}
+
+  bool is_close(Vec2d vec) {
+    return are_close(u, vec.u) && are_close(v, vec.v);
+  }
+  string get_string(){
+    return string{"Vec2d(" + to_string(u) + ", " + to_string(v) +")"};
+  }
+};
+
+struct ONB {
+
+  Vec e1, e2, e3;
+
+  ONB(float x, float y, float z) {
+
+    float sign;
+    if (z > 0.0)
+      sign = 1.0;
+    else 
+      sign = -1.0;
+
+    float a = -1.0 / (sign + z);
+    float b = x * y * a;
+
+    e1 = Vec(1.0 + sign * x * x * a, sign * b, -sign * x);
+    e2 = Vec(b, sign + y * y * a, -y);
+    e3 = Vec(x, y, z);
+  }
+
+  ONB(Normal normal) : ONB(normal.x, normal.y, normal.z) {}
+
+  ONB(Vec normal) : ONB(normal.x, normal.y, normal.z) {} // Normalized vector
+
+};
 
 #endif
