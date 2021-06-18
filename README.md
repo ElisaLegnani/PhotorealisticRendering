@@ -119,7 +119,7 @@ For further details, see below.
   ```
  
   <p align="center">
-    <img src="./img/example1.png" width="700">
+    <img width="700" src=https://user-images.githubusercontent.com/62106779/122543269-e3443000-d02b-11eb-9809-19333a1e6e3f.png>
   </p>
   
 </details>
@@ -183,7 +183,7 @@ For further details, see below.
   ```
   
   <p align="center">
-    <img src="./img/demo_flat.gif" width="400">
+    <img width="400" src=https://user-images.githubusercontent.com/62106779/122543179-c60f6180-d02b-11eb-8887-3f81a9a32cf3.gif>
   </p>
   
   The same can be done using the onoff renderer, just changing the renderer to `onoff` in the `examples/demo/generate-image.sh` script before running `generate-animation.sh`:
@@ -193,7 +193,7 @@ For further details, see below.
   ```
   
   <p align="center">
-    <img src="./img/demo_onoff.gif" width="400">
+    <img width="400" src=https://user-images.githubusercontent.com/62106779/122543091-b001a100-d02b-11eb-9a55-0db027888eaa.gif>
   </p>
   
   
@@ -201,12 +201,12 @@ For further details, see below.
   
   Running the following in the `build` directory:
   ```sh
-  $ ./raytracer demo perspective 700 350 0 pathtracer ../img/demo_pathtracer.png 10 2
+  $ ./raytracer demo perspective 700 350 0 pathtracer demo_pathtracer.png 10 2
   ```
   you should obtain this image
   
   <p align="center">
-    <img src="./img/demo_pathtracer.png" width="600">
+  <img width="700" src=https://user-images.githubusercontent.com/62106779/122542518-11754000-d02b-11eb-8e56-8301a932a7db.png>
   </p>
   
 </details>
