@@ -207,7 +207,7 @@ For further details, see below.
   you should obtain this image
   
   <p align="center">
-  <img width="700" src=https://user-images.githubusercontent.com/62106779/122542518-11754000-d02b-11eb-8e56-8301a932a7db.png>
+  <img width="700" src=https://user-images.githubusercontent.com/62106779/122638442-64ff9080-d0f4-11eb-9dae-0fcdd49cba20.png>
   </p>
   
 </details>
