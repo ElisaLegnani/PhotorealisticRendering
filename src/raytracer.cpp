@@ -192,11 +192,12 @@ void demo(int width, int height, float angle_deg, string cameratype,
     camera = make_shared<PerspectiveCamera>(1.0, width / height, camera_tr);
   }
 
-  // Run the ray-tracer
-  ImageTracer tracer(image, camera);
-
   PCG pcg;
   int rr_lim = 3;
+  int samples_per_side = 4; // perfect square
+
+  // Run the ray-tracer
+  ImageTracer tracer(image, camera, samples_per_side, pcg);
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
