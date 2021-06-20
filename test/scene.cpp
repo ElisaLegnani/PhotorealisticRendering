@@ -50,7 +50,7 @@ TEST_CASE("Input file", "[inputstream]") {
     REQUIRE(stream.location.line_num == 1);
     REQUIRE(stream.location.col_num == 4);
 
-    stream.skip_whitespaces();
+    stream.skip_whitespaces_and_comments();
 
     REQUIRE(stream.read_character() == 'd');
     REQUIRE(stream.location.line_num == 2);
@@ -75,6 +75,7 @@ TEST_CASE("Lexer", "[token]") { // not working !
 
     stringstream sstr;
     sstr << "# This is a comment"
+        "# This is another comment"
         "\nnew material sky_material("
         "\ndiffuse(image(\"my_file.pfm\")),"
         "\n<5.0, 500.0, 300.0>"

@@ -199,9 +199,14 @@ struct InputStream {
     location = saved_location;
   }
 
-  void skip_whitespaces() {
+  void skip_whitespaces_and_comments() {
     char ch = read_character();
-    while (WHITESPACES.find(ch) != string::npos) { // string::npos if no matches found
+    while (WHITESPACES.find(ch) != string::npos || ch == '#') { // string::npos if no matches found
+      if (ch == '#'){
+        // Start of a comment: keep reading until the end of the line
+        while (ch != '\r' || ch != '\n' || ch != '\0')
+          ch = read_character();
+      }
       ch = read_character();
       if (ch == '\0')
         return;
@@ -272,26 +277,20 @@ struct InputStream {
       return result;
     }
 
-    skip_whitespaces();
+    skip_whitespaces_and_comments();
     char ch = read_character();
 
     if (ch == '\0') { // No more characters in the file
       Token token(location);
       token.assign_stoptoken();
       return token;
-    } else if (ch == '#') { // Start of a comment: keep reading until the end of the line
-      while (ch != '\r' || ch != '\n' || ch != '\0')
-        ch = read_character();
-      skip_whitespaces();
-    } else {
-      unread_character(ch);
     }
+
     // At this point we must check what kind of token begins with the "ch" character
     // First, we save the position in the stream
     SourceLocation token_location = location;
     Token token(location);
-    // Now we read again ch (which was put back using self.unread_char)
-    ch = read_character();
+
     if (SYMBOLS.find(ch) != string::npos) { // One-character symbol
       token.assign_symbol(ch); 
       return token;
@@ -519,10 +518,11 @@ struct InputStream {
 
     return result;
   }
+
+  /*Scene parse_scene (unordered_map<string, float> variables) {
+    Scene scene;
+  }*/
+
 };
 
 #endif
-
-
-// parse scene !
-// poi ricontrollare tutto e risolvere errori!
