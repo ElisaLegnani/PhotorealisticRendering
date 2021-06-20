@@ -279,8 +279,7 @@ struct InputStream {
       Token token(location);
       token.assign_stoptoken();
       return token;
-    }
-    if (ch == '#') { // Start of a comment: keep reading until the end of the line
+    } else if (ch == '#') { // Start of a comment: keep reading until the end of the line
       while (ch != '\r' || ch != '\n' || ch != '\0')
         ch = read_character();
       skip_whitespaces();
@@ -352,6 +351,80 @@ struct InputStream {
     if(token.type != TokenType::IDENTIFIER)
       throw ParserError("got " + token.value.str + " instead of an identifier", token.location);
     return token.value.str;
+  }
+
+  Vec parse_vector(Scene scene) {
+    expect_symbol('[');
+    float x = expect_number(scene);
+    expect_symbol(',');
+    float y = expect_number(scene);
+    expect_symbol(',');
+    float z = expect_number(scene);
+    expect_symbol(']');
+
+    return Vec(x, y, z);
+  }
+
+  Color parse_color(Scene scene) {
+    expect_symbol('<');
+    float red = expect_number(scene);
+    expect_symbol(',');
+    float green = expect_number(scene);
+    expect_symbol(',');
+    float blue = expect_number(scene);
+    expect_symbol('>');
+
+    return Color(red, green, blue);
+  }
+
+  shared_ptr<Pigment> parse_pigment(Scene scene) {
+    shared_ptr<Pigment> result;
+
+    Keyword keyword = expect_keyword(vector{Keyword::UNIFORM, Keyword::CHECKERED, Keyword::IMAGE});
+    expect_symbol('(');
+
+    if (keyword == Keyword::UNIFORM) {
+      Color color = parse_color(scene);
+      result = make_shared<UniformPigment>(color);
+    } else if (keyword == Keyword::CHECKERED) {
+      Color color1 = parse_color(scene);
+      expect_symbol(',');
+      Color color2 = parse_color(scene);
+      expect_symbol(',');
+      int num_of_steps = int(expect_number(scene));
+      result = make_shared<CheckeredPigment>(color1, color2, num_of_steps);
+    } else if (keyword == Keyword::IMAGE) {
+      string file_name = expect_string();
+      HdrImage image(file_name);
+      result = make_shared<ImagePigment>(image);
+    }
+
+    expect_symbol(')');
+    return result;
+  }
+
+  shared_ptr<BRDF> parse_brdf(Scene scene) {
+    Keyword keyword = expect_keyword(vector{Keyword::DIFFUSE, Keyword::SPECULAR});
+    expect_symbol('(');
+    shared_ptr<Pigment> pigment = parse_pigment(scene);
+    expect_symbol(')');
+
+    if (keyword == Keyword::DIFFUSE)
+      return make_shared<DiffuseBRDF>(pigment);
+    else if (keyword == Keyword::SPECULAR)
+      return make_shared<SpecularBRDF>(pigment);
+  }
+
+  tuple<string, Material> parse_material(Scene scene) {
+    string name = expect_identifier();
+
+    expect_symbol('(');
+    shared_ptr<BRDF> brdf = parse_brdf(scene);
+    expect_symbol(',');
+    shared_ptr<Pigment> emitted_radiance = parse_pigment(scene);
+    expect_symbol(')');
+
+    return tuple<string, Material>{name, Material(brdf, emitted_radiance)};
   }
 };
 
