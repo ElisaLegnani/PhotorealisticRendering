@@ -140,9 +140,9 @@ struct Token {
   void assign_stoptoken() { type = TokenType::STOPTOKEN; }
 };
 
-struct ParserError : public runtime_error {
+struct GrammarError : public runtime_error {
   SourceLocation location;
-  explicit ParserError(const string &message, SourceLocation loc) noexcept
+  explicit GrammarError(const string &message, SourceLocation loc) noexcept
       : location{loc}, runtime_error(message) {}
 };
 
@@ -216,7 +216,7 @@ struct InputStream {
       if (ch=='"')
         break;
       if (ch=='\0')
-        throw ParserError("unterminated string", location);
+        throw GrammarError("unterminated string", location);
       str += ch;
     }
     Token token(location);
@@ -238,7 +238,7 @@ struct InputStream {
     try {
       value = stof(str);
     } catch (invalid_argument) {
-      throw ParserError(str + " is an invalid floating-point number", location);
+      throw GrammarError(str + " is an invalid floating-point number", location);
     }
     Token token(location);
     token.assign_number(value);
@@ -302,7 +302,7 @@ struct InputStream {
     else if (isalpha(ch) || ch == '_') // Alphabetic character, thus it must either a keyword or a identifier
       return parse_keyword_or_identifier_token(ch);
     else // We got some weird character, like '@` or `&`
-      throw ParserError(ch + " is an invalid character", location);
+      throw GrammarError(ch + " is an invalid character", location);
   }
 
   /*void unread_token(Token token) { --> implementare = Token
@@ -313,15 +313,15 @@ struct InputStream {
   void expect_symbol(char sym) {
     Token token = read_token();
     if(token.type != TokenType::SYMBOL || token.value.symbol != sym)
-      throw ParserError("got " + string{token.value.symbol} + " instead of " + sym, token.location);
+      throw GrammarError("got " + string{token.value.symbol} + " instead of " + sym, token.location);
   }
 
   Keyword expect_keyword(vector<Keyword> keywords) {
     Token token = read_token();
     if(token.type != TokenType::KEYWORD)
-      throw ParserError("expected a keyword instead of " /*+ string{token.value.keyword}*/, token.location);
+      throw GrammarError("expected a keyword instead of " /*+ string{token.value.keyword}*/, token.location);
     if(find(keywords.begin(), keywords.end(), token.value.keyword) == keywords.end())
-      throw ParserError("expected one of the keywords instead of " /*+ string{token.value.keyword}*/, token.location);
+      throw GrammarError("expected one of the keywords instead of " /*+ string{token.value.keyword}*/, token.location);
     return token.value.keyword;
   }
 
@@ -333,23 +333,23 @@ struct InputStream {
     else if(token.type == TokenType::IDENTIFIER) {
       string variable_name = token.value.str;
       if(scene.float_variables.find(token.value.str) == scene.float_variables.end())
-        throw ParserError("unknown variable " + token.value.str, token.location);
+        throw GrammarError("unknown variable " + token.value.str, token.location);
       return scene.float_variables[variable_name];
     } else
-      throw ParserError("got " + token.value.str + " instead of a number", token.location);
+      throw GrammarError("got " + token.value.str + " instead of a number", token.location);
   }
 
   string expect_string() {
     Token token = read_token();
     if(token.type != TokenType::LITERAL_STRING)
-      throw ParserError("got " + token.value.str + " instead of a string", token.location);
+      throw GrammarError("got " + token.value.str + " instead of a string", token.location);
     return token.value.str;
   }
 
   string expect_identifier() {
     Token token = read_token();
     if(token.type != TokenType::IDENTIFIER)
-      throw ParserError("got " + token.value.str + " instead of an identifier", token.location);
+      throw GrammarError("got " + token.value.str + " instead of an identifier", token.location);
     return token.value.str;
   }
 
