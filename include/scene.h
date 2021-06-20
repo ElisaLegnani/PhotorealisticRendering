@@ -20,12 +20,15 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
 THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+#include "render.h"
+#include "imagetracer.h"
 #include <iostream>
+#include <unordered_map>
 
 using namespace std;
 
-/*#define WHITESPACE = {" ", "\t", "\n", "\r"}
-#define SYMBOLS = {"(",")","<",">","[","]","*"}*/
+#define WHITESPACES string{" \t\n\r"}
+#define SYMBOLS string{"()<>[]*"}
 
 #ifndef _scene_h_
 #define _scene_h_
@@ -37,6 +40,7 @@ struct SourceLocation {
 };
 
 enum class Keyword {
+  NEW,
   MATERIAL,
   PLANE,
   SPHERE,
@@ -57,6 +61,28 @@ enum class Keyword {
   FLOAT,
 };
 
+unordered_map<string, Keyword> KEYWORDS = {
+  {"new", Keyword::NEW},
+  {"material", Keyword::MATERIAL},
+  {"plane", Keyword::PLANE},
+  {"sphere", Keyword::SPHERE},
+  {"diffuse", Keyword::DIFFUSE},
+  {"specular", Keyword::SPECULAR},
+  {"uniform", Keyword::UNIFORM},
+  {"checkered", Keyword::CHECKERED},
+  {"image", Keyword::IMAGE},
+  {"identity", Keyword::IDENTITY},
+  {"translation", Keyword::TRANSLATION},
+  {"rotation_x", Keyword::ROTATION_X},
+  {"rotation_y", Keyword::ROTATION_Y},
+  {"rotation_z", Keyword::ROTATION_Z},
+  {"scaling", Keyword::SCALING},
+  {"camera", Keyword::CAMERA},
+  {"orthogonal", Keyword::ORTHOGONAL},
+  {"perspective", Keyword::PERSPECTIVE},
+  {"float", Keyword::FLOAT},
+};
+
 enum class TokenType {
   LITERAL_NUMBER,
   LITERAL_STRING,
@@ -70,7 +96,7 @@ union TokenValue {
   float number;
   string str;
   char symbol;
-  Keyword key;
+  Keyword keyword;
 
   TokenValue() : number{0.0} {}
   TokenValue(const TokenValue &token): str{token.str} {}
@@ -83,7 +109,8 @@ struct Token {
   TokenValue value;
 
   Token(SourceLocation loc = SourceLocation()) : location{loc} {}
-  //Token(const Token &token): location{token.location}, type{token.type} {} 
+  Token(const Token &token): location{token.location}, type{token.type} {} // implementare tokenvalue
+  Token operator = (const Token &token) {} // implementare
 
   void assign_number(float val) {
     type = TokenType::LITERAL_NUMBER;
@@ -102,7 +129,7 @@ struct Token {
 
   void assign_keyword(Keyword keyword) {
     type = TokenType::KEYWORD;
-    value.key = keyword;
+    value.keyword = keyword;
   }
 
   void assign_identifier(const string &s) {
@@ -119,6 +146,14 @@ struct ParserError : public runtime_error {
       : location{loc}, runtime_error(message) {}
 };
 
+struct Scene {
+  unordered_map<string, Material> materials;
+  World world;
+  shared_ptr<Camera> camera;
+  unordered_map<string, float> float_variables;
+  // overridden_variables: Set[str] = field(default_factory=set) --> implementare
+};
+
 struct InputStream {
 
   istream &stream_in;
@@ -128,16 +163,16 @@ struct InputStream {
   SourceLocation saved_location;
   Token saved_token;
 
-  InputStream(istream &stream, int tab = 8)
-      : stream_in{stream}, tabulations{tab} {}
+  InputStream(istream &stream, string file_name = "", int tab = 8)
+      : stream_in{stream}, location{file_name, 1, 1}, tabulations{tab} {}
 
-  void update_location(char character) {
-    if (character == '\0')
+  void update_location(char ch) {
+    if (ch == '\0')
       return;
-    else if (character == '\n') {
+    else if (ch == '\n') {
       location.line_num += 1;
-      location.col_num += 1;
-    } else if (character == '\t') {
+      location.col_num = 1;
+    } else if (ch == '\t') {
       location.col_num += tabulations;
     } else {
       location.col_num += 1;
@@ -151,7 +186,7 @@ struct InputStream {
       ch = saved_char;
       saved_char = '\0';
     } else {
-      stream_in >> ch;
+      stream_in.get(ch);
     }
     saved_location = location;
     update_location(ch);
@@ -160,15 +195,13 @@ struct InputStream {
   }
 
   void unread_character(char ch) {
-    if (saved_char == '\0')
-      return;
-    saved_char = ch;
+    stream_in.putback(ch);
     location = saved_location;
   }
 
   void skip_whitespaces() {
     char ch = read_character();
-    while (ch == ' ' or ch == '\t' or ch == '\n' or ch == '\r') {
+    while (WHITESPACES.find(ch) != string::npos) { // string::npos if no matches found
       ch = read_character();
       if (ch == '\0')
         return;
@@ -260,11 +293,10 @@ struct InputStream {
     Token token(location);
     // Now we read again ch (which was put back using self.unread_char)
     ch = read_character();
-    /*if (ch in SYMBOLS) // One-character symbol  --> implementare
-      token.assign_symbol(ch);
+    if (SYMBOLS.find(ch) != string::npos) { // One-character symbol
+      token.assign_symbol(ch); 
       return token;
-    } else */
-    if (ch == '"') // A literal string 
+    } else if (ch == '"') // A literal string 
       return parse_string_token();
     else if (isdigit(ch) || ch == '+' || ch == '-' || ch == '.') // A floating-point number
       return parse_float_token(ch);
@@ -274,6 +306,54 @@ struct InputStream {
       throw ParserError(ch + " is an invalid character", location);
   }
 
+  /*void unread_token(Token token) { --> implementare = Token
+    if(saved_token.location.line_num != 0 || saved_token.location.col_num != 0)
+      saved_token = token;
+  }*/
+
+  void expect_symbol(char sym) {
+    Token token = read_token();
+    if(token.type != TokenType::SYMBOL || token.value.symbol != sym)
+      throw ParserError("got " + string{token.value.symbol} + " instead of " + sym, token.location);
+  }
+
+  Keyword expect_keyword(vector<Keyword> keywords) {
+    Token token = read_token();
+    if(token.type != TokenType::KEYWORD)
+      throw ParserError("expected a keyword instead of " /*+ string{token.value.keyword}*/, token.location);
+    if(find(keywords.begin(), keywords.end(), token.value.keyword) == keywords.end())
+      throw ParserError("expected one of the keywords instead of " /*+ string{token.value.keyword}*/, token.location);
+    return token.value.keyword;
+  }
+
+
+  float expect_number(Scene scene) {
+    Token token = read_token();
+    if(token.type == TokenType::LITERAL_NUMBER)
+      return token.value.number;
+    else if(token.type == TokenType::IDENTIFIER) {
+      string variable_name = token.value.str;
+      if(scene.float_variables.find(token.value.str) == scene.float_variables.end())
+        throw ParserError("unknown variable " + token.value.str, token.location);
+      return scene.float_variables[variable_name];
+    } else
+      throw ParserError("got " + token.value.str + " instead of a number", token.location);
+  }
+
+  string expect_string() {
+    Token token = read_token();
+    if(token.type != TokenType::LITERAL_STRING)
+      throw ParserError("got " + token.value.str + " instead of a string", token.location);
+    return token.value.str;
+  }
+
+  string expect_identifier() {
+    Token token = read_token();
+    if(token.type != TokenType::IDENTIFIER)
+      throw ParserError("got " + token.value.str + " instead of an identifier", token.location);
+    return token.value.str;
+  }
 };
 
 #endif
+
