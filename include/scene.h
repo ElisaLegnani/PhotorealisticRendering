@@ -426,7 +426,103 @@ struct InputStream {
 
     return tuple<string, Material>{name, Material(brdf, emitted_radiance)};
   }
+
+  Transformation parse_transformation(Scene scene) {
+    Transformation result = Transformation();
+
+    while (true) {
+      Keyword keyword = expect_keyword(vector{Keyword::IDENTITY, Keyword::TRANSLATION,
+        Keyword::ROTATION_X, Keyword::ROTATION_Y, Keyword::ROTATION_Z,
+        Keyword::SCALING});
+
+      if (keyword == Keyword::TRANSLATION){
+        expect_symbol('(');
+        result = result * translation(parse_vector(scene));
+        expect_symbol(')');
+      } else if (keyword == Keyword::ROTATION_X){
+        expect_symbol('(');
+        result = result * rotation_x(expect_number(scene));
+        expect_symbol(')');
+      } else if (keyword == Keyword::ROTATION_Y){
+        expect_symbol('(');
+        result = result * rotation_y(expect_number(scene));
+        expect_symbol(')');
+      } else if (keyword == Keyword::ROTATION_Z){
+        expect_symbol('(');
+        result = result * rotation_z(expect_number(scene));
+        expect_symbol(')');
+      } else if (keyword == Keyword::SCALING){
+        expect_symbol('(');
+        result = result * scaling(parse_vector(scene));
+        expect_symbol(')');
+      }
+
+      // We must peek the next token to check if there is another transformation that is being
+      // chained or if the sequence ends; thus, this is a LL(1) parser
+      Token next_token = read_token();
+      if(next_token.type != TokenType::SYMBOL || next_token.value.symbol != '*'){
+        //unread_token(next_token); --> implementare!
+        break;
+      }
+    }
+    return result;  
+  }
+
+  Sphere parse_sphere(Scene scene) {
+    expect_symbol('(');
+
+    string material_name = expect_identifier();
+    /*if (material_name not in scene.materials.keys() { --> implementare
+      // We raise the exception here because input_file is pointing to the end of the wrong identifier
+      throw GrammarError("unknown material " + material_name, location);
+    }*/
+
+    expect_symbol(',');
+    Transformation transformation = parse_transformation(scene);
+    expect_symbol(')');
+
+    return Sphere(transformation, scene.materials[material_name]);
+  }
+
+  Plane parse_plane(Scene scene) {
+    expect_symbol('(');
+
+    string material_name = expect_identifier();
+   /* if (material_name not in scene.materials.keys() { --> implementare
+      // We raise the exception here because input_file is pointing to the end of the wrong identifier
+      throw GrammarError("unknown material " + material_name, location);
+    }*/
+
+    expect_symbol(',');
+    Transformation transformation = parse_transformation(scene);
+    expect_symbol(')');
+
+    return Plane(transformation, scene.materials[material_name]);
+  }
+
+  shared_ptr<Camera> parse_camera(Scene scene) {
+    shared_ptr<Camera> result;
+    expect_symbol('(');
+    Keyword keyword = expect_keyword(vector{Keyword::PERSPECTIVE, Keyword::ORTHOGONAL});
+    expect_symbol(',');
+    Transformation transformation = parse_transformation(scene);
+    expect_symbol(',');
+    float aspect_ratio = expect_number(scene);
+    expect_symbol(',');
+    float distance = expect_number(scene);
+    expect_symbol(')');
+
+    if (keyword == Keyword::PERSPECTIVE)
+      result = make_shared<PerspectiveCamera>(distance, aspect_ratio, transformation);
+    else if (keyword == Keyword::ORTHOGONAL)
+      result = make_shared<OrthogonalCamera>(aspect_ratio, transformation);
+
+    return result;
+  }
 };
 
 #endif
 
+
+// parse scene !
+// poi ricontrollare tutto e risolvere errori!
