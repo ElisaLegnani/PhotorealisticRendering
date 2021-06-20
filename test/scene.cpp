@@ -21,7 +21,52 @@ IN THE SOFTWARE.
 
 #define CATCH_CONFIG_MAIN
 
-TEST_CASE("Token Keyword", "[token]") {
- Token token;
+TEST_CASE("Input file", "[inputstream]") {
 
+    stringstream sstr;
+    sstr << "abc   \nd\nef";
+    InputStream stream(sstr);
+
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 1);
+
+    REQUIRE(stream.read_character() == 'a');
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 2);
+
+    stream.unread_character('A');
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 1);
+
+    REQUIRE(stream.read_character() == 'A');
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 2);
+
+    REQUIRE(stream.read_character() == 'b');
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 3);
+
+    REQUIRE(stream.read_character() == 'c');
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 4);
+
+    stream.skip_whitespaces();
+
+    REQUIRE(stream.read_character() == 'd');
+    REQUIRE(stream.location.line_num == 2);
+    REQUIRE(stream.location.col_num == 2);
+
+    REQUIRE(stream.read_character() == '\n');
+    REQUIRE(stream.location.line_num == 3);
+    REQUIRE(stream.location.col_num == 1);
+
+    REQUIRE(stream.read_character() == 'e');
+    REQUIRE(stream.location.line_num == 3);
+    REQUIRE(stream.location.col_num == 2);
+
+    REQUIRE(stream.read_character() == 'f');
+    REQUIRE(stream.location.line_num == 3);
+    REQUIRE(stream.location.col_num == 3);
+
+    REQUIRE(stream.read_character() == '\0');
 }
