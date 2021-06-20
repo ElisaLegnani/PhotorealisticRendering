@@ -70,3 +70,32 @@ TEST_CASE("Input file", "[inputstream]") {
 
     REQUIRE(stream.read_character() == '\0');
 }
+
+TEST_CASE("Lexer", "[token]") { // not working !
+
+    stringstream sstr;
+    sstr << "# This is a comment"
+        "\nnew material sky_material("
+        "\ndiffuse(image(\"my_file.pfm\")),"
+        "\n<5.0, 500.0, 300.0>"
+        "\n)";
+    InputStream stream(sstr);
+
+    /*REQUIRE(stream.location.line_num == 1); 
+    REQUIRE(stream.location.col_num == 1);
+
+    REQUIRE(stream.read_character() == '#');
+    REQUIRE(stream.location.line_num == 1);
+    REQUIRE(stream.location.col_num == 2);*/
+
+    REQUIRE(stream.read_token().value.keyword == Keyword::NEW);
+    REQUIRE(stream.read_token().value.keyword == Keyword::MATERIAL);
+    REQUIRE(stream.read_token().value.str == "sky_material");
+    REQUIRE(stream.read_token().value.symbol == '(');
+    REQUIRE(stream.read_token().value.keyword == Keyword::DIFFUSE);
+    REQUIRE(stream.read_token().value.symbol == ')');
+    REQUIRE(stream.read_token().value.keyword == Keyword::IMAGE);
+    REQUIRE(stream.read_token().value.symbol == '(');
+    REQUIRE(stream.read_token().value.str == "my_file.pfm");
+    REQUIRE(stream.read_token().value.symbol == ')');
+}
