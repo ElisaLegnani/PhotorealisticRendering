@@ -20,15 +20,17 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
 THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "render.h"
 #include "imagetracer.h"
+#include "render.h"
 #include <iostream>
 #include <unordered_map>
 
 using namespace std;
 
-#define WHITESPACES string{" \t\n\r"}
-#define SYMBOLS string{"()<>[]*"}
+#define WHITESPACES                                                            \
+  string { " #\t\n\r" }
+#define SYMBOLS                                                                \
+  string { "()<>[]*" }
 
 #ifndef _scene_h_
 #define _scene_h_
@@ -62,25 +64,25 @@ enum class Keyword {
 };
 
 unordered_map<string, Keyword> KEYWORDS = {
-  {"new", Keyword::NEW},
-  {"material", Keyword::MATERIAL},
-  {"plane", Keyword::PLANE},
-  {"sphere", Keyword::SPHERE},
-  {"diffuse", Keyword::DIFFUSE},
-  {"specular", Keyword::SPECULAR},
-  {"uniform", Keyword::UNIFORM},
-  {"checkered", Keyword::CHECKERED},
-  {"image", Keyword::IMAGE},
-  {"identity", Keyword::IDENTITY},
-  {"translation", Keyword::TRANSLATION},
-  {"rotation_x", Keyword::ROTATION_X},
-  {"rotation_y", Keyword::ROTATION_Y},
-  {"rotation_z", Keyword::ROTATION_Z},
-  {"scaling", Keyword::SCALING},
-  {"camera", Keyword::CAMERA},
-  {"orthogonal", Keyword::ORTHOGONAL},
-  {"perspective", Keyword::PERSPECTIVE},
-  {"float", Keyword::FLOAT},
+    {"new", Keyword::NEW},
+    {"material", Keyword::MATERIAL},
+    {"plane", Keyword::PLANE},
+    {"sphere", Keyword::SPHERE},
+    {"diffuse", Keyword::DIFFUSE},
+    {"specular", Keyword::SPECULAR},
+    {"uniform", Keyword::UNIFORM},
+    {"checkered", Keyword::CHECKERED},
+    {"image", Keyword::IMAGE},
+    {"identity", Keyword::IDENTITY},
+    {"translation", Keyword::TRANSLATION},
+    {"rotation_x", Keyword::ROTATION_X},
+    {"rotation_y", Keyword::ROTATION_Y},
+    {"rotation_z", Keyword::ROTATION_Z},
+    {"scaling", Keyword::SCALING},
+    {"camera", Keyword::CAMERA},
+    {"orthogonal", Keyword::ORTHOGONAL},
+    {"perspective", Keyword::PERSPECTIVE},
+    {"float", Keyword::FLOAT},
 };
 
 enum class TokenType {
@@ -99,7 +101,7 @@ union TokenValue {
   Keyword keyword;
 
   TokenValue() : number{0.0} {}
-  TokenValue(const TokenValue &token): str{token.str} {}
+  TokenValue(const TokenValue &token) : str{token.str} {}
   ~TokenValue() {}
 };
 
@@ -109,8 +111,33 @@ struct Token {
   TokenValue value;
 
   Token(SourceLocation loc = SourceLocation()) : location{loc} {}
-  Token(const Token &token): location{token.location}, type{token.type} {} // implementare tokenvalue
-  Token operator = (const Token &token) {} // implementare
+
+  Token(const Token &token) : location{token.location}, type{token.type} {
+    if (token.type == TokenType::LITERAL_NUMBER)
+      value.number = token.value.number;
+    else if (token.type == TokenType::LITERAL_STRING ||
+             token.type == TokenType::IDENTIFIER)
+      value.str = token.value.str;
+    else if (token.type == TokenType::SYMBOL)
+      value.symbol = token.value.symbol;
+    else if (token.type == TokenType::KEYWORD)
+      value.keyword = token.value.keyword;
+  }
+
+  Token operator=(const Token &token) {
+    location = token.location;
+    type = token.type;
+    if (token.type == TokenType::LITERAL_NUMBER)
+      value.number = token.value.number;
+    else if (token.type == TokenType::LITERAL_STRING ||
+             token.type == TokenType::IDENTIFIER)
+      value.str = token.value.str;
+    else if (token.type == TokenType::SYMBOL)
+      value.symbol = token.value.symbol;
+    else if (token.type == TokenType::KEYWORD)
+      value.keyword = token.value.keyword;
+    return *this;
+  }
 
   void assign_number(float val) {
     type = TokenType::LITERAL_NUMBER;
@@ -151,7 +178,7 @@ struct Scene {
   World world;
   shared_ptr<Camera> camera;
   unordered_map<string, float> float_variables;
-  // overridden_variables: Set[str] = field(default_factory=set) --> implementare
+  // overridden_variables: Set[str] = field(default_factory=set) --> implement
 };
 
 struct InputStream {
@@ -159,7 +186,7 @@ struct InputStream {
   istream &stream_in;
   SourceLocation location;
   int tabulations;
-  char saved_char;
+  char saved_char = '\0';
   SourceLocation saved_location;
   Token saved_token;
 
@@ -167,8 +194,8 @@ struct InputStream {
       : stream_in{stream}, location{file_name, 1, 1}, tabulations{tab} {}
 
   void update_location(char ch) {
-    if (ch == '\0')
-      return;
+    if (ch == '\0') {
+    } // Nothing
     else if (ch == '\n') {
       location.line_num += 1;
       location.col_num = 1;
@@ -180,7 +207,6 @@ struct InputStream {
   }
 
   char read_character() {
-
     char ch;
     if (saved_char != '\0') {
       ch = saved_char;
@@ -190,7 +216,6 @@ struct InputStream {
     }
     saved_location = location;
     update_location(ch);
-
     return ch;
   }
 
@@ -201,10 +226,11 @@ struct InputStream {
 
   void skip_whitespaces_and_comments() {
     char ch = read_character();
-    while (WHITESPACES.find(ch) != string::npos || ch == '#') { // string::npos if no matches found
-      if (ch == '#'){
+    while (WHITESPACES.find(ch) !=
+           string::npos) { // string::npos if no matches found
+      if (ch == '#') {
         // Start of a comment: keep reading until the end of the line
-        while (ch != '\r' || ch != '\n' || ch != '\0')
+        while (ch != '\r' && ch != '\n' && ch != '\0')
           ch = read_character();
       }
       ch = read_character();
@@ -218,11 +244,11 @@ struct InputStream {
     string str{};
     while (true) {
       char ch = read_character();
-      if (ch=='"')
+      if (ch == '"')
         break;
-      if (ch=='\0')
+      if (ch == '\0')
         throw GrammarError("unterminated string", location);
-      str += ch;
+      str.push_back(ch);
     }
     Token token(location);
     token.assign_string(str);
@@ -234,11 +260,11 @@ struct InputStream {
     float value;
     while (true) {
       char ch = read_character();
-      if (!isdigit(ch) || ch != '.' || ch != 'e' || ch != 'E') {
+      if (!isdigit(ch) && ch != '.' && ch != 'e' && ch != 'E') {
         unread_character(ch);
         break;
       }
-      str += ch;
+      str.push_back(ch);
     }
     try {
       value = stof(str);
@@ -254,26 +280,27 @@ struct InputStream {
     string str{first_ch};
     while (true) {
       char ch = read_character();
-      if (!isalnum(ch) || ch != '_') {
+      if (!isalnum(ch) && ch != '_') {
         unread_character(ch);
         break;
       }
-      str += ch;
+      str.push_back(ch);
     }
     Token token(location);
-    /*try { // If it is a keyword, it must be listed in the KEYWORDS dictionary --> implementare
-      token.assign_keyword(str);
-    } catch (invalid_argument) { // If it is not a keyword, it must be an identifier
+    try { // If it is a keyword, it must be listed in the KEYWORDS dictionary
+      token.assign_keyword(KEYWORDS.at(str));
+    } catch (out_of_range) { // If it is not a keyword, it must be an identifier
       token.assign_identifier(str);
-    }*/
+    }
     return token;
   }
 
   Token read_token() {
 
-    if(saved_token.location.line_num != 0 || saved_token.location.col_num != 0) { 
+    if (saved_token.location.line_num != 0 ||
+        saved_token.location.col_num != 0) {
       Token result = saved_token;
-      //saved_token = Token(); --> implementare
+      saved_token = Token();
       return result;
     }
 
@@ -286,69 +313,77 @@ struct InputStream {
       return token;
     }
 
-    // At this point we must check what kind of token begins with the "ch" character
-    // First, we save the position in the stream
+    // At this point we must check what kind of token begins with the "ch"
+    // character First, we save the position in the stream
     SourceLocation token_location = location;
     Token token(location);
 
     if (SYMBOLS.find(ch) != string::npos) { // One-character symbol
-      token.assign_symbol(ch); 
+      token.assign_symbol(ch);
       return token;
-    } else if (ch == '"') // A literal string 
+    } else if (ch == '"') // A literal string
       return parse_string_token();
-    else if (isdigit(ch) || ch == '+' || ch == '-' || ch == '.') // A floating-point number
+    else if (isdigit(ch) || ch == '+' || ch == '-' ||
+             ch == '.') // A floating-point number
       return parse_float_token(ch);
-    else if (isalpha(ch) || ch == '_') // Alphabetic character, thus it must either a keyword or a identifier
+    else if (isalpha(ch) || ch == '_') // Alphabetic character, thus it must
+                                       // either a keyword or a identifier
       return parse_keyword_or_identifier_token(ch);
     else // We got some weird character, like '@` or `&`
       throw GrammarError(ch + " is an invalid character", location);
   }
 
-  /*void unread_token(Token token) { --> implementare = Token
-    if(saved_token.location.line_num != 0 || saved_token.location.col_num != 0)
+  void unread_token(Token token) {
+    if (saved_token.location.line_num != 0 || saved_token.location.col_num != 0)
       saved_token = token;
-  }*/
+  }
 
   void expect_symbol(char sym) {
     Token token = read_token();
-    if(token.type != TokenType::SYMBOL || token.value.symbol != sym)
-      throw GrammarError("got " + string{token.value.symbol} + " instead of " + sym, token.location);
+    if (token.type != TokenType::SYMBOL || token.value.symbol != sym)
+      throw GrammarError("got " + string{token.value.symbol} + " instead of " + sym,
+                         token.location);
   }
 
   Keyword expect_keyword(vector<Keyword> keywords) {
     Token token = read_token();
-    if(token.type != TokenType::KEYWORD)
-      throw GrammarError("expected a keyword instead of " /*+ string{token.value.keyword}*/, token.location);
-    if(find(keywords.begin(), keywords.end(), token.value.keyword) == keywords.end())
-      throw GrammarError("expected one of the keywords instead of " /*+ string{token.value.keyword}*/, token.location);
+    if (token.type != TokenType::KEYWORD)
+      throw GrammarError("expected a keyword", token.location);
+    if (find(keywords.begin(), keywords.end(), token.value.keyword) ==
+        keywords.end())
+      throw GrammarError("expected one of the keywords", token.location);
     return token.value.keyword;
   }
 
-
   float expect_number(Scene scene) {
     Token token = read_token();
-    if(token.type == TokenType::LITERAL_NUMBER)
+    if (token.type == TokenType::LITERAL_NUMBER)
       return token.value.number;
-    else if(token.type == TokenType::IDENTIFIER) {
+    else if (token.type == TokenType::IDENTIFIER) {
       string variable_name = token.value.str;
-      if(scene.float_variables.find(token.value.str) == scene.float_variables.end())
-        throw GrammarError("unknown variable " + token.value.str, token.location);
+      if (scene.float_variables.find(token.value.str) ==
+          scene.float_variables.end())
+        throw GrammarError("unknown variable " + token.value.str,
+                           token.location);
       return scene.float_variables[variable_name];
     } else
-      throw GrammarError("got " + token.value.str + " instead of a number", token.location);
+      throw GrammarError("got " + token.value.str + " instead of a number",
+                         token.location);
   }
 
   string expect_string() {
     Token token = read_token();
-    if(token.type != TokenType::LITERAL_STRING)
-      throw GrammarError("got " + token.value.str + " instead of a string", token.location);
+    if (token.type != TokenType::LITERAL_STRING)
+      throw GrammarError("got " + token.value.str + " instead of a string",
+                         token.location);
     return token.value.str;
   }
 
   string expect_identifier() {
     Token token = read_token();
-    if(token.type != TokenType::IDENTIFIER)
-      throw GrammarError("got " + token.value.str + " instead of an identifier", token.location);
+    if (token.type != TokenType::IDENTIFIER)
+      throw GrammarError("got " + token.value.str + " instead of an identifier",
+                         token.location);
     return token.value.str;
   }
 
@@ -379,7 +414,8 @@ struct InputStream {
   shared_ptr<Pigment> parse_pigment(Scene scene) {
     shared_ptr<Pigment> result;
 
-    Keyword keyword = expect_keyword(vector{Keyword::UNIFORM, Keyword::CHECKERED, Keyword::IMAGE});
+    Keyword keyword = expect_keyword(
+        vector{Keyword::UNIFORM, Keyword::CHECKERED, Keyword::IMAGE});
     expect_symbol('(');
 
     if (keyword == Keyword::UNIFORM) {
@@ -403,7 +439,8 @@ struct InputStream {
   }
 
   shared_ptr<BRDF> parse_brdf(Scene scene) {
-    Keyword keyword = expect_keyword(vector{Keyword::DIFFUSE, Keyword::SPECULAR});
+    Keyword keyword =
+        expect_keyword(vector{Keyword::DIFFUSE, Keyword::SPECULAR});
     expect_symbol('(');
     shared_ptr<Pigment> pigment = parse_pigment(scene);
     expect_symbol(')');
@@ -430,50 +467,52 @@ struct InputStream {
     Transformation result = Transformation();
 
     while (true) {
-      Keyword keyword = expect_keyword(vector{Keyword::IDENTITY, Keyword::TRANSLATION,
-        Keyword::ROTATION_X, Keyword::ROTATION_Y, Keyword::ROTATION_Z,
-        Keyword::SCALING});
+      Keyword keyword = expect_keyword(
+          vector{Keyword::IDENTITY, Keyword::TRANSLATION, Keyword::ROTATION_X,
+                 Keyword::ROTATION_Y, Keyword::ROTATION_Z, Keyword::SCALING});
 
-      if (keyword == Keyword::TRANSLATION){
+      if (keyword == Keyword::TRANSLATION) {
         expect_symbol('(');
         result = result * translation(parse_vector(scene));
         expect_symbol(')');
-      } else if (keyword == Keyword::ROTATION_X){
+      } else if (keyword == Keyword::ROTATION_X) {
         expect_symbol('(');
         result = result * rotation_x(expect_number(scene));
         expect_symbol(')');
-      } else if (keyword == Keyword::ROTATION_Y){
+      } else if (keyword == Keyword::ROTATION_Y) {
         expect_symbol('(');
         result = result * rotation_y(expect_number(scene));
         expect_symbol(')');
-      } else if (keyword == Keyword::ROTATION_Z){
+      } else if (keyword == Keyword::ROTATION_Z) {
         expect_symbol('(');
         result = result * rotation_z(expect_number(scene));
         expect_symbol(')');
-      } else if (keyword == Keyword::SCALING){
+      } else if (keyword == Keyword::SCALING) {
         expect_symbol('(');
         result = result * scaling(parse_vector(scene));
         expect_symbol(')');
       }
 
-      // We must peek the next token to check if there is another transformation that is being
-      // chained or if the sequence ends; thus, this is a LL(1) parser
+      // We must peek the next token to check if there is another transformation
+      // that is being chained or if the sequence ends; thus, this is a LL(1) parser
       Token next_token = read_token();
-      if(next_token.type != TokenType::SYMBOL || next_token.value.symbol != '*'){
-        //unread_token(next_token); --> implementare!
+      if (next_token.type != TokenType::SYMBOL ||
+          next_token.value.symbol != '*') {
+        unread_token(next_token);
         break;
       }
     }
-    return result;  
+    return result;
   }
 
   Sphere parse_sphere(Scene scene) {
     expect_symbol('(');
 
     string material_name = expect_identifier();
-    /*if (material_name not in scene.materials.keys() { --> implementare
-      // We raise the exception here because input_file is pointing to the end of the wrong identifier
-      throw GrammarError("unknown material " + material_name, location);
+    /*if (material_name not in scene.materials.keys() { --> implement
+      // We raise the exception here because input_file is pointing to the end
+    of the wrong identifier throw GrammarError("unknown material " +
+    material_name, location);
     }*/
 
     expect_symbol(',');
@@ -487,10 +526,11 @@ struct InputStream {
     expect_symbol('(');
 
     string material_name = expect_identifier();
-   /* if (material_name not in scene.materials.keys() { --> implementare
-      // We raise the exception here because input_file is pointing to the end of the wrong identifier
-      throw GrammarError("unknown material " + material_name, location);
-    }*/
+    /* if (material_name not in scene.materials.keys() { --> implement
+       // We raise the exception here because input_file is pointing to the end
+     of the wrong identifier throw GrammarError("unknown material " +
+     material_name, location);
+     }*/
 
     expect_symbol(',');
     Transformation transformation = parse_transformation(scene);
@@ -502,7 +542,8 @@ struct InputStream {
   shared_ptr<Camera> parse_camera(Scene scene) {
     shared_ptr<Camera> result;
     expect_symbol('(');
-    Keyword keyword = expect_keyword(vector{Keyword::PERSPECTIVE, Keyword::ORTHOGONAL});
+    Keyword keyword =
+        expect_keyword(vector{Keyword::PERSPECTIVE, Keyword::ORTHOGONAL});
     expect_symbol(',');
     Transformation transformation = parse_transformation(scene);
     expect_symbol(',');
@@ -512,7 +553,8 @@ struct InputStream {
     expect_symbol(')');
 
     if (keyword == Keyword::PERSPECTIVE)
-      result = make_shared<PerspectiveCamera>(distance, aspect_ratio, transformation);
+      result = make_shared<PerspectiveCamera>(distance, aspect_ratio,
+                                              transformation);
     else if (keyword == Keyword::ORTHOGONAL)
       result = make_shared<OrthogonalCamera>(aspect_ratio, transformation);
 
@@ -522,7 +564,6 @@ struct InputStream {
   /*Scene parse_scene (unordered_map<string, float> variables) {
     Scene scene;
   }*/
-
 };
 
 #endif
