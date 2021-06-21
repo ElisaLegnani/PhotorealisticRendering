@@ -18,6 +18,7 @@ IN THE SOFTWARE.
 
 #include "scene.h"
 #include "catch_amalgamated.hpp"
+#include <cstdio>
 
 #define CATCH_CONFIG_MAIN
 
@@ -68,7 +69,7 @@ TEST_CASE("Input file", "[inputstream]") {
     REQUIRE(stream.location.line_num == 3);
     REQUIRE(stream.location.col_num == 3);
 
-    //REQUIRE(stream.read_character() == '\0');
+    REQUIRE(stream.read_character() == EOF);
 }
 
 /*
