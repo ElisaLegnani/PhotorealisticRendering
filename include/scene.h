@@ -27,10 +27,8 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using namespace std;
 
-#define WHITESPACES                                                            \
-  string { " #\t\n\r" }
-#define SYMBOLS                                                                \
-  string { "()<>[]*" }
+#define WHITESPACES string { " #\t\n\r" }
+#define SYMBOLS string { "()<>[]*," }
 
 #ifndef _scene_h_
 #define _scene_h_
@@ -324,16 +322,16 @@ struct InputStream {
     if (SYMBOLS.find(ch) != string::npos) { // One-character symbol
       token.assign_symbol(ch);
       return token;
-    } else if (ch == '"') // A literal string
+    } else if (ch == '"'){ // A literal string
       return parse_string_token();
-    else if (isdigit(ch) || ch == '+' || ch == '-' ||
-             ch == '.') // A floating-point number
+    }else if (isdigit(ch) || ch == '+' || ch == '-' ||
+              ch == '.'){ // A floating-point number
       return parse_float_token(ch);
-    else if (isalpha(ch) || ch == '_') // Alphabetic character, thus it must
+    }else if (isalpha(ch) || ch == '_'){ // Alphabetic character, thus it must
                                        // either a keyword or a identifier
-      return parse_keyword_or_identifier_token(ch);
-    else // We got some weird character, like '@` or `&`
-      throw GrammarError(ch + " is an invalid character", location);
+    return parse_keyword_or_identifier_token(ch);
+  }else {// We got some weird character, like '@` or `&`
+    throw GrammarError(" Got an invalid character", location);}
   }
 
   void unread_token(Token token) {
@@ -450,7 +448,7 @@ struct InputStream {
 
     if (keyword == Keyword::DIFFUSE)
       return make_shared<DiffuseBRDF>(pigment);
-    else if (keyword == Keyword::SPECULAR)
+    else // if (keyword == Keyword::SPECULAR)
       return make_shared<SpecularBRDF>(pigment);
   }
 

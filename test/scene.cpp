@@ -78,7 +78,7 @@ TEST_CASE("Lexer", "[token]") {
     sstr << "# This is a comment"
         "\n# This is another comment"
         "\nnew material sky_material("
-        "\n        diffuse(image(\"my_file.pfm\")),"
+        "\n        diffuse(image(\"my_file.pfm\"))"
         "\n        <5.0, 500.0, 300.0>"
         "\n) # Comment at the end of the line\n";
     InputStream stream(sstr);
@@ -91,7 +91,7 @@ TEST_CASE("Lexer", "[token]") {
     REQUIRE(token.type == TokenType::KEYWORD);
     REQUIRE(token.value.keyword == Keyword::MATERIAL);
 
-    /*token = stream.read_token(); ----> PROBLEM with assign_identifier & assign_string
+    token = stream.read_token(); //----> PROBLEM with assign_identifier & assign_string
     REQUIRE(token.type == TokenType::IDENTIFIER);
     REQUIRE(token.value.str == "sky_material");
 
@@ -105,7 +105,7 @@ TEST_CASE("Lexer", "[token]") {
 
     token = stream.read_token();
     REQUIRE(token.type == TokenType::SYMBOL);
-    REQUIRE(token.value.symbol == ')');
+    REQUIRE(token.value.symbol == '(');
 
     token = stream.read_token();
     REQUIRE(token.type == TokenType::KEYWORD);
@@ -119,6 +119,10 @@ TEST_CASE("Lexer", "[token]") {
     REQUIRE(token.type == TokenType::LITERAL_STRING);
     REQUIRE(token.value.str == "my_file.pfm");
 
+    token = stream.read_token();
+    REQUIRE(token.type == TokenType::SYMBOL);
+    REQUIRE(token.value.symbol == ')');
+  
     token = stream.read_token();
     REQUIRE(token.type == TokenType::SYMBOL);
     REQUIRE(token.value.symbol == ')');
@@ -157,6 +161,5 @@ TEST_CASE("Lexer", "[token]") {
 
     token = stream.read_token();
     REQUIRE(token.type == TokenType::STOPTOKEN);
-    REQUIRE(token.value.symbol == ')');  */
     
 }
