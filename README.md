@@ -146,11 +146,12 @@ For further details, see below.
   - output filename (PFM/PNG/JPG);
   - number of rays (if using pathtracer algorithm);
   - maximum depth (if using pathtracer algorithm);
+  - number of samples per pixel (if using pathtracer algorithm, must be a perfect square);
   
   again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
 
   ```sh
-  $ ./raytracer demo perspective width height angle renderer output_file.png n_rays max_depth
+  $ ./raytracer demo perspective width height angle renderer output_file.png n_rays max_depth samples_per_pixel
   ```
   
   #### Example 1: onoff and flat renderers
@@ -201,12 +202,12 @@ For further details, see below.
   
   Running the following in the `build` directory:
   ```sh
-  $ ./raytracer demo perspective 700 350 0 pathtracer demo_pathtracer.png 10 2
+  $ ./raytracer demo perspective 700 350 0 pathtracer demo_pathtracer.png 10 2 16
   ```
   you should obtain this image
   
   <p align="center">
-  <img width="700" src=https://user-images.githubusercontent.com/62106779/122542518-11754000-d02b-11eb-8e56-8301a932a7db.png>
+  <img width="700" src=https://user-images.githubusercontent.com/62106779/122638442-64ff9080-d0f4-11eb-9dae-0fcdd49cba20.png>
   </p>
   
 </details>

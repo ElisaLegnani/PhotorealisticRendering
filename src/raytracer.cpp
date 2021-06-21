@@ -24,7 +24,7 @@ IN THE SOFTWARE.
 
 using namespace std;
 
-void demo(int, int, float, string, string, string, int, int);
+void demo(int, int, float, string, string, string, int, int, int);
 
 int main(int argc, char *argv[]) {
 
@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
     float angle_deg;
     string algorithm;
     string filename;
-    int n_rays = 0, max_depth = 0;
+    int n_rays = 0, max_depth = 0, samples_per_pixel = 0;
 
     if (argv[2] == NULL) {
       cout << "Insert camera type (orthogonal/perspective): ";
@@ -91,6 +91,8 @@ int main(int argc, char *argv[]) {
         cin >> n_rays;
         cout << "Insert max depth: ";
         cin >> max_depth;
+        cout << "Insert number of samples per pixel: ";
+        cin >> samples_per_pixel;
       }
       cout << "Insert output filename (PFM/PNG/JPG): ";
       cin >> filename;
@@ -105,17 +107,18 @@ int main(int argc, char *argv[]) {
       if (algorithm == "pathtracer"){
         n_rays = atoi(argv[8]);
         max_depth = atoi(argv[9]);
+        samples_per_pixel = atoi(argv[10]);
       }
     }
 
-    demo(width, height, angle_deg, cameratype, algorithm, filename, n_rays, max_depth);
+    demo(width, height, angle_deg, cameratype, algorithm, filename, n_rays, max_depth, samples_per_pixel);
   }
 
   return 0;
 }
 
 void demo(int width, int height, float angle_deg, string cameratype,
-          string algorithm, string output, int n_rays, int max_depth) {
+          string algorithm, string output, int n_rays, int max_depth, int samples_per_pixel) {
 
   HdrImage image(width, height);
 
@@ -192,11 +195,16 @@ void demo(int width, int height, float angle_deg, string cameratype,
     camera = make_shared<PerspectiveCamera>(1.0, width / height, camera_tr);
   }
 
-  // Run the ray-tracer
-  ImageTracer tracer(image, camera);
-
   PCG pcg;
   int rr_lim = 3;
+  int samples_per_side = int(sqrt(samples_per_pixel));
+  if (pow(samples_per_side,2) != samples_per_pixel){
+    cout << "Error: the number of samples per pixel must be a perfect square" << endl;
+    return;
+  }
+
+  // Run the ray-tracer
+  ImageTracer tracer(image, camera, samples_per_side, pcg);
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
