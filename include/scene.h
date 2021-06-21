@@ -115,7 +115,8 @@ struct Token {
       value.number = token.value.number;
     else if (token.type == TokenType::LITERAL_STRING ||
              token.type == TokenType::IDENTIFIER)
-      value.str = token.value.str;
+      new((void*)&value.str) string{token.value.str};
+      //value.str = token.value.str;
     else if (token.type == TokenType::SYMBOL)
       value.symbol = token.value.symbol;
     else if (token.type == TokenType::KEYWORD)
@@ -129,7 +130,8 @@ struct Token {
       value.number = token.value.number;
     else if (token.type == TokenType::LITERAL_STRING ||
              token.type == TokenType::IDENTIFIER)
-      value.str = token.value.str;
+      new((void*)&value.str) string{token.value.str};
+      //value.str = token.value.str;
     else if (token.type == TokenType::SYMBOL)
       value.symbol = token.value.symbol;
     else if (token.type == TokenType::KEYWORD)
@@ -142,9 +144,9 @@ struct Token {
     value.number = val;
   }
 
-  void assign_string(const string &s) {
+  void assign_string(string s) {
     type = TokenType::LITERAL_STRING;
-    value.str = s;
+    new((void*)&value.str) string{s};
   }
 
   void assign_symbol(char sym) {
@@ -157,9 +159,9 @@ struct Token {
     value.keyword = keyword;
   }
 
-  void assign_identifier(const string &s) {
+  void assign_identifier(string s) {
     type = TokenType::IDENTIFIER;
-    value.str = s;
+    new((void*)&value.str) string{s};
   }
 
   void assign_stoptoken() { type = TokenType::STOPTOKEN; }
@@ -328,10 +330,11 @@ struct InputStream {
               ch == '.'){ // A floating-point number
       return parse_float_token(ch);
     }else if (isalpha(ch) || ch == '_'){ // Alphabetic character, thus it must
-                                       // either a keyword or a identifier
+                                       // either a keyword or a identifier                                  
     return parse_keyword_or_identifier_token(ch);
-  }else {// We got some weird character, like '@` or `&`
-    throw GrammarError(" Got an invalid character", location);}
+    }else {// We got some weird character, like '@` or `&`
+      throw GrammarError(" Got an invalid character", location);
+    }
   }
 
   void unread_token(Token token) {

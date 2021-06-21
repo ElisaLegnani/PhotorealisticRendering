@@ -91,7 +91,7 @@ TEST_CASE("Lexer", "[token]") {
     REQUIRE(token.type == TokenType::KEYWORD);
     REQUIRE(token.value.keyword == Keyword::MATERIAL);
 
-    token = stream.read_token(); //----> PROBLEM with assign_identifier & assign_string
+    token = stream.read_token();
     REQUIRE(token.type == TokenType::IDENTIFIER);
     REQUIRE(token.value.str == "sky_material");
 
