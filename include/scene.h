@@ -213,6 +213,9 @@ struct InputStream {
       saved_char = '\0';
     } else {
       stream_in.get(ch);
+      if(stream_in.eof()){
+        ch = '\0';
+      }
     }
     saved_location = location;
     update_location(ch);
