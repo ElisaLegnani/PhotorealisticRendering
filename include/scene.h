@@ -125,7 +125,6 @@ struct Token {
   void assign_stoptoken();
 };
 
-//––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 /**
  * The scene with all the elements passed by the input file
