@@ -108,7 +108,7 @@ struct Token {
 struct GrammarError : public runtime_error {
   SourceLocation location;
   GrammarError(const string &message, SourceLocation loc): 
-      location{loc}, runtime_error{message} {} // ----> stampare anche location?
+      location{loc}, runtime_error{message} {}
 };
 
 struct Scene {
