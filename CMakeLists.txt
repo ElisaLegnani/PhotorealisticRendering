@@ -18,6 +18,7 @@ add_library(trace
     src/shapes.cpp
     src/materials.cpp
     src/catch_amalgamated.cpp
+    src/scene.cpp
     )
 
 # PATH TO MY LIBRARIES:
