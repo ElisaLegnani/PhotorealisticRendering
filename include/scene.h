@@ -116,7 +116,6 @@ struct Token {
     else if (token.type == TokenType::LITERAL_STRING ||
              token.type == TokenType::IDENTIFIER)
       new((void*)&value.str) string{token.value.str};
-      //value.str = token.value.str;
     else if (token.type == TokenType::SYMBOL)
       value.symbol = token.value.symbol;
     else if (token.type == TokenType::KEYWORD)
@@ -131,7 +130,6 @@ struct Token {
     else if (token.type == TokenType::LITERAL_STRING ||
              token.type == TokenType::IDENTIFIER)
       new((void*)&value.str) string{token.value.str};
-      //value.str = token.value.str;
     else if (token.type == TokenType::SYMBOL)
       value.symbol = token.value.symbol;
     else if (token.type == TokenType::KEYWORD)
@@ -178,7 +176,7 @@ struct Scene {
   World world;
   shared_ptr<Camera> camera;
   unordered_map<string, float> float_variables;
-  // overridden_variables: Set[str] = field(default_factory=set) --> implement
+  vector<string> overridden_variables;
 };
 
 struct InputStream {
@@ -332,13 +330,13 @@ struct InputStream {
     }else if (isalpha(ch) || ch == '_'){ // Alphabetic character, thus it must
                                        // either a keyword or a identifier                                  
     return parse_keyword_or_identifier_token(ch);
-    }else {// We got some weird character, like '@` or `&`
-      throw GrammarError(" Got an invalid character", location);
+    }else { // We got some weird character, like '@` or `&`
+      throw GrammarError("got an invalid character", location);
     }
   }
 
   void unread_token(Token token) {
-    if (saved_token.location.line_num != 0 || saved_token.location.col_num != 0)
+    if (saved_token.location.line_num == 0 && saved_token.location.col_num == 0)
       saved_token = token;
   }
 
@@ -500,7 +498,7 @@ struct InputStream {
       // We must peek the next token to check if there is another transformation
       // that is being chained or if the sequence ends; thus, this is a LL(1) parser
       Token next_token = read_token();
-      if (next_token.type != TokenType::SYMBOL ||
+      if (next_token.type == TokenType::SYMBOL &&
           next_token.value.symbol != '*') {
         unread_token(next_token);
         break;
@@ -513,11 +511,11 @@ struct InputStream {
     expect_symbol('(');
 
     string material_name = expect_identifier();
-    /*if (material_name not in scene.materials.keys() { --> implement
+    if (scene.materials.find(material_name) == scene.materials.end()) {
       // We raise the exception here because input_file is pointing to the end
-    of the wrong identifier throw GrammarError("unknown material " +
-    material_name, location);
-    }*/
+      // of the wrong identifier 
+      throw GrammarError("unknown material " + material_name, location);
+    }
 
     expect_symbol(',');
     Transformation transformation = parse_transformation(scene);
@@ -530,11 +528,11 @@ struct InputStream {
     expect_symbol('(');
 
     string material_name = expect_identifier();
-    /* if (material_name not in scene.materials.keys() { --> implement
-       // We raise the exception here because input_file is pointing to the end
-     of the wrong identifier throw GrammarError("unknown material " +
-     material_name, location);
-     }*/
+    if (scene.materials.find(material_name) == scene.materials.end())  { 
+      // We raise the exception here because input_file is pointing to the end
+      // of the wrong identifier
+      throw GrammarError("unknown material " + material_name, location);
+    }
 
     expect_symbol(',');
     Transformation transformation = parse_transformation(scene);
@@ -565,9 +563,57 @@ struct InputStream {
     return result;
   }
 
-  /*Scene parse_scene (unordered_map<string, float> variables) {
+  Scene parse_scene (unordered_map<string, float> variables) {
     Scene scene;
-  }*/
+    scene.float_variables = variables;
+ // scene.overridden_variables = set(variables.keys()) -----> to be implemented!
+
+    while(true){
+      Token what = read_token();
+
+      if (what.type == TokenType::STOPTOKEN)
+        break;
+
+      if (what.type != TokenType::KEYWORD)
+        throw GrammarError("expected a keyword", location);
+
+      if (what.value.keyword == Keyword::FLOAT) {
+        string variable_name = expect_identifier();
+
+        // Save this for the error message
+        SourceLocation variable_loc = location;
+
+        expect_symbol('(');
+        float variable_value = expect_number(scene);
+        expect_symbol(')');
+
+        if (scene.float_variables.find(variable_name) != scene.float_variables.end() 
+            && find(scene.overridden_variables.begin(), scene.overridden_variables.end(), variable_name) == scene.overridden_variables.end())
+          throw GrammarError("variable " + variable_name + " cannot be redefined", variable_loc);
+        
+        if (find(scene.overridden_variables.begin(), scene.overridden_variables.end(), variable_name) == scene.overridden_variables.end())
+          // Only define the variable if it was not defined by the user *outside* the scene file
+          // (e.g., from the command line)
+          scene.float_variables[variable_name] = variable_value;
+        
+      } else if (what.value.keyword == Keyword::SPHERE) {
+        scene.world.add(make_shared<Sphere>(parse_sphere(scene)));
+
+      } else if (what.value.keyword == Keyword::PLANE) {
+        scene.world.add(make_shared<Plane>(parse_plane(scene)));
+
+      } else if (what.value.keyword == Keyword::CAMERA) {
+        if (scene.camera)
+          throw GrammarError("You cannot define more than one camera", location);
+        scene.camera = parse_camera(scene);
+
+      } else if (what.value.keyword == Keyword::MATERIAL) {
+        tuple<string, Material> material = parse_material(scene);
+        scene.materials[get<string>(material)] = get<Material>(material);
+      } 
+    }
+    return scene;
+  }
 };
 
 #endif
