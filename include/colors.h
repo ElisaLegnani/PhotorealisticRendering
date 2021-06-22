@@ -24,7 +24,14 @@ IN THE SOFTWARE.
 using namespace std;
 
 //–––––––––––––––––––––– Struct Color –––––––––––––––––––––––––––––––––––
-
+/**
+ * A RGB color
+ *
+ * Floating-point parameters:
+ * @param r red
+ * @param g green
+ * @param b blue
+ */
 struct Color {
 
   float r, g, b;
