@@ -27,11 +27,8 @@ IN THE SOFTWARE.
 
 enum class Endianness { little_endian, big_endian };
 
-class InvalidPfmFileFormat : public runtime_error {
-public:
-
-  explicit InvalidPfmFileFormat(const string &message) noexcept
-      : runtime_error(message) {}
+struct InvalidPfmFileFormat : public runtime_error {
+  InvalidPfmFileFormat(const string &message): runtime_error(message) {}
 };
 
 void write_float(ostream &stream, float value, Endianness endianness);

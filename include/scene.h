@@ -167,8 +167,8 @@ struct Token {
 
 struct GrammarError : public runtime_error {
   SourceLocation location;
-  explicit GrammarError(const string &message, SourceLocation loc) noexcept
-      : location{loc}, runtime_error(message) {}
+  GrammarError(const string &message, SourceLocation loc): 
+      location{loc}, runtime_error{message} {} // ----> stampare anche location?
 };
 
 struct Scene {
@@ -292,7 +292,7 @@ struct InputStream {
       token.assign_keyword(KEYWORDS.at(str));
     } catch (out_of_range) { // If it is not a keyword, it must be an identifier
       token.assign_identifier(str);
-    }
+    } // ----> messaggio di errore se non è neanche identifier
     return token;
   }
 
