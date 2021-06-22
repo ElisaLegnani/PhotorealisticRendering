@@ -241,7 +241,7 @@ Token   Token :: operator=(const Token &token) {
                                        // either a keyword or a identifier                                  
     return parse_keyword_or_identifier_token(ch);
     }else { // We got some weird character, like '@` or `&`
-      throw GrammarError("got an invalid character", location);
+      throw GrammarError("got an invalid character: "+ string{ch}, location);
     }
   }
 
