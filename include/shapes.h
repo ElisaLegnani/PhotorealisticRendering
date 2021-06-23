@@ -79,7 +79,7 @@ struct HitRecord {
 //––––––––––––– Abstract struct Shapes ––––––––––––––––––––––––
 //
 /**
- * A generic 3D shape (sphere, plane...)
+ * A generic 3D shape (sphere, plane, box)
  *
  * It is an abstract stuct
  * with virtual methods ray_intersection(Ray) to be implemented in derived structs.
@@ -111,7 +111,7 @@ struct Sphere : public Shape {
    * Checks if the given ray hits the sphere
    *
    * @param Ray Input ray to check
-   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to faulse if no intersection happens)
+   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to false if no intersection happens)
    */
   HitRecord ray_intersection(Ray);
   
@@ -137,10 +137,10 @@ struct Plane : public Shape {
   Plane(Transformation t = Transformation(), Material m = Material()) : Shape(t,m) {}
   
   /**
-   * Checks if the given ray hits the plane
+   * Checks if the given ray hits the box
    *
    * @param ray Input ray to check
-   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to faulse if no intersection happens)
+   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to false if no intersection happens)
    */
   HitRecord ray_intersection(Ray);
   
@@ -152,6 +152,33 @@ struct Plane : public Shape {
    */
   bool check_if_intersection(Ray);
     
+};
+
+
+//––––––––––––– Sub-struct Box ––––––––––––––––––––––––
+/**
+ * An axis aligned box 
+ *
+ * @param transformation
+ * @param material
+ * @param Pmin
+ * @param Pmax
+ */
+struct Box : public Shape {
+  
+  Point Pmin;
+  Point Pmax;
+  
+  Box(Point pmin, Point pmax, Transformation t = Transformation(), Material m = Material()) : 
+      Shape(t,m), Pmin{pmin}, Pmax{pmax} {}
+  
+  /**
+   * Checks if the given ray hits the box
+   *
+   * @param ray Input ray to check
+   * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to false if no intersection happens)
+   */
+  HitRecord ray_intersection(Ray);    
 };
 
 
