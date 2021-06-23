@@ -190,32 +190,10 @@ Token InputStream::parse_keyword_or_identifier_token(char first_ch) {
   string str{first_ch};
   while (true) {
     char ch = read_character();
-
-    if (ch == '\0') { // No more characters in the file
-      Token token(location);
-      token.assign_stoptoken();
-      return token;
-    }
-
-    // At this point we must check what kind of token begins with the "ch"
-    // character First, we save the position in the stream
-    SourceLocation token_location = location;
-    Token token(location);
-
-    if (SYMBOLS.find(ch) != string::npos) { // One-character symbol
-      token.assign_symbol(ch);
-      return token;
-    } else if (ch == '"'){ // A literal string
-      return parse_string_token();
-    }else if (isdigit(ch) || ch == '+' || ch == '-' ||
-              ch == '.'){ // A floating-point number
-      return parse_float_token(ch);
-    }else if (isalpha(ch) || ch == '_'){ // Alphabetic character, thus it must
-                                       // either a keyword or a identifier                                  
-    return parse_keyword_or_identifier_token(ch);
-    }else { // We got some weird character, like '@` or `&`
-      throw GrammarError("got an invalid character: "+ string{ch}, location);
-    }
+    if (!isalnum(ch) && ch != '_') {
+      unread_character(ch);
+      break;
+    }    
     str.push_back(ch);
   }
   Token token(location);
