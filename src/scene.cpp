@@ -448,7 +448,7 @@ Plane InputStream::parse_plane(Scene scene) {
   return Plane(transformation, scene.materials[material_name]);
 }
 
-shared_ptr<Camera> InputStream::parse_camera(Scene scene) { (per,transf,aspe,distance)
+shared_ptr<Camera> InputStream::parse_camera(Scene scene) { 
   shared_ptr<Camera> result;
   expect_symbol('(');
   Keyword keyword =
@@ -457,9 +457,10 @@ shared_ptr<Camera> InputStream::parse_camera(Scene scene) { (per,transf,aspe,dis
   Transformation transformation = parse_transformation(scene);
   expect_symbol(',');
   float aspect_ratio = expect_number(scene);
+  float distance;
   if (keyword == Keyword::PERSPECTIVE){
     expect_symbol(',');
-    float distance = expect_number(scene);
+    distance = expect_number(scene);
   }
   expect_symbol(')');
 
