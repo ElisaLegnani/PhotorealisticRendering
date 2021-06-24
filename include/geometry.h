@@ -61,7 +61,14 @@ inline string xyz_string(string type, float x, float y, float z){
 
  
 //–––––––––––––––––––––– Struct Vec –––––––––––––––––––––––––––––––––––
-
+/**
+ * A 3D vector
+ *
+ * Floating-point parameters:
+ * @param x
+ * @param y
+ * @param z
+ */
 struct Vec {
   float x, y, z;
 
@@ -107,7 +114,14 @@ inline Vec cross(const Vec &v1, const Vec &v2) { return _cross<Vec, Vec, Vec>(v1
 
 
 //–––––––––––––––––––––– Struct Point –––––––––––––––––––––––––––––––––––
-
+/**
+ * A point in 3D space
+ *
+ * Floating-point coordinates:
+ * @param x
+ * @param y
+ * @param z
+ */
 struct Point {
   float x, y, z;
 
@@ -149,7 +163,14 @@ inline Vec operator-(const Point &p1, const Point &p2) {
 
 
 //–––––––––––––––––––––– Struct Normal –––––––––––––––––––––––––––––––––––
-
+/**
+ * A 3D normal vector
+ *
+ * Floating-point parameters:
+ * @param x
+ * @param y
+ * @param z
+ */
 struct Normal {
   float x, y, z;
 
@@ -197,10 +218,11 @@ inline Vec operator-(const Vec &v, const Normal &n) {
 }
 
 
-
+//–––––––––––––––––––––– Struct Vec2d –––––––––––––––––––––––––––––––––––
 /**
  * A 2D vector representing a point on a surface
- * 
+ *
+ * Floating-point parameters:
  * @param u
  * @param v
  */
@@ -219,6 +241,16 @@ struct Vec2d {
   }
 };
 
+
+//–––––––––––––––––––––– Struct ONB –––––––––––––––––––––––––––––––––––
+/**
+ * An ortonormal basis (ONB) created from a normalized vector representing the z axis
+ *
+ * Parameters representing the three vectors of the basis:
+ * @param e1
+ * @param e2
+ * @param e3
+ */
 struct ONB {
 
   Vec e1, e2, e3;
