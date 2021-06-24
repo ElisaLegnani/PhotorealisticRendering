@@ -147,10 +147,7 @@ struct Scene {
  */
 struct GrammarError : public runtime_error {
   
-  SourceLocation location;
-  
-  GrammarError(const string &message, SourceLocation loc): 
-  location{loc}, runtime_error{message + " -> position (" + to_string(int(loc.line_num)) + "," + to_string(int(loc.col_num)) + ")"} {}
+  GrammarError(const string &message, SourceLocation loc): runtime_error{message + " -> position (" + to_string(int(loc.line_num)) + "," + to_string(int(loc.col_num)) + ")"} {}
 };
 
 /**
