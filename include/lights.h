@@ -16,29 +16,26 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 IN THE SOFTWARE.
 */
 
-#include "world.h"
-#include "catch_amalgamated.hpp"
+#include "colors.h"
+#include "geometry.h"
 
-#define CATCH_CONFIG_MAIN
+#ifndef _lights_h_
+#define _lights_h_
 
-TEST_CASE("World methods", "[world]"){
+//––––––––––––– Struct Point Light Source –––––––––––––––––––––––––
+
+/** A struct representing a point light source
+ *
+ *@param position Point where is the light source
+ *@param color of the light source
+ *@param linear_radius used to compute the soild angle subtended by the light at distance d ( solid_angle=(r/d)^2 )
+ */
+struct PointLight{
+  Point position;
+  Color color;
+  float linear_radius;
   
-  World world;
- 
-  shared_ptr<Shape> sphere1 = make_shared<Sphere>(translation(VEC_X * 2));
-  shared_ptr<Shape> sphere2 = make_shared<Sphere>(translation(VEC_X * 8));
-  
-  world.add_shape(sphere1);
-  world.add_shape(sphere2);
+  PointLight(Point pos, Color c, float lr = 0.) : position{pos}, color{c}, linear_radius{lr} {}
+};
 
-  HitRecord intersection1 = world.ray_intersection(Ray(Point(0.0, 0.0, 0.0), VEC_X));
-        
-  REQUIRE(intersection1.init);
-  REQUIRE(intersection1.world_point.is_close(Point(1.0, 0.0, 0.0)));
-
-  HitRecord intersection2 = world.ray_intersection(Ray(Point(10.0, 0.0, 0.0), -VEC_X));
-
-  REQUIRE(intersection2.init);
-  REQUIRE(intersection2.world_point.is_close(Point(9.0, 0.0, 0.0)));
-
-}
+#endif

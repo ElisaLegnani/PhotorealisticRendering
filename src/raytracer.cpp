@@ -144,7 +144,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
         else if(x!=y && x==z) material = material3;
         else material = material4;
 
-        world.add(
+        world.add_shape(
             make_shared<Sphere>(translation(Vec(x - 0.5, y - 0.5, z - 0.5)) *
                                 scaling(Vec(0.1, 0.1, 0.1)), material));
       }
@@ -153,9 +153,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
 
   // Place two other balls in the bottom/left part of the cube, so that we can
   // check if there are issues with the orientation of the image
-  world.add(make_shared<Sphere>(translation(Vec(0.0, 0.0, -0.5)) *
+  world.add_shape(make_shared<Sphere>(translation(Vec(0.0, 0.0, -0.5)) *
                                 scaling(Vec(0.1, 0.1, 0.1)),material5));
-  world.add(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
+  world.add_shape(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
                                 scaling(Vec(0.1, 0.1, 0.1)), material6));
   
 //  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -171,11 +171,11 @@ void demo(int width, int height, float angle_deg, string cameratype,
   img_pigment.clamp_image();
   Material image_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<ImagePigment>(img_pigment));
   
-  world2.add(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.8))*rotation_z(150), image_material));
-  world2.add(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
-  world2.add(make_shared<Sphere>(translation(Vec(0., 0., 0.8))*scaling(Vec(0.8,0.8,0.8)), sphere_material));
-  world2.add(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
-  world2.add(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
+  world2.add_shape(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.8))*rotation_z(150), image_material));
+  world2.add_shape(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
+  world2.add_shape(make_shared<Sphere>(translation(Vec(0., 0., 0.8))*scaling(Vec(0.8,0.8,0.8)), sphere_material));
+  world2.add_shape(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
+  world2.add_shape(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
              
   // Initialize a camera
   Transformation camera_tr;
