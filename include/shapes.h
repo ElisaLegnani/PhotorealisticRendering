@@ -137,7 +137,7 @@ struct Plane : public Shape {
   Plane(Transformation t = Transformation(), Material m = Material()) : Shape(t,m) {}
   
   /**
-   * Checks if the given ray hits the box
+   * Checks if the given ray hits the plane
    *
    * @param ray Input ray to check
    * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to false if no intersection happens)
@@ -145,7 +145,7 @@ struct Plane : public Shape {
   HitRecord ray_intersection(Ray);
   
   /**
-   * Checks if the given ray hits the sphere
+   * Checks if the given ray hits the plane
    * 
    * @param ray Input ray to check
    * @return boolean value
@@ -166,10 +166,9 @@ struct Plane : public Shape {
  */
 struct Box : public Shape {
   
-  Point Pmin;
-  Point Pmax;
+  Point Pmin, Pmax;
   
-  Box(Point pmin, Point pmax, Transformation t = Transformation(), Material m = Material()) : 
+  Box(Point pmin = Point(0, 0, 0), Point pmax = Point(1, 1, 1), Transformation t = Transformation(), Material m = Material()) : 
       Shape(t,m), Pmin{pmin}, Pmax{pmax} {}
   
   /**
@@ -178,7 +177,19 @@ struct Box : public Shape {
    * @param ray Input ray to check
    * @return HitRecord struct containing all infos about the ray-shape intersection (param 'init' set to false if no intersection happens)
    */
-  HitRecord ray_intersection(Ray);    
+  HitRecord ray_intersection(Ray); 
+
+  /**
+   * Checks if the given ray hits the box
+   * 
+   * @param ray Input ray to check
+   * @return boolean value
+   */
+  bool check_if_intersection(Ray);  
+
+  Normal get_normal(int, Vec); 
+
+  Vec2d to_uv(Point, int);
 };
 
 

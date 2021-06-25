@@ -108,8 +108,8 @@ HitRecord Plane::ray_intersection(Ray ray){
   float normal_z_dir=1.;
   if (inv_ray.dir.z > 0.0) normal_z_dir=-1.;
   
-       return HitRecord((transformation * hit_point),
-           transformation * Normal(0.0, 0.0, normal_z_dir),
+  return HitRecord((transformation * hit_point),
+          transformation * Normal(0.0, 0.0, normal_z_dir),
           Vec2d(hit_point.x - floor(hit_point.x), hit_point.y - floor(hit_point.y)), t, ray, material);
 }
 
@@ -123,3 +123,94 @@ bool Plane::check_if_intersection(Ray ray){
 
   return (t >inv_ray.tmin && t< inv_ray.tmax);
 }
+
+//––––––––––––– Sub-struct Box ––––––––––––––––––––––––
+
+HitRecord Box::ray_intersection(Ray ray) {
+
+  Ray inv_ray(ray.transform(transformation.inverse()));
+
+  float t1, t2;
+  float tmin = inv_ray.tmin;
+  float tmax = inv_ray.tmax;
+  int facemin, facemax;
+
+  for (int i{}; i < 3; ++i) {
+
+    t1 = (Pmin[i] - (inv_ray.origin)[i]) / inv_ray.dir[i];
+    t2 = (Pmax[i] - (inv_ray.origin)[i]) / inv_ray.dir[i];
+
+    if (t1 > t2) {
+      float t = t1;
+      t1 = t2;
+      t2 = t;
+    }
+
+    if (t1 > tmin) {
+      tmin = t1;
+      facemin = i;
+    }
+    if (t2 < tmax) {
+      tmax = t2;
+      facemax = i + 3;
+    }
+
+    if (tmin > tmax) return HitRecord();
+  }
+
+  float t;
+  int face;
+  if (tmin > inv_ray.tmin && tmin < inv_ray.tmax) {
+    t = tmin;
+    face = facemin;
+  } else if (tmax > inv_ray.tmin && tmax < inv_ray.tmax) {
+    t = tmax;
+    face = facemax;
+  } else {
+    return HitRecord();
+  }
+
+  Normal normal = get_normal(face, inv_ray.dir);
+  Point hit_point = inv_ray.at(t);
+  
+  return HitRecord(transformation * hit_point,
+          transformation * normal,
+          to_uv(hit_point, face), t, ray, material);
+}
+
+bool Box::check_if_intersection(Ray ray) {}
+
+Normal Box::get_normal(int face, Vec ray_dir) {
+
+  Normal normal;
+  if (face == 0 || face == 3)
+    normal = Normal(1, 0, 0);
+  else if (face == 1 || face == 4)
+    normal = Normal(0, 1, 0);
+  else if (face == 2 || face == 5)
+    normal = Normal(0, 0, 1);
+
+  if (dot(ray_dir, normal) < 0)
+    return normal;
+  else
+    return -normal;
+}
+
+Vec2d Box::to_uv(Point hit_point, int face) {
+
+  float u, v;
+
+  if (face == 0 || face == 3) {
+    u = (face + (hit_point.y - Pmin.y) / (Pmax.y - Pmin.y)) / 6.0;
+    v = (face + (hit_point.z - Pmin.z) / (Pmax.z - Pmin.z)) / 6.0;
+  } else if (face == 1 || face == 4) {
+    u = (face + (hit_point.x - Pmin.x) / (Pmax.x - Pmin.x)) / 6.0;
+    v = (face + (hit_point.z - Pmin.z) / (Pmax.z - Pmin.z)) / 6.0;
+  } else if (face == 2 || face == 5)  {
+    u = (face + (hit_point.x - Pmin.x) / (Pmax.x - Pmin.x)) / 6.0;
+    v = (face + (hit_point.y - Pmin.y) / (Pmax.y - Pmin.y)) / 6.0;
+  }
+
+  return Vec2d(u, v);
+}
+

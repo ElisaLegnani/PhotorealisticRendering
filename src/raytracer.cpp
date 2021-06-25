@@ -168,6 +168,8 @@ void demo(int width, int height, float angle_deg, string cameratype,
   Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))));
   Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.8, 0.2, 0.5))));
   Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.5, 0.3, 0.3))));
+  Material box_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.3, 0.3, 0.01))));
+  
 
   HdrImage img_pigment("../examples/hdr2ldr/sky.pfm");
   img_pigment.normalize_image(0.3);
@@ -179,6 +181,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
   world2.add(make_shared<Sphere>(translation(Vec(0., 0., 0.8))*scaling(Vec(0.8,0.8,0.8)), sphere_material));
   world2.add(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
   world2.add(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
+  world2.add(make_shared<Box>(Point(0,0,0), Point(0.6,0.8,0.5), translation(Vec(-0.2, -2.5, 0.))*rotation_z(270), box_material));
              
   // Initialize a camera
   Transformation camera_tr;
