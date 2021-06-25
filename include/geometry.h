@@ -71,6 +71,13 @@ struct Vec {
   Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor
   
   Vec& operator=(const Vec &v){x=v.x; y=v.y; z=v.z; return *this;} // Assignment operator: Vec v2; v2=v1
+
+  float operator[](int i) {
+    if (i == 0) return x;
+		else if (i == 1) return y;
+    else if (i == 2) return z;
+    // else return nan("1");
+	}
   
   bool is_close(Vec v) {
     return are_close(x, v.x) && are_close(y, v.y) && are_close(z, v.z);
@@ -117,6 +124,12 @@ struct Point {
   Point(const Point &&pm) : x{pm.x}, y{pm.y}, z{pm.z} {} // Move constructor
   
   Point& operator=(const Point &p){ x=p.x; y=p.y; z=p.z; return *this; } // Assignment operator
+
+  float operator[](int i) {
+    if (i == 0) return x;
+		else if (i == 1) return y;
+    else if (i == 2) return z;
+	}
   
   bool is_close(Point p) {
     return are_close(x, p.x) && are_close(y, p.y) && are_close(z, p.z);
@@ -158,6 +171,12 @@ struct Normal {
   Normal(const Normal &&nm) : x{nm.x}, y{nm.y}, z{nm.z} {} // Move constructor
 
   Normal& operator=(const Normal &n){  x=n.x; y=n.y; z=n.z; return *this; } // Assignment operator
+
+  float operator[](int i) {
+    if (i == 0) return x;
+		else if (i == 1) return y;
+    else if (i == 2) return z;
+	}
   
   bool is_close(Normal n) {
     return are_close(x, n.x) && are_close(y, n.y) && are_close(z, n.z);
