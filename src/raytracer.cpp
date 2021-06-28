@@ -20,6 +20,7 @@ IN THE SOFTWARE.
 #include <iostream>
 #include <string.h>
 #include <fstream>
+#include "args.hxx"
 
 using namespace std;
 
