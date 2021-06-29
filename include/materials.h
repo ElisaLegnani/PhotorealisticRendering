@@ -100,6 +100,8 @@ struct BRDF {
   Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv) { return BLACK; }
 
   virtual Ray scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth) = 0;
+  
+  virtual void type() = 0;
 };
 
 //––––––––––––– Sub-struct Diffuse BRDF ––––––––––––––––––––––––
@@ -120,6 +122,8 @@ struct DiffuseBRDF : public BRDF {
   }
 
   Ray scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
+  
+  void type(){ cout << "DiffuseBRDF" << endl;}
 };
 
 //––––––––––––– Sub-struct Specular BRDF ––––––––––––––––––––––––
@@ -138,6 +142,8 @@ struct SpecularBRDF : public BRDF {
   Color eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv);
 
   Ray scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
+  
+  void type(){ cout << "SpecularBRDF" << endl;}
 };
 
 

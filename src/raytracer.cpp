@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
       cin >> height;
       cout << "Insert angle of view (deg): ";
       cin >> angle_deg;
-      cout << "Insert renderer algorithm (onoff/flat/pathtracer): ";
+      cout << "Insert renderer algorithm (onoff/flat/pathtracer/pointlight): ";
       cin >> algorithm;
       if (algorithm == "pathtracer"){
         cout << "Insert number of rays: ";
@@ -158,30 +158,34 @@ void demo(int width, int height, float angle_deg, string cameratype,
   world.add_shape(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
                                 scaling(Vec(0.1, 0.1, 0.1)), material6));
   
+  world.add_light(PointLight(Point(-30.,30.,30.), Color(1.,1.,1.)));
+  
 //  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
   World world2;
 
-  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(0.6, 0.8, 1.0)));
+  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(1.0, 0.9, 0.5)));
   Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))));
-  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.8, 0.2, 0.5))));
-  Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.5, 0.3, 0.3))));
+  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.3, 0.4, 0.8))));
+  Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.6, 0.2, 0.3))));
 
-  HdrImage img_pigment("../examples/hdr2ldr/sky.pfm");
+  /*HdrImage img_pigment("../examples/hdr2ldr/sky.pfm");
   img_pigment.normalize_image(0.3);
   img_pigment.clamp_image();
-  Material image_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<ImagePigment>(img_pigment));
+  Material image_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<ImagePigment>(img_pigment));*/
   
-  world2.add_shape(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.8))*rotation_z(150), image_material));
+  world2.add_shape(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.8))*rotation_z(150), sky_material));
   world2.add_shape(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
   world2.add_shape(make_shared<Sphere>(translation(Vec(0., 0., 0.8))*scaling(Vec(0.8,0.8,0.8)), sphere_material));
-  world2.add_shape(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
+ // world2.add_shape(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
   world2.add_shape(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
+  
+  world2.add_light(PointLight(Point(-10.,10.,10.), WHITE));
              
   // Initialize a camera
   Transformation camera_tr;
   if (algorithm == "onoff" || algorithm == "flat") {
     camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 0.0));
-  } else if (algorithm == "pathtracer") {
+  } else if (algorithm == "pathtracer" || algorithm == "pointlight") {
     camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 1.0));
   }
 
@@ -205,6 +209,8 @@ void demo(int width, int height, float angle_deg, string cameratype,
     renderer = make_shared<FlatRenderer>(world);
   } else if (algorithm == "pathtracer") {
     renderer = make_shared<PathTracer>(world2, BLACK, pcg, n_rays, max_depth, rr_lim);
+  } else if (algorithm == "pointlight") {
+    renderer = make_shared<PointLightTracer>(world2, BLACK);
   }
 
   tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); }); //***
