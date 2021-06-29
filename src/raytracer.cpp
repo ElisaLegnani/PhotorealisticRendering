@@ -29,7 +29,7 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using namespace std;
 
 void convert_hdr2ldr(string, string, float, float);
-void image_render(string, string, int, int, int, int, string, vector<string>);
+void image_render(string, string, int, int, uint64_t, uint64_t, int, int, string, vector<string>);
 unordered_map<string, float> build_variable_dictionary(vector<string>);
 
 int main(int argc, char **argv) {
@@ -71,9 +71,12 @@ int main(int argc, char **argv) {
                              "Number of rays", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
                              "Maximum depth", {'d', "max_depth", "depth"});
+  args::ValueFlag<uint64_t> state(render_arguments, "",
+                             "Initial seed for the PCG random number generator", {'s', "state"});
+  args::ValueFlag<uint64_t> seq(render_arguments, "",
+                             "Identifier of the sequence produced by the PCG random number generator", {'i', "seq", "seq_id"});
   args::ValueFlagList<string> declare_variables(render_arguments, "",
                              "Declare float variables: \n --declare_var name:variable", {'v', "declare_var"});
-
   args::CompletionFlag completion(parser, {"complete"});
 
   try {
@@ -108,7 +111,9 @@ int main(int argc, char **argv) {
 
     // float angle_deg   Insert angle of view (deg)
 
-    image_render(args::get(scene_file), args::get(algorithm), args::get(n_rays), args::get(max_depth), args::get(width), args::get(height), args::get(output_file), variables_list);
+    image_render(args::get(scene_file), args::get(algorithm), args::get(n_rays),
+                 args::get(max_depth), args::get(state), args::get(seq),
+                 args::get(width), args::get(height), args::get(output_file), variables_list);
   }
 
   return 0;
@@ -156,7 +161,7 @@ void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) 
 
 //–––––––––––––––––– RENDER ––––––––––––––––––––––––
 
-void image_render(string scene_file, string algorithm, int n_rays, int max_depth,
+void image_render(string scene_file, string algorithm, int n_rays, int max_depth, uint64_t state, uint64_t seq,
                   int width, int height, string output_file, vector<string> variables_list) {
 
   unordered_map<string, float> variables = build_variable_dictionary(variables_list);
@@ -179,7 +184,7 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
   // Run the ray-tracer
   ImageTracer tracer(image, scene.camera);
 
-  PCG pcg;
+  PCG pcg(state, seq);
   int rr_lim = 3;
 
   shared_ptr<Renderer> renderer;
