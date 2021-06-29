@@ -150,7 +150,7 @@ For further details, see below.
   You just need to set the `ANGLE` (deg) from which you look at the scene.
   
   <p align="center">
-    <img width="700" src=https://user-images.githubusercontent.com/62106779/122638442-64ff9080-d0f4-11eb-9dae-0fcdd49cba20.png>
+    <img width="500" src=https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png>
   </p>
   
   #### Animation:
