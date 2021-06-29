@@ -40,5 +40,13 @@ TEST_CASE("World methods", "[world]"){
 
   REQUIRE(intersection2.init);
   REQUIRE(intersection2.world_point.is_close(Point(9.0, 0.0, 0.0)));
+  
+//  check_if_intersection and is_point_visible
+  REQUIRE(!world.is_point_visible(Point(10.0, 0.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(!world.is_point_visible(Point(5.0, 0.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(5.0, 0.0, 0.0), Point(4.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(0.5, 0.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(0.0, 10.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(0.0, 0.0, 10.0), Point(0.0, 0.0, 0.0)));
 
 }

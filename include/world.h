@@ -64,7 +64,22 @@ void add_light(PointLight l){
       }
     } 
     return closest;
-  }    
+  }
+  
+  /**
+   * Check whether a point is visible form an observer point of view (pov), with no shape in the middle
+   */
+  bool is_point_visible (Point point, Point observer_pov){
+    Vec dir = point - observer_pov;
+    float dir_norm = dir.norm();
+    
+    Ray ray(observer_pov, dir, 1e-2/dir_norm, 1., 0);
+    
+    for(int s{}; s < shapes.size(); ++s){
+      if(shapes[s]->check_if_intersection(ray)) return false;
+    }
+    return true;
+  }
 };
 
 #endif

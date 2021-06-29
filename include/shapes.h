@@ -116,8 +116,8 @@ struct Sphere : public Shape {
   HitRecord ray_intersection(Ray);
   
   /**
-   * Checks if the given ray hits the sphere
-   * 
+   * Checks if the given ray hits the sphere or not
+   *
    * @param ray Input ray to check
    * @return boolean value
    */
@@ -145,8 +145,8 @@ struct Plane : public Shape {
   HitRecord ray_intersection(Ray);
   
   /**
-   * Checks if the given ray hits the sphere
-   * 
+   * Checks if the given ray hits the plane or not
+   *
    * @param ray Input ray to check
    * @return boolean value
    */
