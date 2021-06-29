@@ -36,6 +36,10 @@ struct PointLight{
   float linear_radius;
   
   PointLight(Point pos, Color c, float lr = 0.) : position{pos}, color{c}, linear_radius{lr} {}
+  
+  PointLight(const PointLight &pl): position{pl.position}, color{pl.color}, linear_radius{pl.linear_radius} {}
+  
+  
 };
 
 #endif
