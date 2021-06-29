@@ -29,8 +29,8 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using namespace std;
 
 void convert_hdr2ldr(string, string, float, float);
-void image_render(string, string, int, int, int, int, string);
-// unordered_map<string, float> build_variable_dictionary();
+void image_render(string, string, int, int, int, int, string, vector<string>);
+unordered_map<string, float> build_variable_dictionary(vector<string>);
 
 int main(int argc, char **argv) {
 
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
   args::ValueFlag<int> height(render_arguments, "",
                               "Height of the rendered image", {'h', "heght"});
   args::ValueFlag<string> algorithm(render_arguments, "",
-                                    "Renderer algorithm: onoff/flat/pathtracer",
+                                    "Renderer algorithm: \n onoff/flat/pathtracer",
                                     {'r', 'a', "renderer", "algorithm"});
   args::ValueFlag<string> scene_file(render_arguments, "",
                                     "Input scene file", {"scene", "scene_file"});
@@ -71,6 +71,8 @@ int main(int argc, char **argv) {
                              "Number of rays", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
                              "Maximum depth", {'d', "max_depth", "depth"});
+  args::ValueFlagList<string> declare_variables(render_arguments, "",
+                             "Declare float variables: \n --declare_var name:variable", {'v', "declare_var"});
 
   args::CompletionFlag completion(parser, {"complete"});
 
@@ -98,22 +100,41 @@ int main(int argc, char **argv) {
 
   else if (render) {
 
-    // float angle_deg   Insert angle of view (deg)
-    //if (algorithm == "pathtracer")
-      //n_rays
-      //max_depth
+    vector<string> variables_list;
+    if (declare_variables) {
+      for (const auto &var: args::get(declare_variables))
+        variables_list.push_back(var);
+    }
 
-    image_render(args::get(scene_file), args::get(algorithm), args::get(n_rays), args::get(max_depth), args::get(width), args::get(height), args::get(output_file));
+    // float angle_deg   Insert angle of view (deg)
+
+    image_render(args::get(scene_file), args::get(algorithm), args::get(n_rays), args::get(max_depth), args::get(width), args::get(height), args::get(output_file), variables_list);
   }
 
   return 0;
 }
 
-/*unordered_map<string, float> build_variable_dictionary(){
+unordered_map<string, float> build_variable_dictionary(vector<string> variables_list){
 
   unordered_map<string, float> variables;
+  
+  size_t pos_start = 0, pos_end;
+  for (const auto var: variables_list) {
 
-}*/
+    size_t find = var.find("=");
+    float value = stof(var.substr(find + 1));
+    string name = var.substr(0, find);
+    
+    variables[name] = value;
+  }
+
+  /*for (const auto &var: variables) {
+    cout << "{" << var.first << "," << var.second << "}" << endl;
+
+  }*/
+
+  return variables;
+}
 
 //–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
 
@@ -136,9 +157,9 @@ void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) 
 //–––––––––––––––––– RENDER ––––––––––––––––––––––––
 
 void image_render(string scene_file, string algorithm, int n_rays, int max_depth,
-                  int width, int height, string output_file) { // float angle_deg
+                  int width, int height, string output_file, vector<string> variables_list) {
 
-  unordered_map<string, float> variables; //=build_variable_dictionary();
+  unordered_map<string, float> variables = build_variable_dictionary(variables_list);
 
   HdrImage image(width, height);
 
