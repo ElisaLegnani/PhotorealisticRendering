@@ -28,10 +28,42 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using namespace std;
 
+/**
+ * COMMAND 1:  CONVERSION HDR2LDR
+ *
+ * @param pfm_file PFM input file name with the path where to find it
+ * @param out_file PNG/JPEG output file name with the path where to place it
+ * @param a luminosity normalization factor
+ * @param gamma monitor calibration factor
+ */
 void convert_hdr2ldr(string, string, float, float);
+
+/**
+ * COMMAND 2:  GENERATE AN IMAGE USING A RAYTRACING ALGORITHM
+ *
+ * @param scene_file TXT input file name with indications of the scene one wants to create
+ * @param algorithm raytracing algorithm to choose among onoff, flat, pathtracer to render the image
+ * @param n_rays number of ray to generate (high number -> better image quality, less efficiency)
+ * @param max_depth number of ray reflections on objects (high number -> better image quality, less efficiency)
+ * @param init_state initial seed for the PCG random number generator
+ * @param init_seq identifier of the sequence produced by the PCG random number generator
+ * @param width Output image width
+ * @param height Output image height
+ * @param output_file PFM/PNG/JPEG output file name with the path where to place it
+ * @param variables_list floating point variables list to set parameters directly from the command line (ex: angle where to see the scene)
+ *
+ */
 void image_render(string, string, int, int, uint64_t, uint64_t, int, int, string, vector<string>);
+
+/**
+ * Function needed to convert the variable_list passed from the command line into the a dictionary variable
+ */
 unordered_map<string, float> build_variable_dictionary(vector<string>);
 
+
+
+
+//––––––––––––––––––––– MAIN –––––––––––––––––––––––––––––––––––––––––––––
 int main(int argc, char **argv) {
 
   args::ArgumentParser parser(
@@ -115,6 +147,8 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
 
 
 //–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
@@ -209,3 +243,5 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
     cout << "LDR demo image: " << output_file << endl;
   }
 }
+
+//––––––––––––––––––––––––––––––––––––––––––– *** ––––––––––––––––––––––––––––––––––––––––––––––––––
