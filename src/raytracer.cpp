@@ -137,8 +137,15 @@ int main(int argc, char **argv) {
   }
 
   if (hdr2ldr) {
-    convert_hdr2ldr(args::get(pfm_file), args::get(out_file) = "out.png",
-                    args::get(a) = 0.3, args::get(gamma) = 1);
+
+    float _a = 0.3, _gamma = 1.;
+    string _out_file = "out.png";
+    
+    if (a) _a = args::get(a);
+    if (gamma) _gamma = args::get(gamma);
+    if (out_file) _out_file = args::get(out_file);
+
+    convert_hdr2ldr(args::get(pfm_file), _out_file, _a, _gamma);
   }
 
   else if (render) {
@@ -149,10 +156,20 @@ int main(int argc, char **argv) {
         variables_list.push_back(var);
     }
 
-    image_render(args::get(scene_file), args::get(algorithm) = "pathtracer", args::get(n_rays) = 10,
-                 args::get(max_depth) = 2, args::get(state) = 42, args::get(seq) = 54,
-                 args::get(width) = 640, args::get(height) = 480, args::get(output_file) = "out.png",
-                 variables_list);
+    string _algorithm = "pathtracer", _output_file = "out.png";
+    int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _width = 640, _height = 480;
+    
+    if (algorithm) _algorithm = args::get(algorithm);
+    if (n_rays) _n_rays = args::get(n_rays);
+    if (max_depth) _max_depth = args::get(max_depth);
+    if (state) _state = args::get(state);
+    if (seq) _seq = args::get(seq);
+    if (width) _width = args::get(width);
+    if (height) _height = args::get(height);
+    if (output_file) _output_file = args::get(output_file); 
+
+    image_render(args::get(scene_file), _algorithm, _n_rays, _max_depth, _state, _seq, 
+                 _width, _height, _output_file, variables_list);
   }
 
   return 0;
