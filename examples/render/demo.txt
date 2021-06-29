@@ -22,7 +22,7 @@ material mirror_material(
 
 material background_material(
     diffuse(uniform(<0, 0, 0>)),
-    image("../examples/hdr2ldr/mountains.pfm")
+    image("../hdr2ldr/mountains.pfm")
 )
 
 sphere (background_material, 
@@ -43,4 +43,4 @@ sphere(mirror_material,
 	translation([1, 2.5, 0.])
 )
 
-camera(perspective, rotation_z(0) * translation([-1, 0, 1]), 2.0, 0.8)
+camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 2.0, 0.8)

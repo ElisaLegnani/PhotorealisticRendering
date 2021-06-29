@@ -7,7 +7,7 @@ fi
 
 readonly angle="$1"
 readonly angleNNN=$(printf "%03d" $angle)
-readonly algorithm="flat"
+readonly algorithm="pathtracer"
 readonly pngfile=img/image$angleNNN.png
 
-time ../../build/./raytracer demo perspective 640 480 $angle $algorithm $pngfile
+time ../../build/./raytracer render -r $algorithm -n 10 -d 2 --scene demo.txt -v ang=$angle -w 640 -h 480 --output $pngfile
