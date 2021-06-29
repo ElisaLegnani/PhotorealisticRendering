@@ -43,4 +43,4 @@ sphere(mirror_material,
 	translation([1, 2.5, 0.])
 )
 
-camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 2.0, 0.8)
+camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 2.0, 1.)
