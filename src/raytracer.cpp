@@ -96,7 +96,6 @@ int main(int argc, char **argv) {
     return 1;
   }
 
-
   if (hdr2ldr) {
     convert_hdr2ldr(args::get(pfm_file), args::get(out_file), args::get(a), args::get(gamma));
   }
@@ -109,8 +108,6 @@ int main(int argc, char **argv) {
         variables_list.push_back(var);
     }
 
-    // float angle_deg   Insert angle of view (deg)
-
     image_render(args::get(scene_file), args::get(algorithm), args::get(n_rays),
                  args::get(max_depth), args::get(state), args::get(seq),
                  args::get(width), args::get(height), args::get(output_file), variables_list);
@@ -118,6 +115,23 @@ int main(int argc, char **argv) {
 
   return 0;
 }
+
+
+//–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
+
+void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
+
+  HdrImage img(pfm_file);
+
+  img.normalize_image(a);
+  img.clamp_image();
+
+  img.write_ldr_image(output_file, gamma);
+  cout << "LDR image written to " << output_file << endl;
+}
+
+
+//–––––––––––––––––– RENDER ––––––––––––––––––––––––
 
 unordered_map<string, float> build_variable_dictionary(vector<string> variables_list){
 
@@ -133,33 +147,8 @@ unordered_map<string, float> build_variable_dictionary(vector<string> variables_
     variables[name] = value;
   }
 
-  /*for (const auto &var: variables) {
-    cout << "{" << var.first << "," << var.second << "}" << endl;
-
-  }*/
-
   return variables;
 }
-
-//–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
-
-void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
-
-  HdrImage img(pfm_file);
-
-  img.normalize_image(a);
-  img.clamp_image();
-
-  img.write_ldr_image(output_file, gamma);
-  cout << "LDR image written to " << output_file << endl;
-
-  //(0<a<1, 0.3 by default)
-  //gamma (1.0 by default)
-  //You may change a and gamma according to the image visualization preferences
-}
-
-
-//–––––––––––––––––– RENDER ––––––––––––––––––––––––
 
 void image_render(string scene_file, string algorithm, int n_rays, int max_depth, uint64_t state, uint64_t seq,
                   int width, int height, string output_file, vector<string> variables_list) {
@@ -200,7 +189,7 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
   tracer.fire_all_rays(
       [&](Ray ray) -> Color { return (*renderer)(ray); }); //***
 
-  //  Understand format output file (PFM/PNG/JPG)
+  // Understand format output file (PFM/PNG/JPG)
   string file_str = string(output_file);
   size_t find = file_str.find_last_of(".");
   string format = file_str.substr(find);
