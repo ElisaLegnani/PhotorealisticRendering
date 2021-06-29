@@ -55,25 +55,20 @@ For testing, run in the `build` directory:
 ```sh
 $ ctest
 ```
+The testing interface is built using [Catch2](https://github.com/catchorg/Catch2).
 
 ## Usage
 
-The code now implements two features (*WIP*):
-- converts HDR image to LDR: `hdr2ldr`
-- creates a demo image: `demo`
+You can run the program through the script `raytracer`. The code implements two features, that you can call with commands:
+- converts HDR image to LDR: `hdr2ldr`;
+- creates a demo image: `demo`.
 
-In the  `build` directory, run: 
+To get commmand-line help, run in the  `build` directory: 
   
 ```sh
-$ ./raytracer hdr2ldr
+$ ./raytracer --help
 
 ```
-or:
-
-```sh
-$ ./raytracer demo
-```
-
 For further details, see below.
 
 <details><summary name="convert"><b>Convert HDR image to LDR</b></summary>
@@ -81,41 +76,29 @@ For further details, see below.
   In the  `build` directory run: 
   
   ```sh
-  $ ./raytracer hdr2ldr
+  $ ./raytracer hdr2ldr --pfm input_file.pfm
   ```
 
   The HDR image format supported is PFM, while LDR ones are PNG and JPG.
 
-  Some parameters need to be set according to the preferences in the output image visualisation:
-  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity (default value: 0.3);
+  You can also set some parameters according to your preferences in the output image visualisation:
+  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity, 0<*a*<1 (default value: 0.3);
   - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: 1.0);
+  - *output filename*: PNG/JPG file (default: out.png).
 
-  You can set these properties directy by command line or being followed step by step:
-
-  #### Command line:
-
-  ```sh
-  $ ./raytracer hdr2ldr input_file.pfm 0.3 1.0 output_file.jpg
-  ```
-
-  #### Step by step:
+  You can set these properties directly in the command line:
 
   ```sh
-  $ ./raytracer hdr2ldr
-  Insert input PFM filename: input_file.pfm
-  Insert luminosity normalization factor a (0 < a < 1, 0.3 by default): 0.3
-  Insert monitor calibration factor gamma (1.0 by default): 1.0
-  You may rerun the program and change a and gamma according to the image visualization preferences.
-  Insert output PNG/JPG filename: output_file.png
+  $ ./raytracer hdr2ldr --pfm input_file.pfm -a 0.3 -g 1.0 --out output_file.jpg
   ```
-  
+
   #### Example:
   
   In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
   You can play with the code and parameters simply running (in the `build` directory):
   
   ```sh
-  $ ./raytracer hdr2ldr ../examples/hdr2ldr/memorial.pfm 0.3 1.0 ../examples/hdr2ldr/memorial_0.3_1.0.png
+  $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
  
   <p align="center">
@@ -130,86 +113,64 @@ For further details, see below.
   In the  `build` directory run: 
   
   ```sh
-  $ ./raytracer demo
+  $ ./raytracer render --scene scene_file.txt
   ```
 
-  Two demo images are provided:
-  - one composed by ten spheres on a black screen and rendered with the onoff or the flat renderer;
-  - the other representing a complex scene rendered with the pathtracer algorithm.
-
-  You can choose :
-  - camera type (orthogonal/perspective);
-  - image width;
-  - image height;
-  - angle of view (deg);
-  - renderer algorithm (onoff/flat/pathtracer);
-  - output filename (PFM/PNG/JPG);
-  - number of rays (if using pathtracer algorithm);
-  - maximum depth (if using pathtracer algorithm);
+  This command allows you to render the scene described in the `scene_file.txt` file.
   
-  again directly or step by step. Here it is shown the command line to run it directly, alternatively it is analogous to the previous feature.
-
-  ```sh
-  $ ./raytracer demo perspective width height angle renderer output_file.png n_rays max_depth
-  ```
+  More information on how to write this kind of file will be available soon! At the moment you can try running the code using the `demo.txt` file in the `examples/render` directory.
   
-  #### Example 1: onoff and flat renderers
+  You can also set the following parameters:
+  - image width (default value: 640);
+  - image height (default value: 480);
+  - renderer algorithm: onoff/flat/pathtracer (default: pathtracer);
+  - output filename: PFM/PNG/JPG file (default: out.png);
+  - number of rays (default value: 10);
+  - maximum depth (default value: 2);
+  - initial seed for the random number generator (default value: 42);
+  - identifier of the sequence produced by the random number generator (default value: 54);
+  - addittional float parameters, e.g angle of view, camera distance ...
   
-  You may easily try the code running in the `examples/demo` directory:
+  **Note**: the rendering process takes a long time to produce an image.
+  
+  #### Example:
+  
+  You may easily try the code running in the `examples/render` directory:
   
   ```sh
   $ ./generate-image.sh ANGLE
   ```
+  
   which automatically runs the following code:
+  
   ```sh
-  $ ../build/./raytracer demo perspective 640 480 ANGLE flat img/imageANGLE.png
+  $ ../../build/./raytracer render --scene demo.txt --declare_var ang=ANGLE --output img/imageANGLE.png
   ```
   
-  and you just need to set the `ANGLE` (deg) from which you look at the scene.
+  You just need to set the `ANGLE` (deg) from which you look at the scene.
+  
+  <p align="center">
+    <img width="700" src=https://user-images.githubusercontent.com/62106779/122638442-64ff9080-d0f4-11eb-9dae-0fcdd49cba20.png>
+  </p>
   
   #### Animation:
   
-  In the `examples/demo` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
+  In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
   In order to run the code, you need to:
   - install `ffmpeg` : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
   - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel`);
   - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF_CORES` in the command line;
   
-  This is needed to run in parallel the code and speed up the execution, otherwise it would take several minutes.
+  This is needed to run in parallel the code and speed up the execution, otherwise it would take a very long time.
   
   ```sh
   $ ./generate-animation.sh NUM_OF_CORES
   ```
   
-  <p align="center">
-    <img src="./img/demo_flat.gif" width="400">
-  </p>
-  
-  The same can be done using the onoff renderer, just changing the renderer to `onoff` in the `examples/demo/generate-image.sh` script before running `generate-animation.sh`:
-
-  ```sh
-  $ ../build/./raytracer demo perspective 640 480 ANGLE onoff img/imageANGLE.png
-  ```
-  
-  <p align="center">
-    <img src="./img/demo_onoff.gif" width="400">
-  </p>
-  
-  
-  #### Example 2: pathtracer renderer
-  
-  Running the following in the `build` directory:
-  ```sh
-  $ ./raytracer demo perspective 700 350 0 pathtracer ../img/demo_pathtracer.png 10 2
-  ```
-  you should obtain this image
-  
-  <p align="center">
-    <img src="./img/demo_pathtracer.png" width="600">
-  </p>
-  
 </details>
+
+The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
   
 ## Expectations
 
