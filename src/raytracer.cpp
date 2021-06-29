@@ -75,61 +75,70 @@ int main(int argc, char **argv) {
 
   args::Group hdr2ldr_arguments(parser, "hdr2ldr arguments",
                                 args::Group::Validators::DontCare,
-                                args::Options::Global);
+                                args::Options::Global);                              
   args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "",
                                        "Input PFM filename", {"pfm", "pfm_file"});
   args::ValueFlag<string> out_file(hdr2ldr_arguments, "",
-                                       "Output PNG/JPG filename", {"out", "out_file"});
+                                       "Output PNG/JPG filename \n (default out.png)", {"out", "out_file"});
   args::ValueFlag<float> a(hdr2ldr_arguments, "",
-                           "Luminosity normalization factor, 0<a<1", {'a'});
+                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
   args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
-                               "Monitor calibration factor gamma", {'g', "gamma"});
+                               "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
 
   args::Group render_arguments(parser, "render arguments",
                                args::Group::Validators::DontCare,
                                args::Options::Global);
   args::ValueFlag<int> width(render_arguments, "",
-                             "Width of the rendered image", {'w', "width"});
+                             "Width of the rendered image \n (default 640)", {'w', "width"});
   args::ValueFlag<int> height(render_arguments, "",
-                              "Height of the rendered image", {'h', "heght"});
+                              "Height of the rendered image \n (default 480)", {'h', "heght"});
   args::ValueFlag<string> algorithm(render_arguments, "",
-                                    "Renderer algorithm: \n onoff/flat/pathtracer",
+                                    "Renderer algorithm: \n onoff/flat/pathtracer \n (default pathtracer)",
                                     {'r', 'a', "renderer", "algorithm"});
   args::ValueFlag<string> scene_file(render_arguments, "",
                                     "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<string> output_file(render_arguments, "",
-                                      "Output filename: PFM/PNG/JPG", {"output", "output_file"});
+                                      "Output filename: PFM/PNG/JPG \n (default out.png)", {"output", "output_file"});
   args::ValueFlag<int> n_rays(render_arguments, "",
-                             "Number of rays", {'n', "n_rays", "rays"});
+                             "Number of rays (default 10)", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
-                             "Maximum depth", {'d', "max_depth", "depth"});
+                             "Maximum depth (default 2)", {'d', "max_depth", "depth"});
   args::ValueFlag<uint64_t> state(render_arguments, "",
-                             "Initial seed for the PCG random number generator", {'s', "state"});
+                             "Initial seed for the PCG random number \n generator (default 42)", {'s', "state"});
   args::ValueFlag<uint64_t> seq(render_arguments, "",
-                             "Identifier of the sequence produced by the PCG random number generator", {'i', "seq", "seq_id"});
+                             "Identifier of the sequence produced by \n the PCG random number generator \n (default 54)", 
+                             {'i', "seq", "seq_id"});
   args::ValueFlagList<string> declare_variables(render_arguments, "",
-                             "Declare float variables: \n --declare_var name:variable", {'v', "declare_var"});
+                             "Declare float variables: \n --declare_var name=value \n Example: --declare_var angle=10", 
+                             {'v', "declare_var"});
   args::CompletionFlag completion(parser, {"complete"});
 
   try {
     parser.ParseCLI(argc, argv);
   
   } catch (const args::Completion &e) {
-    std::cout << e.what();
+    cout << e.what();
+    return 0;
+  
+  } catch (const args::ValidationError &e) {
+    cout << e.what();
+    cout << parser;
     return 0;
   
   } catch (const args::Help &) {
-    std::cout << parser;
+    cout << parser;
     return 0;
   
   } catch (const args::ParseError &e) {
-    std::cerr << e.what() << std::endl;
-    std::cerr << parser;
+    
+    cerr << e.what() << endl;
+    cerr << parser;
     return 1;
   }
 
   if (hdr2ldr) {
-    convert_hdr2ldr(args::get(pfm_file), args::get(out_file), args::get(a), args::get(gamma));
+    convert_hdr2ldr(args::get(pfm_file), args::get(out_file) = "out.png",
+                    args::get(a) = 0.3, args::get(gamma) = 1);
   }
 
   else if (render) {
@@ -140,9 +149,10 @@ int main(int argc, char **argv) {
         variables_list.push_back(var);
     }
 
-    image_render(args::get(scene_file), args::get(algorithm), args::get(n_rays),
-                 args::get(max_depth), args::get(state), args::get(seq),
-                 args::get(width), args::get(height), args::get(output_file), variables_list);
+    image_render(args::get(scene_file), args::get(algorithm) = "pathtracer", args::get(n_rays) = 10,
+                 args::get(max_depth) = 2, args::get(state) = 42, args::get(seq) = 54,
+                 args::get(width) = 640, args::get(height) = 480, args::get(output_file) = "out.png",
+                 variables_list);
   }
 
   return 0;
