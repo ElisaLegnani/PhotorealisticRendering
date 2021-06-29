@@ -221,43 +221,17 @@ TEST_CASE("Parser", "[scene]") {
     Material sky_material = scene.materials["sky_material"];
     Material ground_material = scene.materials["ground_material"];
 
-    //REQUIRE(sky_material.brdf==DiffuseBRDF); -----------------------> how do I test these?
-    //REQUIRE(sky_material.brdf->pigment==UniformPigment);
-    //REQUIRE(sky_material.brdf->pigment->color.is_close(Color(0, 0, 0)));
-
-    //REQUIRE(ground_material.brdf==DiffuseBRDF);
-    //REQUIRE(ground_material.brdf->pigment==CheckeredPigment);
-    //REQUIRE(ground_material.brdf->pigment->color1.is_close(Color(0.3, 0.5, 0.1)));
-    //REQUIRE(ground_material.brdf->pigment->color1.is_close(Color(0.1, 0.2, 0.5)));
-    //REQUIRE(ground_material.brdf->pigment->color1.num_of_steps == 4);
-
-    //REQUIRE(sphere_material.brdf==SpecularBRDF);
-    //REQUIRE(sphere_material.brdf->pigment==UniformPigment);
-    //REQUIRE(sphere_material.brdf->pigment->color.is_close(Color(0.5, 0.5, 0.5)));
-
-    //REQUIRE(sky_material.emitted_radiance == UniformPigment);
-    //REQUIRE(sky_material.emitted_radiance.color.is_close(Color(0.7, 0.5, 1.0)));
-    //REQUIRE(ground_material.emitted_radiance == UniformPigment);
-    //REQUIRE(ground_material.emitted_radiance.color.is_close(Color(0, 0, 0)));
-    //REQUIRE(sphere_material.emitted_radiance == UniformPigment);
-    //REQUIRE(sphere_material.emitted_radiance.color.is_close(Color(0, 0, 0)));
-
     // Check that the shapes are ok
 
     REQUIRE(scene.world.shapes.size() == 3);
-    //REQUIRE(scene.world.shapes[0] == Plane);
     REQUIRE(scene.world.shapes[0]->transformation.is_close(translation(Vec(0, 0, 100)) * rotation_y(150.0)));
-    //REQUIRE(scene.world.shapes[1] == Plane);
     REQUIRE(scene.world.shapes[1]->transformation.is_close(Transformation()));
-    //REQUIRE(scene.world.shapes[2] == Sphere);
     REQUIRE(scene.world.shapes[2]->transformation.is_close(translation(Vec(0, 0, 1))));
 
     // Check that the camera is ok
 
-    //REQUIRE(scene.camera == PerspectiveCamera);
     REQUIRE(scene.camera->transformation.is_close(rotation_z(30) * translation(Vec(-4, 0, 1))));
     REQUIRE(are_close(scene.camera->aspect_ratio, 1.0));
-    //REQUIRE(are_close(scene.camera->screen_distance, 2.0));
 }
 
 TEST_CASE("Parser - undefined material", "[scene]") {
