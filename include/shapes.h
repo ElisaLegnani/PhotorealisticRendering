@@ -154,20 +154,6 @@ struct Plane : public Shape {
     
 };
 
-//––––––––––––– Functions for sub-Struct Box –––––––––––––––––––––––––
-
-/** Converts a 3D box point to 2D (u,v) coordinates on one face of the box*/
-Vec2d box_point_to_uv(Point, int);
-
-/**
- * Evaluates the normal of the box in a given point
- *
- * @param face of the box, represented by an integer in [1,6]
- * @param ray_dir needs to evalute the normal direction: if inward (+) or outward (-) refered to the given ray direction
- */
-Normal box_normal(int, Vec); 
-
-
 //––––––––––––– Sub-struct Box ––––––––––––––––––––––––
 /**
  * An axis aligned box 
