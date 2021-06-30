@@ -170,14 +170,10 @@ struct PointLightTracer : public Renderer {
     Material hit_material = hit.material;
     
     Color total_color(ambient_color);
-    //cout << "Ambient color in : "; ambient_color.print();
     
     for(int l{}; l < world.lights.size(); ++l){
       
-      //cout << "World.lights[l]: "; world.lights[l].color.print();
       PointLight each_light(world.lights[l]);
-      //cout << "Each_light: "; each_light.color.print();
-      
       if(world.is_point_visible(each_light.position, hit.world_point)){
         
         Vec distance_vec = hit.world_point - each_light.position;
@@ -190,12 +186,7 @@ struct PointLightTracer : public Renderer {
         
         Color emitted_color = hit_material.emitted_radiance->get_color(hit.surface_point);
         
-        //cout << "Emitted color : "; emitted_color.print();
-        
         Color brdf_color = hit_material.brdf->eval(hit.normal, in_dir, -ray.dir, hit.surface_point);
-        
-        // hit_material.brdf->type();
-        // cout << "BRDF color : "; brdf_color.print();
         
         total_color = total_color + (emitted_color + brdf_color) * each_light.color * cos_theta * distance_factor;
       }

@@ -163,9 +163,9 @@ void demo(int width, int height, float angle_deg, string cameratype,
 //  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
   World world2;
 
-  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(1.0, 0.9, 0.5)));
-  Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))));
-  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.3, 0.4, 0.8))));
+  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.5,0.5,0.5))), make_shared<UniformPigment>(BLACK));
+  Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(3, 5, 1), Color(1, 2, 5))));
+  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(3, 4, 8))));
   Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.6, 0.2, 0.3))));
 
   /*HdrImage img_pigment("../examples/hdr2ldr/sky.pfm");
@@ -179,7 +179,7 @@ void demo(int width, int height, float angle_deg, string cameratype,
  // world2.add_shape(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
   world2.add_shape(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
   
-  world2.add_light(PointLight(Point(-10.,10.,10.), WHITE));
+  world2.add_light(PointLight(Point(-3.,3.,3.), WHITE));
              
   // Initialize a camera
   Transformation camera_tr;

@@ -97,7 +97,7 @@ struct BRDF {
   BRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(WHITE))
       : pigment{p} {}
 
-  Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv) { return BLACK; }
+  virtual Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv) = 0;
 
   virtual Ray scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth) = 0;
   
