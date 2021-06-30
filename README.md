@@ -129,6 +129,7 @@ For further details, see below.
   - maximum depth (default value: 2);
   - initial seed for the random number generator (default value: 42);
   - identifier of the sequence produced by the random number generator (default value: 54);
+  - number of samples per pixel for antialiasing (default value: 0)
   - additional float parameters, e.g angle of view, camera distance ...
   
   **Note**: the rendering process takes a long time to produce an image.
