@@ -102,7 +102,7 @@ For further details, see below.
   ```
  
   <p align="center">
-    <img src="./img/example1.png" width="700">
+    <img width="700" src=https://user-images.githubusercontent.com/62106779/122543269-e3443000-d02b-11eb-9809-19333a1e6e3f.png>
   </p>
   
 </details>
@@ -129,7 +129,7 @@ For further details, see below.
   - maximum depth (default value: 2);
   - initial seed for the random number generator (default value: 42);
   - identifier of the sequence produced by the random number generator (default value: 54);
-  - addittional float parameters, e.g angle of view, camera distance ...
+  - additional float parameters, e.g angle of view, camera distance ...
   
   **Note**: the rendering process takes a long time to produce an image.
   
@@ -167,7 +167,7 @@ For further details, see below.
   ```sh
   $ ./generate-animation.sh NUM_OF_CORES
   ```
-  
+ 
 </details>
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).

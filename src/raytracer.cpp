@@ -53,7 +53,7 @@ void convert_hdr2ldr(string, string, float, float);
  * @param variables_list floating point variables list to set parameters directly from the command line (ex: angle where to see the scene)
  *
  */
-void image_render(string, string, int, int, uint64_t, uint64_t, int, int, string, vector<string>);
+void image_render(string, string, int, int, uint64_t, uint64_t, int, int, int, string, vector<string>);
 
 /**
  * Function needed to convert the variable_list passed from the command line into the a dictionary variable
@@ -103,6 +103,8 @@ int main(int argc, char **argv) {
                              "Number of rays (default 10)", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
                              "Maximum depth (default 2)", {'d', "max_depth", "depth"});
+  args::ValueFlag<int> samples_per_pixel(render_arguments, "",
+                             "Number of samples per pixel \n for antialiasing (default 0)", {'s', "samples", "samples_per_pixel"});
   args::ValueFlag<uint64_t> state(render_arguments, "",
                              "Initial seed for the PCG random number \n generator (default 42)", {'s', "state"});
   args::ValueFlag<uint64_t> seq(render_arguments, "",
@@ -157,26 +159,25 @@ int main(int argc, char **argv) {
     }
 
     string _algorithm = "pathtracer", _output_file = "out.png";
-    int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _width = 640, _height = 480;
+    int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
     
     if (algorithm) _algorithm = args::get(algorithm);
     if (n_rays) _n_rays = args::get(n_rays);
     if (max_depth) _max_depth = args::get(max_depth);
     if (state) _state = args::get(state);
     if (seq) _seq = args::get(seq);
+    if (samples_per_pixel) _samples_per_pixel =  args::get(samples_per_pixel);
     if (width) _width = args::get(width);
     if (height) _height = args::get(height);
     if (output_file) _output_file = args::get(output_file); 
 
     image_render(args::get(scene_file), _algorithm, _n_rays, _max_depth, _state, _seq, 
-                 _width, _height, _output_file, variables_list);
+                 _samples_per_pixel, _width, _height, _output_file, variables_list);
   }
 
   return 0;
 }
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-
 
 //–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
 
@@ -212,7 +213,7 @@ unordered_map<string, float> build_variable_dictionary(vector<string> variables_
 }
 
 void image_render(string scene_file, string algorithm, int n_rays, int max_depth, uint64_t state, uint64_t seq,
-                  int width, int height, string output_file, vector<string> variables_list) {
+                  int samples_per_pixel, int width, int height, string output_file, vector<string> variables_list) {
 
   unordered_map<string, float> variables = build_variable_dictionary(variables_list);
 
@@ -236,6 +237,14 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
 
   PCG pcg(state, seq);
   int rr_lim = 3;
+  int samples_per_side = int(sqrt(samples_per_pixel));
+  if (pow(samples_per_side,2) != samples_per_pixel){
+    cout << "Error: the number of samples per pixel must be a perfect square" << endl;
+    return;
+  }
+
+  // Run the ray-tracer
+  ImageTracer tracer(image, camera, samples_per_side, pcg);
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
