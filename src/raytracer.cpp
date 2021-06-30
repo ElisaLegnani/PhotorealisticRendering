@@ -249,9 +249,9 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
   } else if (algorithm == "flat") {
     renderer = make_shared<FlatRenderer>(scene.world);
   } else if (algorithm == "pathtracer") {
-    renderer = make_shared<PathTracer>(world2, BLACK, pcg, n_rays, max_depth, rr_lim);
+    renderer = make_shared<PathTracer>(scene.world, BLACK, pcg, n_rays, max_depth, rr_lim);
   } else if (algorithm == "pointlight") {
-    renderer = make_shared<PointLightTracer>(world2, BLACK);
+    renderer = make_shared<PointLightTracer>(scene.world, BLACK);
   }
 
   tracer.fire_all_rays(
