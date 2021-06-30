@@ -29,6 +29,7 @@ unordered_map<string, Keyword> KEYWORDS = {
     {"material", Keyword::MATERIAL},
     {"plane", Keyword::PLANE},
     {"sphere", Keyword::SPHERE},
+    {"box", Keyword::BOX},
     {"diffuse", Keyword::DIFFUSE},
     {"specular", Keyword::SPECULAR},
     {"uniform", Keyword::UNIFORM},
@@ -321,6 +322,18 @@ Color InputStream::parse_color(Scene scene) {
   return Color(red, green, blue);
 }
 
+Point InputStream::parse_point(Scene scene) {
+  expect_symbol('{');
+  float x = expect_number(scene);
+  expect_symbol(',');
+  float y = expect_number(scene);
+  expect_symbol(',');
+  float z = expect_number(scene);
+  expect_symbol('}');
+
+  return Point(x, y, z);
+}
+
 shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
   shared_ptr<Pigment> result;
 
@@ -448,6 +461,27 @@ Plane InputStream::parse_plane(Scene scene) {
   return Plane(transformation, scene.materials[material_name]);
 }
 
+Box InputStream::parse_box(Scene scene) {
+  expect_symbol('(');
+
+  string material_name = expect_identifier();
+  if (scene.materials.find(material_name) == scene.materials.end()) {
+    // We raise the exception here because input_file is pointing to the end
+    // of the wrong identifier
+    throw GrammarError("unknown material " + material_name, location);
+  }
+
+  expect_symbol(',');
+  Point point1 = parse_point(scene);
+  expect_symbol(',');
+  Point point2 = parse_point(scene);
+  expect_symbol(',');
+  Transformation transformation = parse_transformation(scene);
+  expect_symbol(')');
+
+  return Box(point1, point2, transformation, scene.materials[material_name]);
+}
+
 shared_ptr<Camera> InputStream::parse_camera(Scene scene) { 
   shared_ptr<Camera> result;
   expect_symbol('(');
@@ -518,6 +552,9 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
 
     } else if (what.value.keyword == Keyword::PLANE) {
       scene.world.add(make_shared<Plane>(parse_plane(scene)));
+
+    } else if (what.value.keyword == Keyword::BOX) {
+      scene.world.add(make_shared<Box>(parse_box(scene)));
 
     } else if (what.value.keyword == Keyword::CAMERA) {
       if (scene.camera)

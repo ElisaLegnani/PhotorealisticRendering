@@ -20,6 +20,11 @@ material mirror_material(
     uniform(<0, 0, 0>)
 )
 
+material box_material(
+    diffuse(uniform(<0.3, 0.3, 0.01>)),
+    uniform(<0, 0, 0>)
+)
+
 material background_material(
     diffuse(uniform(<0, 0, 0>)),
     image("../hdr2ldr/mountains.pfm")
@@ -41,6 +46,10 @@ sphere(lamp_material,
 
 sphere(mirror_material, 
 	translation([1, 2.5, 0.])
+)
+
+box(box_material, {0, 0, 0}, {0.6, 0.8, 0.5},
+	translation([-0.2, -2.5, 0.])*rotation_z(270)
 )
 
 camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 1.333, 1.)
