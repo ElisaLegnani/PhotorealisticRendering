@@ -7,7 +7,7 @@
 
 ### 2021-6-30
 
-- Enables a nice command line interface using [Taywee/args](https://github.com/Taywee/args) [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
+- Enable a nice command line interface using [Taywee/args](https://github.com/Taywee/args) argument parsing library [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
 - **Breaking change**: implement a lexer and parser for interpreting files with the scene description [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
 
 ### 2021-6-21
