@@ -3,202 +3,236 @@ The MIT License (MIT)
 
 Copyright © 2021 Elisa Legnani, Adele Zaini
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the “Software”), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of
-the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS
+IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
+FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-#include "imagetracer.h"
-#include "world.h"
-#include "render.h"
+#include "args.hxx"
+#include "scene.h"
+#include <fstream>
 #include <iostream>
 #include <string.h>
 
 using namespace std;
 
-void demo(int, int, float, string, string, string, int, int, int);
+/**
+ * COMMAND 1:  CONVERSION HDR2LDR
+ *
+ * @param pfm_file PFM input file name with the path where to find it
+ * @param out_file PNG/JPEG output file name with the path where to place it
+ * @param a luminosity normalization factor
+ * @param gamma monitor calibration factor
+ */
+void convert_hdr2ldr(string, string, float, float);
 
-int main(int argc, char *argv[]) {
+/**
+ * COMMAND 2:  GENERATE AN IMAGE USING A RAYTRACING ALGORITHM
+ *
+ * @param scene_file TXT input file name with indications of the scene one wants to create
+ * @param algorithm raytracing algorithm to choose among onoff, flat, pathtracer to render the image
+ * @param n_rays number of ray to generate (high number -> better image quality, less efficiency)
+ * @param max_depth number of ray reflections on objects (high number -> better image quality, less efficiency)
+ * @param init_state initial seed for the PCG random number generator
+ * @param init_seq identifier of the sequence produced by the PCG random number generator
+ * @param width Output image width
+ * @param height Output image height
+ * @param output_file PFM/PNG/JPEG output file name with the path where to place it
+ * @param variables_list floating point variables list to set parameters directly from the command line (ex: angle where to see the scene)
+ *
+ */
+void image_render(string, string, int, int, uint64_t, uint64_t, int, int, int, string, vector<string>);
 
-  if (argv[1] == NULL) {
-    cout << "Insert command: hdr2ldr or demo" << endl;
+/**
+ * Function needed to convert the variable_list passed from the command line into the a dictionary variable
+ */
+unordered_map<string, float> build_variable_dictionary(vector<string>);
+
+
+
+
+//––––––––––––––––––––– MAIN –––––––––––––––––––––––––––––––––––––––––––––
+int main(int argc, char **argv) {
+
+  args::ArgumentParser parser(
+      "This is a program for creating photorealistic images.");
+  args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
+  args::Group commands(parser, "commands");
+  args::Command hdr2ldr(commands, "hdr2ldr", "Convert hdr image to ldr");
+  args::Command render(commands, "render", "Create a demo image");
+
+  args::Group hdr2ldr_arguments(parser, "hdr2ldr arguments",
+                                args::Group::Validators::DontCare,
+                                args::Options::Global);                              
+  args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "",
+                                       "Input PFM filename", {"pfm", "pfm_file"});
+  args::ValueFlag<string> out_file(hdr2ldr_arguments, "",
+                                       "Output PNG/JPG filename \n (default out.png)", {"out", "out_file"});
+  args::ValueFlag<float> a(hdr2ldr_arguments, "",
+                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
+  args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
+                               "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
+
+  args::Group render_arguments(parser, "render arguments",
+                               args::Group::Validators::DontCare,
+                               args::Options::Global);
+  args::ValueFlag<int> width(render_arguments, "",
+                             "Width of the rendered image \n (default 640)", {'w', "width"});
+  args::ValueFlag<int> height(render_arguments, "",
+                              "Height of the rendered image \n (default 480)", {'h', "heght"});
+  args::ValueFlag<string> algorithm(render_arguments, "",
+                                    "Renderer algorithm: \n onoff/flat/pathtracer \n (default pathtracer)",
+                                    {'r', 'a', "renderer", "algorithm"});
+  args::ValueFlag<string> scene_file(render_arguments, "",
+                                    "Input scene file", {"scene", "scene_file"});
+  args::ValueFlag<string> output_file(render_arguments, "",
+                                      "Output filename: PFM/PNG/JPG \n (default out.png)", {"output", "output_file"});
+  args::ValueFlag<int> n_rays(render_arguments, "",
+                             "Number of rays (default 10)", {'n', "n_rays", "rays"});
+  args::ValueFlag<int> max_depth(render_arguments, "",
+                             "Maximum depth (default 2)", {'d', "max_depth", "depth"});
+  args::ValueFlag<int> samples_per_pixel(render_arguments, "",
+                             "Number of samples per pixel \n for antialiasing, must be a perfect \n square (default 0)", {"samples", "samples_per_pixel"});
+  args::ValueFlag<uint64_t> state(render_arguments, "",
+                             "Initial seed for the PCG random number \n generator (default 42)", {'s', "state"});
+  args::ValueFlag<uint64_t> seq(render_arguments, "",
+                             "Identifier of the sequence produced by \n the PCG random number generator \n (default 54)", 
+                             {'i', "seq", "seq_id"});
+  args::ValueFlagList<string> declare_variables(render_arguments, "",
+                             "Declare float variables: \n --declare_var name=value \n Example: --declare_var angle=10", 
+                             {'v', "declare_var"});
+  args::CompletionFlag completion(parser, {"complete"});
+
+  try {
+    parser.ParseCLI(argc, argv);
+  
+  } catch (const args::Completion &e) {
+    cout << e.what();
     return 0;
+  
+  } catch (const args::ValidationError &e) {
+    cout << e.what();
+    cout << parser;
+    return 0;
+  
+  } catch (const args::Help &) {
+    cout << parser;
+    return 0;
+  
+  } catch (const args::ParseError &e) {
+    
+    cerr << e.what() << endl;
+    cerr << parser;
+    return 1;
   }
 
-  if (strcmp(argv[1], "hdr2ldr") == 0) {
+  if (hdr2ldr) {
 
-    string pfm_filename;
-    string out_filename;
-    float a, gamma;
+    float _a = 0.3, _gamma = 1.;
+    string _out_file = "out.png";
+    
+    if (a) _a = args::get(a);
+    if (gamma) _gamma = args::get(gamma);
+    if (out_file) _out_file = args::get(out_file);
 
-    if (argv[2] == NULL) {
-      cout << "Insert input PFM filename: ";
-      cin >> pfm_filename;
-      cout << "Insert luminosity normalization factor a (0<a<1, 0.3 by default): ";
-      cin >> a;
-      cout << "Insert monitor calibration factor gamma (1.0 by default): ";
-      cin >> gamma;
-      cout << "You may change a and gamma according to the image visualization preferences."<<endl;
-      cout << "Insert output PNG/JPG filename: ";
-      cin >> out_filename;
-    } else {
-      pfm_filename = argv[2];
-      a = atof(argv[3]);
-      gamma = atof(argv[4]);
-      out_filename = argv[5];
-    }
-
-    HdrImage img(pfm_filename);
-
-    img.normalize_image(a);
-    img.clamp_image();
-
-    img.write_ldr_image(out_filename, gamma);
-    cout << "LDR image written to " << out_filename << endl;
-
+    convert_hdr2ldr(args::get(pfm_file), _out_file, _a, _gamma);
   }
 
-  else if (strcmp(argv[1], "demo") == 0) {
+  else if (render) {
 
-    string cameratype;
-    int width, height;
-    float angle_deg;
-    string algorithm;
-    string filename;
-    int n_rays = 0, max_depth = 0, samples_per_pixel = 0;
-
-    if (argv[2] == NULL) {
-      cout << "Insert camera type (orthogonal/perspective): ";
-      cin >> cameratype;
-      cout << "Insert demo image width: ";
-      cin >> width;
-      cout << "Insert demo image height: ";
-      cin >> height;
-      cout << "Insert angle of view (deg): ";
-      cin >> angle_deg;
-      cout << "Insert renderer algorithm (onoff/flat/pathtracer): ";
-      cin >> algorithm;
-      if (algorithm == "pathtracer"){
-        cout << "Insert number of rays: ";
-        cin >> n_rays;
-        cout << "Insert max depth: ";
-        cin >> max_depth;
-        cout << "Insert number of samples per pixel: ";
-        cin >> samples_per_pixel;
-      }
-      cout << "Insert output filename (PFM/PNG/JPG): ";
-      cin >> filename;
-    }
-    else {
-      cameratype = argv[2];
-      width = atoi(argv[3]);
-      height = atoi(argv[4]);
-      angle_deg = atof(argv[5]);
-      algorithm = argv[6];
-      filename = argv[7];
-      if (algorithm == "pathtracer"){
-        n_rays = atoi(argv[8]);
-        max_depth = atoi(argv[9]);
-        samples_per_pixel = atoi(argv[10]);
-      }
+    vector<string> variables_list;
+    if (declare_variables) {
+      for (const auto &var: args::get(declare_variables))
+        variables_list.push_back(var);
     }
 
-    demo(width, height, angle_deg, cameratype, algorithm, filename, n_rays, max_depth, samples_per_pixel);
+    string _algorithm = "pathtracer", _output_file = "out.png";
+    int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
+    
+    if (algorithm) _algorithm = args::get(algorithm);
+    if (n_rays) _n_rays = args::get(n_rays);
+    if (max_depth) _max_depth = args::get(max_depth);
+    if (state) _state = args::get(state);
+    if (seq) _seq = args::get(seq);
+    if (samples_per_pixel) _samples_per_pixel =  args::get(samples_per_pixel);
+    if (width) _width = args::get(width);
+    if (height) _height = args::get(height);
+    if (output_file) _output_file = args::get(output_file); 
+
+    image_render(args::get(scene_file), _algorithm, _n_rays, _max_depth, _state, _seq, 
+                 _samples_per_pixel, _width, _height, _output_file, variables_list);
   }
 
   return 0;
 }
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-void demo(int width, int height, float angle_deg, string cameratype,
-          string algorithm, string output, int n_rays, int max_depth, int samples_per_pixel) {
+//–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
+
+void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
+
+  HdrImage img(pfm_file);
+
+  img.normalize_image(a);
+  img.clamp_image();
+
+  img.write_ldr_image(output_file, gamma);
+  cout << "LDR image written to " << output_file << endl;
+}
+
+
+//–––––––––––––––––– RENDER ––––––––––––––––––––––––
+
+unordered_map<string, float> build_variable_dictionary(vector<string> variables_list){
+
+  unordered_map<string, float> variables;
+  
+  size_t pos_start = 0, pos_end;
+  for (const auto var: variables_list) {
+
+    size_t find = var.find("=");
+    float value = stof(var.substr(find + 1));
+    string name = var.substr(0, find);
+    
+    variables[name] = value;
+  }
+
+  return variables;
+}
+
+void image_render(string scene_file, string algorithm, int n_rays, int max_depth, uint64_t state, uint64_t seq,
+                  int samples_per_pixel, int width, int height, string output_file, vector<string> variables_list) {
+
+  unordered_map<string, float> variables = build_variable_dictionary(variables_list);
 
   HdrImage image(width, height);
 
-  // Create a world and populate it with a few shapes
-  World world;
+  ifstream in;
+  in.open(scene_file);
+  Scene scene;
 
-  Color sphere_color1(0.0, 0.0, 100.0);
-  Color sphere_color2(0.0, 100.0, 0.0);
-  Color sphere_color3(0.0, 100.0, 100.0);
-  Color sphere_color4(100.0, 100.0, 0.0);
+  try {
+    InputStream scene_stream(in);
+    scene = scene_stream.parse_scene(variables);
 
-  Material material1(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color1)));
-  Material material2(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color2)));
-  Material material3(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color3)));
-  Material material4(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(sphere_color4)));
-  Material material5(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(sphere_color3, sphere_color4)));
-  Material material6(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(sphere_color1, sphere_color2)));
-  Material material;
-  
-  for (int x{}; x < 2; ++x) {
-    for (int y{}; y < 2; ++y) {
-      for (int z{}; z < 2; ++z) {
-
-        if (x==y && x==z) material = material1;
-        else if(x==y && x!=z) material = material2;
-        else if(x!=y && x==z) material = material3;
-        else material = material4;
-
-        world.add(
-            make_shared<Sphere>(translation(Vec(x - 0.5, y - 0.5, z - 0.5)) *
-                                scaling(Vec(0.1, 0.1, 0.1)), material));
-      }
-    }
+  } catch (GrammarError &e) {
+    cout << e.what() << endl;
+    return;
   }
 
-  // Place two other balls in the bottom/left part of the cube, so that we can
-  // check if there are issues with the orientation of the image
-  world.add(make_shared<Sphere>(translation(Vec(0.0, 0.0, -0.5)) *
-                                scaling(Vec(0.1, 0.1, 0.1)),material5));
-  world.add(make_shared<Sphere>(translation(Vec(0.0, 0.5, 0.0)) *
-                                scaling(Vec(0.1, 0.1, 0.1)), material6));
-  
-//  –––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-  World world2;
-
-  Material sky_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<UniformPigment>(Color(0.6, 0.8, 1.0)));
-  Material ground_material(make_shared<DiffuseBRDF>(make_shared<CheckeredPigment>(Color(0.3, 0.5, 0.1), Color(0.1, 0.2, 0.5))));
-  Material sphere_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.8, 0.2, 0.5))));
-  Material mirror_material(make_shared<SpecularBRDF>(make_shared<UniformPigment>(Color(0.5, 0.3, 0.3))));
-  Material box_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(Color(0.3, 0.3, 0.01))));
-  
-
-  HdrImage img_pigment("../examples/hdr2ldr/sky.pfm");
-  img_pigment.normalize_image(0.3);
-  img_pigment.clamp_image();
-  Material image_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(BLACK)), make_shared<ImagePigment>(img_pigment));
-  
-  world2.add(make_shared<Sphere>(scaling(Vec(200., 200., 200.))* translation(Vec(0., 0.,0.8))*rotation_z(150), image_material));
-  world2.add(make_shared<Plane>(translation(Vec(0., 0., 0.)), ground_material));
-  world2.add(make_shared<Sphere>(translation(Vec(0., 0., 0.8))*scaling(Vec(0.8,0.8,0.8)), sphere_material));
-  world2.add(make_shared<Sphere>(translation(Vec(1, -2, 0.6))*scaling(Vec(0.6,0.6,0.6)), sky_material));
-  world2.add(make_shared<Sphere>(translation(Vec(1., 2.5, 0.)), mirror_material));
-  world2.add(make_shared<Box>(Point(0,0,0), Point(0.6,0.8,0.5), translation(Vec(-0.2, -2.5, 0.))*rotation_z(270), box_material));
-             
-  // Initialize a camera
-  Transformation camera_tr;
-  if (algorithm == "onoff" || algorithm == "flat") {
-    camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 0.0));
-  } else if (algorithm == "pathtracer") {
-    camera_tr = rotation_z(angle_deg) * translation(Vec(-1.0, 0.0, 1.0));
-  }
-
-  shared_ptr<Camera> camera;
-  if (cameratype == "orthogonal") {
-    camera = make_shared<OrthogonalCamera>(width / height, camera_tr);
-  } else if (cameratype == "perspective") {
-    camera = make_shared<PerspectiveCamera>(1.0, width / height, camera_tr);
-  }
-
-  PCG pcg;
+  PCG pcg(state, seq);
   int rr_lim = 3;
   int samples_per_side = int(sqrt(samples_per_pixel));
   if (pow(samples_per_side,2) != samples_per_pixel){
@@ -206,38 +240,41 @@ void demo(int width, int height, float angle_deg, string cameratype,
     return;
   }
 
-  // Run the ray-tracer
-  ImageTracer tracer(image, camera, samples_per_side, pcg);
+   // Run the ray-tracer
+  ImageTracer tracer(image, scene.camera, samples_per_side, pcg);
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
-    renderer = make_shared<OnOffRenderer>(world);
+    renderer = make_shared<OnOffRenderer>(scene.world);
   } else if (algorithm == "flat") {
-    renderer = make_shared<FlatRenderer>(world);
+    renderer = make_shared<FlatRenderer>(scene.world);
   } else if (algorithm == "pathtracer") {
-    renderer = make_shared<PathTracer>(world2, BLACK, pcg, n_rays, max_depth, rr_lim);
+    renderer = make_shared<PathTracer>(scene.world, BLACK, pcg, n_rays,
+                                       max_depth, rr_lim);
   }
 
-  tracer.fire_all_rays([&](Ray ray) -> Color { return (*renderer)(ray); }); //***
+  tracer.fire_all_rays(
+      [&](Ray ray) -> Color { return (*renderer)(ray); }); //***
 
-  //  Understand format output file (PFM/PNG/JPG)
-  string filename_str = string(output);
-  size_t find = filename_str.find_last_of(".");
-  string format = filename_str.substr(find);
+  // Understand format output file (PFM/PNG/JPG)
+  string file_str = string(output_file);
+  size_t find = file_str.find_last_of(".");
+  string format = file_str.substr(find);
 
   // Output the image to the disk file in PNG format
-  if(format==".pfm"){
-    
-    ofstream stream(output);
+  if (format == ".pfm") {
+
+    ofstream stream(output_file);
     tracer.image.save_pfm(stream, Endianness::little_endian);
-    cout << "PFM demo image: " << output << endl;
-  } else if (format == ".png" || format == ".jpg"){
-    
+    cout << "PFM demo image: " << output_file << endl;
+  } else if (format == ".png" || format == ".jpg") {
+
     tracer.image.normalize_image(1.);
     tracer.image.clamp_image();
 
-    tracer.image.write_ldr_image(output, 1.0);
-    cout << "LDR demo image: " << output << endl;
+    tracer.image.write_ldr_image(output_file, 1.0);
+    cout << "LDR demo image: " << output_file << endl;
   }
-  
 }
+
+//––––––––––––––––––––––––––––––––––––––––––– *** ––––––––––––––––––––––––––––––––––––––––––––––––––
