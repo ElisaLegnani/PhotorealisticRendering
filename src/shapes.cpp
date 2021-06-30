@@ -20,7 +20,7 @@ IN THE SOFTWARE.
 
 //––––––––––––– Functions for Struct Sphere –––––––––––––––––––––––––
 
-Vec2d _sphere_point_to_uv(Point sp) {
+Vec2d sphere_point_to_uv(Point sp) {
   float u = atan2(sp.y, sp.x) / 2.0 / M_PI;
   float v = acos(sp.z) / M_PI;
   if (u >= 0.0) {
@@ -30,7 +30,7 @@ Vec2d _sphere_point_to_uv(Point sp) {
   }
 }
 
-Normal _sphere_normal(Point sp, Vec ray_dir) {
+Normal sphere_normal(Point sp, Vec ray_dir) {
   Normal normal = Normal(sp.x, sp.y, sp.z);
   if (dot(sp.to_vec(), ray_dir) < 0.0) {
     return normal;
@@ -68,8 +68,8 @@ HitRecord Sphere::ray_intersection(Ray ray) {
   Point hit_point = inv_ray.at(first_hit_t);
 
   return HitRecord((transformation * hit_point),
-                   (transformation * _sphere_normal(hit_point, inv_ray.dir)),
-                   (_sphere_point_to_uv(hit_point)), first_hit_t, ray, material);
+                   (transformation * sphere_normal(hit_point, inv_ray.dir)),
+                   (sphere_point_to_uv(hit_point)), first_hit_t, ray, material);
 }
 
 bool Sphere::check_if_intersection(Ray ray){
@@ -170,33 +170,17 @@ HitRecord Box::ray_intersection(Ray ray) {
     return HitRecord();
   }
 
-  Normal normal = get_normal(face, inv_ray.dir);
+  Normal normal = box_normal(face, inv_ray.dir);
   Point hit_point = inv_ray.at(t);
   
   return HitRecord(transformation * hit_point,
           transformation * normal,
-          to_uv(hit_point, face), t, ray, material);
+          box_point_to_uv(hit_point, face), t, ray, material);
 }
 
 bool Box::check_if_intersection(Ray ray) {}
 
-Normal Box::get_normal(int face, Vec ray_dir) {
-
-  Normal normal;
-  if (face == 0 || face == 3)
-    normal = Normal(1, 0, 0);
-  else if (face == 1 || face == 4)
-    normal = Normal(0, 1, 0);
-  else if (face == 2 || face == 5)
-    normal = Normal(0, 0, 1);
-
-  if (dot(ray_dir, normal) < 0)
-    return normal;
-  else
-    return -normal;
-}
-
-Vec2d Box::to_uv(Point hit_point, int face) {
+Vec2d Box::box_point_to_uv(Point hit_point, int face) {
 
   float u, v;
 
@@ -214,3 +198,19 @@ Vec2d Box::to_uv(Point hit_point, int face) {
   return Vec2d(u, v);
 }
 
+
+Normal Box::box_normal(int face, Vec ray_dir) {
+
+  Normal normal;
+  if (face == 0 || face == 3)
+    normal = Normal(1, 0, 0);
+  else if (face == 1 || face == 4)
+    normal = Normal(0, 1, 0);
+  else if (face == 2 || face == 5)
+    normal = Normal(0, 0, 1);
+
+  if (dot(ray_dir, normal) < 0)
+    return normal;
+  else
+    return -normal;
+}

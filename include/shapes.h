@@ -28,7 +28,7 @@ IN THE SOFTWARE.
 //––––––––––––– Functions for sub-Struct Sphere –––––––––––––––––––––––––
 
 /** Converts a 3D sphere point to 2D (u,v) coordinates */
-Vec2d _sphere_point_to_uv(Point);
+Vec2d sphere_point_to_uv(Point);
 
 /**
  * Evaluates the normal of the sphere in a given point
@@ -36,7 +36,7 @@ Vec2d _sphere_point_to_uv(Point);
  * @param sphere_point
  * @param ray_dir needs to evalute the normal direction: if inward (+) or outward (-) refered to the given ray direction
  */
-Normal _sphere_normal(Point, Vec);
+Normal sphere_normal(Point, Vec);
 
 struct Shape;
 
@@ -154,6 +154,19 @@ struct Plane : public Shape {
     
 };
 
+//––––––––––––– Functions for sub-Struct Box –––––––––––––––––––––––––
+
+/** Converts a 3D box point to 2D (u,v) coordinates on one face of the box*/
+Vec2d box_point_to_uv(Point, int);
+
+/**
+ * Evaluates the normal of the box in a given point
+ *
+ * @param face of the box, represented by an integer in [1,6]
+ * @param ray_dir needs to evalute the normal direction: if inward (+) or outward (-) refered to the given ray direction
+ */
+Normal box_normal(int, Vec); 
+
 
 //––––––––––––– Sub-struct Box ––––––––––––––––––––––––
 /**
@@ -187,9 +200,16 @@ struct Box : public Shape {
    */
   bool check_if_intersection(Ray);  
 
-  Normal get_normal(int, Vec); 
+  /** Converts a 3D box point to 2D (u,v) coordinates on one face of the box*/
+  Vec2d box_point_to_uv(Point, int);
 
-  Vec2d to_uv(Point, int);
+  /**
+   * Evaluates the normal of the box in a given point
+   *
+   * @param face of the box, represented by an integer in [1,6]
+   * @param ray_dir needs to evalute the normal direction: if inward (+) or outward (-) refered to the given ray direction
+   */
+  Normal box_normal(int, Vec); 
 };
 
 
