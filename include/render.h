@@ -184,7 +184,7 @@ struct PointLightTracer : public Renderer {
         float distance = distance_vec.norm();
       
         Vec in_dir = distance_vec *(1./distance);
-        float cos_theta = fmax(0., normalized_dot(-ray.dir, hit.normal));
+        float cos_theta = fmax(0., normalized_dot(-distance_vec, hit.normal));
         
         float distance_factor = (each_light.linear_radius > 0.) ? pow(each_light.linear_radius/distance,2) : 1. ;
         
