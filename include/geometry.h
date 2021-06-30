@@ -45,6 +45,13 @@ template <typename In1, typename In2> float _dot(const In1 &a, const In2 &b) {
   return {a.x * b.x + a.y * b.y + a.z * b.z};
 }
 
+// Normalized scalar product
+template <typename In1, typename In2> float _normalized_dot(const In1 &a, const In2 &b) {
+  In1 a_n = (In1(a)).normalize();
+  In2 b_n = (In2(b)).normalize();
+  return {a_n.x * b_n.x + a_n.y * b_n.y + a_n.z * b_n.z};
+}
+
 // Vector product
 template <typename In1, typename In2, typename Out>
 Out _cross(const In1 &a, const In2 &b) {
@@ -102,6 +109,8 @@ inline Vec operator*(const float &c, const Vec &v1) { return v1 * c; }
 inline Vec operator-(const Vec &v) { return v * (-1); }
 
 inline float dot(const Vec &v1, const Vec &v2) { return _dot<Vec, Vec>(v1, v2); }
+
+inline float normalized_dot(const Vec &v1, const Vec &v2) { return _normalized_dot<Vec, Vec>(v1, v2); }
 
 inline Vec cross(const Vec &v1, const Vec &v2) { return _cross<Vec, Vec, Vec>(v1, v2); }
 
@@ -182,9 +191,13 @@ inline Normal operator*(const Normal &n, const float &c) { return _prod<Normal, 
 
 inline float dot(const Normal &n1, const Normal &n2) { return _dot<Normal, Normal>(n1, n2); }
 
+inline float normalized_dot(const Normal &n1, const Normal &n2) { return _normalized_dot<Normal, Normal>(n1, n2); }
+
 inline Normal cross(const Normal &n1, const Normal &n2) { return _cross<Normal, Normal, Normal>(n1, n2); }
 
 inline float dot(const Vec &v, const Normal &n) { return _dot<Vec, Normal>(v, n); }
+
+inline float normalized_dot(const Vec &v1, const Normal &n2) { return _normalized_dot<Vec, Normal>(v1, n2); }
 
 inline Vec cross(const Vec &v, const Normal &n) { return _cross<Vec, Normal, Vec>(v, n); }
 

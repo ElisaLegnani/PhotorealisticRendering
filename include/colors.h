@@ -20,6 +20,7 @@ IN THE SOFTWARE.
 #define _color_h_
 
 #include "functions.h"
+#include <iostream>
 
 using namespace std;
 
@@ -57,6 +58,8 @@ struct Color {
   }
 
   float luminosity() { return (fmax(fmax(r, g), b) + fmin(fmin(r, g), b)) / 2.0; }
+  
+  void print(){ cout << "Red: "<< r << ", Green: " << g << ", Blue: " <<b<<endl;}
 };
 
 //––––––––––––––––––––– Color white and black ––––––––––––––––––––––––––––––––––

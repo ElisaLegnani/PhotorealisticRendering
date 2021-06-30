@@ -153,7 +153,48 @@ struct PathTracer : public Renderer {
 };
 //––––––––––––– Sub-struct PointLightTracer ––––––––––––––––––––––––
 struct PointLightTracer : public Renderer {
+  
+  Color ambient_color;
+  
+  PointLightTracer(World w, Color bc = BLACK, Color amb_col = Color(0.1,0.1,0.1))
+  : Renderer(w, bc), ambient_color{amb_col} {}
+  
+  
+  Color operator()(Ray ray) {
+      
+    HitRecord hit = world.ray_intersection(ray);
+
+    if (!hit.init)
+      return background_color;
+
+    Material hit_material = hit.material;
+    
+    Color total_color(ambient_color);
+    
+    for(int l{}; l < world.lights.size(); ++l){
+      
+      PointLight each_light(world.lights[l]);
+      if(world.is_point_visible(each_light.position, hit.world_point)){
+        
+        Vec distance_vec = hit.world_point - each_light.position;
+        float distance = distance_vec.norm();
+      
+        Vec in_dir = distance_vec *(1./distance);
+        float cos_theta = fmax(0., normalized_dot(-distance_vec, hit.normal));
+        
+        float distance_factor = (each_light.linear_radius > 0.) ? pow(each_light.linear_radius/distance,2) : 1. ;
+        
+        Color emitted_color = hit_material.emitted_radiance->get_color(hit.surface_point);
+        
+        Color brdf_color = hit_material.brdf->eval(hit.normal, in_dir, -ray.dir, hit.surface_point);
+        
+        total_color = total_color + (emitted_color + brdf_color) * each_light.color * cos_theta * distance_factor;
+      }
+    }
+  return total_color;
+  }
 };
+
 //–––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 #endif
