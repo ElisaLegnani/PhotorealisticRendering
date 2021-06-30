@@ -11,8 +11,8 @@ It is developed for the course [*Numerical techniques for photorealistic image g
   - [Dependencies](#dependencies)
   - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
+  - [Create your own photorealistic image](#own-image)
   - [Convert HDR image to LDR](#convert)
-  - [Create demo image](#demo)
 - [Expectations](#expectations)
 - [Contributing](#contributing)
 - [License](#license)
@@ -60,8 +60,8 @@ The testing interface is built using [Catch2](https://github.com/catchorg/Catch2
 ## Usage
 
 You can run the program through the script `raytracer`. The code implements two features, that you can call with commands:
-- converts HDR image to LDR: `hdr2ldr`;
-- creates a demo image: `render`.
+- creates a photorealistic image: `render`;
+- converts HDR image to LDR: `hdr2ldr`.
 
 To get commmand-line help, run in the  `build` directory: 
   
@@ -71,66 +71,33 @@ $ ./raytracer --help
 ```
 For further details, see below.
 
-<details><summary name="convert"><b>Convert HDR image to LDR</b></summary>
 
-  In the  `build` directory run: 
+<details><summary name="own-image"><b>CREATE YOUR OWN PHOTOREALISTIC IMAGE</b></summary>
+  
+  In order to create your photorealistic images, you need to give instructions to the code on the scene you want to render. You can write them in a TXT file and run in the  `build` directory: 
   
   ```sh
-  $ ./raytracer hdr2ldr --pfm input_file.pfm
+  $ ./raytracer render --scene <scene_file.txt>
   ```
-
-  The HDR image format supported is PFM, while LDR ones are PNG and JPG.
-
-  You can also set some parameters according to your preferences in the output image visualisation:
-  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity, 0<*a*<1 (default value: 0.3);
-  - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: 1.0);
-  - *output filename*: PNG/JPG file (default: out.png).
-
-  You can set these properties directly in the command line:
-
-  ```sh
-  $ ./raytracer hdr2ldr --pfm input_file.pfm -a 0.3 -g 1.0 --out output_file.jpg
-  ```
-
-  #### Example:
   
-  In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
-  You can play with the code and parameters simply running (in the `build` directory):
+  More information on how to write this kind of file will be available soon! 
   
-  ```sh
-  $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
-  ```
- 
-  <p align="center">
-    <img width="700" src=https://user-images.githubusercontent.com/62106779/122543269-e3443000-d02b-11eb-9809-19333a1e6e3f.png>
-  </p>
   
-</details>
-
-
-<details><summary name="demo"><b>Create demo image</b></summary>
-
-  In the  `build` directory run: 
-  
-  ```sh
-  $ ./raytracer render --scene scene_file.txt
-  ```
-
-  This command allows you to render the scene described in the `scene_file.txt` file.
-  
-  More information on how to write this kind of file will be available soon! At the moment you can try running the code using the `demo.txt` file in the `examples/render` directory.
+  In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
   
   You can also set the following parameters:
-  - image width (default value: 640);
-  - image height (default value: 480);
-  - renderer algorithm: onoff/flat/pathtracer (default: pathtracer);
-  - output filename: PFM/PNG/JPG file (default: out.png);
-  - number of rays (default value: 10);
-  - maximum depth (default value: 2);
-  - initial seed for the random number generator (default value: 42);
-  - identifier of the sequence produced by the random number generator (default value: 54);
-  - number of samples per pixel for antialiasing (default value: 0)
+  - image width (default value: `640`);
+  - image height (default value: `480`);
+  - renderer algorithm: `onoff`/`flat`/`pathtracer`/`pointlight` (default: `pathtracer`);
+  - output filename: PFM/PNG/JPG file (default: `DIY_image.png`);
+  - number of rays (default value: `10`);
+  - maximum depth (default value: `2`);
+  - initial seed for the random number generator (default value: `42`);
+  - identifier of the sequence produced by the random number generator (default value: `54`);
+  - number of samples per pixel for antialiasing (default value: `0`)
   - additional float parameters, e.g angle of view, camera distance ...
+  
+  **Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
   
   **Note**: the rendering process takes a long time to produce an image.
   
@@ -145,7 +112,7 @@ For further details, see below.
   which automatically runs the following code:
   
   ```sh
-  $ ../../build/./raytracer render --scene demo.txt --declare_var ang=ANGLE --output img/imageANGLE.png
+  $ ../../build/./raytracer render --scene demo_img.txt --declare_var ang=ANGLE --output img/imageANGLE.png
   ```
   
   You just need to set the `ANGLE` (deg) from which you look at the scene.
@@ -170,6 +137,43 @@ For further details, see below.
   ```
  
 </details>
+  
+  <details><summary name="convert"><b>CONVERT HDR IMAGE INTO LDR</b></summary>
+
+  In the  `build` directory run: 
+  
+  ```sh
+  $ ./raytracer hdr2ldr --pfm <input_file.pfm>
+  ```
+
+  The HDR image format supported is PFM, while LDR ones are PNG and JPG.
+
+  You can also set some parameters according to your preferences in the output image visualisation:
+  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity, 0<*a*<1 (default value: `0.3`);
+  - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: `1.0`);
+  - *output filename*: PNG/JPG file (default: `ldrimage_a_gamma.png`).
+
+  You can set these properties directly in the command line:
+
+  ```sh
+  $ ./raytracer hdr2ldr --pfm <input_file.pfm> -a 0.3 -g 1.0 --out <output_file.jpg>
+  ```
+
+  #### Example:
+  
+  In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
+  You can play with the code and parameters simply running (in the `build` directory):
+  
+  ```sh
+  $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
+  ```
+ </details>
+  <p align="center">
+       <img width="800" src=https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png>
+  </p>
+
+
+    
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
   
