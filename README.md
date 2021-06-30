@@ -61,7 +61,7 @@ The testing interface is built using [Catch2](https://github.com/catchorg/Catch2
 
 You can run the program through the script `raytracer`. The code implements two features, that you can call with commands:
 - converts HDR image to LDR: `hdr2ldr`;
-- creates a demo image: `demo`.
+- creates a demo image: `render`.
 
 To get commmand-line help, run in the  `build` directory: 
   
