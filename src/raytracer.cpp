@@ -104,7 +104,7 @@ int main(int argc, char **argv) {
   args::ValueFlag<int> max_depth(render_arguments, "",
                              "Maximum depth (default 2)", {'d', "max_depth", "depth"});
   args::ValueFlag<int> samples_per_pixel(render_arguments, "",
-                             "Number of samples per pixel \n for antialiasing, must be a perfect \n square (default 0)", {'s', "samples"});
+                             "Number of samples per pixel \n for antialiasing, must be a perfect \n square (default 0)", {"samples", "samples_per_pixel"});
   args::ValueFlag<uint64_t> state(render_arguments, "",
                              "Initial seed for the PCG random number \n generator (default 42)", {'s', "state"});
   args::ValueFlag<uint64_t> seq(render_arguments, "",
