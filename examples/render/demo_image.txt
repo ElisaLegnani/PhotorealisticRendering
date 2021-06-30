@@ -27,7 +27,7 @@ material box_material(
 
 material background_material(
     diffuse(uniform(<0, 0, 0>)),
-    image("../examples/hdr2ldr/mountains.pfm")
+    image("../hdr2ldr/mountains.pfm")
 )
 
 sphere (background_material, 
