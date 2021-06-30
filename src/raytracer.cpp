@@ -28,18 +28,9 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using namespace std;
 
-/**
- * COMMAND 1:  CONVERSION HDR2LDR
- *
- * @param pfm_file PFM input file name with the path where to find it
- * @param out_file PNG/JPEG output file name with the path where to place it
- * @param a luminosity normalization factor
- * @param gamma monitor calibration factor
- */
-void convert_hdr2ldr(string, string, float, float);
 
 /**
- * COMMAND 2:  GENERATE AN IMAGE USING A RAYTRACING ALGORITHM
+ * COMMAND 1:  GENERATE AN IMAGE USING A RAYTRACING ALGORITHM
  *
  * @param scene_file TXT input file name with indications of the scene one wants to create
  * @param algorithm raytracing algorithm to choose among onoff, flat, pathtracer to render the image
@@ -61,6 +52,17 @@ void image_render(string, string, int, int, uint64_t, uint64_t, int, int, int, s
 unordered_map<string, float> build_variable_dictionary(vector<string>);
 
 
+/**
+ * COMMAND 2:  CONVERSION HDR2LDR
+ *
+ * @param pfm_file PFM input file name with the path where to find it
+ * @param out_file PNG/JPEG output file name with the path where to place it
+ * @param a luminosity normalization factor
+ * @param gamma monitor calibration factor
+ */
+void convert_hdr2ldr(string, string, float, float);
+
+
 
 
 //––––––––––––––––––––– MAIN –––––––––––––––––––––––––––––––––––––––––––––
@@ -68,37 +70,27 @@ int main(int argc, char **argv) {
 
   args::ArgumentParser parser(
       "This is a program for creating photorealistic images.");
-  args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
+  args::HelpFlag help(parser, "help", "Display help menu", {'h', "help"});
   args::Group commands(parser, "commands");
+  args::Command render(commands, "render", "Create a photorealistic image");
   args::Command hdr2ldr(commands, "hdr2ldr", "Convert hdr image to ldr");
-  args::Command render(commands, "render", "Create a demo image");
 
-  args::Group hdr2ldr_arguments(parser, "hdr2ldr arguments",
-                                args::Group::Validators::DontCare,
-                                args::Options::Global);                              
-  args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "",
-                                       "Input PFM filename", {"pfm", "pfm_file"});
-  args::ValueFlag<string> out_file(hdr2ldr_arguments, "",
-                                       "Output PNG/JPG filename \n (default out.png)", {"out", "out_file"});
-  args::ValueFlag<float> a(hdr2ldr_arguments, "",
-                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
-  args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
-                               "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
-
-  args::Group render_arguments(parser, "render arguments",
+  args::HelpFlag helpr(render, "help", "Display help menu", {'h', "help"});
+  args::Group render_arguments(render, "render arguments",
                                args::Group::Validators::DontCare,
                                args::Options::Global);
+  
   args::ValueFlag<int> width(render_arguments, "",
                              "Width of the rendered image \n (default 640)", {'w', "width"});
   args::ValueFlag<int> height(render_arguments, "",
                               "Height of the rendered image \n (default 480)", {'h', "heght"});
   args::ValueFlag<string> algorithm(render_arguments, "",
-                                    "Renderer algorithm: \n onoff/flat/pathtracer \n (default pathtracer)",
+                                    "Renderer algorithm: \n onoff/flat/pathtracer/pointlight \n (default pathtracer)",
                                     {'r', 'a', "renderer", "algorithm"});
   args::ValueFlag<string> scene_file(render_arguments, "",
                                     "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<string> output_file(render_arguments, "",
-                                      "Output filename: PFM/PNG/JPG \n (default out.png)", {"output", "output_file"});
+                                      "Output filename: PFM/PNG/JPG \n (default DIY_image.png)", {"output", "output_file"});
   args::ValueFlag<int> n_rays(render_arguments, "",
                              "Number of rays (default 10)", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
@@ -111,9 +103,27 @@ int main(int argc, char **argv) {
                              "Identifier of the sequence produced by \n the PCG random number generator \n (default 54)", 
                              {'i', "seq", "seq_id"});
   args::ValueFlagList<string> declare_variables(render_arguments, "",
-                             "Declare float variables: \n --declare_var name=value \n Example: --declare_var angle=10", 
+                             "Declare float variables: \n --declare_var name=value \n Example: --declare_var ang=10",
                              {'v', "declare_var"});
+  
+  args::HelpFlag helph(hdr2ldr, "help", "Display help menu", {'h', "help"});
+  
+  args::Group hdr2ldr_arguments(hdr2ldr, "hdr2ldr arguments",
+                                args::Group::Validators::DontCare,
+                                args::Options::Global);
+  
+  args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "",
+                                       "Input PFM filename", {"pfm", "pfm_file"});
+  args::ValueFlag<string> out_file(hdr2ldr_arguments, "",
+                                       "Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
+  args::ValueFlag<float> a(hdr2ldr_arguments, "",
+                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
+  args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
+                               "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
+  
   args::CompletionFlag completion(parser, {"complete"});
+  
+  
 
   try {
     parser.ParseCLI(argc, argv);
@@ -122,45 +132,33 @@ int main(int argc, char **argv) {
     cout << e.what();
     return 0;
   
-  } catch (const args::ValidationError &e) {
-    cout << e.what();
-    cout << parser;
-    return 0;
-  
   } catch (const args::Help &) {
     cout << parser;
     return 0;
-  
-  } catch (const args::ParseError &e) {
-    
-    cerr << e.what() << endl;
-    cerr << parser;
-    return 1;
+
+  } catch (const args::Error &e) {
+  cout << e.what();
+  cout << parser;
+  return 0;
   }
 
-  if (hdr2ldr) {
-
-    float _a = 0.3, _gamma = 1.;
-    string _out_file = "out.png";
-    
-    if (a) _a = args::get(a);
-    if (gamma) _gamma = args::get(gamma);
-    if (out_file) _out_file = args::get(out_file);
-
-    convert_hdr2ldr(args::get(pfm_file), _out_file, _a, _gamma);
-  }
-  
-  else if (render) {
+  if (render) {
 
     vector<string> variables_list;
     if (declare_variables) {
       for (const auto &var: args::get(declare_variables))
         variables_list.push_back(var);
     }
-
-    string _algorithm = "pathtracer", _output_file = "out.png";
+    
+    
+    string _algorithm = "pathtracer", _output_file = "DIY_image.png";
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
     
+    if (!scene_file){
+      cerr << "Error: missing Input scene file." <<endl;
+      cerr << parser;
+      return 0;
+    }
     if (algorithm) _algorithm = args::get(algorithm);
     if (n_rays) _n_rays = args::get(n_rays);
     if (max_depth) _max_depth = args::get(max_depth);
@@ -169,28 +167,32 @@ int main(int argc, char **argv) {
     if (samples_per_pixel) _samples_per_pixel =  args::get(samples_per_pixel);
     if (width) _width = args::get(width);
     if (height) _height = args::get(height);
-    if (output_file) _output_file = args::get(output_file); 
+    if (output_file) _output_file = args::get(output_file);
 
-    image_render(args::get(scene_file), _algorithm, _n_rays, _max_depth, _state, _seq, 
+    image_render(args::get(scene_file), _algorithm, _n_rays, _max_depth, _state, _seq,
                  _samples_per_pixel, _width, _height, _output_file, variables_list);
+  }
+    
+  else if (hdr2ldr) {
+
+    float _a = 0.3, _gamma = 1.;
+    
+    if (!pfm_file){
+      cout << "Error: missing Input PFM filename." <<endl;
+      cout << parser;
+      return 0;
+    }
+    if (a) _a = args::get(a);
+    if (gamma) _gamma = args::get(gamma);
+    string _out_file = string{"ldrimage_"+to_string(_a)+"_"+to_string(_gamma)+".png"};
+    if (out_file) _out_file = args::get(out_file);
+
+    convert_hdr2ldr(args::get(pfm_file), _out_file, _a, _gamma);
   }
 
   return 0;
 }
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-//–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
-
-void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
-
-  HdrImage img(pfm_file);
-
-  img.normalize_image(a);
-  img.clamp_image();
-
-  img.write_ldr_image(output_file, gamma);
-  cout << "LDR image written to " << output_file << endl;
-}
 
 
 //–––––––––––––––––– RENDER ––––––––––––––––––––––––
@@ -276,6 +278,19 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
     tracer.image.write_ldr_image(output_file, 1.0);
     cout << "LDR demo image: " << output_file << endl;
   }
+}
+
+//–––––––––––––––––– HDR2LDR ––––––––––––––––––––––––
+
+void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
+
+  HdrImage img(pfm_file);
+
+  img.normalize_image(a);
+  img.clamp_image();
+
+  img.write_ldr_image(output_file, gamma);
+  cout << "LDR image written to " << output_file << endl;
 }
 
 //––––––––––––––––––––––––––––––––––––––––––– *** ––––––––––––––––––––––––––––––––––––––––––––––––––

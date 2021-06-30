@@ -22,7 +22,7 @@ material mirror_material(
 
 material background_material(
     diffuse(uniform(<0, 0, 0>)),
-    image("../hdr2ldr/mountains.pfm")
+    image("../examples/hdr2ldr/mountains.pfm")
 )
 
 sphere (background_material, 
