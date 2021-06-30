@@ -232,9 +232,6 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
     return;
   }
 
-  // Run the ray-tracer
-  ImageTracer tracer(image, scene.camera);
-
   PCG pcg(state, seq);
   int rr_lim = 3;
   int samples_per_side = int(sqrt(samples_per_pixel));
@@ -243,8 +240,8 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
     return;
   }
 
-  // Run the ray-tracer
-  ImageTracer tracer(image, camera, samples_per_side, pcg);
+   // Run the ray-tracer
+  ImageTracer tracer(image, scene.camera, samples_per_side, pcg);
 
   shared_ptr<Renderer> renderer;
   if (algorithm == "onoff") {
