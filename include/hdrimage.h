@@ -25,6 +25,9 @@ IN THE SOFTWARE.
 #include <vector>
 #include <gd.h>
 
+
+//–––––––––––––––––– Functions for HdrImage ––––––––––––––––––––––––––
+
 enum class Endianness { little_endian, big_endian };
 
 class InvalidPfmFileFormat : public runtime_error {
@@ -48,6 +51,8 @@ vector<int> parse_img_size(string line);
 
 float clamp(float x);
 
+
+//–––––––––––––––––– Class HdrImage ––––––––––––––––––––––––––––––––––
 class HdrImage {
 
 private:

@@ -63,6 +63,9 @@ struct Color {
     return are_close(r, c.r) && are_close(g, c.g) && are_close(b, c.b);
   }
 
+  /**
+   * An extimate of luminosity, evaluted as mean between the maximum and the minimum value
+   */
   float luminosity() { return (fmax(fmax(r, g), b) + fmin(fmin(r, g), b)) / 2.0; }
 };
 
