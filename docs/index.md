@@ -1,8 +1,4 @@
-# Photorealistic Rendering
-A simple raytracer for generating photorealistic images written in C++. 
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor Maurizio Tomasi (University of Milan, AY2020-2021).
-
-*Note: it is a WIP project*
 
 ## Table of Contents
 
