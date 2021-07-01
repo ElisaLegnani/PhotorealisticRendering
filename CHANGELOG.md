@@ -4,6 +4,10 @@
 
 - Implement new shapes for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
 
+### 2021-7-01
+
+- Add tests for some for some (not tested yet) functionalities [#24](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/24)
+
 ### 2021-6-30
 
 - Implement a point-light tracer [#22](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/22)
