@@ -117,9 +117,8 @@ For further details, see below.
   
   You just need to set the `ANGLE` (deg) from which you look at the scene.
   
-  <p align="center">
-    <img width="500" src=https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png>
-  </p>
+  ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
+    
   
   #### Animation:
   
@@ -166,10 +165,8 @@ For further details, see below.
   $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
 
-  <p align="center">
-       <img width="800" src=https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png>
-  </p>
-
+  ![PFM](https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png)
+  
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
   
