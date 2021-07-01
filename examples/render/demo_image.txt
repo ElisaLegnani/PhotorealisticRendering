@@ -48,8 +48,8 @@ sphere(mirror_material,
 	translation([1, 2.5, 0.])
 )
 
-box(box_material, {0, 0, 0}, {0.6, 0.8, 0.5},
-	translation([-0.2, -2.5, 0.])*rotation_z(270)
+box(box_material, {0, 0, 0}, {0.5, 0.8, 0.5},
+	translation([-0.5, -1.6, 0.])*rotation_z(270)
 )
 
 camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 1.333, 1.)
