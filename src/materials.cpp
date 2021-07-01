@@ -60,8 +60,8 @@ Ray DiffuseBRDF :: scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, No
 
 //––––––––––––– Sub-struct Specular BRDF ––––––––––––––––––––––––
 Color SpecularBRDF :: eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv) {
-  float theta_in = acos(dot(in_dir.normalize(), n.normalize()));
-  float theta_out = acos(dot(out_dir.normalize(), n.normalize()));
+  float theta_in = acos(normalized_dot(in_dir, n));
+  float theta_out = acos(normalized_dot(out_dir, n));
 
   if (fabs(theta_in - theta_out) < threshold_angle_rad)
     return pigment->get_color(uv);

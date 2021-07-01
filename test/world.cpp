@@ -28,8 +28,8 @@ TEST_CASE("World methods", "[world]"){
   shared_ptr<Shape> sphere1 = make_shared<Sphere>(translation(VEC_X * 2));
   shared_ptr<Shape> sphere2 = make_shared<Sphere>(translation(VEC_X * 8));
   
-  world.add(sphere1);
-  world.add(sphere2);
+  world.add_shape(sphere1);
+  world.add_shape(sphere2);
 
   HitRecord intersection1 = world.ray_intersection(Ray(Point(0.0, 0.0, 0.0), VEC_X));
         
@@ -40,5 +40,13 @@ TEST_CASE("World methods", "[world]"){
 
   REQUIRE(intersection2.init);
   REQUIRE(intersection2.world_point.is_close(Point(9.0, 0.0, 0.0)));
+  
+//  check_if_intersection and is_point_visible
+  REQUIRE(!world.is_point_visible(Point(10.0, 0.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(!world.is_point_visible(Point(5.0, 0.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(5.0, 0.0, 0.0), Point(4.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(0.5, 0.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(0.0, 10.0, 0.0), Point(0.0, 0.0, 0.0)));
+  REQUIRE(world.is_point_visible(Point(0.0, 0.0, 10.0), Point(0.0, 0.0, 0.0)));
 
 }

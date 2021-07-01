@@ -35,7 +35,7 @@ TEST_CASE("OnOffRenderer constructor", "[renderer]") {
   OrthogonalCamera camera;
   ImageTracer tracer(image, make_shared<OrthogonalCamera>(camera));
   World world;
-  world.add(make_shared<Sphere>(sphere));
+  world.add_shape(make_shared<Sphere>(sphere));
   OnOffRenderer renderer(world);
   tracer.fire_all_rays(renderer);
 
@@ -62,7 +62,7 @@ TEST_CASE("FlatRenderer constructor", "[renderer]") {
   OrthogonalCamera camera;
   ImageTracer tracer(image, make_shared<OrthogonalCamera>(camera));
   World world;
-  world.add(make_shared<Sphere>(sphere));
+  world.add_shape(make_shared<Sphere>(sphere));
   FlatRenderer renderer(world);
   tracer.fire_all_rays(renderer);
 
@@ -92,7 +92,7 @@ TEST_CASE("PathTracer constructor", "[renderer]") { // Furnace test
     float reflectance = pcg.random_float() * 0.9; // Approx gets worst for reflectance->1
     Material enclosure_material(make_shared<DiffuseBRDF>(make_shared<UniformPigment>(WHITE * reflectance)),
         make_shared<UniformPigment>(WHITE * emitted_radiance));
-    world.add(make_shared<Sphere>(Transformation(), enclosure_material));
+    world.add_shape(make_shared<Sphere>(Transformation(), enclosure_material));
 
     PathTracer path_tracer(world, BLACK, pcg, 1, 100, 101);
 
