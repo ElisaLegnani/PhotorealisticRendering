@@ -100,7 +100,7 @@ For further details, see below.
   
   **Note**: the rendering process takes a long time to produce an image.
   
-  ### Example:
+### Example
   
   You may easily try the code running in the `examples/render` directory:
   
@@ -119,7 +119,7 @@ For further details, see below.
   ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
     
   
-  ### Animation:
+### Animation
   
   In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
@@ -155,7 +155,7 @@ For further details, see below.
   $ ./raytracer hdr2ldr --pfm <input_file.pfm> -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
 
-  ### Example:
+### Example
   
   In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
   You can play with the code and parameters simply running (in the `build` directory):
