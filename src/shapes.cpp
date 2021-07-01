@@ -126,6 +126,17 @@ bool Plane::check_if_intersection(Ray ray){
 
 //––––––––––––– Sub-struct Box ––––––––––––––––––––––––
 
+/* box faces
+        _______
+ ______|_back__|________________
+|_left_|__top__|_right_|_bottom_|
+       |_front_|
+        _____
+  _____|__4__|___________
+ |__0__|__5__|__3__|__2__|
+       |__1__|
+*/
+
 HitRecord Box::ray_intersection(Ray ray) {
 
   Ray inv_ray(ray.transform(transformation.inverse()));
@@ -137,24 +148,32 @@ HitRecord Box::ray_intersection(Ray ray) {
 
   for (int i{}; i < 3; ++i) {
 
-    t1 = (Pmin[i] - (inv_ray.origin)[i]) / inv_ray.dir[i];
-    t2 = (Pmax[i] - (inv_ray.origin)[i]) / inv_ray.dir[i];
+    t1 = (Pmin[i] - inv_ray.origin[i]) / inv_ray.dir[i];
+    t2 = (Pmax[i] - inv_ray.origin[i]) / inv_ray.dir[i];
 
-    if (t1 > t2) {
-      float t = t1;
-      t1 = t2;
-      t2 = t;
-    }
+    if (t1 < t2) {
+      
+      if (t1 > tmin) {
+        tmin = t1;
+        facemin = i;
+      }
+      if (t2 < tmax) {
+        tmax = t2;
+        facemax = i + 3;
+      }
 
-    if (t1 > tmin) {
-      tmin = t1;
-      facemin = i;
-    }
-    if (t2 < tmax) {
-      tmax = t2;
-      facemax = i + 3;
-    }
+    } else {
 
+      if (t2 > tmin) {
+        tmin = t2;
+        facemin = i + 3;
+      }
+      if (t1 < tmax) {
+        tmax = t1;
+        facemax = i;
+      }
+    }
+    
     if (tmin > tmax) return HitRecord();
   }
 
@@ -178,7 +197,47 @@ HitRecord Box::ray_intersection(Ray ray) {
           box_point_to_uv(hit_point, face), t, ray, material);
 }
 
-bool Box::check_if_intersection(Ray ray) {}
+bool Box::check_if_intersection(Ray ray) {
+  
+  Ray inv_ray(ray.transform(transformation.inverse()));
+
+  float t1, t2;
+  float tmin = inv_ray.tmin;
+  float tmax = inv_ray.tmax;
+  int facemin, facemax;
+
+  for (int i{}; i < 3; ++i) {
+
+    t1 = (Pmin[i] - inv_ray.origin[i]) / inv_ray.dir[i];
+    t2 = (Pmax[i] - inv_ray.origin[i]) / inv_ray.dir[i];
+
+    if (t1 < t2) {
+      
+      if (t1 > tmin) {
+        tmin = t1;
+        facemin = i;
+      }
+      if (t2 < tmax) {
+        tmax = t2;
+        facemax = i + 3;
+      }
+
+    } else {
+
+      if (t2 > tmin) {
+        tmin = t2;
+        facemin = i + 3;
+      }
+      if (t1 < tmax) {
+        tmax = t1;
+        facemax = i;
+      }
+    }
+    
+    if (tmin > tmax) return false;
+  }
+  return true;
+}
 
 Vec2d Box::box_point_to_uv(Point hit_point, int face) {
 
