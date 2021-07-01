@@ -75,7 +75,7 @@ int main(int argc, char **argv) {
   args::Command render(commands, "render", "Create a photorealistic image");
   args::Command hdr2ldr(commands, "hdr2ldr", "Convert hdr image to ldr");
 
-  args::HelpFlag helpr(render, "help", "Display help menu", {'h', "help"});
+  //args::HelpFlag helpr(render, "help", "Display help menu", {'h', "help"});
   args::Group render_arguments(render, "render arguments",
                                args::Group::Validators::DontCare,
                                args::Options::Global);
@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
                              "Declare float variables: \n --declare_var name=value \n Example: --declare_var ang=10",
                              {'v', "declare_var"});
   
-  args::HelpFlag helph(hdr2ldr, "help", "Display help menu", {'h', "help"});
+  //args::HelpFlag helph(hdr2ldr, "help", "Display help menu", {'h', "help"});
   
   args::Group hdr2ldr_arguments(hdr2ldr, "hdr2ldr arguments",
                                 args::Group::Validators::DontCare,
