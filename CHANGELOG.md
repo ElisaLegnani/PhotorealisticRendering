@@ -2,6 +2,7 @@
 
 ## HEAD
 
+- Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
 - Implement new shapes for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
 
 ### 2021-7-01
