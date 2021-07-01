@@ -72,7 +72,7 @@ $ ./raytracer --help
 For further details, see below.
 
 
-<details><summary name="own-image"><b>CREATE YOUR OWN PHOTOREALISTIC IMAGE</b></summary>
+### CREATE YOUR OWN PHOTOREALISTIC IMAGE
   
   In order to create your photorealistic images, you need to give instructions to the code on the scene you want to render. You can write them in a TXT file and run in the  `build` directory: 
   
@@ -136,9 +136,7 @@ For further details, see below.
   $ ./generate-animation.sh NUM_OF_CORES
   ```
  
-</details>
-  
-  <details><summary name="convert"><b>CONVERT HDR IMAGE INTO LDR</b></summary>
+### CONVERT HDR IMAGE INTO LDR
 
   In the  `build` directory run: 
   
@@ -167,13 +165,11 @@ For further details, see below.
   ```sh
   $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
- </details>
+
   <p align="center">
        <img width="800" src=https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png>
   </p>
 
-
-    
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
   
