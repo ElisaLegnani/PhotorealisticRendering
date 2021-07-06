@@ -3,9 +3,10 @@
 Give instructions to the code on the scene you want to render in a .TXT file.
 
 *Note*: define variables as follows:
-point: `{float, float, float}`
-vector: `[float, float, float]`
-color(rgb): `<float, float, float>`
+
+- point: `{float, float, float}`
+- vector: `[float, float, float]`
+- color (rgb): `<float, float, float>`
 
 
 ## How to create a scene
@@ -40,8 +41,8 @@ Via `Camera(type, transformation, aspect_ratio, distance)`, where:
 
 ### Define arbitrary parameters
 
-You can also set some parameters to use them in the file. They must be declared as follows:
-`variable_name(variable_value)`
+You can also set some parameters to use them in the file. They must be declared as follows: `variable_name(variable_value)`
+
 e.g. `angle(10)`
 
 
