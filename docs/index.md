@@ -13,10 +13,6 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 - [Contributing](#contributing)
 - [License](#license)
 
-# Explanation
-
-More infos coming soon! Stay tuned!
-
 # Installation
 
 ## Dependencies
@@ -164,7 +160,7 @@ For further details, see below.
   
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
-  
+
 # Expectations
 
 More infos coming soon! Stay tuned!
