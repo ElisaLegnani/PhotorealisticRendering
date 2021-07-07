@@ -2,6 +2,7 @@
 
 ## HEAD
 
+- Fix a bug in sphere rendering [#26](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/26)
 - Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
 - Implement new shapes for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
 
