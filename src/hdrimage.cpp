@@ -47,25 +47,25 @@ void write_float(ostream &stream, float value, Endianness endianness) {
   }
 }
 
-string read_line(istream &stream) {
-  string result = "";
-  string r = "";
-  while (stream && r != "\n") {
-    r = stream.get();
-    if (r == "\n" || !stream) {
-      break;
-    }
-    result.append(r);
-  }
-  return result;
-}
-
-float read_float(
-    istream &stream,
-    Endianness endianness) { // da implementare endianness e exception
+float read_float(istream &stream, Endianness endianness) {
 
   float result;
-  stream.read(reinterpret_cast<char *>(&result), sizeof(float));
+
+  unsigned char bytes[4];
+
+  for (int i{}; i<4; ++i)
+    stream >> noskipws >> bytes[i];
+
+  switch (endianness) {
+  case Endianness::little_endian:
+    memcpy(&result, &bytes, sizeof(result));
+    break;
+
+  case Endianness::big_endian:
+    reverse(begin(bytes), end(bytes));
+    memcpy(&result, &bytes, sizeof(result));
+    break;
+  }
 
   return result;
 }
@@ -87,26 +87,31 @@ Endianness parse_endianness(string line) {
   }
 }
 
-vector<int> parse_img_size(string line) { // sistemare exceptions
+vector<int> parse_img_size(string line) {
   string delimiter = " ";
   size_t pos_start = 0, pos_end, delim_len = delimiter.length();
   string token;
   vector<int> result;
 
-  while ((pos_end = line.find(delimiter, pos_start)) != string::npos) {
-    token = line.substr(pos_start, pos_end - pos_start);
-    pos_start = pos_end + delim_len;
-    int token_int = stof(token);
-    result.push_back(token_int);
-  }
+  try {
+    while ((pos_end = line.find(delimiter, pos_start)) != string::npos) {
+      token = line.substr(pos_start, pos_end - pos_start);
+      pos_start = pos_end + delim_len;
+      int token_int = stof(token);
+      result.push_back(token_int);
+    }
 
-  result.push_back(stof(line.substr(pos_start)));
+    result.push_back(stof(line.substr(pos_start)));
 
-  if (result.size() != 2) {
-    throw InvalidPfmFileFormat("invalid image size specification");
-  }
+    if (result.size() != 2) {
+      throw InvalidPfmFileFormat("invalid image size specification");
+    }
 
-  if (result[0] < 0 || result[1] < 0) {
+    if (result[0] < 0 || result[1] < 0) {
+      throw InvalidPfmFileFormat("invalid width/height");
+    }
+
+  } catch (invalid_argument) {
     throw InvalidPfmFileFormat("invalid width/height");
   }
 
@@ -117,15 +122,18 @@ float clamp(float x) { return x / (1 + x); }
 
 void HdrImage::read_pfm(istream &stream) {
 
-  string magic = read_line(stream);
+  string magic;
+  getline(stream, magic);
   if (magic != "PF") {
     throw InvalidPfmFileFormat("invalid magic in PFM file");
   }
 
-  string img_size = read_line(stream);
+  string img_size;
+  getline(stream, img_size);
   vector<int> size = parse_img_size(img_size);
 
-  string endianness_line = read_line(stream);
+  string endianness_line;
+  getline(stream, endianness_line);
   Endianness endianness = parse_endianness(endianness_line);
 
   width = size[0];

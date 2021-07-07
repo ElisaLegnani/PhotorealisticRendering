@@ -24,6 +24,8 @@ IN THE SOFTWARE.
 #include <string>
 #include <vector>
 #include <gd.h>
+#include <cstring>
+#include <algorithm>
 
 
 //–––––––––––––––––– Functions for HdrImage ––––––––––––––––––––––––––
@@ -36,11 +38,7 @@ struct InvalidPfmFileFormat : public runtime_error {
 
 void write_float(ostream &stream, float value, Endianness endianness);
 
-string read_line(istream &stream);
-
-float read_float(
-    istream &stream,
-    Endianness endianness); // da implementare endianness e exception
+float read_float(istream &stream, Endianness endianness);
 
 Endianness parse_endianness(string line);
 
