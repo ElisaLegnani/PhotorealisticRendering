@@ -4,15 +4,22 @@ The main contributors to this repository are [Elisa Legnani](https://github.com/
 
 # Table of Contents
 
+- [Description](#description)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
   - [Create your own photorealistic image](#create-your-own-photorealistic-image)
   - [Convert HDR image to LDR](#convert-hdr-image-into-ldr)
+- [Documentation](#documentation)
 - [Expectations](#expectations)
+- [Examples](#examples)
 - [Contributing](#contributing)
 - [License](#license)
+
+# Description
+
+More infos coming soon! Stay tuned!
 
 # Installation
 
@@ -64,7 +71,7 @@ $ ./raytracer --help
 For further details, see below.
 
 
-## CREATE YOUR OWN PHOTOREALISTIC IMAGE
+## Create your own photorealistic image
   
   In order to create your photorealistic images, you need to give instructions to the code on the scene you want to render. You can write them in a TXT file and run in the  `build` directory: 
   
@@ -72,7 +79,7 @@ For further details, see below.
   $ ./raytracer render --scene <scene_file.txt>
   ```
   
-  More information on how to write this kind of file will be available soon! See the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
+  You can find information on how to write this kind of file at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
   
   
   In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
@@ -93,7 +100,7 @@ For further details, see below.
   
   **Note**: the rendering process takes a long time to produce an image.
   
-### Example
+### Demo image
   
   You may easily try the code running in the `examples/render` directory:
   
@@ -110,9 +117,11 @@ For further details, see below.
   You just need to set the `ANGLE` (deg) from which you look at the scene.
   
   ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
+
+  If you want to use this script to generate a different image, just change the scene description of the `demo_img.txt` file.
     
   
-### Animation
+### Demo animation
   
   In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
@@ -163,6 +172,14 @@ For further details, see below.
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
 
 # Expectations
+
+A link to the complete documentation of the code will be available soon!
+
+# Expectations
+
+More infos coming soon! Stay tuned!
+
+# Examples
 
 More infos coming soon! Stay tuned!
 
