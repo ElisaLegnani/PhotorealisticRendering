@@ -1,28 +1,16 @@
 # Photorealistic Rendering
+
+[brief description]
+
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
-You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v0.3.0) the latest stable release (version 0.3.0) of the code.
-
-*Note: it is a WIP project*
-
-## Table of Contents
-
-- [Description](#description)
-- [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Install from git repository](#install-from-git-repository)
-- [Usage](#usage)
-- [Expectations](#expectations)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Description
-
-More infos coming soon! Stay tuned!
+For a more detailed description see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
 
 ## Installation
+
+You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v0.3.0) the latest stable release of the code (version 0.3.0).
 
 ### Dependencies
 
