@@ -432,7 +432,7 @@ struct ONB {
   ONB(float x, float y, float z) {
 
     float sign;
-    if (z > 0.0) ? sign = 1.0 : sign = -1.0;
+    (z > 0.0) ? sign = 1.0 : sign = -1.0;
 
     float a = -1.0 / (sign + z);
     float b = x * y * a;
