@@ -27,7 +27,9 @@ IN THE SOFTWARE.
 
 //––––––––––––– Functions for sub-Struct Sphere –––––––––––––––––––––––––
 
-/** Converts a 3D sphere point to 2D (u,v) coordinates */
+/**
+ Converts a 3D sphere point to 2D (u,v) coordinates
+ */
 Vec2d _sphere_point_to_uv(Point);
 
 /**
