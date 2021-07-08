@@ -170,7 +170,7 @@ For further details, see below.
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
 
-# Expectations
+# Documentation
 
 A link to the complete documentation of the code will be available soon!
 
