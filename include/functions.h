@@ -21,6 +21,10 @@ IN THE SOFTWARE.
 
 #include <cmath>
 
+/**
+ Check if two floating-point paraments (if deviation < 1e-4).
+ Needed to avoid floating-point approximation limits.
+ */
 inline bool are_close(float x, float y, float epsilon = 1e-4) {
   return fabs(x - y) < epsilon;
 }
