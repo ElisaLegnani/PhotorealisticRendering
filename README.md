@@ -73,7 +73,7 @@ $ ./raytracer --help
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
 
-For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani/github.io/PhotorealisticRendering).
+For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
   
 ## Expectations
 
