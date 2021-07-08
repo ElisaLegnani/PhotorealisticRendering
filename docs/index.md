@@ -79,7 +79,7 @@ For further details, see below.
   $ ./raytracer render --scene <scene_file.txt>
   ```
   
-  You can find information on how to write this kind of file at the page [Scene description](https://elisalegnani.github.io.PhotorealisticRendering/scene).
+  You can find information on how to write this kind of file at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
   
   
   In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
