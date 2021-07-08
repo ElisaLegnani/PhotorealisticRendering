@@ -85,7 +85,7 @@ For further details, see below.
   - image width (default value: `640`);
   - image height (default value: `480`);
   - renderer algorithm: `onoff`/`flat`/`pathtracer`/`pointlight` (default: `pathtracer`);
-  - output filename: PFM/PNG/JPG file (default: `DIY_image.png`);
+  - output filename: PFM/PNG/JPG file (default: `image.png`);
   - number of rays (default value: `10`);
   - maximum depth (default value: `2`);
   - initial seed for the random number generator (default value: `42`);

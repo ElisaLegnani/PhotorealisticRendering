@@ -80,6 +80,8 @@ int main(int argc, char **argv) {
                                args::Group::Validators::DontCare,
                                args::Options::Global);
   
+  args::ValueFlag<string> scene_file(render_arguments, "",
+                                    "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<int> width(render_arguments, "",
                              "Width of the rendered image \n (default 640)", {'w', "width"});
   args::ValueFlag<int> height(render_arguments, "",
@@ -87,10 +89,8 @@ int main(int argc, char **argv) {
   args::ValueFlag<string> algorithm(render_arguments, "",
                                     "Renderer algorithm: \n onoff/flat/pathtracer/pointlight \n (default pathtracer)",
                                     {'r', 'a', "renderer", "algorithm"});
-  args::ValueFlag<string> scene_file(render_arguments, "",
-                                    "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<string> output_file(render_arguments, "",
-                                      "Output filename: PFM/PNG/JPG \n (default DIY_image.png)", {"output", "output_file"});
+                                      "Output filename: PFM/PNG/JPG \n (default image.png)", {"output", "output_file"});
   args::ValueFlag<int> n_rays(render_arguments, "",
                              "Number of rays (default 10)", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
@@ -151,7 +151,7 @@ int main(int argc, char **argv) {
     }
     
     
-    string _algorithm = "pathtracer", _output_file = "DIY_image.png";
+    string _algorithm = "pathtracer", _output_file = "image.png";
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
     
     if (!scene_file){
