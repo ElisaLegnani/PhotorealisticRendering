@@ -4,6 +4,7 @@
 ![license](https://img.shields.io/github/license/ElisaLegnani/PhotorealisticRendering)
 ![OS](https://img.shields.io/badge/OS-Linux%20%7C%20MacOS-yellow)
 
+A simple raytracer for generating photorealistic images written in C++.
 [brief description]
 
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
