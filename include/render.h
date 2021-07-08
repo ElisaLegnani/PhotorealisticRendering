@@ -130,8 +130,9 @@ struct PathTracer : public Renderer {
 
     // Russian roulette
     if (ray.depth >= russian_roulette_limit){
-      if (pcg.random_float() > hit_color_lum)  
-        hit_color = hit_color * ( 1.0 / (1.0 - hit_color_lum));
+      float q = fmax(0.05, 1. - hit_color_lum);
+      if (pcg.random_float() > q)  
+        hit_color = hit_color * ( 1.0 / (1.0 - q));
         // Keep the recursion going, but compensate for other potentially discarded rays
       else
         return emitted_radiance;

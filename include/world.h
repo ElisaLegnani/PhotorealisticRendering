@@ -60,6 +60,7 @@ void add_light(PointLight l){
       if(intersection.init){
         if(!closest.init || intersection.t < closest.t){
           closest = intersection;
+          closest.normal.normalize();
         }
       }
     } 
