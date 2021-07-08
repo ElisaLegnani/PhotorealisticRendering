@@ -75,15 +75,31 @@ TEST_CASE("Sphere: Transformation", "[sphere]"){
   REQUIRE(!sphere.ray_intersection(Ray(Point(-10, 0, 0), -VEC_Z)).init);
 }
 
-  TEST_CASE("Sphere: Normals", "[sphere]"){
+TEST_CASE("Sphere: Normals", "[sphere]"){
     
   Sphere sphere(scaling(Vec(2.0, 1.0, 1.0)));
-  Ray ray(Point(1.0, 1.0, 0.0), Vec(-1.0, -1.0));
+  Ray ray(Point(1.0, 1.0, 0.0), Vec(-1.0, -1.0, 0.0));
   HitRecord intersection = sphere.ray_intersection(ray);
 
   // We normalize "intersection.normal", as we are not interested in its length
-    REQUIRE(intersection.normal.normalize().is_close(Normal(1.0, 4.0, 0.0).normalize()));
-  }
+  REQUIRE(intersection.normal.normalize().is_close(Normal(1.0, 4.0, 0.0).normalize()));
+
+  Sphere sphere2(scaling(Vec(0.5, 1.0, 1.0)));
+  Ray ray2(Point(0.5, 0.5, 0.0), Vec(-1.0, -1.0, 0.0));
+  HitRecord intersection2 = sphere2.ray_intersection(ray2);
+
+  REQUIRE(intersection2.normal.normalize().is_close(Normal(4.0, 1.0, 0.0).normalize()));
+
+  Sphere sphere3(scaling(Vec(0.5, 1.0, 1.0)));
+  Ray ray3(Point(0.5, 0.5, 0.5), Vec(-1.0, -1.0, -1.0));
+  HitRecord intersection3 = sphere3.ray_intersection(ray3);
+
+  INFO(intersection3.normal.normalize().x);
+  INFO(intersection3.normal.normalize().y);
+  INFO(intersection3.normal.normalize().z);
+  REQUIRE(intersection3.normal.normalize().is_close(Normal(4.0, 1.0, 1.0).normalize()));
+
+}
 
 TEST_CASE("Sphere: Normal Direction", "[sphere]"){
   // Scaling a sphere by -1 keeps the sphere the same but reverses its reference frame
