@@ -1,27 +1,21 @@
 # Photorealistic Rendering
-A simple raytracer for generating photorealistic images written in C++. 
-It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor Maurizio Tomasi (University of Milan, AY2020-2021).
 
-*Note: it is a WIP project*
+![release](https://img.shields.io/badge/release-v0.3.0-blue)
+![license](https://img.shields.io/github/license/ElisaLegnani/PhotorealisticRendering)
+![OS](https://img.shields.io/badge/OS-Linux%20%7C%20MacOS-yellow)
 
-## Table of Contents
+A simple raytracer for generating photorealistic images written in C++.
+[brief description]
 
-- [Explanation](#explanation)
-- [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Install from git repository](#install-from-git-repository)
-- [Usage](#usage)
-  - [Convert HDR image to LDR](#convert)
-  - [Create demo image](#demo)
-- [Expectations](#expectations)
-- [Contributing](#contributing)
-- [License](#license)
+It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
-## Explanation
+The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
-More infos coming soon! Stay tuned!
+For a more detailed description see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
 
 ## Installation
+
+You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v0.3.0) the latest stable release of the code (version 0.3.0).
 
 ### Dependencies
 
@@ -60,8 +54,8 @@ The testing interface is built using [Catch2](https://github.com/catchorg/Catch2
 ## Usage
 
 You can run the program through the script `raytracer`. The code implements two features, that you can call with commands:
-- converts HDR image to LDR: `hdr2ldr`;
-- creates a demo image: `render`.
+- creates a photorealistic image: `render`;
+- converts HDR image to LDR: `hdr2ldr`.
 
 To get commmand-line help, run in the  `build` directory: 
   
@@ -69,109 +63,10 @@ To get commmand-line help, run in the  `build` directory:
 $ ./raytracer --help
 
 ```
-For further details, see below.
-
-<details><summary name="convert"><b>Convert HDR image to LDR</b></summary>
-
-  In the  `build` directory run: 
-  
-  ```sh
-  $ ./raytracer hdr2ldr --pfm input_file.pfm
-  ```
-
-  The HDR image format supported is PFM, while LDR ones are PNG and JPG.
-
-  You can also set some parameters according to your preferences in the output image visualisation:
-  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity, 0<*a*<1 (default value: 0.3);
-  - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: 1.0);
-  - *output filename*: PNG/JPG file (default: out.png).
-
-  You can set these properties directly in the command line:
-
-  ```sh
-  $ ./raytracer hdr2ldr --pfm input_file.pfm -a 0.3 -g 1.0 --out output_file.jpg
-  ```
-
-  #### Example:
-  
-  In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
-  You can play with the code and parameters simply running (in the `build` directory):
-  
-  ```sh
-  $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
-  ```
- 
-  <p align="center">
-    <img width="700" src=https://user-images.githubusercontent.com/62106779/122543269-e3443000-d02b-11eb-9809-19333a1e6e3f.png>
-  </p>
-  
-</details>
-
-
-<details><summary name="demo"><b>Create demo image</b></summary>
-
-  In the  `build` directory run: 
-  
-  ```sh
-  $ ./raytracer render --scene scene_file.txt
-  ```
-
-  This command allows you to render the scene described in the `scene_file.txt` file.
-  
-  More information on how to write this kind of file will be available soon! At the moment you can try running the code using the `demo.txt` file in the `examples/render` directory.
-  
-  You can also set the following parameters:
-  - image width (default value: 640);
-  - image height (default value: 480);
-  - renderer algorithm: onoff/flat/pathtracer (default: pathtracer);
-  - output filename: PFM/PNG/JPG file (default: out.png);
-  - number of rays (default value: 10);
-  - maximum depth (default value: 2);
-  - initial seed for the random number generator (default value: 42);
-  - identifier of the sequence produced by the random number generator (default value: 54);
-  - number of samples per pixel for antialiasing (default value: 0)
-  - additional float parameters, e.g angle of view, camera distance ...
-  
-  **Note**: the rendering process takes a long time to produce an image.
-  
-  #### Example:
-  
-  You may easily try the code running in the `examples/render` directory:
-  
-  ```sh
-  $ ./generate-image.sh ANGLE
-  ```
-  
-  which automatically runs the following code:
-  
-  ```sh
-  $ ../../build/./raytracer render --scene demo.txt --declare_var ang=ANGLE --output img/imageANGLE.png
-  ```
-  
-  You just need to set the `ANGLE` (deg) from which you look at the scene.
-  
-  <p align="center">
-    <img width="500" src=https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png>
-  </p>
-  
-  #### Animation:
-  
-  In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
-  
-  In order to run the code, you need to:
-  - install `ffmpeg` : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
-  - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel`);
-  - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF_CORES` in the command line;
-  
-  This is needed to run in parallel the code and speed up the execution, otherwise it would take a very long time.
-  
-  ```sh
-  $ ./generate-animation.sh NUM_OF_CORES
-  ```
- 
-</details>
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
+
+For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
   
 ## Expectations
 
@@ -179,7 +74,7 @@ More infos coming soon! Stay tuned!
 
 ## Contributing
 
-Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
+Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
 
 ## License
 

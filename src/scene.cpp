@@ -514,10 +514,10 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
         scene.float_variables[variable_name] = variable_value;
 
     } else if (what.value.keyword == Keyword::SPHERE) {
-      scene.world.add(make_shared<Sphere>(parse_sphere(scene)));
+      scene.world.add_shape(make_shared<Sphere>(parse_sphere(scene)));
 
     } else if (what.value.keyword == Keyword::PLANE) {
-      scene.world.add(make_shared<Plane>(parse_plane(scene)));
+      scene.world.add_shape(make_shared<Plane>(parse_plane(scene)));
 
     } else if (what.value.keyword == Keyword::CAMERA) {
       if (scene.camera)

@@ -2,11 +2,16 @@
 
 ## HEAD
 
-- Implement a point-light tracer [#22](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/22)
+- Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
 - Implement new shapes for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
+
+### 2021-7-01
+
+- Add tests for some for some (not tested yet) functionalities [#24](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/24)
 
 ### 2021-6-30
 
+- Implement a point-light tracer [#22](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/22)
 - Enable a nice command line interface using [Taywee/args](https://github.com/Taywee/args) argument parsing library [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
 - **Breaking change**: implement a lexer and parser for interpreting files with the scene description [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
 
