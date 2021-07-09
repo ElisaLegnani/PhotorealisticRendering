@@ -30,18 +30,57 @@ IN THE SOFTWARE.
 
 //–––––––––––––––––– Functions for HdrImage ––––––––––––––––––––––––––
 
+/**
+ * Order of reading bits in a byte.
+ * The same sequence of bits (a byte) can be interpreted in two different ways if starting to read it from the most or from the least significant bit.
+ 
+ * @param big_endian (BE) starts reading bits from the most significant to the least one (as reading from left to right)
+ * @param little_endian (LE) starts reading bits from the least significant to the most one (as reading from right to left)
+ */
 enum class Endianness { little_endian, big_endian };
 
+/**
+ * Derived struct from runtime_error, defined to catch specific errors in reading PFM input files
+ */
 struct InvalidPfmFileFormat : public runtime_error {
   InvalidPfmFileFormat(const string &message): runtime_error(message) {}
 };
 
+/**
+ * Write a floating-point number in the form of 4 bytes onto a stream, according to the given endianness
+ *
+ * @param stream where to push the bytes on
+ * @param value to convert in bytes
+ * @param endianness big/little endianness to write it in the proper order
+ */
 void write_float(ostream &stream, float value, Endianness endianness);
 
+/**
+ * Read bytes from a stream and return the interpreted floating point number, according to the given endianness
+ *
+ * @param stream where to read bytes
+ * @param endianness big/little endianness to interpret bytes properly
+ *
+ * @return interpreted floating point number
+ */
 float read_float(istream &stream, Endianness endianness);
 
+/**
+ * Interpret a string in a floating-point number (1.0 or -1.0) and return the respective endianness
+ *
+ * @param line string to be interpreted as 1.0 or -1.0
+ *
+ * @return big_endianness if 1.0 or little_endianness if -1.0
+ */
 Endianness parse_endianness(string line);
 
+/**
+ * Interpret a string into the size of the image (width and height)
+ *
+ * @param line string to be interpreted as size
+ *
+ * @return vector of integers containing (width,height) of the image
+ */
 vector<int> parse_img_size(string line);
 
 float clamp(float x);

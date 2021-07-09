@@ -419,6 +419,7 @@ struct Vec2d {
 //–––––––––––––––––––––– Struct ONB –––––––––––––––––––––––––––––––––––
 /**
  * An ortonormal basis (ONB) created from a normalized vector representing the z axis
+ * Note: Input vector/normal is required to be normalized.
  *
  * Parameters representing the three vectors of the basis:
  * @param e1

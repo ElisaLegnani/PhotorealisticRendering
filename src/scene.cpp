@@ -380,7 +380,7 @@ shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
       result = make_shared<ImagePigment>(image);
     } catch(runtime_error &e){
       cout<< e.what() << endl;
-      exit(0);
+      exit(1);
     }
   }
 
