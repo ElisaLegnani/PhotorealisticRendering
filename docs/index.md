@@ -125,8 +125,8 @@ For further details, see below.
   In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
   In order to run the code, you need to:
-  - install `ffmpeg` : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
-  - install `GNU Parallel` : `sudo apt install parallel` (or `brew install parallel`);
+  - install [ffmpeg](http://ffmpeg.org/) : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
+  - install [GNU Parallel](https://www.gnu.org/software/parallel/) : `sudo apt install parallel` (or `brew install parallel`);
   - find out the number of cores of your machine: `nproc --all`for Linux or `sysctl -n hw.ncpu` for MacOS, to pass as `NUM_OF_CORES` in the command line;
   
   This is needed to run in parallel the code and speed up the execution, otherwise it would take a very long time.
