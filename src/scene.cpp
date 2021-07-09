@@ -358,8 +358,13 @@ shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
     result = make_shared<CheckeredPigment>(color1, color2, num_of_steps);
   } else if (keyword == Keyword::IMAGE) {
     string file_name = expect_string();
-    HdrImage image(file_name);
-    result = make_shared<ImagePigment>(image);
+    try {
+      HdrImage image(file_name);
+      result = make_shared<ImagePigment>(image);
+    } catch(runtime_error &e){
+      cout<< e.what() << endl;
+      exit(0);
+    }
   }
 
   expect_symbol(')');
