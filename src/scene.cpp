@@ -554,7 +554,7 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
       scene.world.add_shape(make_shared<Plane>(parse_plane(scene)));
 
     } else if (what.value.keyword == Keyword::BOX) {
-      scene.world.add(make_shared<Box>(parse_box(scene)));
+      scene.world.add_shape(make_shared<Box>(parse_box(scene)));
 
     } else if (what.value.keyword == Keyword::CAMERA) {
       if (scene.camera)
