@@ -83,7 +83,7 @@ struct Vec {
     if (i == 0) return x;
 		else if (i == 1) return y;
     else if (i == 2) return z;
-    // else return nan("1");
+    else abort();
 	}
   
   bool is_close(Vec v) {
@@ -138,6 +138,7 @@ struct Point {
     if (i == 0) return x;
 		else if (i == 1) return y;
     else if (i == 2) return z;
+    else abort();
 	}
   
   bool is_close(Point p) {
@@ -185,6 +186,7 @@ struct Normal {
     if (i == 0) return x;
 		else if (i == 1) return y;
     else if (i == 2) return z;
+    else abort();
 	}
   
   bool is_close(Normal n) {
