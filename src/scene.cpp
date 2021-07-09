@@ -21,6 +21,7 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 #include "scene.h"
+#include <iostream>
 
 using namespace std;
 
@@ -99,6 +100,24 @@ void Token::assign_identifier(string s) {
 }
 
 void Token::assign_stoptoken() { type = TokenType::STOPTOKEN; }
+
+string Token::value_str(){
+  
+  if(type == TokenType::LITERAL_STRING or type == TokenType::KEYWORD or type == TokenType::IDENTIFIER ){
+    return string{value.str};
+  } else if(type == TokenType::SYMBOL){
+    return string{value.symbol};
+  } else if(type == TokenType::LITERAL_NUMBER){
+    string float_num = to_string(value.number);
+    string first_num = float_num.substr(0, float_num.find("."));
+    string second_num = float_num.substr(float_num.find("."));
+    string final_num = second_num.substr(0,second_num.find("0"));
+    return first_num+final_num;
+  } else {
+    return "";
+  }
+  
+}
 
 void InputStream::update_location(char ch) {
   if (ch == '\0') {
@@ -239,7 +258,7 @@ Token InputStream::read_token() {
                                          // either a keyword or a identifier
     return parse_keyword_or_identifier_token(ch);
   } else { // We got some weird character, like '@` or `&`
-    throw GrammarError("got an invalid character", location);
+    throw GrammarError("got invalid character '"+string{ch}+"'", location);
   }
 }
 
@@ -251,15 +270,14 @@ void InputStream::unread_token(Token token) {
 void InputStream::expect_symbol(char sym) {
   Token token = read_token();
   if (token.type != TokenType::SYMBOL || token.value.symbol != sym)
-    throw GrammarError("got " + string{token.value.symbol} + " instead of " +
-                           sym,
+    throw GrammarError("expected '" +string{sym}+"' instead of '"+token.value_str()+"'",
                        token.location);
 }
 
 Keyword InputStream::expect_keyword(vector<Keyword> keywords) {
   Token token = read_token();
   if (token.type != TokenType::KEYWORD)
-    throw GrammarError("expected a keyword", token.location);
+    throw GrammarError("expected a keyword instead of '"+token.value_str()+"'", token.location);
   if (find(keywords.begin(), keywords.end(), token.value.keyword) ==
       keywords.end())
     throw GrammarError("expected one of the keywords", token.location);
@@ -270,21 +288,21 @@ float InputStream::expect_number(Scene scene) {
   Token token = read_token();
   if (token.type == TokenType::LITERAL_NUMBER)
     return token.value.number;
-  else if (token.type == TokenType::IDENTIFIER) {
+  else if (token.type == TokenType::IDENTIFIER) { // Commeted because it never enter the last 'else' otherwise, while it is a significal error also for undeclared variables
     string variable_name = token.value.str;
     if (scene.float_variables.find(token.value.str) ==
         scene.float_variables.end())
-      throw GrammarError("unknown variable " + token.value.str, token.location);
+      throw GrammarError("undefined variable '" +token.value_str()+"' when a number is expected", token.location);
     return scene.float_variables[variable_name];
   } else
-    throw GrammarError("got " + token.value.str + " instead of a number",
+    throw GrammarError("expected a number instead of '"+token.value_str()+"'",
                        token.location);
 }
 
 string InputStream::expect_string() {
   Token token = read_token();
   if (token.type != TokenType::LITERAL_STRING)
-    throw GrammarError("got " + token.value.str + " instead of a string",
+    throw GrammarError("expected a string instead of '"+token.value_str()+"'",
                        token.location);
   return token.value.str;
 }
@@ -292,7 +310,7 @@ string InputStream::expect_string() {
 string InputStream::expect_identifier() {
   Token token = read_token();
   if (token.type != TokenType::IDENTIFIER)
-    throw GrammarError("got " + token.value.str + " instead of an identifier",
+    throw GrammarError("expected an identifier instead of '"+token.value_str()+"'",
                        token.location);
   return token.value.str;
 }
@@ -421,7 +439,7 @@ Sphere InputStream::parse_sphere(Scene scene) {
   if (scene.materials.find(material_name) == scene.materials.end()) {
     // We raise the exception here because input_file is pointing to the end
     // of the wrong identifier
-    throw GrammarError("unknown material " + material_name, location);
+    throw GrammarError("unknown material '" + material_name+"'", location);
   }
 
   expect_symbol(',');
@@ -438,7 +456,7 @@ Plane InputStream::parse_plane(Scene scene) {
   if (scene.materials.find(material_name) == scene.materials.end()) {
     // We raise the exception here because input_file is pointing to the end
     // of the wrong identifier
-    throw GrammarError("unknown material " + material_name, location);
+    throw GrammarError("unknown material '" + material_name + "'", location);
   }
 
   expect_symbol(',');
@@ -503,7 +521,7 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
           find(scene.overridden_variables.begin(),
                scene.overridden_variables.end(),
                variable_name) == scene.overridden_variables.end())
-        throw GrammarError("variable " + variable_name + " cannot be redefined",
+        throw GrammarError("variable '" + variable_name + "' cannot be redefined",
                            variable_loc);
 
       if (find(scene.overridden_variables.begin(),

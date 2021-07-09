@@ -123,6 +123,8 @@ struct Token {
   void assign_identifier(string);
 
   void assign_stoptoken();
+  
+  string value_str();
 };
 
 
@@ -147,7 +149,7 @@ struct Scene {
  */
 struct GrammarError : public runtime_error {
   
-  GrammarError(const string &message, SourceLocation loc): runtime_error{message + " -> position (" + to_string(int(loc.line_num)) + "," + to_string(int(loc.col_num)) + ")"} {}
+  GrammarError(const string &message, SourceLocation loc): runtime_error{"\nError in reading scene file: \n   " + message + " in file position (" + to_string(int(loc.line_num)) + "," + to_string(int(loc.col_num)) + ").\n"} {}
 };
 
 /**

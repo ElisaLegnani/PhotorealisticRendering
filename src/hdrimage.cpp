@@ -104,15 +104,15 @@ vector<int> parse_img_size(string line) {
     result.push_back(stof(line.substr(pos_start)));
 
     if (result.size() != 2) {
-      throw InvalidPfmFileFormat("invalid image size specification");
+      throw InvalidPfmFileFormat("Error: invalid image size specification.");
     }
 
     if (result[0] < 0 || result[1] < 0) {
-      throw InvalidPfmFileFormat("invalid width/height");
+      throw InvalidPfmFileFormat("Error: invalid width/height.");
     }
 
   } catch (invalid_argument) {
-    throw InvalidPfmFileFormat("invalid width/height");
+    throw InvalidPfmFileFormat("Error: invalid width/height.");
   }
 
   return result;
@@ -125,7 +125,7 @@ void HdrImage::read_pfm(istream &stream) {
   string magic;
   getline(stream, magic);
   if (magic != "PF") {
-    throw InvalidPfmFileFormat("invalid magic in PFM file");
+    throw InvalidPfmFileFormat("Error: invalid magic in PFM file.");
   }
 
   string img_size;
