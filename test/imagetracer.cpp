@@ -54,3 +54,28 @@ TEST_CASE("ImageTracer image coverage", "[imagetracer]") {
     }
   }
 }
+
+TEST_CASE("ImageTracer antialiasing", "[imagetracer]") {
+
+  int n_rays = 0;
+  HdrImage small_image(1, 1);
+  shared_ptr<Camera> camera = make_shared<OrthogonalCamera>(1.0);
+  ImageTracer tracer(small_image, camera, 10, PCG());
+
+  tracer.fire_all_rays([&n_rays](Ray ray) -> Color { 
+    Point point = ray.at(1);
+
+    // Check that all the rays intersect the screen within the region [−1, 1] × [−1, 1]
+    REQUIRE(are_close(point.x, 0.0));
+    REQUIRE(-1.0 <= point.y);
+    REQUIRE(point.y <= 1.0);
+    REQUIRE(-1.0 <= point.z);
+    REQUIRE(point.z <= 1.0);
+
+    n_rays += 1;
+
+    return BLACK;
+  });
+
+  REQUIRE(n_rays == 100);
+}

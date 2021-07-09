@@ -1,25 +1,22 @@
-# Photorealistic Rendering
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
-*Note: it is a WIP project*
-
-## Table of Contents
+# Table of Contents
 
 - [Installation](#installation)
   - [Dependencies](#dependencies)
   - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
-  - [Create your own photorealistic image](#own-image)
-  - [Convert HDR image to LDR](#convert)
+  - [Create your own photorealistic image](#create-your-own-photorealistic-image)
+  - [Convert HDR image to LDR](#convert-hdr-image-into-ldr)
 - [Expectations](#expectations)
 - [Contributing](#contributing)
 - [License](#license)
 
-## Installation
+# Installation
 
-### Dependencies
+## Dependencies
 
 A C++ compiler is needed (C++14 or higher).
 
@@ -27,7 +24,7 @@ You also need to install the following dependencies:
 - [Cmake](https://cmake.org/) (version 3.12 or higher);
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
 
-### Install from git repository
+## Install from git repository
 
 Clone this repository with the commands: 
 ```sh
@@ -53,7 +50,7 @@ $ ctest
 ```
 The testing interface is built using [Catch2](https://github.com/catchorg/Catch2).
 
-## Usage
+# Usage
 
 You can run the program through the script `raytracer`. The code implements two features, that you can call with commands:
 - creates a photorealistic image: `render`;
@@ -63,12 +60,11 @@ To get commmand-line help, run in the  `build` directory:
   
 ```sh
 $ ./raytracer --help
-
 ```
 For further details, see below.
 
 
-<details><summary name="own-image"><b>CREATE YOUR OWN PHOTOREALISTIC IMAGE</b></summary>
+## CREATE YOUR OWN PHOTOREALISTIC IMAGE
   
   In order to create your photorealistic images, you need to give instructions to the code on the scene you want to render. You can write them in a TXT file and run in the  `build` directory: 
   
@@ -76,7 +72,7 @@ For further details, see below.
   $ ./raytracer render --scene <scene_file.txt>
   ```
   
-  More information on how to write this kind of file will be available soon! 
+  More information on how to write this kind of file will be available soon! See the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
   
   
   In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
@@ -97,7 +93,7 @@ For further details, see below.
   
   **Note**: the rendering process takes a long time to produce an image.
   
-  #### Example:
+### Example
   
   You may easily try the code running in the `examples/render` directory:
   
@@ -113,11 +109,10 @@ For further details, see below.
   
   You just need to set the `ANGLE` (deg) from which you look at the scene.
   
-  <p align="center">
-    <img width="500" src=https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png>
-  </p>
+  ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
+    
   
-  #### Animation:
+### Animation
   
   In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
   
@@ -132,9 +127,7 @@ For further details, see below.
   $ ./generate-animation.sh NUM_OF_CORES
   ```
  
-</details>
-  
-  <details><summary name="convert"><b>CONVERT HDR IMAGE INTO LDR</b></summary>
+## CONVERT HDR IMAGE INTO LDR
 
   In the  `build` directory run: 
   
@@ -155,7 +148,7 @@ For further details, see below.
   $ ./raytracer hdr2ldr --pfm <input_file.pfm> -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
 
-  #### Example:
+### Example
   
   In the `examples/hdr2ldr` directory, there is a PFM input file called `memorial.pfm`.
   You can play with the code and parameters simply running (in the `build` directory):
@@ -163,24 +156,20 @@ For further details, see below.
   ```sh
   $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
- </details>
-  <p align="center">
-       <img width="800" src=https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png>
-  </p>
 
-
-    
+  ![PFM](https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png)
+  
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
-  
-## Expectations
+
+# Expectations
 
 More infos coming soon! Stay tuned!
 
-## Contributing
+# Contributing
 
-Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
+Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs, enhancements or file feature requests.
 
-## License
+# License
 
 The code is released under a MIT license. See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).

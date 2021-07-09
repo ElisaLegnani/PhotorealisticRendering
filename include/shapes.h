@@ -44,20 +44,20 @@ struct Shape;
 /**
  * A struct containing information about a ray & shape intersection
  *
- * @param world_point
- * @param normal
- * @param surface_point
- * @param t
- * @param ray
- * @param material
+ * @param ray that hits the shape surface
+ * @param world_point coordinates in the space where the ray hits the shape
+ * @param normal orthogonal vector to the surface where the ray-shape intersection is
+ * @param surface_point (u,v) coordinates of the hit point on the shape surface
+ * @param t distance origin-hit point
+ * @param material shape material
  */
 struct HitRecord {
 
+  Ray ray;
   Point world_point;
   Normal normal;
   Vec2d surface_point;
   float t;
-  Ray ray;
 //  shared_ptr<Shape> shape;
   Material material;
   bool init = false;
@@ -116,8 +116,8 @@ struct Sphere : public Shape {
   HitRecord ray_intersection(Ray);
   
   /**
-   * Checks if the given ray hits the sphere
-   * 
+   * Checks if the given ray hits the sphere or not
+   *
    * @param ray Input ray to check
    * @return boolean value
    */
@@ -145,8 +145,8 @@ struct Plane : public Shape {
   HitRecord ray_intersection(Ray);
   
   /**
-   * Checks if the given ray hits the plane
-   * 
+   * Checks if the given ray hits the plane or not
+   *
    * @param ray Input ray to check
    * @return boolean value
    */
