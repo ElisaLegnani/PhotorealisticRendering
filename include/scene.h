@@ -143,9 +143,10 @@ struct Scene {
 //––––––––––––– Lexer & Parser –––––––––––––
 
 /**
- *Raise an exception when lexer or parser finds a grammar error
+ *Derived struct from runtime_error representing a grammar error found by lexer or parser while reading the scene file
  *
  *@param message error message
+ *@param location (line, col) position in file where the error is found
  */
 struct GrammarError : public runtime_error {
   
@@ -168,7 +169,7 @@ struct InputStream {
   InputStream(istream &stream, string file_name = "", int tab = 8)
       : stream_in{stream}, location{file_name, 1, 1}, tabulations{tab} {}
 
-    //––––––––––––– Single characters –––––––––––––
+//––––––––––––– Single characters –––––––––––––
   /**
    * Update the location in the file stream
    *
@@ -225,8 +226,8 @@ struct InputStream {
    */
   void unread_token(Token);
 
-  //––––––––––––– Structs/classes –––––––––––––
   
+  //––––––––––––– Check expectations –––––––––––––
   /**
    * Check if the present token from the stream matches with the given symbol
    */
@@ -262,6 +263,9 @@ struct InputStream {
    */
     string expect_identifier();
 
+  
+  //––––––––––––– Structs/classes –––––––––––––
+  
   /**
    * Create a Vec if a sequence of characters follows the order [number,number,number]
    *
@@ -325,6 +329,7 @@ struct InputStream {
    */
   shared_ptr<Camera> parse_camera(Scene);
 
+  //––––––––––––– Scene creation –––––––––––––
   /**
    * Read from the input stream and create the scene
    *

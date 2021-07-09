@@ -47,6 +47,9 @@ unordered_map<string, Keyword> KEYWORDS = {
     {"float", Keyword::FLOAT},
 };
 
+
+//–––––––––––––––––––– Token ––––––––––––––––––––––
+
 Token ::Token(const Token &token) : location{token.location}, type{token.type} {
   if (token.type == TokenType::LITERAL_NUMBER)
     value.number = token.value.number;
@@ -119,6 +122,11 @@ string Token::value_str(){
   
 }
 
+
+//–––––––––––––––––––– InputStream ––––––––––––––––––––––
+
+//––––––––––––– Single characters –––––––––––––
+
 void InputStream::update_location(char ch) {
   if (ch == '\0') {
   } // Nothing
@@ -168,6 +176,8 @@ void InputStream::skip_whitespaces_and_comments() {
   }
   unread_character(ch);
 }
+
+//––––––––––––– Tokens –––––––––––––
 
 Token InputStream::parse_string_token() {
   string str{};
@@ -267,6 +277,8 @@ void InputStream::unread_token(Token token) {
     saved_token = token;
 }
 
+//––––––––––––– Check expectations –––––––––––––
+
 void InputStream::expect_symbol(char sym) {
   Token token = read_token();
   if (token.type != TokenType::SYMBOL || token.value.symbol != sym)
@@ -315,6 +327,9 @@ string InputStream::expect_identifier() {
   return token.value.str;
 }
 
+//––––––––––––– Structs/classes –––––––––––––
+
+// Vec
 Vec InputStream::parse_vector(Scene scene) {
   expect_symbol('[');
   float x = expect_number(scene);
@@ -327,6 +342,7 @@ Vec InputStream::parse_vector(Scene scene) {
   return Vec(x, y, z);
 }
 
+// Color
 Color InputStream::parse_color(Scene scene) {
   expect_symbol('<');
   float red = expect_number(scene);
@@ -339,6 +355,7 @@ Color InputStream::parse_color(Scene scene) {
   return Color(red, green, blue);
 }
 
+// Pigment
 shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
   shared_ptr<Pigment> result;
 
@@ -371,6 +388,7 @@ shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
   return result;
 }
 
+// BRDF
 shared_ptr<BRDF> InputStream::parse_brdf(Scene scene) {
   Keyword keyword = expect_keyword(vector{Keyword::DIFFUSE, Keyword::SPECULAR});
   expect_symbol('(');
@@ -383,6 +401,7 @@ shared_ptr<BRDF> InputStream::parse_brdf(Scene scene) {
     return make_shared<SpecularBRDF>(pigment);
 }
 
+// Material
 tuple<string, Material> InputStream::parse_material(Scene scene) {
   string name = expect_identifier();
 
@@ -395,6 +414,7 @@ tuple<string, Material> InputStream::parse_material(Scene scene) {
   return tuple<string, Material>{name, Material(brdf, emitted_radiance)};
 }
 
+// Transformation
 Transformation InputStream::parse_transformation(Scene scene) {
   Transformation result = Transformation();
 
@@ -437,6 +457,7 @@ Transformation InputStream::parse_transformation(Scene scene) {
   return result;
 }
 
+// Sphere
 Sphere InputStream::parse_sphere(Scene scene) {
   expect_symbol('(');
 
@@ -454,6 +475,7 @@ Sphere InputStream::parse_sphere(Scene scene) {
   return Sphere(transformation, scene.materials[material_name]);
 }
 
+// Plane
 Plane InputStream::parse_plane(Scene scene) {
   expect_symbol('(');
 
@@ -471,6 +493,7 @@ Plane InputStream::parse_plane(Scene scene) {
   return Plane(transformation, scene.materials[material_name]);
 }
 
+// Camera
 shared_ptr<Camera> InputStream::parse_camera(Scene scene) { 
   shared_ptr<Camera> result;
   expect_symbol('(');
@@ -495,6 +518,9 @@ shared_ptr<Camera> InputStream::parse_camera(Scene scene) {
 
   return result;
 }
+
+
+//––––––––––––– Scene creation –––––––––––––
 
 Scene InputStream::parse_scene(unordered_map<string, float> variables) {
   Scene scene;
