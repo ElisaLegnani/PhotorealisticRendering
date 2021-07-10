@@ -1,8 +1,9 @@
 # Photorealistic Rendering
 
-![release](https://img.shields.io/badge/release-v0.3.0-blue)
+![release](https://img.shields.io/github/v/release/ElisaLegnani/PhotorealisticRendering)
 ![license](https://img.shields.io/github/license/ElisaLegnani/PhotorealisticRendering)
 ![OS](https://img.shields.io/badge/OS-Linux%20%7C%20MacOS-yellow)
+![build](https://img.shields.io/github/workflow/status/ElisaLegnani/PhotorealisticRendering/CMake)
 
 A simple raytracer for generating photorealistic images written in C++.
 [brief description]
