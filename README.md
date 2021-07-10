@@ -13,8 +13,9 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
+## Documentation
 
-For a more detailed description see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
+A webpage [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering) has been created in order to give more detailed explanations.
 
 ## Installation
 
@@ -36,7 +37,8 @@ If you want to run animations, the required dependencies are:
 
 ### Install from git repository
 
-Clone this repository with the commands: 
+You can both download this repository from [GitHub](https://github.com/ElisaLegnani/PhotorealisticRendering) or clone it running in the command line: 
+
 ```sh
 $ git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
 $ cd PhotorealisticRendering
