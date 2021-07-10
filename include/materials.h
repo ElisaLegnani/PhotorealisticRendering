@@ -118,7 +118,7 @@ struct DiffuseBRDF : public BRDF {
       : BRDF(p), reflectance{refl} {}
 
   Color eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv) {
-    return pigment->get_color(uv) * (reflectance / M_PI);
+    return pigment->get_color(uv) * (1. / M_PI);
   }
 
   Ray scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth);
