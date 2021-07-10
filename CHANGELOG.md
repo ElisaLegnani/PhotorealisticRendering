@@ -4,12 +4,12 @@
 
 - Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
 
-### 2021-7-10
-
-- Implement new shapes (AAB Box) for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
-
 ## Version 1.0.0
 - **Breaking change**: implement a lexer and parser for interpreting files with the scene description [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
+
+### 2021-7-10
+
+- Implement new shapes (axis-aligned box) for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
 
 ### 2021-7-08
 
