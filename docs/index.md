@@ -20,7 +20,7 @@ The main contributors to this repository are [Elisa Legnani](https://github.com/
 
 # Installation
 
-You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v0.3.0) the latest stable release of the code (version 0.3.0).
+You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.0.0) the latest stable release of the code (version 1.0.0).
 
 ## Dependencies
 
@@ -30,9 +30,16 @@ You also need to install the following dependencies:
 - [Cmake](https://cmake.org/) (version 3.12 or higher);
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
 
+If you want to run animations, the required dependencies are:
+- [ffmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
+- [GNU Parallel](https://www.gnu.org/software/parallel/)
+
+*Note*: they are not needed for running the raytracing code.
+
 ## Install from git repository
 
-Clone this repository with the commands: 
+You can both download this repository from [GitHub](https://github.com/ElisaLegnani/PhotorealisticRendering) or clone it running in the command line:
+
 ```sh
 $ git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
 $ cd PhotorealisticRendering
@@ -188,4 +195,4 @@ Any contributions are welcome! Please use the [issue tracker](https://github.com
 
 # License
 
-The code is released under a MIT license. See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
+The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
