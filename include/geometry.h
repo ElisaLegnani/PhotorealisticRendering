@@ -79,6 +79,9 @@ struct Vec {
   
   Vec& operator=(const Vec &v){x=v.x; y=v.y; z=v.z; return *this;} // Assignment operator: Vec v2; v2=v1
 
+  /**
+   * @return the index corresponding to a coordinate
+   */
   float operator[](int i) {
     if (i == 0) return x;
 		else if (i == 1) return y;
@@ -134,6 +137,9 @@ struct Point {
   
   Point& operator=(const Point &p){ x=p.x; y=p.y; z=p.z; return *this; } // Assignment operator
 
+  /**
+   * @return the index corresponding to a coordinate
+   */
   float operator[](int i) {
     if (i == 0) return x;
 		else if (i == 1) return y;
@@ -182,6 +188,9 @@ struct Normal {
 
   Normal& operator=(const Normal &n){  x=n.x; y=n.y; z=n.z; return *this; } // Assignment operator
 
+  /**
+   * @return the index corresponding to a coordinate
+   */
   float operator[](int i) {
     if (i == 0) return x;
 		else if (i == 1) return y;
