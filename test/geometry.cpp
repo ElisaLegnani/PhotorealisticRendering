@@ -149,7 +149,7 @@ TEST_CASE("ONB constructor", "[onb]") {
 
   PCG pcg;
 
-  for (int i{}; i < 100; ++i) {
+  for (int i{}; i < 100000; ++i) {
     Vec normal(pcg.random_float(), pcg.random_float(), pcg.random_float());
     normal.normalize();
     ONB onb(normal);
