@@ -24,8 +24,8 @@ IN THE SOFTWARE.
 /**
  * A class implementing a PCG pseudo-random number generator
  *
- * @param state
- * @param inc
+ * @param state initial seed (default 42)
+ * @param inc identifier of the sequence (default 54)
  */
 class PCG {
 
@@ -41,7 +41,9 @@ public:
     random();
   }
 
-  /** Returns a new random number and advances PCG's state */
+  /**
+   * Return a new random number, advancing the PCG's internal state
+   */
   uint32_t random() {
     uint64_t oldstate = state;
     state = uint64_t(oldstate * 6364136223846793005 + inc);
@@ -52,7 +54,9 @@ public:
     return uint32_t((xorshifted >> rot) | (xorshifted << ((-rot) & 31)));
   }
 
-  /** Returns a random number uniformly distributed over [0,1] */
+  /**
+   * Return a random number uniformly distributed over [0,1]
+   */
   float random_float() {
     return random() / float(0xffffffff);
   }
