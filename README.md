@@ -14,13 +14,10 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
-## Documentation
-
+#### Website 
 A webpage [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering) has been created in order to give more detailed explanations.
 
 ## Installation
-
-You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.0.0) the latest stable release of the code (version 1.0.0).
 
 ### Dependencies
 
@@ -36,18 +33,28 @@ If you want to run animations, the required dependencies are:
 
 *Note*: they are not needed for running the raytracing code.
 
+### Download latest release
+You can download the latest stable release [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.0.0) (version 1.0.0) and then unpack it running in the command line (Linux):
+
+```sh
+tar -xvf PhotorealisticRendering-1.0.0.tar
+```
+The command is ```tar xopf``` for MacOS.
+
 ### Install from git repository
 
-You can both download this repository from [GitHub](https://github.com/ElisaLegnani/PhotorealisticRendering) or clone it running in the command line: 
+You can also clone this repository through the command: 
 
 ```sh
 git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
-cd PhotorealisticRendering
 ```
 
-Compile:
+### Compile
+
+In order to build and compile the code, run the following commands:
 
 ```sh
+cd PhotorealisticRendering
 mkdir build
 cd build
 cmake ..
@@ -56,7 +63,11 @@ make
 
 Executables files can be found in the `build` directory.
 
-For testing, run in the `build` directory:
+### Testing
+
+Tests are being implemented in the `test` directory. 
+
+In order to test the code, run in the `build` directory:
 
 ```sh
 ctest
