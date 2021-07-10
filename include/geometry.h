@@ -65,8 +65,13 @@ template <typename In> bool are_xyz_close(const In &a, const In &b){
 
 inline string xyz_string(string type, float x, float y, float z){
   return string{type+"(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
- }
+}
 
+inline bool check_if_normalized(float x, float y, float z) {
+  float norm = sqrt(x*x + y*y + z*z);
+  if (are_close(x, x/norm) && are_close(y, y/norm) && are_close(z, z/norm)) return true;
+  else return false;
+}
  
 //–––––––––––––––––––––– Struct Vec –––––––––––––––––––––––––––––––––––
 
@@ -94,6 +99,7 @@ struct Vec {
     float norm = this->norm();
     return Vec(x /= norm, y /= norm, z /= norm);
   }
+
 };
 
 inline Vec operator+(const Vec &v1, const Vec &v2) {
@@ -235,27 +241,43 @@ struct Vec2d {
 
 struct ONB {
 
-  Vec e1, e2, e3;
+  private:
 
-  ONB(float x, float y, float z) {
+    void create_onb(float x, float y, float z) {
 
-    float sign;
-    if (z > 0.0)
-      sign = 1.0;
-    else 
-      sign = -1.0;
+      if (!check_if_normalized(x, y, z)) {
+        cerr << "Error: the vector or normal for creating an ONB must be normalized" << endl;
+        abort();
 
-    float a = -1.0 / (sign + z);
-    float b = x * y * a;
+      } else {
 
-    e1 = Vec(1.0 + sign * x * x * a, sign * b, -sign * x);
-    e2 = Vec(b, sign + y * y * a, -y);
-    e3 = Vec(x, y, z);
-  }
+        float sign;
+        if (z > 0.0)
+          sign = 1.0;
+        else 
+          sign = -1.0;
 
-  ONB(Normal normal) : ONB(normal.x, normal.y, normal.z) {}
+        float a = -1.0 / (sign + z);
+        float b = x * y * a;
 
-  ONB(Vec normal) : ONB(normal.x, normal.y, normal.z) {} // Normalized vector
+        e1 = Vec(1.0 + sign * x * x * a, sign * b, -sign * x);
+        e2 = Vec(b, sign + y * y * a, -y);
+        e3 = Vec(x, y, z);
+
+      }
+    }
+
+  public:
+
+    Vec e1, e2, e3;
+
+    ONB(float x, float y, float z) {
+      create_onb(x, y, z);
+    }
+
+    ONB(Normal normal) : ONB(normal.x, normal.y, normal.z) {}
+
+    ONB(Vec normal) : ONB(normal.x, normal.y, normal.z) {} // Normalized vector
 
 };
 
