@@ -41,17 +41,17 @@ If you want to run animations, the required dependencies are:
 You can both download this repository from [GitHub](https://github.com/ElisaLegnani/PhotorealisticRendering) or clone it running in the command line:
 
 ```sh
-$ git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
-$ cd PhotorealisticRendering
+git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
+cd PhotorealisticRendering
 ```
 
 Compile:
 
 ```sh
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 Executables files can be found in the `build` directory.
@@ -59,7 +59,7 @@ Executables files can be found in the `build` directory.
 For testing, run in the `build` directory:
 
 ```sh
-$ ctest
+ctest
 ```
 The testing interface is built using [Catch2](https://github.com/catchorg/Catch2).
 
@@ -72,7 +72,7 @@ You can run the program through the script `raytracer`. The code implements two 
 To get commmand-line help, run in the  `build` directory: 
   
 ```sh
-$ ./raytracer --help
+./raytracer --help
 ```
 For further details, see below.
 
@@ -82,7 +82,7 @@ For further details, see below.
   In order to create your photorealistic images, you need to give instructions to the code on the scene you want to render. You can write them in a TXT file and run in the  `build` directory: 
   
   ```sh
-  $ ./raytracer render --scene <scene_file.txt>
+  ./raytracer render --scene <scene_file.txt>
   ```
   
   You can find information on how to write this kind of file at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
@@ -111,13 +111,13 @@ For further details, see below.
   You may easily try the code running in the `examples/render` directory:
   
   ```sh
-  $ ./generate-image.sh ANGLE
+  ./generate-image.sh ANGLE
   ```
   
   which automatically runs the following code:
   
   ```sh
-  $ ../../build/./raytracer render --scene demo_img.txt --declare_var ang=ANGLE --output img/imageANGLE.png
+  ../../build/./raytracer render --scene demo_img.txt --declare_var ang=ANGLE --output img/imageANGLE.png
   ```
   
   You just need to set the `ANGLE` (deg) from which you look at the scene.
@@ -139,7 +139,7 @@ For further details, see below.
   This is needed to run in parallel the code and speed up the execution, otherwise it would take a very long time.
   
   ```sh
-  $ ./generate-animation.sh NUM_OF_CORES
+  ./generate-animation.sh NUM_OF_CORES
   ```
  
 ## CONVERT HDR IMAGE INTO LDR
@@ -147,7 +147,7 @@ For further details, see below.
   In the  `build` directory run: 
   
   ```sh
-  $ ./raytracer hdr2ldr --pfm <input_file.pfm>
+  ./raytracer hdr2ldr --pfm <input_file.pfm>
   ```
 
   The HDR image format supported is PFM, while LDR ones are PNG and JPG.
@@ -160,7 +160,7 @@ For further details, see below.
   You can set these properties directly in the command line:
 
   ```sh
-  $ ./raytracer hdr2ldr --pfm <input_file.pfm> -a 0.3 -g 1.0 --out <output_file.jpg>
+  ./raytracer hdr2ldr --pfm <input_file.pfm> -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
 
 ### Example
@@ -169,7 +169,7 @@ For further details, see below.
   You can play with the code and parameters simply running (in the `build` directory):
   
   ```sh
-  $ ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
+  ./raytracer hdr2ldr --pfm ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
   ```
 
   ![PFM](https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png)
