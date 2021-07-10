@@ -56,20 +56,20 @@ HitRecord Sphere::ray_intersection(Ray ray) {
   float tmin = (-b - sqrt(delta)) / 2.0 / a;
   float tmax = (-b + sqrt(delta)) / 2.0 / a;
 
-  float first_hit_t;
+  float t;
   if (tmin > inv_ray.tmin && tmin < inv_ray.tmax) {
-    first_hit_t = tmin;
+    t = tmin;
   } else if (tmax > inv_ray.tmin && tmax < inv_ray.tmax) {
-    first_hit_t = tmax;
+    t = tmax;
   } else {
     return HitRecord();
   }
 
-  Point hit_point = inv_ray.at(first_hit_t);
+  Point hit_point = inv_ray.at(t);
 
   return HitRecord((transformation * hit_point),
                    (transformation * sphere_normal(hit_point, inv_ray.dir)),
-                   (sphere_point_to_uv(hit_point)), first_hit_t, ray, material);
+                   (sphere_point_to_uv(hit_point)), t, ray, material);
 }
 
 bool Sphere::check_if_intersection(Ray ray){
@@ -99,7 +99,7 @@ HitRecord Plane::ray_intersection(Ray ray){
     return HitRecord();
   }
   
-  double t = - inv_ray.origin.z / inv_ray.dir.z;
+  float t = - inv_ray.origin.z / inv_ray.dir.z;
 
   if (t <= inv_ray.tmin || t >= inv_ray.tmax) return HitRecord();
 
@@ -121,7 +121,7 @@ bool Plane::check_if_intersection(Ray ray){
   
   double t = - inv_ray.origin.z / inv_ray.dir.z;
 
-  return (t >inv_ray.tmin && t< inv_ray.tmax);
+  return (t > inv_ray.tmin && t < inv_ray.tmax);
 }
 
 //––––––––––––– Sub-struct Box ––––––––––––––––––––––––
@@ -236,7 +236,8 @@ bool Box::check_if_intersection(Ray ray) {
     
     if (tmin > tmax) return false;
   }
-  return true;
+
+  return ((tmin > inv_ray.tmin && tmin < inv_ray.tmax) || (tmax > inv_ray.tmin && tmax < inv_ray.tmax));
 }
 
 Vec2d Box::box_point_to_uv(Point hit_point, int face) {
@@ -249,7 +250,7 @@ Vec2d Box::box_point_to_uv(Point hit_point, int face) {
   } else if (face == 1 || face == 4) {
     u = (face + (hit_point.x - Pmin.x) / (Pmax.x - Pmin.x)) / 6.0;
     v = (face + (hit_point.z - Pmin.z) / (Pmax.z - Pmin.z)) / 6.0;
-  } else if (face == 2 || face == 5)  {
+  } else if (face == 2 || face == 5) {
     u = (face + (hit_point.x - Pmin.x) / (Pmax.x - Pmin.x)) / 6.0;
     v = (face + (hit_point.y - Pmin.y) / (Pmax.y - Pmin.y)) / 6.0;
   }
