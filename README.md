@@ -2,9 +2,10 @@
 
 ![release](https://img.shields.io/github/v/release/ElisaLegnani/PhotorealisticRendering)
 ![OS](https://img.shields.io/badge/OS-Linux%20%7C%20MacOS-yellow)
-![Top Language](https://img.shields.io/github/languages/top/ElisaLegnani/PhotorealisticRendering)
 ![license](https://img.shields.io/github/license/ElisaLegnani/PhotorealisticRendering)
 ![build](https://img.shields.io/github/workflow/status/ElisaLegnani/PhotorealisticRendering/CMake)
+![Top Language](https://img.shields.io/github/languages/top/ElisaLegnani/PhotorealisticRendering)
+
 
 A simple raytracer for generating photorealistic images written in C++.
 [brief description]
@@ -30,7 +31,7 @@ You also need to install the following dependencies:
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
 
 If you want to run animations, the required dependencies are:
-- [ffmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
+- [FFmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
 - [GNU Parallel](https://www.gnu.org/software/parallel/)
 
 *Note*: they are not needed for running the raytracing code.
@@ -40,17 +41,17 @@ If you want to run animations, the required dependencies are:
 You can both download this repository from [GitHub](https://github.com/ElisaLegnani/PhotorealisticRendering) or clone it running in the command line: 
 
 ```sh
-$ git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
-$ cd PhotorealisticRendering
+git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
+cd PhotorealisticRendering
 ```
 
 Compile:
 
 ```sh
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
+mkdir build
+cd build
+cmake ..
+make
 ```
 
 Executables files can be found in the `build` directory.
@@ -58,7 +59,7 @@ Executables files can be found in the `build` directory.
 For testing, run in the `build` directory:
 
 ```sh
-$ ctest
+ctest
 ```
 The testing interface is built using [Catch2](https://github.com/catchorg/Catch2).
 
@@ -71,7 +72,7 @@ You can run the program through the script `raytracer`. The code implements two 
 To get commmand-line help, run in the  `build` directory: 
   
 ```sh
-$ ./raytracer --help
+./raytracer --help
 
 ```
 
