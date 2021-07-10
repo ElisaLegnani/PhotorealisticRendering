@@ -114,7 +114,7 @@ For further details, see below.
   You just need to set the `ANGLE` (deg) from which you look at the scene.
   
   <p align="center">
-    <img width="500" src=https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png>
+    <img width="500" src=https://user-images.githubusercontent.com/62106779/125062684-f5efd900-e0ae-11eb-8323-75542e686e54.png>
   </p>
   
   #### Animation:

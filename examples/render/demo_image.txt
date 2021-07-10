@@ -27,7 +27,7 @@ material box_material(
 
 material background_material(
     diffuse(uniform(<0, 0, 0>)),
-    image("../examples/hdr2ldr/mountains.pfm")
+    image("../hdr2ldr/mountains.pfm")
 )
 
 sphere (background_material, 
@@ -52,4 +52,4 @@ box(box_material, {0, 0, 0}, {0.5, 0.8, 0.5},
 	translation([-0.5, -1.6, 0.])*rotation_z(270)
 )
 
-camera(perspective, rotation_z(0) * translation([-1, 0, 1]), 1.333, 1.)
+camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 1.333, 1.)

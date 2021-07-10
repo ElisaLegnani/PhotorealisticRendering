@@ -25,7 +25,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using namespace std;
 
 #define WHITESPACES string { " #\t\n\r" }
-#define SYMBOLS string { "()<>[]*," }
+#define SYMBOLS string { "()<>[]{}*," }
 
 #ifndef _scene_h_
 #define _scene_h_
@@ -51,6 +51,7 @@ enum class Keyword {
   MATERIAL,
   PLANE,
   SPHERE,
+  BOX,
   DIFFUSE,
   SPECULAR,
   UNIFORM,
@@ -272,6 +273,13 @@ struct InputStream {
   Color parse_color(Scene);
 
   /**
+   * Create a Point if a sequence of characters follows the order {number,number,number}
+   *
+   * @return Point(x,y,z)
+   */
+  Point parse_point(Scene);
+
+  /**
    * Create a Pigment if a KewwordToken is UNIFORM/CHECKERED/IMAGE folowed by relative arguments
    *
    * @return UniformPigment(color) or CheckeredPigment(color1, color2, num_of_steps) or ImagePigment(image)
@@ -312,6 +320,13 @@ struct InputStream {
    * @return Plane(transformation, scene.materials[material_name])
    */
   Plane parse_plane(Scene);
+
+  /**
+   * Create a Box if a sequence of characters follows the order identifier(material, point, point, transformation)
+   *
+   * @return Box(point, point, transformation, scene.materials[material_name])
+   */
+  Box parse_box(Scene);
 
   /**
    * Create a Camera if a KewwordToken is PERSPECTIVE/ORTHOGONAL folowed by relative arguments
