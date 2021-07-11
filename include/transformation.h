@@ -98,9 +98,9 @@ Normal operator*(Transformation, Normal);
 Transformation translation(Vec);
 
 /**
- * Rescale of a given 'Vec'
+ * Rescale of an ammount given by a 'Vec'
  *
- * @param v 'Vec' object generating the scaling
+ * @param v 'Vec' object specifing the amount of scaling along the three directions X, Y, Z.
  * @return 'Transformation' object representing the scaling
  */
 Transformation scaling(Vec);
