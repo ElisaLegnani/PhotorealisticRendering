@@ -23,20 +23,12 @@ IN THE SOFTWARE.
 Vec2d _sphere_point_to_uv(Point sp) {
   float u = atan2(sp.y, sp.x) / 2.0 / M_PI;
   float v = acos(sp.z) / M_PI;
-  if (u >= 0.0) {
-    return Vec2d(u, v);
-  } else {
-    return Vec2d((u + 1.0), v);
-  }
+  return ((u >= 0.0) ? Vec2d(u, v) : Vec2d((u + 1.0), v));
 }
 
 Normal _sphere_normal(Point sp, Vec ray_dir) {
   Normal normal = Normal(sp.x, sp.y, sp.z);
-  if (dot(sp.to_vec(), ray_dir) < 0.0) {
-    return normal;
-  } else {
-    return (-normal);
-  }
+  return ((dot(sp.to_vec(), ray_dir) < 0.0) ? normal : (-normal));
 }
 
 //––––––––––––– Sub-struct Sphere ––––––––––––––––––––––––
