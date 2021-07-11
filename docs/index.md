@@ -4,6 +4,8 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
+Here you can find a detailed explanation of the program usage for better understanding how to generate photorealistic images and to convert images from HDR to LDR format, and the parameters you can set. Have fun!
+
 # Table of Contents
 
 - [Installation](#installation)
