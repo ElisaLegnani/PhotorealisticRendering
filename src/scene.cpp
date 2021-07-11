@@ -1,23 +1,20 @@
-/*
-The MIT License (MIT)
+/* 
+Copyright (C) 2021 Adele Zaini, Elisa Legnani
 
-Copyright © 2021 Elisa Legnani, Adele Zaini
+This file is part of PhotorealisticRendering.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the “Software”), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+PhotorealisticRendering is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS
-IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+PhotorealisticRendering is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "scene.h"
@@ -29,6 +26,7 @@ unordered_map<string, Keyword> KEYWORDS = {
     {"material", Keyword::MATERIAL},
     {"plane", Keyword::PLANE},
     {"sphere", Keyword::SPHERE},
+    {"box", Keyword::BOX},
     {"diffuse", Keyword::DIFFUSE},
     {"specular", Keyword::SPECULAR},
     {"uniform", Keyword::UNIFORM},
@@ -321,6 +319,18 @@ Color InputStream::parse_color(Scene scene) {
   return Color(red, green, blue);
 }
 
+Point InputStream::parse_point(Scene scene) {
+  expect_symbol('{');
+  float x = expect_number(scene);
+  expect_symbol(',');
+  float y = expect_number(scene);
+  expect_symbol(',');
+  float z = expect_number(scene);
+  expect_symbol('}');
+
+  return Point(x, y, z);
+}
+
 shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
   shared_ptr<Pigment> result;
 
@@ -448,6 +458,27 @@ Plane InputStream::parse_plane(Scene scene) {
   return Plane(transformation, scene.materials[material_name]);
 }
 
+Box InputStream::parse_box(Scene scene) {
+  expect_symbol('(');
+
+  string material_name = expect_identifier();
+  if (scene.materials.find(material_name) == scene.materials.end()) {
+    // We raise the exception here because input_file is pointing to the end
+    // of the wrong identifier
+    throw GrammarError("unknown material " + material_name, location);
+  }
+
+  expect_symbol(',');
+  Point point1 = parse_point(scene);
+  expect_symbol(',');
+  Point point2 = parse_point(scene);
+  expect_symbol(',');
+  Transformation transformation = parse_transformation(scene);
+  expect_symbol(')');
+
+  return Box(point1, point2, transformation, scene.materials[material_name]);
+}
+
 shared_ptr<Camera> InputStream::parse_camera(Scene scene) { 
   shared_ptr<Camera> result;
   expect_symbol('(');
@@ -518,6 +549,9 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
 
     } else if (what.value.keyword == Keyword::PLANE) {
       scene.world.add_shape(make_shared<Plane>(parse_plane(scene)));
+
+    } else if (what.value.keyword == Keyword::BOX) {
+      scene.world.add_shape(make_shared<Box>(parse_box(scene)));
 
     } else if (what.value.keyword == Keyword::CAMERA) {
       if (scene.camera)
