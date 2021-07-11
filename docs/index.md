@@ -7,61 +7,17 @@ The main contributors to this repository are [Elisa Legnani](https://github.com/
 # Table of Contents
 
 - [Installation](#installation)
-  - [Dependencies](#dependencies)
-  - [Install from git repository](#install-from-git-repository)
 - [Usage](#usage)
   - [Create your own photorealistic image](#create-your-own-photorealistic-image)
-  - [Convert HDR image to LDR](#convert-hdr-image-into-ldr)
+  - [Convert HDR image into LDR](#convert-hdr-image-into-ldr)
 - [Documentation](#documentation)
-- [Expectations](#expectations)
-- [Examples](#examples)
+- [Expectations and examples](#expectations-and-examples)
 - [Contributing](#contributing)
 - [License](#license)
 
 # Installation
 
-You can find [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.0.0) the latest stable release of the code (version 1.0.0).
-
-## Dependencies
-
-A C++ compiler is needed (C++14 or higher).
-
-You also need to install the following dependencies:
-- [Cmake](https://cmake.org/) (version 3.12 or higher);
-- [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
-
-If you want to run animations, the required dependencies are:
-- [ffmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
-- [GNU Parallel](https://www.gnu.org/software/parallel/)
-
-*Note*: they are not needed for running the raytracing code.
-
-## Install from git repository
-
-You can both download this repository from [GitHub](https://github.com/ElisaLegnani/PhotorealisticRendering) or clone it running in the command line:
-
-```sh
-git clone https://github.com/ElisaLegnani/PhotorealisticRendering.git
-cd PhotorealisticRendering
-```
-
-Compile:
-
-```sh
-mkdir build
-cd build
-cmake ..
-make
-```
-
-Executables files can be found in the `build` directory.
-
-For testing, run in the `build` directory:
-
-```sh
-ctest
-```
-The testing interface is built using [Catch2](https://github.com/catchorg/Catch2).
+Information on how to install and compile the code are on our [GitHub repository](https://github.com/ElisaLegnani/PhotorealisticRendering).
 
 # Usage
 
@@ -142,7 +98,7 @@ For further details, see below.
   ./generate-animation.sh NUM_OF_CORES
   ```
  
-## CONVERT HDR IMAGE INTO LDR
+## Convert HDR image into LDR
 
   In the  `build` directory run: 
   
@@ -181,11 +137,7 @@ The command line interface is built using the argument parsing library [Taywee/a
 
 A link to the complete documentation of the code will be available soon!
 
-# Expectations
-
-More infos coming soon! Stay tuned!
-
-# Examples
+# Expectations and examples
 
 More infos coming soon! Stay tuned!
 
