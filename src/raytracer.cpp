@@ -151,13 +151,8 @@ int main(int argc, char **argv) {
     
     string _algorithm = "pathtracer", _output_file = "image_"+current_date_time()+".png";
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
-    float _a_r = 0.3, _gamma_r = 1.;
+    float _a_r = 1., _gamma_r = 1.;
     
-    if (!scene_file){
-      cerr << "Error: missing Input scene file." <<endl;
-      cerr << parser;
-      return 0;
-    }
     if (algorithm) _algorithm = args::get(algorithm);
     if (n_rays) _n_rays = args::get(n_rays);
     if (max_depth) _max_depth = args::get(max_depth);
@@ -178,11 +173,6 @@ int main(int argc, char **argv) {
 
     float _a = 0.3, _gamma = 1.;
     
-    if (!pfm_file){
-      cout << "Error: missing Input PFM filename." <<endl;
-      cout << parser;
-      return 0;
-    }
     if (a) _a = args::get(a);
     if (gamma) _gamma = args::get(gamma);
     string _out_file = string{"ldrimage_"+float_to_string(_a)+"_"+float_to_string(_gamma)+".png"};
@@ -291,17 +281,25 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
 
 void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
 
-  cout << "Generating a LDR image, with parameters:" <<endl;
-  cout << " - lumonisity normalization factor a="+float_to_string(a)+";" << endl;
-  cout << " - monitor calibration factor gamma="+float_to_string(gamma)+"." << endl;
-  cout << "..." <<endl;
-  HdrImage img(pfm_file);
+  try{
+    
+    HdrImage img(pfm_file);
+    
+    cout << "Generating a LDR image, with parameters:" <<endl;
+    cout << " - lumonisity normalization factor a="+float_to_string(a)+";" << endl;
+    cout << " - monitor calibration factor gamma="+float_to_string(gamma)+"." << endl;
+    cout << "..." <<endl <<endl;
 
-  img.normalize_image(a);
-  img.clamp_image();
+    img.normalize_image(a);
+    img.clamp_image();
 
-  img.write_ldr_image(output_file, gamma);
-  cout << endl << "LDR image: " << output_file << endl;
+    img.write_ldr_image(output_file, gamma);
+    cout << "LDR image: " << output_file << endl;
+    
+  }catch(runtime_error &e){
+    cout << e.what() << endl;
+    exit(1);
+  }
 }
 
 //––––––––––––––––––––––––––––––––––––––––––– *** ––––––––––––––––––––––––––––––––––––––––––––––––––
