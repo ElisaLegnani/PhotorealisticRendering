@@ -62,7 +62,7 @@ void convert_hdr2ldr(string, string, float, float);
 
 
 
-//––––––––––––––––––––– MAIN –––––––––––––––––––––––––––––––––––––––––––––
+//––––––––––––––––––––– MAIN (user-interface) –––––––––––––––––––––––––––––––––––––––––––––
 int main(int argc, char **argv) {
 
   args::ArgumentParser parser(
@@ -72,13 +72,12 @@ int main(int argc, char **argv) {
   args::Command render(commands, "render", "Create a photorealistic image");
   args::Command hdr2ldr(commands, "hdr2ldr", "Convert hdr image to ldr");
 
+  args::Positional<std::string> scene_file(render, "SCENE_FILENAME", "The input scene filename \n  (REQUIRED)");
   //args::HelpFlag helpr(render, "help", "Display help menu", {'h', "help"});
   args::Group render_arguments(render, "render arguments",
                                args::Group::Validators::DontCare,
                                args::Options::Global);
-  
-  args::ValueFlag<string> scene_file(render_arguments, "",
-                                    "Input scene file", {"scene", "scene_file"});
+  //args::ValueFlag<string> scene_file(render_arguments, "", "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<int> width(render_arguments, "",
                              "Width of the rendered image \n (default 640)", {'w', "width"});
   args::ValueFlag<int> height(render_arguments, "",
@@ -104,15 +103,13 @@ int main(int argc, char **argv) {
                              {'v', "declare_var"});
   
   //args::HelpFlag helph(hdr2ldr, "help", "Display help menu", {'h', "help"});
-  
+  args::Positional<std::string> pfm_file(hdr2ldr, "HDR_IMAGE", "The input HDR image (PFM format) \n  (REQUIRED)");
   args::Group hdr2ldr_arguments(hdr2ldr, "hdr2ldr arguments",
                                 args::Group::Validators::DontCare,
                                 args::Options::Global);
   
-  args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "",
-                                       "Input PFM filename", {"pfm", "pfm_file"});
-  args::ValueFlag<string> out_file(hdr2ldr_arguments, "",
-                                       "Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
+  //args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "","Input PFM filename", {"pfm", "pfm_file"});
+  args::ValueFlag<string> out_file(hdr2ldr_arguments, "","Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
   args::ValueFlag<float> a(hdr2ldr_arguments, "",
                            "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
   args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
