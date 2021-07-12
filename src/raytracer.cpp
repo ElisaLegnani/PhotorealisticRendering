@@ -145,7 +145,7 @@ int main(int argc, char **argv) {
     }
     
     
-    string _algorithm = "pathtracer", _output_file = "image.png";
+    string _algorithm = "pathtracer", _output_file = "image_"+current_date_time()+".png";
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
     
     if (!scene_file){

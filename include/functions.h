@@ -22,6 +22,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 #include <cmath>
 #include <string>
+#include <stdio.h>
+#include <time.h>
 
 using namespace std;
 
@@ -29,12 +31,30 @@ inline bool are_close(float x, float y, float epsilon = 1e-4) {
   return fabs(x - y) < epsilon;
 }
 
+/**
+ * Convert a float into a string, avoiding displaying several zeroes after last significant decimal
+ */
+
 inline string float_to_string(float number){
   string float_num = to_string(number);
   string first_num = float_num.substr(0, float_num.find("."));
   string second_num = float_num.substr(float_num.find("."));
   string final_num = second_num.substr(0,second_num.find("0"));
   return first_num+final_num;
+}
+
+/**
+ * Return a string of current date_time (format YYYY-MM-DD.HH:mm:ss)
+ */
+
+inline string current_date_time() {
+    time_t now = time(0);
+    struct tm  tstruct;
+    char buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d_%X", &tstruct);
+
+    return buf;
 }
 
 #endif
