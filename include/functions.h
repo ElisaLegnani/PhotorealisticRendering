@@ -21,9 +21,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define _functions_h_
 
 #include <cmath>
+#include <string>
+
+using namespace std;
 
 inline bool are_close(float x, float y, float epsilon = 1e-4) {
   return fabs(x - y) < epsilon;
+}
+
+inline string float_to_string(float number){
+  string float_num = to_string(number);
+  string first_num = float_num.substr(0, float_num.find("."));
+  string second_num = float_num.substr(float_num.find("."));
+  string final_num = second_num.substr(0,second_num.find("0"));
+  return first_num+final_num;
 }
 
 #endif

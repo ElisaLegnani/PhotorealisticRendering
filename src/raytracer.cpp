@@ -178,7 +178,7 @@ int main(int argc, char **argv) {
     }
     if (a) _a = args::get(a);
     if (gamma) _gamma = args::get(gamma);
-    string _out_file = string{"ldrimage_"+to_string(_a)+"_"+to_string(_gamma)+".png"};
+    string _out_file = string{"ldrimage_"+float_to_string(_a)+"_"+float_to_string(_gamma)+".png"};
     if (out_file) _out_file = args::get(out_file);
 
     convert_hdr2ldr(args::get(pfm_file), _out_file, _a, _gamma);
