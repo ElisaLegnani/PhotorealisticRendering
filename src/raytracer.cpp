@@ -208,12 +208,15 @@ unordered_map<string, float> build_variable_dictionary(vector<string> variables_
   return variables;
 }
 
+//––––––––––––
 void image_render(string scene_file, string algorithm, int n_rays, int max_depth, uint64_t state, uint64_t seq,
                   int samples_per_pixel, int width, int height, string output_file, vector<string> variables_list) {
 
   unordered_map<string, float> variables = build_variable_dictionary(variables_list);
 
   HdrImage image(width, height);
+  cout << "Creating a "+to_string(width)+"x"+to_string(height)+" image, using the \'"+algorithm+"\' rendering algorithm." <<endl;
+  cout << ((samples_per_pixel==0) ? "No antiliasing." : ("Antialiasing with "+to_string(samples_per_pixel)+" samples per pixel.")) <<endl;
 
   ifstream in;
   in.open(scene_file);
@@ -284,7 +287,7 @@ void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) 
   img.clamp_image();
 
   img.write_ldr_image(output_file, gamma);
-  cout << "LDR image written to " << output_file << endl;
+  cout << endl << "LDR image written to " << output_file << endl;
 }
 
 //––––––––––––––––––––––––––––––––––––––––––– *** ––––––––––––––––––––––––––––––––––––––––––––––––––
