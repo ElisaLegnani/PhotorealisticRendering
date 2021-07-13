@@ -61,4 +61,14 @@ inline string current_date_time() {
     return buf;
 }
 
+inline string get_format(string filename){
+  size_t find = filename.find_last_of(".");
+  return filename.substr(find);
+}
+
+inline string get_path(string filename_with_path){
+  size_t find = filename_with_path.find_last_of("/");
+  return filename_with_path.substr(0,find+1);
+}
+
 #endif

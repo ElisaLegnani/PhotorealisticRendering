@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "hdrimage.h"
+#include "functions.h"
 #include <iostream>
 
 using namespace std;
@@ -245,9 +246,7 @@ void HdrImage::write_ldr_image(const string &filename, float gamma) {
   const char* file = filename.c_str();
   f = fopen(file, "wb");
 
-  string filename_str = string (filename);
-  size_t find = filename_str.find_last_of(".");
-  string format = filename_str.substr(find);
+  string format = get_format(string(filename));
 
   // Output the image to the disk file in PNG format
   if(format==".png"){
