@@ -3,7 +3,17 @@
 ## HEAD
 
 - Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
-- Implement new shapes for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
+
+## Version 1.0.0
+- **Breaking change**: implement a lexer and parser for interpreting files with the scene description [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
+
+### 2021-7-10
+
+- Implement new shapes (axis-aligned box) for the demo image [#21](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/21)
+
+### 2021-7-08
+
+- Fix a bug in DiffuseBRDF ray scattering [#26](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/26)
 
 ### 2021-7-01
 
@@ -13,7 +23,6 @@
 
 - Implement a point-light tracer [#22](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/22)
 - Enable a nice command line interface using [Taywee/args](https://github.com/Taywee/args) argument parsing library [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
-- **Breaking change**: implement a lexer and parser for interpreting files with the scene description [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
 
 ### 2021-6-21
 

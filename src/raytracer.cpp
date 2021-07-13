@@ -1,23 +1,20 @@
-/*
-The MIT License (MIT)
+/* 
+Copyright (C) 2021 Adele Zaini, Elisa Legnani
 
-Copyright © 2021 Elisa Legnani, Adele Zaini
+This file is part of PhotorealisticRendering.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the “Software”), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+PhotorealisticRendering is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS
-IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+PhotorealisticRendering is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "args.hxx"
@@ -80,6 +77,8 @@ int main(int argc, char **argv) {
                                args::Group::Validators::DontCare,
                                args::Options::Global);
   
+  args::ValueFlag<string> scene_file(render_arguments, "",
+                                    "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<int> width(render_arguments, "",
                              "Width of the rendered image \n (default 640)", {'w', "width"});
   args::ValueFlag<int> height(render_arguments, "",
@@ -87,10 +86,8 @@ int main(int argc, char **argv) {
   args::ValueFlag<string> algorithm(render_arguments, "",
                                     "Renderer algorithm: \n onoff/flat/pathtracer/pointlight \n (default pathtracer)",
                                     {'r', 'a', "renderer", "algorithm"});
-  args::ValueFlag<string> scene_file(render_arguments, "",
-                                    "Input scene file", {"scene", "scene_file"});
   args::ValueFlag<string> output_file(render_arguments, "",
-                                      "Output filename: PFM/PNG/JPG \n (default DIY_image.png)", {"output", "output_file"});
+                                      "Output filename: PFM/PNG/JPG \n (default image.png)", {"output", "output_file"});
   args::ValueFlag<int> n_rays(render_arguments, "",
                              "Number of rays (default 10)", {'n', "n_rays", "rays"});
   args::ValueFlag<int> max_depth(render_arguments, "",
@@ -151,7 +148,7 @@ int main(int argc, char **argv) {
     }
     
     
-    string _algorithm = "pathtracer", _output_file = "DIY_image.png";
+    string _algorithm = "pathtracer", _output_file = "image.png";
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
     
     if (!scene_file){

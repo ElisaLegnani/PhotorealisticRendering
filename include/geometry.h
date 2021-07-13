@@ -1,19 +1,20 @@
-/*
-The MIT License (MIT)
+/* 
+Copyright (C) 2021 Adele Zaini, Elisa Legnani
 
-Copyright © 2021 Elisa Legnani, Adele Zaini
+This file is part of PhotorealisticRendering.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-documentation files (the “Software”), to deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
-and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+PhotorealisticRendering is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of
-the Software. THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
-LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
-SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-IN THE SOFTWARE.
+PhotorealisticRendering is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "functions.h"
@@ -78,8 +79,13 @@ template <typename In> bool are_xyz_close(const In &a, const In &b, float epsilo
  */
 inline string xyz_string(string type, float x, float y, float z){
   return string{type+"(" + to_string(x) + ", " + to_string(y) + ", " + to_string(z) + ")"};
- }
+}
 
+inline bool check_if_normalized(float x, float y, float z) {
+  float norm = sqrt(x*x + y*y + z*z);
+  if (are_close(x, x/norm) && are_close(y, y/norm) && are_close(z, z/norm)) return true;
+  else return false;
+}
  
 //–––––––––––––––––––––– Struct Vec –––––––––––––––––––––––––––––––––––
 /**
@@ -97,6 +103,16 @@ struct Vec {
   Vec(const Vec &&vm) : x{vm.x}, y{vm.y}, z{vm.z} {} // Move constructor
   
   Vec& operator=(const Vec &v){x=v.x; y=v.y; z=v.z; return *this;} // Assignment operator: Vec v2; v2=v1
+
+  /**
+   * @return the index corresponding to a coordinate
+   */
+  float operator[](int i) {
+    if (i == 0) return x;
+		else if (i == 1) return y;
+    else if (i == 2) return z;
+    else abort();
+	}
   
   /**
    Check if the vector has roughly the same direction as the given one.
@@ -128,6 +144,7 @@ struct Vec {
     float norm = this->norm();
     return Vec(x /= norm, y /= norm, z /= norm);
   }
+
 };
 
 //––––––– Operations with Vec –––––––––––––––––––––––––––––––––––
@@ -196,6 +213,16 @@ struct Point {
   Point(const Point &&pm) : x{pm.x}, y{pm.y}, z{pm.z} {} // Move constructor
   
   Point& operator=(const Point &p){ x=p.x; y=p.y; z=p.z; return *this; } // Assignment operator
+
+  /**
+   * @return the index corresponding to a coordinate
+   */
+  float operator[](int i) {
+    if (i == 0) return x;
+		else if (i == 1) return y;
+    else if (i == 2) return z;
+    else abort();
+	}
   
   /**
    Check if the point is roughly in the same position as the given one.
@@ -276,6 +303,16 @@ struct Normal {
   Normal(const Normal &&nm) : x{nm.x}, y{nm.y}, z{nm.z} {} // Move constructor
 
   Normal& operator=(const Normal &n){  x=n.x; y=n.y; z=n.z; return *this; } // Assignment operator
+
+  /**
+   * @return the index corresponding to a coordinate
+   */
+  float operator[](int i) {
+    if (i == 0) return x;
+		else if (i == 1) return y;
+    else if (i == 2) return z;
+    else abort();
+	}
   
   /**
    Check if the vector has roughly the same direction as the given one.
@@ -428,23 +465,39 @@ struct Vec2d {
  */
 struct ONB {
 
-  Vec e1, e2, e3;
+  private:
 
-  ONB(float x, float y, float z) {
+    void create_onb(float x, float y, float z) {
 
-    float sign = copysignf(1.,z);
+      if (!check_if_normalized(x, y, z)) {
+        cerr << "Error: the vector or normal for creating an ONB must be normalized" << endl;
+        abort();
 
-    float a = -1.0 / (sign + z);
-    float b = x * y * a;
+      } else {
 
-    e1 = Vec(1.0 + sign * x * x * a, sign * b, -sign * x);
-    e2 = Vec(b, sign + y * y * a, -y);
-    e3 = Vec(x, y, z);
-  }
+        float sign = copysignf(1.,z);
 
-  ONB(Normal normal) : ONB(normal.x, normal.y, normal.z) {}
+        float a = -1.0 / (sign + z);
+        float b = x * y * a;
 
-  ONB(Vec normal) : ONB(normal.x, normal.y, normal.z) {} // Normalized vector
+        e1 = Vec(1.0 + sign * x * x * a, sign * b, -sign * x);
+        e2 = Vec(b, sign + y * y * a, -y);
+        e3 = Vec(x, y, z);
+
+      }
+    }
+
+  public:
+
+    Vec e1, e2, e3;
+
+    ONB(float x, float y, float z) {
+      create_onb(x, y, z);
+    }
+
+    ONB(Normal normal) : ONB(normal.x, normal.y, normal.z) {}
+
+    ONB(Vec normal) : ONB(normal.x, normal.y, normal.z) {} // Normalized vector
 
 };
 

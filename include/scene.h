@@ -1,23 +1,20 @@
-/*
-The MIT License (MIT)
+/* 
+Copyright (C) 2021 Adele Zaini, Elisa Legnani
 
-Copyright © 2021 Elisa Legnani, Adele Zaini
+This file is part of PhotorealisticRendering.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the “Software”), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
-the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+PhotorealisticRendering is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED “AS
-IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
-TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
-THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+PhotorealisticRendering is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "imagetracer.h"
@@ -28,7 +25,7 @@ THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using namespace std;
 
 #define WHITESPACES string { " #\t\n\r" }
-#define SYMBOLS string { "()<>[]*," }
+#define SYMBOLS string { "()<>[]{}*," }
 
 #ifndef _scene_h_
 #define _scene_h_
@@ -54,6 +51,7 @@ enum class Keyword {
   MATERIAL,
   PLANE,
   SPHERE,
+  BOX,
   DIFFUSE,
   SPECULAR,
   UNIFORM,
@@ -281,6 +279,13 @@ struct InputStream {
   Color parse_color(Scene);
 
   /**
+   * Create a Point if a sequence of characters follows the order {number,number,number}
+   *
+   * @return Point(x,y,z)
+   */
+  Point parse_point(Scene);
+
+  /**
    * Create a Pigment if a KewwordToken is UNIFORM/CHECKERED/IMAGE folowed by relative arguments
    *
    * @return UniformPigment(color) or CheckeredPigment(color1, color2, num_of_steps) or ImagePigment(image)
@@ -321,6 +326,13 @@ struct InputStream {
    * @return Plane(transformation, scene.materials[material_name])
    */
   Plane parse_plane(Scene);
+
+  /**
+   * Create a Box if a sequence of characters follows the order identifier(material, point, point, transformation)
+   *
+   * @return Box(point, point, transformation, scene.materials[material_name])
+   */
+  Box parse_box(Scene);
 
   /**
    * Create a Camera if a KewwordToken is PERSPECTIVE/ORTHOGONAL folowed by relative arguments
