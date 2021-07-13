@@ -155,6 +155,12 @@ int main(int argc, char **argv) {
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
     float _a_r = 1., _gamma_r = 1.;
     
+    if (!scene_file){
+           cerr << "Error: missing Input scene file." <<endl;
+           cerr << parser;
+           return 0;
+         }
+    
     if (algorithm) _algorithm = args::get(algorithm);
     if (n_rays) _n_rays = args::get(n_rays);
     if (max_depth) _max_depth = args::get(max_depth);
@@ -174,6 +180,12 @@ int main(int argc, char **argv) {
   else if (hdr2ldr) {
 
     float _a = 0.3, _gamma = 1.;
+    
+    if (!pfm_file){
+           cout << "Error: missing Input PFM filename." <<endl;
+           cout << parser;
+           return 0;
+         }
     
     if (a) _a = args::get(a);
     if (gamma) _gamma = args::get(gamma);
@@ -215,6 +227,7 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
   cout << ((samples_per_pixel==0) ? "No antiliasing." : ("Antialiasing with "+to_string(samples_per_pixel)+" samples per pixel.")) <<endl;
   cout << "LDR image conversion: lumonisity factor a="+float_to_string(a)+", monitor factor gamma="+float_to_string(gamma)+"." << endl;
   cout << "..." <<endl;
+  
   
   unordered_map<string, float> variables = build_variable_dictionary(variables_list);
 
