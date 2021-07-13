@@ -1,7 +1,9 @@
 *~
 *.o
 build/
-examples/*.png
-examples/*.jpg
+examples/hdr2ldr/*.png
+examples/hdr2ldr/*.jpg
 examples/render/*.pfm
+examples/render/*.png
+examples/render/*.jpg
 .DS_Store
