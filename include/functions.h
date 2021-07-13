@@ -50,7 +50,6 @@ inline string float_to_string(float number){
 /**
  * Return a string of current date_time (format YYYY-MM-DD.HH:mm:ss)
  */
-
 inline string current_date_time() {
     time_t now = time(0);
     struct tm  tstruct;
@@ -61,11 +60,17 @@ inline string current_date_time() {
     return buf;
 }
 
+/**
+ * Return a string of the format (i.e. pfm, png...) of the given file
+ */
 inline string get_format(string filename){
   size_t find = filename.find_last_of(".");
   return filename.substr(find);
 }
 
+/**
+ * Return a string of the path (i.e. examples/render/) of the given file
+ */
 inline string get_path(string filename_with_path){
   size_t find = filename_with_path.find_last_of("/");
   return filename_with_path.substr(0,find+1);
