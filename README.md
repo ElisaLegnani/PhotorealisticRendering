@@ -76,12 +76,22 @@ The testing interface is built using [Catch2](https://github.com/catchorg/Catch2
 
 ## Usage
 
-You can run the program through the script `raytracer`. The code implements two features, that you can call with commands:
-- creates a photorealistic image: `render`;
-- converts HDR image to LDR: `hdr2ldr`.
+You can run the program through the script `raytracer`, located in the `build` directory. 
 
-To get commmand-line help, run in the  `build` directory: 
-  
+The code implements two features, that you can call with commands:
+- `render`: creates a photorealistic image;
+- `hdr2ldr`: converts HDR image to LDR.
+
+The basic usage is the following:
+
+```sh
+./raytracer [COMMAND] [INPUT_FILENAME] {OPTIONS}
+
+```
+The `[INPUT_FILENAME]` is required. There are some examples in the `examples` directory if you want to give it a try or play with the code.
+
+To have more information about available `{OPTIONS}`, a commmand-line help shows more details about program features and parameters:
+
 ```sh
 ./raytracer --help
 
