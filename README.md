@@ -105,6 +105,10 @@ For further details, examples and full documentation of the code, see the page [
 
 More infos coming soon! Stay tuned!
 
+# Documentation
+
+A link to the complete documentation of the code will be available soon!
+
 ## Contributing
 
 Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
