@@ -109,11 +109,7 @@ string Token::value_str(){
   } else if(type == TokenType::SYMBOL){
     return string{value.symbol};
   } else if(type == TokenType::LITERAL_NUMBER){
-    string float_num = to_string(value.number);
-    string first_num = float_num.substr(0, float_num.find("."));
-    string second_num = float_num.substr(float_num.find("."));
-    string final_num = second_num.substr(0,second_num.find("0"));
-    return first_num+final_num;
+    return float_to_string(value.number);
   } else {
     return "";
   }
