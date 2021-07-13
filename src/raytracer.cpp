@@ -41,7 +41,7 @@ using namespace std;
  * @param variables_list floating point variables list to set parameters directly from the command line (ex: angle where to see the scene)
  *
  */
-void image_render(string, string, int, int, uint64_t, uint64_t, int, int, int, string, vector<string>);
+void image_render(string, string, int, int, uint64_t, uint64_t, int, float, float, int, int, string, vector<string>);
 
 /**
  * Function needed to convert the variable_list passed from the command line into the a dictionary variable
@@ -62,7 +62,7 @@ void convert_hdr2ldr(string, string, float, float);
 
 
 
-//––––––––––––––––––––– MAIN –––––––––––––––––––––––––––––––––––––––––––––
+//––––––––––––––––––––– MAIN (user-interface) –––––––––––––––––––––––––––––––––––––––––––––
 int main(int argc, char **argv) {
 
   args::ArgumentParser parser(
@@ -72,13 +72,14 @@ int main(int argc, char **argv) {
   args::Command render(commands, "render", "Create a photorealistic image");
   args::Command hdr2ldr(commands, "hdr2ldr", "Convert hdr image to ldr");
 
+  args::Positional<std::string> scene_file(render, "SCENE_FILENAME", "The input scene filename \n  (REQUIRED)");
   //args::HelpFlag helpr(render, "help", "Display help menu", {'h', "help"});
   args::Group render_arguments(render, "render arguments",
                                args::Group::Validators::DontCare,
                                args::Options::Global);
   
-  args::ValueFlag<string> scene_file(render_arguments, "",
-                                    "Input scene file", {"scene", "scene_file"});
+  //args::ValueFlag<string> scene_file(render_arguments, "", "Input scene file", {"scene", "scene_file"});
+
   args::ValueFlag<int> width(render_arguments, "",
                              "Width of the rendered image \n (default 640)", {'w', "width"});
   args::ValueFlag<int> height(render_arguments, "",
@@ -99,20 +100,22 @@ int main(int argc, char **argv) {
   args::ValueFlag<uint64_t> seq(render_arguments, "",
                              "Identifier of the sequence produced by \n the PCG random number generator \n (default 54)", 
                              {'i', "seq", "seq_id"});
+  args::ValueFlag<float> a_r(render_arguments, "",
+                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
+  args::ValueFlag<float> gamma_r(render_arguments, "",
+                               "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
   args::ValueFlagList<string> declare_variables(render_arguments, "",
                              "Declare float variables: \n --declare_var name=value \n Example: --declare_var ang=10",
                              {'v', "declare_var"});
   
   //args::HelpFlag helph(hdr2ldr, "help", "Display help menu", {'h', "help"});
-  
+  args::Positional<std::string> pfm_file(hdr2ldr, "HDR_IMAGE", "The input HDR image (PFM format) \n  (REQUIRED)");
   args::Group hdr2ldr_arguments(hdr2ldr, "hdr2ldr arguments",
                                 args::Group::Validators::DontCare,
                                 args::Options::Global);
   
-  args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "",
-                                       "Input PFM filename", {"pfm", "pfm_file"});
-  args::ValueFlag<string> out_file(hdr2ldr_arguments, "",
-                                       "Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
+  //args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "","Input PFM filename", {"pfm", "pfm_file"});
+  args::ValueFlag<string> out_file(hdr2ldr_arguments, "","Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
   args::ValueFlag<float> a(hdr2ldr_arguments, "",
                            "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
   args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
@@ -148,26 +151,30 @@ int main(int argc, char **argv) {
     }
     
     
-    string _algorithm = "pathtracer", _output_file = "image.png";
+    string _algorithm = "pathtracer", _output_file = "image_"+current_date_time()+".png";
     int _n_rays = 10, _max_depth = 2, _state = 42, _seq = 54, _samples_per_pixel=0, _width = 640, _height = 480;
+    float _a_r = 1., _gamma_r = 1.;
     
     if (!scene_file){
-      cerr << "Error: missing Input scene file." <<endl;
-      cerr << parser;
-      return 0;
-    }
+           cerr << "Error: missing Input scene file." <<endl;
+           cerr << parser;
+           return 0;
+         }
+    
     if (algorithm) _algorithm = args::get(algorithm);
     if (n_rays) _n_rays = args::get(n_rays);
     if (max_depth) _max_depth = args::get(max_depth);
     if (state) _state = args::get(state);
     if (seq) _seq = args::get(seq);
     if (samples_per_pixel) _samples_per_pixel =  args::get(samples_per_pixel);
+    if (a) _a_r = args::get(a_r);
+    if (gamma) _gamma_r = args::get(gamma_r);
     if (width) _width = args::get(width);
     if (height) _height = args::get(height);
     if (output_file) _output_file = args::get(output_file);
 
     image_render(args::get(scene_file), _algorithm, _n_rays, _max_depth, _state, _seq,
-                 _samples_per_pixel, _width, _height, _output_file, variables_list);
+                 _samples_per_pixel, _a_r, _gamma_r, _width, _height, _output_file, variables_list);
   }
     
   else if (hdr2ldr) {
@@ -175,13 +182,14 @@ int main(int argc, char **argv) {
     float _a = 0.3, _gamma = 1.;
     
     if (!pfm_file){
-      cout << "Error: missing Input PFM filename." <<endl;
-      cout << parser;
-      return 0;
-    }
+           cout << "Error: missing Input PFM filename." <<endl;
+           cout << parser;
+           return 0;
+         }
+    
     if (a) _a = args::get(a);
     if (gamma) _gamma = args::get(gamma);
-    string _out_file = string{"ldrimage_"+to_string(_a)+"_"+to_string(_gamma)+".png"};
+    string _out_file = string{"ldrimage_"+float_to_string(_a)+"_"+float_to_string(_gamma)+".png"};
     if (out_file) _out_file = args::get(out_file);
 
     convert_hdr2ldr(args::get(pfm_file), _out_file, _a, _gamma);
@@ -211,9 +219,16 @@ unordered_map<string, float> build_variable_dictionary(vector<string> variables_
   return variables;
 }
 
+//––––––––––––
 void image_render(string scene_file, string algorithm, int n_rays, int max_depth, uint64_t state, uint64_t seq,
-                  int samples_per_pixel, int width, int height, string output_file, vector<string> variables_list) {
+                  int samples_per_pixel, float a, float gamma, int width, int height, string output_file, vector<string> variables_list) {
 
+  cout << "Creating a "+to_string(width)+"x"+to_string(height)+" image, using the \'"+algorithm+"\' rendering algorithm." <<endl;
+  cout << ((samples_per_pixel==0) ? "No antiliasing." : ("Antialiasing with "+to_string(samples_per_pixel)+" samples per pixel.")) <<endl;
+  cout << "LDR image conversion: lumonisity factor a="+float_to_string(a)+", monitor factor gamma="+float_to_string(gamma)+"." << endl;
+  cout << "..." <<endl;
+  
+  
   unordered_map<string, float> variables = build_variable_dictionary(variables_list);
 
   HdrImage image(width, height);
@@ -266,14 +281,14 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
 
     ofstream stream(output_file);
     tracer.image.save_pfm(stream, Endianness::little_endian);
-    cout << "PFM demo image: " << output_file << endl;
+    cout << "PFM image: " << output_file << endl;
   } else if (format == ".png" || format == ".jpg") {
 
-    tracer.image.normalize_image(1.);
+    tracer.image.normalize_image(a);
     tracer.image.clamp_image();
 
-    tracer.image.write_ldr_image(output_file, 1.0);
-    cout << "LDR demo image: " << output_file << endl;
+    tracer.image.write_ldr_image(output_file, gamma);
+    cout << endl << "LDR image: " << output_file << endl;
   }
 }
 
@@ -281,13 +296,25 @@ void image_render(string scene_file, string algorithm, int n_rays, int max_depth
 
 void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) {
 
-  HdrImage img(pfm_file);
+  try{
+    
+    HdrImage img(pfm_file);
+    
+    cout << "Generating a LDR image, with parameters:" <<endl;
+    cout << " - lumonisity normalization factor a="+float_to_string(a)+";" << endl;
+    cout << " - monitor calibration factor gamma="+float_to_string(gamma)+"." << endl;
+    cout << "..." <<endl <<endl;
 
-  img.normalize_image(a);
-  img.clamp_image();
+    img.normalize_image(a);
+    img.clamp_image();
 
-  img.write_ldr_image(output_file, gamma);
-  cout << "LDR image written to " << output_file << endl;
+    img.write_ldr_image(output_file, gamma);
+    cout << "LDR image: " << output_file << endl;
+    
+  }catch(runtime_error &e){
+    cout << e.what() << endl;
+    exit(1);
+  }
 }
 
 //––––––––––––––––––––––––––––––––––––––––––– *** ––––––––––––––––––––––––––––––––––––––––––––––––––
