@@ -4,6 +4,10 @@
 
 - Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
 
+### 2021-7-12
+
+- Make a more user-friendly interface [#27](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/27)
+
 ## Version 1.0.0
 - **Breaking change**: implement a lexer and parser for interpreting files with the scene description [#19](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/19)
 
