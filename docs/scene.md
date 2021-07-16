@@ -50,9 +50,9 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 ### Define arbitrary parameters
 
-You can also set some parameters to use them in the file. They must be declared as follows: `variable_name(variable_value)`
+You can also set some parameters to use them in the file. 
 
-e.g. `angle(10)`
+They must be floating-point numbers and be declared as follows: `variable_name(variable_value)` (e.g. `angle(10)`).
 
 
 Here is an [example](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/examples/render/demo.txt) to look for inspiration.
