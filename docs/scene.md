@@ -1,6 +1,8 @@
 # How to create a scene description
 
-Give instructions to the code on the scene you want to render in a .TXT file.
+Give instructions to the code on the scene you want to render in a .TXT file. To have a better meaning of the objects and their parameters, look at their full descriptions in the documentation[link] .
+
+In the [`examples/render` directory](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render), there are some examples to look for inspirations. 
 
 *Note*: define variables as follows:
 
@@ -33,7 +35,7 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 - Sphere: `sphere(material_name, transformation)`
 
-- Box: `box(material_name, point1, point2, transformation)`, where `point1` and `point2` are two opposites vertices (front-bottom-left, back-upper-right).
+- Box: `box(material_name, point1, point2, transformation)`, where `point1` and `point2` are two opposites vertices (front-bottom-left, back-top-right).
 
 
 
@@ -50,12 +52,12 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 ### Define arbitrary parameters
 
-You can also set some parameters to use them in the file. 
+You can also set some floating-point parameters to use them in the file. 
 
-They must be floating-point numbers and be declared as follows: `variable_name(variable_value)` (e.g. `angle(10)`).
+They have to be declared as follows: `variable_name(variable_value)` (e.g. `angle(10)`).
 
 
-Here is an [example](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/examples/render/demo.txt) to look for inspiration.
+
 
 
 	
