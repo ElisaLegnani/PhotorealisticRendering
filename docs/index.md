@@ -35,7 +35,7 @@ The basic usage is the following:
 ./raytracer [COMMAND] [INPUT_FILENAME] {OPTIONS}
 
 ```
-The `[INPUT_FILENAME]` is required. There are some examples in the `examples` directory if you want to give it a try or play with the code!
+The `[INPUT_FILENAME]` represents the input filename with the path where to find it, it is a required argument to pass. There are some examples in the `examples` directory if you want to give it a try or play with the code!
 
 To have more information about available `{OPTIONS}`, a commmand-line help shows more details about program features and parameters:
   
@@ -61,12 +61,12 @@ For further details, see below.
   
   In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
   
-  Some parameters are available for users to set properties of the rendering image:
+  Some parameters are available for users to set properties of the rendered image:
   
   - image width (default value: `640`);
   - image height (default value: `480`);
   - renderer algorithm: `onoff`/`flat`/`pathtracer`/`pointlight` (default: `pathtracer`);
-  - output filename: PFM/PNG/JPG file (default: `image_date_time.png`);
+  - output filename: PFM/PNG/JPG file with path to the directory (default: `image_date_time.png` in the directory where the scene file is located);
   - number of rays (default value: `10`);
   - maximum depth (default value: `2`);
   - initial seed for the random number generator (default value: `42`);
@@ -76,10 +76,12 @@ For further details, see below.
   - monitor calibration factor (default value: `1.0`);
   - additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ...
   
-  You can set these properties directly in the command line, as explained in `{OPTIONS}` of the help interface. Here is an example:
+  You can set these properties directly in the command line, as explained in `{OPTIONS}` of the help interface. 
+  
+  Here is an example of usage:
 
   ```sh
-  ./raytracer render [SCENE_FILENAME] -w 640 -h 480 -r pathtracer --out <output_file.png> -v angle=30
+  ./raytracer render ../examples/render/demo.txt -w 640 -h 480 -r pathtracer --out ../my_first_image.png -v angle=30
   ```
   
   **Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
@@ -135,7 +137,7 @@ For further details, see below.
   You can also set some parameters according to your preferences in the output image visualisation:
   - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity, 0<*a*<1 (default value: `0.3`);
   - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: `1.0`);
-  - *output filename*: PNG/JPG file (default: `ldrimage_a_gamma.png`).
+  - *output filename*: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located).
 
   You can set these properties directly in the command line, as explained in `{OPTIONS}` of the help interface:
 
@@ -149,7 +151,7 @@ For further details, see below.
   You can play with the code and parameters simply running (in the `build` directory):
   
   ```sh
-  ./raytracer hdr2ldr ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 --out ../examples/hdr2ldr/memorial_0.3_1.0.png
+  ./raytracer hdr2ldr ../examples/hdr2ldr/memorial.pfm -a 0.3 -g 1.0 
   ```
 
   ![PFM](https://user-images.githubusercontent.com/59051647/123945827-d665fb80-d99e-11eb-9bb2-f5957ce53e94.png)
