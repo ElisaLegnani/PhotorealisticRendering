@@ -24,7 +24,7 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 		*Note*: transformations can be conbined together with `*`
 - `aspect_ratio` of the screen 
-- `distance` of the observer from the scene
+- `distance` of the observer from the scene (needed just if the camera is `perspective`)
 
 
 ### Add some geometric elements to the scene
@@ -33,7 +33,8 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 - Sphere: `sphere(material_name, transformation)`
 
-- Box: `box(material_name, point1, point2, transformation)`, where `point1` and `point2` are two opposites vertices
+- Box: `box(material_name, point1, point2, transformation)`, where `point1` and `point2` are two opposites vertices (front-bottom-left, back-upper-right).
+
 
 
 
@@ -54,7 +55,7 @@ You can also set some parameters to use them in the file. They must be declared 
 e.g. `angle(10)`
 
 
-
+Here is an [example](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/examples/render/demo.txt) to look for inspiration.
 
 
 	
