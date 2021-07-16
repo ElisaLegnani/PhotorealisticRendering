@@ -176,7 +176,7 @@ void HdrImage::set_pixel(int x, int y, Color new_color) {
   }
 }
 
-void HdrImage::save_pfm(ostream &stream, Endianness endianness) {
+void HdrImage::save_pfm(ostream &stream, Endianness endianness = Endianness::little_endian) {
   string endianness_str;
   if (endianness == Endianness::little_endian) {
     endianness_str = "-1.0";
@@ -196,7 +196,7 @@ void HdrImage::save_pfm(ostream &stream, Endianness endianness) {
   }
 }
 
-float HdrImage::average_luminosity(float delta) {
+float HdrImage::average_luminosity(float delta = 1e-10) {
   float cum_sum = 0.0;
   for (int i{}; i < pixels.size(); ++i) {
     cum_sum += log10(delta + pixels[i].luminosity());
@@ -225,7 +225,7 @@ void HdrImage::clamp_image() {
   }
 }
 
-void HdrImage::write_ldr_image(const string &filename, float gamma) {
+void HdrImage::write_ldr_image(const string &filename, float gamma = 1.) {
   gdImagePtr img;
   FILE *f;
 
@@ -236,6 +236,12 @@ void HdrImage::write_ldr_image(const string &filename, float gamma) {
     for (int col{}; col < width; ++col) {
       int red, green, blue;
       Color c = get_pixel(col, row);
+      
+      if(c.r < 0 or c.r > 1 or c.g < 0 or c.g > 1 or c.b < 0 or c.b > 1){
+        cerr << "Error: you need to apply the tone mapping before trying to generate a LDR image. Use normalise_image() and clamp_image() methods." << endl;
+        abort();
+      }
+      
       red = int (255 * pow(c.r, 1/gamma));
       green = int (255 * pow(c.g, 1/gamma));
       blue = int (255 * pow(c.b, 1/gamma));;      

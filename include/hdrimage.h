@@ -88,9 +88,19 @@ float clamp(float x);
 
 
 //–––––––––––––––––– Class HdrImage ––––––––––––––––––––––––––––––––––
+/**
+ * A High-Dynamic-Range 2D image
+ *
+ * @param width number of columns in the 2D matrix of colors
+ * @param height number of rows in the 2D matrix of colors
+ * @param pixels a vector of Colors, representing the 2D matrix width x height
+ */
 class HdrImage {
 
 private:
+  /**
+   * Read a file in PFM format
+   */
   void read_pfm(istream &stream);
 
 public:
@@ -115,17 +125,59 @@ public:
 
   ~HdrImage(){};
 
+  /**
+   * Check if coordinates (x,y) are within the matrix (width x height)
+   */
   bool valid_coordinates(int x, int y);
+  
+  /**
+   * Return the 1D vector index corrisponding to the given  2D matrix coordinates
+   */
   int pixel_offset(int x, int y);
+  
+  /**
+   * Return the pixel 'Color' corrisponding to the given pixel position
+   */
   Color get_pixel(int x, int y);
+  
+  /**
+   * Reset the pixel color
+   */
   void set_pixel(int x, int y, Color new_color);
 
+  /**
+   * Write the image on a PFM file
+   */
   void save_pfm(ostream &stream, Endianness endianness);
 
+  /**
+   * Evaluate the avarage luminosity of the image
+   *
+   * @param delta to prevent issues with underilluminated pixels (default: 1e-10)
+   */
   float average_luminosity(float delta);
+  
+  /**
+   * Normalize image of the given 'a' factor (usually in the range 0 < a < 1)
+   */
   void normalize_image(float a);
+  
+  /**
+   * Normalize image of the given 'a' factor (usually in the range 0 < a < 1) and luminosity
+   */
   void normalize_image(float a, float luminosity);
+  
+  /**
+   * Adjust very luminous pixels
+   */
   void clamp_image();
+  
+  /**
+   * Print a LDR image, after having applied the tone-mapping algorithm
+   *
+   * @param filename of the image
+   * @param gamma factor for monitor calibration
+   */
   void write_ldr_image(const string &filename, float gamma);
 
 };
