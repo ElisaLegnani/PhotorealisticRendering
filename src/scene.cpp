@@ -552,6 +552,9 @@ shared_ptr<Camera> InputStream::parse_camera(Scene scene) {
 //––––––––––––– Scene creation –––––––––––––
 
 Scene InputStream::parse_scene(unordered_map<string, float> variables) {
+  if(!stream_in){
+    throw runtime_error("Error: scene file does not exist");
+}
   Scene scene;
   scene.float_variables = variables;
   for(auto var : variables)
