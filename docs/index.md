@@ -136,7 +136,7 @@ For further explanation on the fuctionality of each parameter, see the documenta
   You can also set some parameters according to your preferences in the output image visualisation. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer hdr2ldr`). 
   
   - `[HDR_IMAGE]`: input PFM image (REQUIRED);
-  -`--out|--out_file`: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located);
+  - `--out|--out_file`: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located);
   - `-a`: luminosity normalization factor (0<a<1, default value: `0.3`);
   - `-g|--gamma`: monitor calibration factor (default value: `1.0`).
 
@@ -144,6 +144,8 @@ For further explanation on the fuctionality of each parameter, see the documenta
   ```sh
   ./raytracer hdr2ldr [HDR_IMAGE] -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
+  
+  For further explanation on the specific meaning of the two parameters, see the documentation[link].
 
 ### Example
   
