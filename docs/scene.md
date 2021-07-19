@@ -2,7 +2,7 @@
 
 Give instructions to the code on the scene you want to render in a .TXT file. To have a better meaning of the objects and their parameters, look at their full descriptions in the documentation[link] .
 
-In the [`examples/render` directory](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render), there are some examples to look for inspirations. 
+In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. 
 
 *Note*: define variables as follows:
 
@@ -37,8 +37,6 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 - Box: `box(material_name, point1, point2, transformation)`, where `point1` and `point2` are two opposites vertices (front-bottom-left, back-top-right).
 
-
-
 - PointLight: `light(point, color, float)`, where `float` is the linear radius ![formula](https://render.githubusercontent.com/render/math?math=lr) used to compute the soild angle subtended by the light at distance ![formula](https://render.githubusercontent.com/render/math?math=d): ![formula](https://render.githubusercontent.com/render/math?math=\Omega=(lr/d)^2)
 
 
@@ -46,7 +44,8 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 `material material_name(BRDF(pigment), pigment)`, where:
 - `BRDF`: `diffuse`/`specular`
-- `pigment`: `uniform(color)`/`checkered(color1, color2)`/`image("image_path")`
+- `pigment`: `uniform(color)`/`checkered(color1, color2, n_steps)`/`image("image_path")`,
+	where `n_steps` is an integer number regulating the pattern alternation between the two colors.
 
 	*Note*: the image for the image pigment must be in PFM format
 
@@ -54,7 +53,7 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 ### Define arbitrary parameters
 
-You can also set some floating-point parameters to use them in the file. 
+You can also set some floating-point parameters `variable_value` to use them in the file. 
 
 They have to be declared as follows: `variable_name(variable_value)` (e.g. `angle(10)`).
 
