@@ -8,7 +8,7 @@ In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRenderi
 
 - point: `{float, float, float}`
 - vector: `[float, float, float]`
-- color (rgb): `<float, float, float>`
+- color (RGB): `<float, float, float>`
 
 
 ## How to create a scene
