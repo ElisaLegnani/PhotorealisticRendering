@@ -56,8 +56,21 @@ For further details, see below.
   ./raytracer render [SCENE_FILENAME] {OPTIONS}
   ```
   
-  You can find information on how to write the `[SCENE_FILENAME]` at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
-  In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the paramenters setting, in order to tickle your creativity!
+  ### Scene file
+  
+  You can find all information on how to write the `[SCENE_FILENAME]` at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
+  
+  At the moment *(any contribution is welcome!!)*, the implemented elements you can add at the scene are:
+  - 🔮 Spheres
+  - 🟧 Planes
+  - 📦 Boxes
+  - ☀️ PointLight sources
+
+whose you can set material and geometric properties.
+
+  In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
+  
+  ### Parameters
   
   Some parameters are available for users to set properties of the rendered image. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer render`). 
   
@@ -87,6 +100,7 @@ For further explanation on the fuctionality of each parameter, see the documenta
   
   **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
   
+  
 ### Demo image
   
   You may easily try the code running in the `examples/render` directory:
@@ -105,7 +119,7 @@ For further explanation on the fuctionality of each parameter, see the documenta
   
   ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
 
-  If you want to use this script to generate a different image, just change the scene description of the `demo_img.txt` file.
+  If you want to use this script to generate a different image, just change the scene description of the `demo_image.txt` file.
     
   
 ### Demo animation
@@ -168,7 +182,7 @@ More infos coming soon! Stay tuned!
 
 # Contributing
 
-Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs. Any contributions are welcome! 
+🚧 Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs. Any contributions are welcome! 
 
 # License
 
