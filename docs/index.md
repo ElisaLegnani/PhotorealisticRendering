@@ -19,7 +19,7 @@ Here you can find a detailed explanation of the program usage for better underst
 
 # Installation
 
-Information on how to install and compile the code are on our [GitHub repository](https://github.com/ElisaLegnani/PhotorealisticRendering).
+🔗 Information on how to install and compile the code are on our [GitHub repository](https://github.com/ElisaLegnani/PhotorealisticRendering).
 
 # Usage
 
@@ -58,7 +58,9 @@ For further details, see below.
   
   ### Scene file
   
-  You can find all information on how to write the `[SCENE_FILENAME]` at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
+  First argument to pass is:
+  
+  - `[SCENE_FILENAME]`: input scene filename with path to the directory (REQUIRED);
   
   At the moment *(any contribution is welcome!!)*, the implemented elements you can add at the scene are:
   - 🔮 Spheres
@@ -66,7 +68,9 @@ For further details, see below.
   - 📦 Boxes
   - ☀️ PointLight sources
 
-whose you can set material and geometric properties.
+whose you can set material and geometric properties. 
+
+🔗 You can find detailed instructions on how to write the scene file at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
 
   In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
   
@@ -74,7 +78,6 @@ whose you can set material and geometric properties.
   
   Some parameters are available for users to set properties of the rendered image. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer render`). 
   
-  - `[SCENE_FILENAME]`: input scene filename with path to the directory (REQUIRED);
   - `-w|--width`: width of the rendered image (default value: `640`);
   - `-h|--height`: height of the rendered image  (default value: `480`);
   - `-r|--renderer|--algorithm`: renderer algorithm: `onoff`/`flat`/`pathtracer`/ 💡 `pointlight` (default: `pathtracer`);
@@ -88,7 +91,7 @@ whose you can set material and geometric properties.
   - `--g_r|--gamma_r`: monitor calibration factor (default value: `1.0`);
   - `-v|--declare_var [...]`: additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ... (ex: `--declare_var ang=10`).
   
-For further explanation on the fuctionality of each parameter, see the documentation[link].
+🔗 For further explanation on the fuctionality of each parameter, see the documentation[link].
   
   Here is an example of usage:
 
@@ -159,7 +162,7 @@ For further explanation on the fuctionality of each parameter, see the documenta
   ./raytracer hdr2ldr [HDR_IMAGE] -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
   
-  For further explanation on the specific meaning of the two parameters, see the documentation[link].
+  🔗 For further explanation on the specific meaning of the two parameters, see the documentation[link].
 
 ### Example
   
