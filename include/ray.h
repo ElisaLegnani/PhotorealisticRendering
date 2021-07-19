@@ -28,9 +28,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  
  @param origin the 'Point' where the ray originates
  @param dir a 'Vec' to identify the direction of propagation
- @param tmin floating-point parameter identifing the "minimum distance" the ray travels (to be multiplied by 'dir')
- @param tmax floating-point parameter identifing the "maximum distance" the ray travels (to be multiplied by 'dir')
- @param depth integer parameter giving the number of reflections on surfaces
+ @param tmin floating-point parameter identifing the "minimum distance" the ray travels (to be multiplied by 'dir', default 1e-5)
+ @param tmax floating-point parameter identifing the "maximum distance" the ray travels (to be multiplied by 'dir', default INFINITY)
+ @param depth integer parameter giving the number of reflections on surfaces (default 0)
  */
 struct Ray {
 

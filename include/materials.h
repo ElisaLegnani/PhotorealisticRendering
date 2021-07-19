@@ -28,9 +28,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //––––––––––––– Abstract struct Pigment ––––––––––––––––––––––––
 /**
  * An abstract struct representing a pigment:
- * a function that associates a color with each point on a parametric surface
+ * a function that associates a color with each point on a parametric surface (u,v)
  */
 struct Pigment {
+  /**
+   * Pure virtual method to get the corrisponding color of the given 'Vec2d'
+   */
   virtual Color get_color(Vec2d uv) = 0;
 };
 
@@ -71,7 +74,8 @@ struct ImagePigment : public Pigment {
  *
  * @param color1
  * @param color2
- * @param n_steps
+ * @param n_steps integer indentifing the pattern alternation between colors (i.e. two colors repeats themselves every
+ `n_steps` , dafault 10)
  */
 struct CheckeredPigment : public Pigment {
 
@@ -98,10 +102,49 @@ struct BRDF {
   BRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(WHITE))
       : pigment{p} {}
 
+  /**
+   * Virtual method representing the specific BDRF equation.
+   * Evaluate the color according to the surface features (diffusive, reflective...).
+   *
+   * Some parameters (i.e. directions) are needed to evalutes optics laws (e.g. riflection law):
+   * @param normal of the surface in the surface hit point
+   * @param dir_in inwards direction in the surface hit point
+   * @param dir_out outwards direction in the surface hit point
+   * @param uv 'Vec2d' corrisponding to the surface hit point
+   *
+   *             \               |               /
+   *              \             |   n        /  dir_out
+   *         dir_in     \           |           /
+   *                \         |         /
+   *                 \       |       /
+   *                  \     |     /
+   *                   \   |   /
+   *                    \ | /
+   * –––––––––––––––––––––––––– <-- uv ––––––––––––––––––––––––––––
+   *
+   *
+   * @return Color
+   */
   virtual Color eval(Normal n, Vec dir_in, Vec dir_out, Vec2d uv) = 0;
 
+  /**
+   * Virtual method to evaluate the outwards direction of the scattered (reflected or diffused) ray
+   *
+   * Some parameters are needed to evalute the outwards direction, others to create the 'Ray' struct:
+   * @param pcg 'PCG' struct to evaluate the diffusion of the scattered ray
+   * @param dir_in inwards direction
+   * @param interaction_point surface hit point, starting point of the scattered ray
+   * @param normal of the surface in the surface hit point
+   * @param depth  integer parameter giving the number of reflections on surfaces
+   *
+   * @return 'Ray' with the outwards direction set
+  */
   virtual Ray scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth) = 0;
   
+  /**
+   * Virtual method to print the type of BRDF (Diffusive or Specular).
+   * It is useful for checking the code.
+  */
   virtual void type() = 0;
 };
 
@@ -149,11 +192,11 @@ struct SpecularBRDF : public BRDF {
 
 
 //––––––––––––– Struct Material ––––––––––––––––––––––––
-/** 
- * A struct representing a material
+/**
+ * A struct representing a material, which features are given by the two core terms of the rendering equation:
  *
- * @param brdf
- * @param emitted_radiance
+ * @param brdf represents how the surface interacts with light rays
+ * @param emitted_radiance represents light sources
  */
 
 struct Material {
