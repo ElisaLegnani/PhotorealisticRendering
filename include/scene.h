@@ -336,7 +336,7 @@ struct InputStream {
   Box parse_box(Scene);
 
   /**
-   * Create a PointLight if a sequence of characters follows the order identifier(point, color, float)
+   * Create a PointLight if a sequence of characters follows the order light(point, color, float)
    *
    * @return PointLight(point, color, float)
    */
