@@ -27,6 +27,7 @@ unordered_map<string, Keyword> KEYWORDS = {
     {"plane", Keyword::PLANE},
     {"sphere", Keyword::SPHERE},
     {"box", Keyword::BOX},
+    {"light", Keyword::LIGHT},
     {"diffuse", Keyword::DIFFUSE},
     {"specular", Keyword::SPECULAR},
     {"uniform", Keyword::UNIFORM},
@@ -479,6 +480,19 @@ Box InputStream::parse_box(Scene scene) {
   return Box(point1, point2, transformation, scene.materials[material_name]);
 }
 
+PointLight InputStream::parse_light(Scene scene) {
+  
+  expect_symbol('(');
+  Point point = parse_point(scene);
+  expect_symbol(',');
+  Color color = parse_color(scene);
+  expect_symbol(',');
+  float lr = expect_number(scene);
+  expect_symbol(')');
+
+  return PointLight(point,color,lr);
+}
+
 shared_ptr<Camera> InputStream::parse_camera(Scene scene) { 
   shared_ptr<Camera> result;
   expect_symbol('(');
@@ -556,7 +570,10 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
     } else if (what.value.keyword == Keyword::BOX) {
       scene.world.add_shape(make_shared<Box>(parse_box(scene)));
 
-    } else if (what.value.keyword == Keyword::CAMERA) {
+    } else if (what.value.keyword == Keyword::LIGHT) {
+      scene.world.add_light(PointLight(parse_light(scene)));
+
+    }else if (what.value.keyword == Keyword::CAMERA) {
       if (scene.camera)
         throw GrammarError("You cannot define more than one camera", location);
       scene.camera = parse_camera(scene);

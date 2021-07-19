@@ -52,6 +52,7 @@ enum class Keyword {
   PLANE,
   SPHERE,
   BOX,
+  LIGHT,
   DIFFUSE,
   SPECULAR,
   UNIFORM,
@@ -308,26 +309,33 @@ struct InputStream {
   Transformation parse_transformation(Scene);
 
   /**
-   * Create a Sphere if a sequence of characters follows the order identifier(material, transformation)
+   * Create a Sphere if a sequence of characters follows the order sphere(material, transformation)
    *
    * @return Sphere(transformation, scene.materials[material_name])
    */
   Sphere parse_sphere(Scene);
 
   /**
-   * Create a Plane if a sequence of characters follows the order identifier(material, transformation)
+   * Create a Plane if a sequence of characters follows the order plane(material, transformation)
    *
    * @return Plane(transformation, scene.materials[material_name])
    */
   Plane parse_plane(Scene);
 
   /**
-   * Create a Box if a sequence of characters follows the order identifier(material, point, point, transformation)
+   * Create a Box if a sequence of characters follows the order box(material, point, point, transformation)
    *
    * @return Box(point, point, transformation, scene.materials[material_name])
    */
   Box parse_box(Scene);
 
+  /**
+   * Create a PointLight if a sequence of characters follows the order identifier(point, color, float)
+   *
+   * @return PointLight(point, color, float)
+   */
+  PointLight parse_light(Scene);
+  
   /**
    * Create a Camera if a KewwordToken is PERSPECTIVE/ORTHOGONAL folowed by relative arguments
    *
