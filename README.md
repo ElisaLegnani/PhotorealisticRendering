@@ -15,6 +15,7 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
 #### Website 
+🔗
 A webpage [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering) has been created in order to give more detailed explanations.
 
 ## Installation
@@ -99,7 +100,7 @@ To have more information about available `{OPTIONS}`, a commmand-line help shows
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
 
-For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
+🔗 For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
   
 ## Expectations
 
@@ -111,7 +112,7 @@ A link to the complete documentation of the code will be available soon!
 
 ## Contributing
 
-Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs. Any contributions are welcome! 
+🚧 Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs. Any contributions are welcome! 
 
 ## License
 
