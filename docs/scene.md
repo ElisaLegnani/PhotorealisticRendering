@@ -39,6 +39,8 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 
 
+- PointLight: `light(point, color, float)`, where `float` is the linear radius ![formula](https://render.githubusercontent.com/render/math?math=lr) used to compute the soild angle subtended by the light at distance ![formula](https://render.githubusercontent.com/render/math?math=d): ![formula](https://render.githubusercontent.com/render/math?math=\Omega=(lr/d)^2)
+
 
 ### Define their materials
 

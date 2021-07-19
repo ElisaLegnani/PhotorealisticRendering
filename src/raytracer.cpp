@@ -101,9 +101,9 @@ int main(int argc, char **argv) {
                              "Identifier of the sequence produced by \n the PCG random number generator \n (default 54)", 
                              {'i', "seq", "seq_id"});
   args::ValueFlag<float> a_r(render_arguments, "",
-                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
+                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {"a_r"});
   args::ValueFlag<float> gamma_r(render_arguments, "",
-                               "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
+                               "Monitor calibration factor gamma \n (default 1)", {"g_r", "gamma"});
   args::ValueFlagList<string> declare_variables(render_arguments, "",
                              "Declare float variables (i.e. identifiers in the scene file): \n --declare_var name=value \n Example: --declare_var ang=10",
                              {'v', "declare_var"});
@@ -167,8 +167,8 @@ int main(int argc, char **argv) {
     if (state) _state = args::get(state);
     if (seq) _seq = args::get(seq);
     if (samples_per_pixel) _samples_per_pixel =  args::get(samples_per_pixel);
-    if (a) _a_r = args::get(a_r);
-    if (gamma) _gamma_r = args::get(gamma_r);
+    if (a_r) _a_r = args::get(a_r);
+    if (gamma_r) _gamma_r = args::get(gamma_r);
     if (width) _width = args::get(width);
     if (height) _height = args::get(height);
     if (output_file) _output_file = args::get(output_file);
