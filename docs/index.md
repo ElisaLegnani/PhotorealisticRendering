@@ -57,36 +57,35 @@ For further details, see below.
   ```
   
   You can find information on how to write the `[SCENE_FILENAME]` at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
-  
-  
   In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
   
-  Some parameters are available for users to set properties of the rendered image:
+  Some parameters are available for users to set properties of the rendered image. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer render`). 
   
-  - image width (default value: `640`);
-  - image height (default value: `480`);
-  - renderer algorithm: `onoff`/`flat`/`pathtracer`/`pointlight` (default: `pathtracer`);
-  - output filename: PFM/PNG/JPG file with path to the directory (default: `image_date_time.png` in the directory where the scene file is located);
-  - number of rays (default value: `10`);
-  - maximum depth (default value: `2`);
-  - initial seed for the random number generator (default value: `42`);
-  - identifier of the sequence produced by the random number generator (default value: `54`);
-  - number of samples per pixel for antialiasing (default value: `0`, no antialiasing);
-  - luminosity normalization factor (0<a<1, default value: `1.0`);
-  - monitor calibration factor (default value: `1.0`);
-  - additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ...
+  - `[SCENE_FILENAME]`: input scene filename (REQUIRED);
+  - `-w|--width`: width of the rendered image (default value: `640`);
+  - `-h|--height`: height of the rendered image  (default value: `480`);
+  - `-r|--renderer|--algorithm`: renderer algorithm: `onoff`/`flat`/`pathtracer`/ 💡 `pointlight` (default: `pathtracer`);
+  - `--output|--output_file`: PFM/PNG/JPG file with path to the directory (default: `image_date_time.png` in the directory where the scene file is located);
+  - `-n|--rays|--n_rays`: number of rays (default value: `10`);
+  - `-d|--depth|--max_depth`: maximum depth (default value: `2`);
+  - `--sample|--samples_per_pixel`: number of extracted samples per pixel for antialiasing (default value: `0`, no antialiasing);
+  - `-s|--state`: initial seed for the PCG random number generator (default value: `42`);
+  - `-i|--seq_id|--seq`: identifier of the sequence produced by the PCG random number generator (default value: `54`);
+  - `--a_r`: luminosity normalization factor (0<a<1, default value: `1.0`);
+  - `--g_r|--gamma_r`: monitor calibration factor (default value: `1.0`);
+  - `-v|--declare_var [...]`: additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ... (ex: `--declare_var ang=10`).
   
-  You can set these properties directly in the command line, as explained in `{OPTIONS}` of the help interface. 
+For further explanation on the fuctionality of each parameter, see the documentation[link].
   
   Here is an example of usage:
 
   ```sh
-  ./raytracer render ../examples/render/demo.txt -w 640 -h 480 -r pathtracer --out ../my_first_image.png -v angle=30
+  ./raytracer render ../examples/render/demo.txt -w 640 -h 480 -r pathtracer --output ../my_first_image.png -v angle=30
   ```
   
-  **Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
+  **💡 Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
   
-  **Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
+  **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
   
 ### Demo image
   
@@ -134,16 +133,19 @@ For further details, see below.
 
   The HDR image format supported is PFM, while LDR ones are PNG and JPG.
 
-  You can also set some parameters according to your preferences in the output image visualisation:
-  - <img src="https://render.githubusercontent.com/render/math?math=a"> – *luminosity normalization factor*: changes image luminosity, 0<*a*<1 (default value: `0.3`);
-  - <img src="https://render.githubusercontent.com/render/math?math=\gamma"> – *monitor calibration factor*: depends on the user's monitor (default value: `1.0`);
-  - *output filename*: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located).
+  You can also set some parameters according to your preferences in the output image visualisation. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer hdr2ldr`). 
+  
+  - `[HDR_IMAGE]`: input PFM image (REQUIRED);
+  - `--out|--out_file`: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located);
+  - `-a`: luminosity normalization factor (0<a<1, default value: `0.3`);
+  - `-g|--gamma`: monitor calibration factor (default value: `1.0`).
 
-  You can set these properties directly in the command line, as explained in `{OPTIONS}` of the help interface:
 
   ```sh
   ./raytracer hdr2ldr [HDR_IMAGE] -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
+  
+  For further explanation on the specific meaning of the two parameters, see the documentation[link].
 
 ### Example
   
