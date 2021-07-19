@@ -44,6 +44,7 @@ inline string float_to_string(float number){
   string first_num = float_num.substr(0, float_num.find("."));
   string second_num = float_num.substr(float_num.find("."));
   string final_num = second_num.substr(0,second_num.find("0"));
+  if (final_num==".") final_num = second_num.substr(0,second_num.find("0")+1);
   return first_num+final_num;
 }
 
