@@ -20,7 +20,7 @@ Some basic elements are identified as follows:
 
 *Note*: The reference system is the one depicted in the side image.
 
-🔗 *Practical advise*: you can find [here](https://ziotom78.github.io/raytracing_course/tomasi-ray-tracing-02a-colors.html#/colori-rgb) a quick way to determine the combination for the desired color (credits to professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan)).
+🔗 *Practical advise*: you can find [here](https://ziotom78.github.io/raytracing_course/tomasi-ray-tracing-02a-colors.html#/colori-rgb) a quick way to determine the RGB combination for the desired color (credits to professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan)).
 
 
 ## How to create a scene
