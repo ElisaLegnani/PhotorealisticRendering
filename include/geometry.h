@@ -55,9 +55,9 @@ template <typename In1, typename In2> float _dot(const In1 &a, const In2 &b) {
 
 // Normalized scalar product
 template <typename In1, typename In2> float _normalized_dot(const In1 &a, const In2 &b) {
-  In1 a_n = (In1(a)).normalize();
-  In2 b_n = (In2(b)).normalize();
-  return {a_n.x * b_n.x + a_n.y * b_n.y + a_n.z * b_n.z};
+  (In1(a)).normalize();
+  (In2(b)).normalize();
+  return {a.x * b.x + a.y * b.y + a.z * b.z};
 }
 
 // Vector product
