@@ -156,10 +156,8 @@ struct BRDF {
  */
 struct DiffuseBRDF : public BRDF {
 
-  float reflectance;
-
   DiffuseBRDF(shared_ptr<Pigment> p = make_shared<UniformPigment>(WHITE), float refl = 1.)
-      : BRDF(p), reflectance{refl} {}
+      : BRDF(p) {}
 
   Color eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv) {
     return pigment->get_color(uv) * (1. / M_PI);
