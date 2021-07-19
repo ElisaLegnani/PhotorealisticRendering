@@ -7,7 +7,7 @@
 ![Top Language](https://img.shields.io/github/languages/top/ElisaLegnani/PhotorealisticRendering)
 
 
-A simple raytracer for generating photorealistic images written in C++.
+A simple raytracing library for generating photorealistic images written in C++.
 [brief description]
 
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
@@ -15,6 +15,7 @@ It is developed for the course [*Numerical techniques for photorealistic image g
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
 #### Website 
+🔗
 A webpage [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering) has been created in order to give more detailed explanations.
 
 ## Installation
@@ -99,19 +100,19 @@ To have more information about available `{OPTIONS}`, a commmand-line help shows
 
 The command line interface is built using the argument parsing library [Taywee/args](https://github.com/Taywee/args).
 
-For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
+🔗 For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
   
 ## Expectations
 
 More infos coming soon! Stay tuned!
 
-# Documentation
+## Documentation
 
 A link to the complete documentation of the code will be available soon!
 
 ## Contributing
 
-Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
+🚧 Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs. Any contributions are welcome! 
 
 ## License
 
