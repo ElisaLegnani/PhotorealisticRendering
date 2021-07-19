@@ -7,7 +7,7 @@
 ![Top Language](https://img.shields.io/github/languages/top/ElisaLegnani/PhotorealisticRendering)
 
 
-A simple raytracer for generating photorealistic images written in C++.
+A simple raytracing library for generating photorealistic images written in C++.
 [brief description]
 
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
@@ -105,13 +105,13 @@ For further details, examples and full documentation of the code, see the page [
 
 More infos coming soon! Stay tuned!
 
-# Documentation
+## Documentation
 
 A link to the complete documentation of the code will be available soon!
 
 ## Contributing
 
-Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs or file feature requests.
+Any contributions are welcome! Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs.
 
 ## License
 
