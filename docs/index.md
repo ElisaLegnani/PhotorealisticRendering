@@ -57,11 +57,11 @@ For further details, see below.
   ```
   
   You can find information on how to write the `[SCENE_FILENAME]` at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
-  In the `examples/render` directory, it is provided `demo.txt` file, where instructions are given to create a demo image for the program to start playing with the code!
+  In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the paramenters setting, in order to tickle your creativity!
   
   Some parameters are available for users to set properties of the rendered image. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer render`). 
   
-  - `[SCENE_FILENAME]`: input scene filename (REQUIRED);
+  - `[SCENE_FILENAME]`: input scene filename with path to the directory (REQUIRED);
   - `-w|--width`: width of the rendered image (default value: `640`);
   - `-h|--height`: height of the rendered image  (default value: `480`);
   - `-r|--renderer|--algorithm`: renderer algorithm: `onoff`/`flat`/`pathtracer`/ 💡 `pointlight` (default: `pathtracer`);
@@ -135,7 +135,7 @@ For further explanation on the fuctionality of each parameter, see the documenta
 
   You can also set some parameters according to your preferences in the output image visualisation. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer hdr2ldr`). 
   
-  - `[HDR_IMAGE]`: input PFM image (REQUIRED);
+  - `[HDR_IMAGE]`: input PFM image with path to the directory (REQUIRED);
   - `--out|--out_file`: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located);
   - `-a`: luminosity normalization factor (0<a<1, default value: `0.3`);
   - `-g|--gamma`: monitor calibration factor (default value: `1.0`).
@@ -168,7 +168,7 @@ More infos coming soon! Stay tuned!
 
 # Contributing
 
-Any contributions are welcome! Please use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to report any bugs, enhancements or file feature requests.
+Please open [pull requests](https://github.com/ElisaLegnani/PhotorealisticRendering/pulls) or use the [issue tracker](https://github.com/ElisaLegnani/PhotorealisticRendering/issues) to suggest any code implementations or report bugs. Any contributions are welcome! 
 
 # License
 
