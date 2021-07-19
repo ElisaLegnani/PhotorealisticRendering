@@ -33,6 +33,8 @@ Via `Camera(type, transformation, aspect_ratio, distance)`, where:
 
 #### `Box`
 
+- PointLight: `light(point, color, float)`, where `float` is the linear radius `lr` used to compute the soild angle subtended by the light at distance d ( solid_angle=(lr/d)^2 )
+
 
 ### Define their materials
 
