@@ -63,10 +63,10 @@ For further details, see below.
   - `[SCENE_FILENAME]`: input scene filename with path to the directory (REQUIRED);
   
   At the moment *(any contribution is welcome!!)*, the implemented elements you can add at the scene are:
-  - 🔮 Spheres
-  - 🟧 Planes
-  - 📦 Boxes
-  - ☀️ PointLight sources
+  - 🔮 Sphere
+  - 🟧 Plane
+  - 📦 Box
+  - ☀️ PointLight source
 
 whose you can set material and geometric properties. 
 
