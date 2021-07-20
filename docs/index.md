@@ -8,6 +8,7 @@ Here you can find a detailed explanation of the program usage for better underst
 
 # Table of Contents
 
+- [Brief description](#brief-description)
 - [Installation](#installation)
 - [Usage](#usage)
   - [Create your own photorealistic image](#create-your-own-photorealistic-image)
@@ -16,6 +17,14 @@ Here you can find a detailed explanation of the program usage for better underst
 - [Expectations and examples](#expectations-and-examples)
 - [Contributing](#contributing)
 - [License](#license)
+
+
+## Brief description
+
+The main functionality of the library is rendering photorealistic images from user instructions on an external input text file. The code features four different backwards raytracing algorithms (onoff, flat, pathtracer, pointlight tracer) and –at the moment– the scene elements are basic geometric shapes (spheres, planes, boxes). Setting material properties of the objects determines the interaction with light rays, while the observer point of view is represented by a camera with two different projections available (orthogonal and perspective).
+This library has another useful functionality that is converting HDR images to LDR ones. The format supported are respectively PFM and PNG/JPG.
+
+🌈 *"Reality leaves a lot to the imagination." – J. Lennon*. Here is the mean, now it's your turn... unleash all your imagination!
 
 # Installation
 
