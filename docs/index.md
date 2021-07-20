@@ -1,10 +1,6 @@
-[brief description]
-
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
-
-Here you can find a detailed explanation of the program usage for better understanding how to generate photorealistic images and to convert images from HDR to LDR format, and the parameters you can set. Have fun!
 
 # Table of Contents
 
@@ -23,6 +19,8 @@ Here you can find a detailed explanation of the program usage for better underst
 
 The main functionality of the library is rendering photorealistic images from user instructions on an external input text file. The code features four different backwards raytracing algorithms (onoff, flat, pathtracer, pointlight tracer) and –at the moment– the scene elements are basic geometric shapes (spheres, planes, boxes). Setting material properties of the objects determines the interaction with light rays, while the observer point of view is represented by a camera with two different projections available (orthogonal and perspective).
 This library has another useful functionality that is converting HDR images to LDR ones. The format supported are respectively PFM and PNG/JPG.
+
+Here you can find a detailed explanation of the program usage for better understanding how to generate photorealistic images and to convert images together with the parameters you can set.
 
 🌈 *"Reality leaves a lot to the imagination." – J. Lennon*. Here is the mean, now it's your turn... unleash all your imagination!
 
@@ -72,9 +70,9 @@ For further details, see below.
   - `[SCENE_FILENAME]`: input scene filename with path to the directory (REQUIRED);
   
   At the moment *(any contribution is welcome!!)*, the implemented elements you can add at the scene are:
-  - 🔮 Sphere
-  - 🟧 Plane
-  - 📦 Box
+  - 🔮 Spheres
+  - 🟧 Planes
+  - 📦 Boxes
   - ☀️ PointLight source
 
 whose you can set material and geometric properties. 
