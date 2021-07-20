@@ -111,7 +111,7 @@ whose you can set material and geometric properties.
   **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
   
   
-### Demo image
+### Generate image
   
   You may easily try the code running in the `examples/render` directory:
   
@@ -122,7 +122,7 @@ whose you can set material and geometric properties.
   which automatically runs the following code:
   
   ```sh
-  ../../build/./raytracer render demo_img.txt --declare_var ang=ANGLE --output img/imageANGLE.png
+  ../../build/./raytracer render demo_image.txt --declare_var ang=ANGLE --output img/imageANGLE.png
   ```
   
   You just need to set the `ANGLE` (deg) from which you look at the scene.
@@ -130,11 +130,13 @@ whose you can set material and geometric properties.
   ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
 
   If you want to use this script to generate a different image, just change the scene description of the `demo_image.txt` file.
+  
+  *Note:* if you change `demo_image.txt` content, remember you are now in `examples/render` directory and you need to adapt the files path properly.
     
   
-### Demo animation
+### Generate animation
   
-  In the `examples/render` directory, you may generate an animation of the demo scene, rotating 360° around the objects.
+  In the `examples/render` directory, you may generate an animation of a simple scene described in `demo_image.txt`, rotating 360° around the objects.
   
   In order to run the code, you need to:
   - install [ffmpeg](http://ffmpeg.org/) : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
@@ -146,6 +148,8 @@ whose you can set material and geometric properties.
   ```sh
   ./generate-animation.sh NUM_OF_CORES
   ```
+  
+  ⏳ Pay attention when passing a scene description that takes long to render: even if we are using a parallel execution there are lots of images to render and can take a while.
  
 ## Convert HDR image into LDR
 
