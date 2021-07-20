@@ -6,7 +6,7 @@
 
 ### 2021-7-20
 
-- Implement parse_light to add possibility of add lights to the scene file [#28](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/28)
+- Implement parse_light to have the possibility of adding lights to the scene file [#28](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/28)
 
 ### 2021-7-12
 
