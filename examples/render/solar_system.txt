@@ -1,0 +1,46 @@
+
+material background_material(
+    diffuse(uniform(<0, 0, 0>)),
+    image("../examples/hdr2ldr/stars.pfm")
+)
+
+material lamp_material(
+    diffuse(uniform(<0, 0, 0>)),
+    uniform(<1, 1, 1>)
+)
+
+ 
+material sun_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/sun.pfm"))
+material mercury_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/mercury.pfm"))
+material venus_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/venus.pfm"))
+material earth_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/earth.pfm"))
+material mars_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/mars.pfm"))
+material jupiter_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/jupiter.pfm"))
+material saturn_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/saturn.pfm"))
+material uranus_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/uranus.pfm"))
+material neptune_material(diffuse(uniform(<0, 0, 0>)),image("../examples/hdr2ldr/solar_system/neptune.pfm"))
+ 
+sphere( sun_material, translation([ 0.0 , 7.5 , 0 ])*scaling([ 5 , 5 , 5 ]))
+sphere( mercury_material, translation([ 0.1 , -1.5 , 0 ])*scaling([ 0.2 , 0.2 , 0.2 ]))
+sphere( venus_material, translation([ 0.2 , -3.0 , 0 ])*scaling([ 0.4 , 0.4 , 0.4 ]))
+sphere( earth_material, translation([ 0.25 , -4.5 , 0 ])*scaling([ 0.4 , 0.4 , 0.4 ]))
+sphere( mars_material, translation([ 0.3 , -6.0 , 0 ])*scaling([ 0.35 , 0.35 , 0.35 ]))
+sphere( jupiter_material, translation([ 0.1 , -9.0 , 0 ])*scaling([ 0.7 , 0.7 , 0.7 ]))
+sphere( saturn_material, translation([ 0.2 , -11.25 , 0 ])*scaling([ 0.65 , 0.65 , 0.65 ]))
+sphere( uranus_material, translation([ 0.3 , -13.5 , 0 ])*scaling([ 0.5 , 0.5 , 0.5 ]))
+sphere( neptune_material, translation([ 0.2 , -15.0 , 0 ])*scaling([ 0.45 , 0.45 , 0.45 ]))
+light({ 0.0 , 2.4 , 0 },<1,1,1>,10)
+light({ 0.0 , 10.5 , 0 },<1,1,1>,30)
+light({ 5.3 , 0 , 0 },<1,1,1>,10)
+light({ -4.7 , 0 , 0 },<1,1,1>,10)
+light({ 0 , 0 , 5.3 },<1,1,1>,10)
+light({ 0 , 0 , -4.7 },<1,1,1>,10)
+light({ 0 , 10 , 4 },<1,1,1>,10)
+light({ 0 , 10 , -4 },<1,1,1>,10)
+
+sphere (background_material, 
+	scaling([40, 40, 30]) * translation([0 , 0 , 0]) * rotation_z(100)
+)
+
+
+camera(perspective, rotation_z(30)* rotation_y(0)*rotation_x(-10)*translation([-15.5, -7, 0]), 1.333, 1)

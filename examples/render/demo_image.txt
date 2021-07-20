@@ -1,55 +1,38 @@
-# Our wonderful scene!
 
 material lamp_material(
     diffuse(uniform(<0, 0, 0>)),
-    uniform(<0.6, 0.8, 1>)
+    uniform(<1, 1, 1>)
 )
 
-material ground_material(
-    specular(uniform(<0.3, 0.4, 0.4>)),
-    uniform(<0, 0, 0>)
-)
 
-material sphere_material(
-    diffuse(uniform(<0.8, 0.2, 0.5>)),
-    uniform(<0, 0, 0>)
-)
+# Positions are extracted by the spiral equation
+sphere(lamp_material, translation([ -0.14 , 0.48 , 1.2 ])*scaling([0.05,0.05,0.05]))
+light({ -0.14 , 0.48 , 1.2 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.01 , 0.5 , 1.26 ])*scaling([0.05,0.05,0.05]))
+light({ 0.01 , 0.5 , 1.26 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.49 , 0.11 , 0.27 ])*scaling([0.05,0.05,0.05]))
+light({ 0.49 , 0.11 , 0.27 },<1,1,1>,0)
+sphere(lamp_material, translation([ -0.47 , -0.16 , 2.13 ])*scaling([0.05,0.05,0.05]))
+light({ -0.47 , -0.16 , 2.13 },<1,1,1>,0)
+sphere(lamp_material, translation([ -0.05 , 0.5 , 2.49 ])*scaling([0.05,0.05,0.05]))
+light({ -0.05 , 0.5 , 2.49 },<1,1,1>,0)
+sphere(lamp_material, translation([ -0.49 , -0.1 , 0.9 ])*scaling([0.05,0.05,0.05]))
+light({ -0.49 , -0.1 , 0.9 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.47 , 0.16 , 2.76 ])*scaling([0.05,0.05,0.05]))
+light({ 0.47 , 0.16 , 2.76 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.46 , -0.2 , 1.65 ])*scaling([0.05,0.05,0.05]))
+light({ 0.46 , -0.2 , 1.65 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.49 , -0.11 , 0.36 ])*scaling([0.05,0.05,0.05]))
+light({ 0.49 , -0.11 , 0.36 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.34 , 0.37 , 0.15 ])*scaling([0.05,0.05,0.05]))
+light({ 0.34 , 0.37 , 0.15 },<1,1,1>,0)
+sphere(lamp_material, translation([ -0.29 , -0.41 , 0.75 ])*scaling([0.05,0.05,0.05]))
+light({ -0.29 , -0.41 , 0.75 },<1,1,1>,0)
+sphere(lamp_material, translation([ 0.23 , 0.44 , 1.35 ])*scaling([0.05,0.05,0.05]))
+light({ 0.23 , 0.44 , 1.35 },<1,1,1>,0)
+sphere(lamp_material, translation([ -0.16 , -0.47 , 1.95 ])*scaling([0.05,0.05,0.05]))
+light({ -0.16 , -0.47 , 1.95 },<1,1,1>,0)
+sphere(lamp_material, translation([ -0.26 , 0.43 , 2.4 ])*scaling([0.05,0.05,0.05]))
+light({ -0.26 , 0.43 , 2.4 },<1,1,1>,0)
 
-material mirror_material(
-    specular(uniform(<0.5, 0.3, 0.3>)),
-    uniform(<0, 0, 0>)
-)
-
-material box_material(
-    diffuse(uniform(<0.3, 0.3, 0.01>)),
-    uniform(<0, 0, 0>)
-)
-
-material background_material(
-    diffuse(uniform(<0, 0, 0>)),
-    image("../hdr2ldr/mountains.pfm")
-)
-
-sphere (background_material, 
-	scaling([20, 20, 20]) * translation([0 , 0 , 0.3]) * rotation_z(100)
-)
-
-plane (ground_material, identity)
-
-sphere(sphere_material, 
-	translation([0, 0, 0.8])*scaling([0.8,0.8,0.8])
-)
-
-sphere(lamp_material, 
-	translation([1, -2, 0.6])*scaling([0.6,0.6,0.6])
-)
-
-sphere(mirror_material, 
-	translation([1, 2.5, 0.])
-)
-
-box(box_material, {0, 0, 0}, {0.5, 0.8, 0.5},
-	translation([-0.5, -1.6, 0.])*rotation_z(270)
-)
-
-camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 1.333, 1.)
+camera(perspective, rotation_z(ang) * translation([-1, 0, 1.2]), 1.333, 1)
