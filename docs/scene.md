@@ -1,14 +1,26 @@
 # How to create a scene description
 
-Give instructions to the code on the scene you want to render in a .TXT file. To have a better meaning of the objects and their parameters, look at their full descriptions in the documentation[link] .
+This is a guide to write a .TXT file with the instructions of the scene you want to render. 
 
 In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. 
 
-*Note*: define variables as follows:
+🔗 If you desire further information on the meaning of the scene elements and their parameters, look at full descriptions in the documentation[link] .
 
-- point: `{float, float, float}`
-- vector: `[float, float, float]`
-- color (RGB): `<float, float, float>`
+<img align="right" src="https://user-images.githubusercontent.com/59051647/126191811-f2d0a468-7624-43a2-9da4-fd51d96f4444.png" width="250"/>
+
+
+
+### Basic variable definition
+
+Some basic elements are identified as follows:
+
+- point (x, y, z): `{float, float, float}`
+- vector (x, y, z): `[float, float, float]`
+- color (R, G, B): `<float, float, float>`
+
+*Note*: The reference system is the one depicted in the side image.
+
+🔗 *Practical advise*: you can find [here](https://ziotom78.github.io/raytracing_course/tomasi-ray-tracing-02a-colors.html#/colori-rgb) a quick way to determine the RGB combination for the desired color (credits to professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan)).
 
 
 ## How to create a scene
@@ -29,7 +41,7 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 - `distance` of the observer from the scene (needed just if the camera is `perspective`)
 
 
-### Add some geometric elements to the scene
+### Add some elements to the scene
 
 - Plane: `plane(material_name, transformation)`
 
@@ -39,8 +51,12 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 - PointLight: `light(point, color, float)`, where `float` is the linear radius ![formula](https://render.githubusercontent.com/render/math?math=lr) used to compute the soild angle subtended by the light at distance ![formula](https://render.githubusercontent.com/render/math?math=d): ![formula](https://render.githubusercontent.com/render/math?math=\Omega=(lr/d)^2)
 
+*Note*: the PointLight is an element rendered just by the `pointlight` tracer, other renderers will ignore it.
+
 
 ### Define their materials
+
+Before adding elements define their materials:
 
 `material material_name(BRDF(pigment), pigment)`, where:
 - `BRDF`: `diffuse`/`specular`
