@@ -2,7 +2,11 @@
 
 ## HEAD
 
-- Add documentation [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
+- Add documentation and otheer minor functionalities [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
+
+### 2021-7-20
+
+- Implement parse_light [#28](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/28)
 
 ### 2021-7-12
 
