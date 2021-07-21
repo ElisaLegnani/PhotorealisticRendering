@@ -111,7 +111,7 @@ The command line interface is built using the argument parsing library [Taywee/a
   
 ## Examples
 
-🤹🏻‍♀️ There is a nice overview of the library potentialities with lots of examples [here](https://elisalegnani.github.io/PhotorealisticRendering/explore), hoping this can tickle your creativity! 
+🤹🏻‍♀️ There is a nice [overview of the library potentialities](https://elisalegnani.github.io/PhotorealisticRendering/explore) with lots of examples, hoping this can tickle your creativity! 
 
 Here is just a spoiler of what awaits you!
 
