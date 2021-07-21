@@ -94,7 +94,7 @@ whose you can set material and geometric properties.
   - `--sample|--samples_per_pixel`: number of extracted samples per pixel for antialiasing (default value: `0`, no antialiasing);
   - `-s|--state`: initial seed for the PCG random number generator (default value: `42`);
   - `-i|--seq_id|--seq`: identifier of the sequence produced by the PCG random number generator (default value: `54`);
-  - `--a_r`: luminosity normalization factor (0<a<1, default value: `1.0`);
+  - `--a_r`: luminosity normalization factor (default value: `1.0`);
   - `--g_r|--gamma_r`: monitor calibration factor (default value: `1.0`);
   - `-v|--declare_var [...]`: additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ... (ex: `--declare_var ang=10`).
   
@@ -165,7 +165,7 @@ whose you can set material and geometric properties.
   
   - `[HDR_IMAGE]`: input PFM image with path to the directory (REQUIRED);
   - `--out|--out_file`: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located);
-  - `-a`: luminosity normalization factor (0<a<1, default value: `0.3`);
+  - `-a`: luminosity normalization factor (default value: `0.3`);
   - `-g|--gamma`: monitor calibration factor (default value: `1.0`).
 
 
@@ -188,11 +188,11 @@ whose you can set material and geometric properties.
 
 # Documentation
 
-The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first version of the documentation, any suggestions are very appreciated!
+📓 The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first version of the documentation, any suggestions are very appreciated!
 
 # Expectations and examples
 
-More infos coming soon! Stay tuned!
+🤹🏻‍♀️ There is a nice [overview of the library potentialities](https://elisalegnani.github.io/PhotorealisticRendering/explore) with lots of examples, hoping this can tickle your creativity! 
 
 # Contributing
 
@@ -200,4 +200,4 @@ More infos coming soon! Stay tuned!
 
 # License
 
-The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
+📋 The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
