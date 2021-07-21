@@ -10,15 +10,20 @@ The scene files used to render these images are in the [`examples/render`](https
 
 > Scene filename: `demo.txt`
 
-Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally (shadows, reflections, light sources...).
+Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally with total reflective, diffusive and emitting surfaces on the different shapes (spheres, box and plane as ground).
 
-You can also appreciate how the other two tracers (flat and pointlight tracer) render geometric objects with different optical properties.
+You can also appreciate how the other two tracers (flat and pointlight tracer) render the scene with different optical properties.
+
+<p align="center">
+       <img width="600" src=https://user-images.githubusercontent.com/59051647/126570183-d4ac3e89-4158-41e7-a75a-bd2246c958b5.png>
+  </p>
 
 
 > Little edited version for the pointlight renderer because of its inability to represent reflective surfaces.
+> 
 > Scene filename: `demo_pointlight.txt`
 
-This image is so representative of the pontentials of the code... now it's start exploring a bit more! 🤹🏻‍♀️
+This image is so representative of the pontentials of the code... now let's start exploring a bit more! 🤹🏻‍♀️
 
 ## Sunset
 
@@ -26,13 +31,12 @@ This image is so representative of the pontentials of the code... now it's start
 
 Here you can see how a **pointlight tracer** is able to wonderfully render a situation where the light source is very intense and point-like (or far away, as the sun approaching the horizon...). Look how it can render the romantic long shadows of sunsets!
 
-</details>
   <p align="center">
        <img width="600" src=https://user-images.githubusercontent.com/59051647/126517271-032815f0-6f9c-4470-869a-6a9f5b4b3a6b.png>
   </p>
 
   
-Look how much it looses when render with pathtracer and the flat render:
+You can appreciate this tracer looking at the same scene rendered with pathtracer and the flat render:
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/59051647/126517847-ff9d1a21-bef5-49e0-a7d7-ac60bb9aac40.png" width="400" />
@@ -58,7 +62,7 @@ Look at this animation to better appreciate the differences!
 <img src="https://user-images.githubusercontent.com/59051647/126524419-2f030c29-15e4-4d3b-a76c-b62300ed0de2.gif" width="700" />
 </p>
 
-> Advise: tone down the image setting the luminosity factor `--a_r 0.6` in the command line.
+> Advise: tone down the image setting the luminosity factor `--a_r 0.6` in the command line if you want to reproduce this image yourself.
 
 ## Fireflies
 
@@ -78,7 +82,7 @@ The **onoff renderer** is usually used for debugging purposes when starting writ
 Someone may think that the **flat renderer** is a second-class renderer, but it can be used for simple images with dark background and has the great advantage of being extremely quick... Look how it renders the solar system!
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/59051647/126528509-3b31f6fb-7ac8-4bf9-ba95-662f8196a75d.png" width="600" /> 
+<img src="https://user-images.githubusercontent.com/59051647/126561115-6b933ad1-8c21-4617-9b4c-97bdb33c4818.png" width="600" /> 
 </p>
 
 Being extremely quick it takes little time to generate this wonderful animation!
@@ -87,12 +91,13 @@ Being extremely quick it takes little time to generate this wonderful animation!
 <img src="https://user-images.githubusercontent.com/59051647/126542691-8f384c07-c567-4276-8116-9e497611da4f.gif" width="500" /> 
 </p>
 
-> Advise: tone down the image setting the luminosity factor `--a_r 0.2` in the command line.
+> Advise: tone down the image setting the luminosity factor `--a_r 0.2` in the command line if you want to reproduce this image yourself.
+
 
 Here an example rendered with the poinlight tracer:
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/59051647/126528755-abba3aad-d45e-4b06-81de-7ca6015b3221.png" width="500" /> 
+<img src="https://user-images.githubusercontent.com/59051647/126561337-d63b8346-5fe4-49f5-8262-5e966163947a.png" width="500" /> 
 </p>
 
 ## Cornell box
