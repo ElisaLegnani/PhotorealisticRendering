@@ -98,7 +98,7 @@ whose you can set material and geometric properties.
   - `--g_r|--gamma_r`: monitor calibration factor (default value: `1.0`);
   - `-v|--declare_var [...]`: additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ... (ex: `--declare_var ang=10`).
   
-🔗 For further explanation on the fuctionality of each parameter, see the documentation[link].
+🔗 For further explanation on the fuctionality of each parameter, see the [documentation](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html).
   
   Here is an example of usage:
 
@@ -173,7 +173,7 @@ whose you can set material and geometric properties.
   ./raytracer hdr2ldr [HDR_IMAGE] -a 0.3 -g 1.0 --out <output_file.jpg>
   ```
   
-  🔗 For further explanation on the specific meaning of the two parameters, see the documentation[link].
+  🔗 For further explanation on the specific meaning of the two parameters, see the [documentation](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html).
 
 ### Example
   
@@ -188,7 +188,7 @@ whose you can set material and geometric properties.
 
 # Documentation
 
-A link to the complete documentation of the code will be available soon!
+The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first version of the documentation, any suggestions are very appreciated!
 
 # Expectations and examples
 
