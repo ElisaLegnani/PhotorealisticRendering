@@ -26,7 +26,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 using namespace std;
 
 //–––––––––––––––––––––– Struct Color –––––––––––––––––––––––––––––––––––
-
+/**
+ * A RGB color
+ *
+ * Floating-point parameters:
+ * @param r red
+ * @param g green
+ * @param b blue
+ */
 struct Color {
 
   float r, g, b;
@@ -58,6 +65,9 @@ struct Color {
     return are_close(r, c.r) && are_close(g, c.g) && are_close(b, c.b);
   }
 
+  /**
+   * An extimate of luminosity, evaluted as mean between the maximum and the minimum value
+   */
   float luminosity() { return (fmax(fmax(r, g), b) + fmin(fmin(r, g), b)) / 2.0; }
   
   void print(){ cout << "Red: "<< r << ", Green: " << g << ", Blue: " <<b<<endl;}

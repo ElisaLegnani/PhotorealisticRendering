@@ -29,8 +29,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /**
  * An abstract struct implementing a solver of the rendering equation
  *
- * @param world
- * @param background_color
+ * @param world gathers all the elements of the scene with their features (position, material, orientation...)
+ * @param background_color default color is BLACK
  */
 struct Renderer {
 
@@ -39,7 +39,10 @@ struct Renderer {
 
   Renderer(World w, Color bc = BLACK) : world{w}, background_color{bc} {}
 
-  /** Estimates the radiance along a ray */
+  /**
+   * Estimates the total radiance along a ray.
+   * If the given 'Ray' hits a shape, it returns the evaluated radiance (i.e. 'Color') according to the implemented rendering algorithm, otherwise it returns the background color.
+   */
   virtual Color operator()(Ray ray) = 0;
 };
 
@@ -97,7 +100,7 @@ struct FlatRenderer : public Renderer {
 /**
  * A path-tracing renderer
  *
- * @param pcg
+ * @param pcg PCG object for random number generation
  * @param num_of_rays number of rays thrown at each iteration
  * @param max_depth maximum depth of the rays
  * @param russian_roulette_limit allows the algorithm to complete the calculation
@@ -154,6 +157,11 @@ struct PathTracer : public Renderer {
   }
 };
 //––––––––––––– Sub-struct PointLightTracer ––––––––––––––––––––––––
+/**
+ * A simple point-linght renderer based on the POV-Ray algorithm.
+ *
+ * @param ambient_color default Color(0.1,0.1,0.1)
+ */
 struct PointLightTracer : public Renderer {
   
   Color ambient_color;

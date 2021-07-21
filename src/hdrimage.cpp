@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "hdrimage.h"
+#include "functions.h"
 #include <iostream>
 
 using namespace std;
@@ -105,15 +106,15 @@ vector<int> parse_img_size(string line) {
     result.push_back(stof(line.substr(pos_start)));
 
     if (result.size() != 2) {
-      throw InvalidPfmFileFormat("invalid image size specification");
+      throw InvalidPfmFileFormat("Error: invalid image size specification.");
     }
 
     if (result[0] < 0 || result[1] < 0) {
-      throw InvalidPfmFileFormat("invalid width/height");
+      throw InvalidPfmFileFormat("Error: invalid width/height.");
     }
 
   } catch (invalid_argument) {
-    throw InvalidPfmFileFormat("invalid width/height");
+    throw InvalidPfmFileFormat("Error: invalid width/height.");
   }
 
   return result;
@@ -130,7 +131,7 @@ void HdrImage::read_pfm(istream &stream) {
   string magic;
   getline(stream, magic);
   if (magic != "PF") {
-    throw InvalidPfmFileFormat("invalid PFM magic in input file");
+    throw InvalidPfmFileFormat("Error: invalid magic in PFM file.");
   }
 
   string img_size;
@@ -179,7 +180,7 @@ void HdrImage::set_pixel(int x, int y, Color new_color) {
   }
 }
 
-void HdrImage::save_pfm(ostream &stream, Endianness endianness) {
+void HdrImage::save_pfm(ostream &stream, Endianness endianness = Endianness::little_endian) {
   string endianness_str;
   if (endianness == Endianness::little_endian) {
     endianness_str = "-1.0";
@@ -199,7 +200,7 @@ void HdrImage::save_pfm(ostream &stream, Endianness endianness) {
   }
 }
 
-float HdrImage::average_luminosity(float delta) {
+float HdrImage::average_luminosity(float delta = 1e-10) {
   float cum_sum = 0.0;
   for (int i{}; i < pixels.size(); ++i) {
     cum_sum += log10(delta + pixels[i].luminosity());
@@ -228,7 +229,7 @@ void HdrImage::clamp_image() {
   }
 }
 
-void HdrImage::write_ldr_image(const string &filename, float gamma) {
+void HdrImage::write_ldr_image(const string &filename, float gamma = 1.) {
   gdImagePtr img;
   FILE *f;
 
@@ -239,6 +240,12 @@ void HdrImage::write_ldr_image(const string &filename, float gamma) {
     for (int col{}; col < width; ++col) {
       int red, green, blue;
       Color c = get_pixel(col, row);
+      
+      if(c.r < 0 or c.r > 1 or c.g < 0 or c.g > 1 or c.b < 0 or c.b > 1){
+        cerr << "Error: you need to apply the tone mapping before trying to generate a LDR image. Use normalise_image() and clamp_image() methods." << endl;
+        abort();
+      }
+      
       red = int (255 * pow(c.r, 1/gamma));
       green = int (255 * pow(c.g, 1/gamma));
       blue = int (255 * pow(c.b, 1/gamma));;      
@@ -249,9 +256,7 @@ void HdrImage::write_ldr_image(const string &filename, float gamma) {
   const char* file = filename.c_str();
   f = fopen(file, "wb");
 
-  string filename_str = string (filename);
-  size_t find = filename_str.find_last_of(".");
-  string format = filename_str.substr(find);
+  string format = get_format(string(filename));
 
   // Output the image to the disk file in PNG format
   if(format==".png"){

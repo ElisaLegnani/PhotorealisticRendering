@@ -1,4 +1,5 @@
 # Our wonderful scene!
+# Find it out running './raytracer render --scene ../examples/render/demo.txt' in the build directory 
 
 material lamp_material(
     diffuse(uniform(<0, 0, 0>)),

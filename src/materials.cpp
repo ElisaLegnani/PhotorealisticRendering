@@ -49,14 +49,14 @@ Color CheckeredPigment :: get_color(Vec2d uv) {
 Ray DiffuseBRDF :: scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth){
 
   // Cosine-weighted distribution around the z (local) axis
-  ONB onb(n);
+  ONB onb(n.normalize());
   float cos_theta_sq = pcg.random_float();
   float cos_theta = sqrt(cos_theta_sq);
   float sin_theta = sqrt(1.0 - cos_theta_sq);
   float phi = 2.0 * M_PI * pcg.random_float();
   Vec dir(onb.e1 * cos(phi) * cos_theta + onb.e2 * sin(phi) * cos_theta + onb.e3 * sin_theta);
 
-  return Ray(interaction_point, dir, 1.0e-3, INFINITY, depth);
+  return Ray(interaction_point, dir, 1e-3, INFINITY, depth);
 }
 
 //––––––––––––– Sub-struct Specular BRDF ––––––––––––––––––––––––
@@ -72,12 +72,9 @@ Color SpecularBRDF :: eval(Normal n, Vec in_dir, Vec out_dir, Vec2d uv) {
 }
 
 Ray SpecularBRDF :: scatter_ray(PCG &pcg, Vec dir_in, Point interaction_point, Normal n, int depth) {
-  // There is no need to use the PCG here, as the reflected direction is always completely deterministic 
-  // for a perfect mirror
+  // There is no need to use the PCG here, as the reflected direction is always completely deterministic for a perfect mirror
   Vec ray_dir(dir_in.x, dir_in.y, dir_in.z);
-  ray_dir.normalize();
-  n.normalize();
-  float dot_prod = dot(ray_dir, n);
+  float dot_prod = normalized_dot(ray_dir, n);
 
   return Ray(interaction_point, (ray_dir - n * 2 * dot_prod), 1e-5, INFINITY, depth);
 }

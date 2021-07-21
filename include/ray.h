@@ -23,6 +23,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #ifndef _ray_h_
 #define _ray_h_
 
+/**
+ A ray of light propagating in the space
+ 
+ @param origin the 'Point' where the ray originates
+ @param dir a 'Vec' to identify the direction of propagation
+ @param tmin floating-point parameter identifing the "minimum distance" the ray travels (to be multiplied by 'dir', default 1e-5)
+ @param tmax floating-point parameter identifing the "maximum distance" the ray travels (to be multiplied by 'dir', default INFINITY)
+ @param depth integer parameter giving the number of reflections on surfaces (default 0)
+ */
 struct Ray {
 
   Point origin = Point();
@@ -35,12 +44,22 @@ struct Ray {
   Ray(Point o, Vec d) : origin{o}, dir{d} {}
   Ray(Point o, Vec d, float tm, float tM, int n) : origin{o}, dir{d} , tmin{tm}, tmax{tM}, depth{n} {}
 
+  /**
+   Check if the ray is close enough to the given one to be considered the same
+   Needed to avoid floating-point approximation limits.
+   */
   bool is_close(const Ray r) {
     return origin.is_close(r.origin) && dir.is_close(r.dir);
   }
 
+  /**
+   Return the point along the ray direction with the given "distance" factor from the origin (to be multiplied by 'dir')
+   */
   Point at(const float factor) { return origin + dir * factor; }
   
+  /**
+   Return the transformed ray (origin and direction)
+   */
   Ray transform(const Transformation T){
     Ray newray((T*origin), (T*dir), tmin, tmax, depth);
     return newray;
