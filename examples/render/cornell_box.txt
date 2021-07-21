@@ -2,46 +2,45 @@
 
 material white_material(
 	diffuse(uniform(<1, 1, 1>)),
-	uniform(<0.1, 0.1, 0.1>)
+	uniform(<0, 0, 0>)
 )
 
 material red_material(
 	diffuse(uniform(<1, 0, 0>)),
-	uniform(<0.1, 0, 0>)
+	uniform(<0, 0, 0>)
 )
 
 material green_material(
 	diffuse(uniform(<0, 0.5, 0>)),
-	uniform(<0, 0.1, 0>)
+	uniform(<0, 0, 0>)
 )
 
 material box_material(
-	diffuse(uniform(<0.9, 0.9, 0.9>)),
+	diffuse(uniform(<0.5, 0.5, 0.5>)),
 	uniform(<0, 0, 0>)
 )
 
 material lamp_material(
-	diffuse(uniform(<0.5, 0.5, 0.5>)),
-	uniform(<1, 1, 1>)
+	diffuse(uniform(<0.6, 0.6, 0>)),
+	uniform(<0.4, 0.4, 0.4>)
 )
 
 # Room
-#box(white_material, {-2, -2, -2}, {2, 2, 2}, translation([0, 0, 0]))
-#box(red_material, {-2, -2, -2}, {2, -1.9, 2}, translation([0, 0, 0]))
-#box(green_material, {-2, 1.9, -2}, {2, 2, 2}, translation([0, 0, 0]))
+box(white_material, {-2, -2, -2}, {2, 2, 2}, identity)
+box(red_material, {-2, -2, -2}, {2, -1.9, 2}, identity)
+box(green_material, {-2, 1.9, -2}, {2, 2, 2}, identity)
 
-plane(white_material, translation([0, 0, 2]))
-plane(white_material, translation([0, 0, -2]))
-plane(white_material, rotation_x(90)*rotation_y(90)*translation([0, 0, 2]))
-plane(red_material, rotation_x(90)*translation([0, 0, -2]))
-plane(green_material, rotation_x(90)*translation([0, 0, 2]))
+#plane(white_material, translation([0, 0, 2]))
+#plane(white_material, translation([0, 0, -2]))
+#plane(white_material, rotation_x(90)*rotation_y(90)*translation([0, 0, 2]))
+#plane(red_material, rotation_x(90)*translation([0, 0, -2]))
+#plane(green_material, rotation_x(90)*translation([0, 0, 2]))
 
 box(lamp_material, {0.5, -0.5, 1.9}, {1.5, 0.5, 2.2}, translation([0, 0, 0]))
 light({0,1,1.9},<1,1,1>,10)
-
 
 box(box_material, {0.1, -0.7, -2}, {1.8, -0.2, -0.1}, rotation_z(-40)*translation([0.2,0.2,0]))
 box(box_material, {0.1, 0.2, -2}, {1.8, 0.7, -0.1}, rotation_z(40)*translation([0.2,-0.2,0]))
 
 
-camera(perspective, translation([-1.5, 0,0]), 1.0, 1.0)
+camera(perspective, translation([-1.5, 0,0]), 1.0, 1)
