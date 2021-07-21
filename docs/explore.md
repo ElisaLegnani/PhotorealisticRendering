@@ -18,7 +18,7 @@ You can also appreciate how the other two tracers (flat and pointlight tracer) r
 > Little edited version for the pointlight renderer because of its inability to represent reflective surfaces.
 > Scene filename: `demo_pointlight.txt`
 
-Okay, now it's time to play! 🤹🏻‍♀️
+This image is so representative of the pontentials of the code... now it's start exploring a bit more! 🤹🏻‍♀️
 
 ## Sunset
 
@@ -71,8 +71,6 @@ The **onoff renderer** is usually used for debugging purposes when starting writ
   <img src="https://user-images.githubusercontent.com/59051647/126528177-97d570dc-aff1-4864-be48-e49be60885ce.gif" width="450" /> 
 </p>
 
-
-
 ## Solar system
 
 > Scene filename: `solar_system.txt`
@@ -103,4 +101,6 @@ Here an example rendered with the poinlight tracer:
 
 The one and only cornell box! It is used in photorealistic rendering to test the accuracy of the code.
 [to be continued...]
+
+Voilà! Here is just an invitation to contribute ❣️
 
