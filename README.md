@@ -11,7 +11,7 @@ A simple raytracing library for generating photorealistic images written in C++.
 
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
-The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
+👩🏻‍💻 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
 ## Brief description
 
@@ -87,8 +87,8 @@ The testing interface is built using [Catch2](https://github.com/catchorg/Catch2
 You can run the program through the script `raytracer`, located in the `build` directory. 
 
 The code implements two features, that you can call with commands:
-- `render`: creates a photorealistic image;
-- `hdr2ldr`: converts HDR image to LDR.
+- 🌅 `render`: creates a photorealistic image;
+- 🔄 `hdr2ldr`: converts HDR image to LDR.
 
 The basic usage is the following:
 
@@ -109,13 +109,17 @@ The command line interface is built using the argument parsing library [Taywee/a
 
 🔗 For further details, examples and full documentation of the code, see the page [Photorealistic rendering](https://elisalegnani.github.io/PhotorealisticRendering).
   
-## Expectations
+## Examples
 
-More infos coming soon! Stay tuned!
+🤹🏻‍♀️ There is a nice [overview of the library potentialities](https://elisalegnani.github.io/PhotorealisticRendering/explore) with lots of examples, hoping this can tickle your creativity! 
+
+Here is just a spoiler of what awaits you!
+
+[nice image]
 
 ## Documentation
 
-The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first versione of the documentation, any suggestions are very appreciated!
+📓 The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first versione of the documentation, any suggestions are very appreciated!
 
 
 ## Contributing
@@ -124,4 +128,4 @@ The complete documentation of the library is available [here](https://elisalegna
 
 ## License
 
-The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
+📋 The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
