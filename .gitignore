@@ -6,4 +6,5 @@ examples/hdr2ldr/*.jpg
 examples/render/*.pfm
 examples/render/*.png
 examples/render/*.jpg
+examples/render/img/*
 .DS_Store
