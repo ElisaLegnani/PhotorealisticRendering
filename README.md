@@ -115,7 +115,8 @@ More infos coming soon! Stay tuned!
 
 ## Documentation
 
-A link to the complete documentation of the code will be available soon!
+The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first versione of the documentation, any suggestions are very appreciated!
+
 
 ## Contributing
 
