@@ -2,7 +2,7 @@
 
  A simple raytracing library for generating photorealistic images written in C++.
 
- It is developed for the course <a href="(https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation">Numerical techniques for photorealistic image generation</a> held by professor <a href="https://github.com/ziotom78">Maurizio Tomasi</a> (University of Milan, AY2020-2021).
+ It is developed for the course <a href="https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation">Numerical techniques for photorealistic image generation</a> held by professor <a href="https://github.com/ziotom78">Maurizio Tomasi</a> (University of Milan, AY2020-2021).
 
  👩🏻‍💻 The main contributors to this repository are <a href="https://github.com/ElisaLegnani">Elisa Legnani</a> and <a href="https://github.com/adelezaini">Adele Zaini</a>.
 
@@ -22,7 +22,7 @@
 
 ## Contributing
  
- 🚧 Any contributions are welcome, to enhance this documentation or the code itself! References are on out <a href="https://github.com/ElisaLegnani/PhotorealisticRendering">GitHub repository</a>.
+ 🚧 Any contributions are welcome, to enhance this documentation or the code itself! References are on our <a href="https://github.com/ElisaLegnani/PhotorealisticRendering">GitHub repository</a>.
 
  ## License
 
