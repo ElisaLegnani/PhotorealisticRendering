@@ -29,9 +29,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 //––––––––––––– Functions for sub-Struct Sphere ––––––––––––––––––
 
 /**
- * Convert a 3D sphere point to 2D (u,v) surface coordinates
+ * Converts a 3D sphere point to 2D (u,v) surface coordinates
  */
-Vec2d sphere_point_to_uv(Point);
+Vec2d _sphere_point_to_uv(Point);
 
 /**
  * Evaluate the normal of the sphere in a given point of its surface,

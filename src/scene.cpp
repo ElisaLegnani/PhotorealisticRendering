@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 #include "scene.h"
+#include <iostream>
 
 using namespace std;
 
@@ -44,6 +45,9 @@ unordered_map<string, Keyword> KEYWORDS = {
     {"perspective", Keyword::PERSPECTIVE},
     {"float", Keyword::FLOAT},
 };
+
+
+//–––––––––––––––––––– Token ––––––––––––––––––––––
 
 Token ::Token(const Token &token) : location{token.location}, type{token.type} {
   if (token.type == TokenType::LITERAL_NUMBER)
@@ -99,6 +103,25 @@ void Token::assign_identifier(string s) {
 
 void Token::assign_stoptoken() { type = TokenType::STOPTOKEN; }
 
+string Token::value_str(){
+  
+  if(type == TokenType::LITERAL_STRING or type == TokenType::KEYWORD or type == TokenType::IDENTIFIER ){
+    return string{value.str};
+  } else if(type == TokenType::SYMBOL){
+    return string{value.symbol};
+  } else if(type == TokenType::LITERAL_NUMBER){
+    return float_to_string(value.number);
+  } else {
+    return "";
+  }
+  
+}
+
+
+//–––––––––––––––––––– InputStream ––––––––––––––––––––––
+
+//––––––––––––– Single characters –––––––––––––
+
 void InputStream::update_location(char ch) {
   if (ch == '\0') {
   } // Nothing
@@ -148,6 +171,8 @@ void InputStream::skip_whitespaces_and_comments() {
   }
   unread_character(ch);
 }
+
+//––––––––––––– Tokens –––––––––––––
 
 Token InputStream::parse_string_token() {
   string str{};
@@ -238,7 +263,7 @@ Token InputStream::read_token() {
                                          // either a keyword or a identifier
     return parse_keyword_or_identifier_token(ch);
   } else { // We got some weird character, like '@` or `&`
-    throw GrammarError("got an invalid character", location);
+    throw GrammarError("got invalid character '"+string{ch}+"'", location);
   }
 }
 
@@ -247,18 +272,19 @@ void InputStream::unread_token(Token token) {
     saved_token = token;
 }
 
+//––––––––––––– Check expectations –––––––––––––
+
 void InputStream::expect_symbol(char sym) {
   Token token = read_token();
   if (token.type != TokenType::SYMBOL || token.value.symbol != sym)
-    throw GrammarError("got " + string{token.value.symbol} + " instead of " +
-                           sym,
+    throw GrammarError("expected '" +string{sym}+"' instead of '"+token.value_str()+"'",
                        token.location);
 }
 
 Keyword InputStream::expect_keyword(vector<Keyword> keywords) {
   Token token = read_token();
   if (token.type != TokenType::KEYWORD)
-    throw GrammarError("expected a keyword", token.location);
+    throw GrammarError("expected a keyword instead of '"+token.value_str()+"'", token.location);
   if (find(keywords.begin(), keywords.end(), token.value.keyword) ==
       keywords.end())
     throw GrammarError("expected one of the keywords", token.location);
@@ -269,21 +295,21 @@ float InputStream::expect_number(Scene scene) {
   Token token = read_token();
   if (token.type == TokenType::LITERAL_NUMBER)
     return token.value.number;
-  else if (token.type == TokenType::IDENTIFIER) {
+  else if (token.type == TokenType::IDENTIFIER) { // Commeted because it never enter the last 'else' otherwise, while it is a significal error also for undeclared variables
     string variable_name = token.value.str;
     if (scene.float_variables.find(token.value.str) ==
         scene.float_variables.end())
-      throw GrammarError("unknown variable " + token.value.str, token.location);
+      throw GrammarError("undefined variable '" +token.value_str()+"' when a number is expected", token.location);
     return scene.float_variables[variable_name];
   } else
-    throw GrammarError("got " + token.value.str + " instead of a number",
+    throw GrammarError("expected a number instead of '"+token.value_str()+"'",
                        token.location);
 }
 
 string InputStream::expect_string() {
   Token token = read_token();
   if (token.type != TokenType::LITERAL_STRING)
-    throw GrammarError("got " + token.value.str + " instead of a string",
+    throw GrammarError("expected a string instead of '"+token.value_str()+"'",
                        token.location);
   return token.value.str;
 }
@@ -291,11 +317,14 @@ string InputStream::expect_string() {
 string InputStream::expect_identifier() {
   Token token = read_token();
   if (token.type != TokenType::IDENTIFIER)
-    throw GrammarError("got " + token.value.str + " instead of an identifier",
+    throw GrammarError("expected an identifier instead of '"+token.value_str()+"'",
                        token.location);
   return token.value.str;
 }
 
+//––––––––––––– Structs/classes –––––––––––––
+
+// Vec
 Vec InputStream::parse_vector(Scene scene) {
   expect_symbol('[');
   float x = expect_number(scene);
@@ -308,6 +337,7 @@ Vec InputStream::parse_vector(Scene scene) {
   return Vec(x, y, z);
 }
 
+// Color
 Color InputStream::parse_color(Scene scene) {
   expect_symbol('<');
   float red = expect_number(scene);
@@ -320,6 +350,7 @@ Color InputStream::parse_color(Scene scene) {
   return Color(red, green, blue);
 }
 
+// Point
 Point InputStream::parse_point(Scene scene) {
   expect_symbol('{');
   float x = expect_number(scene);
@@ -332,6 +363,7 @@ Point InputStream::parse_point(Scene scene) {
   return Point(x, y, z);
 }
 
+// Pigment
 shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
   shared_ptr<Pigment> result;
 
@@ -351,14 +383,20 @@ shared_ptr<Pigment> InputStream::parse_pigment(Scene scene) {
     result = make_shared<CheckeredPigment>(color1, color2, num_of_steps);
   } else if (keyword == Keyword::IMAGE) {
     string file_name = expect_string();
-    HdrImage image(file_name);
-    result = make_shared<ImagePigment>(image);
+    try {
+      HdrImage image(file_name);
+      result = make_shared<ImagePigment>(image);
+    } catch(runtime_error &e){
+      cout<< e.what() << endl;
+      exit(1);
+    }
   }
 
   expect_symbol(')');
   return result;
 }
 
+// BRDF
 shared_ptr<BRDF> InputStream::parse_brdf(Scene scene) {
   Keyword keyword = expect_keyword(vector{Keyword::DIFFUSE, Keyword::SPECULAR});
   expect_symbol('(');
@@ -371,6 +409,7 @@ shared_ptr<BRDF> InputStream::parse_brdf(Scene scene) {
     return make_shared<SpecularBRDF>(pigment);
 }
 
+// Material
 tuple<string, Material> InputStream::parse_material(Scene scene) {
   string name = expect_identifier();
 
@@ -383,6 +422,7 @@ tuple<string, Material> InputStream::parse_material(Scene scene) {
   return tuple<string, Material>{name, Material(brdf, emitted_radiance)};
 }
 
+// Transformation
 Transformation InputStream::parse_transformation(Scene scene) {
   Transformation result = Transformation();
 
@@ -425,6 +465,7 @@ Transformation InputStream::parse_transformation(Scene scene) {
   return result;
 }
 
+// Sphere
 Sphere InputStream::parse_sphere(Scene scene) {
   expect_symbol('(');
 
@@ -432,7 +473,7 @@ Sphere InputStream::parse_sphere(Scene scene) {
   if (scene.materials.find(material_name) == scene.materials.end()) {
     // We raise the exception here because input_file is pointing to the end
     // of the wrong identifier
-    throw GrammarError("unknown material " + material_name, location);
+    throw GrammarError("unknown material '" + material_name+"'", location);
   }
 
   expect_symbol(',');
@@ -442,6 +483,7 @@ Sphere InputStream::parse_sphere(Scene scene) {
   return Sphere(transformation, scene.materials[material_name]);
 }
 
+// Plane
 Plane InputStream::parse_plane(Scene scene) {
   expect_symbol('(');
 
@@ -449,7 +491,7 @@ Plane InputStream::parse_plane(Scene scene) {
   if (scene.materials.find(material_name) == scene.materials.end()) {
     // We raise the exception here because input_file is pointing to the end
     // of the wrong identifier
-    throw GrammarError("unknown material " + material_name, location);
+    throw GrammarError("unknown material '" + material_name + "'", location);
   }
 
   expect_symbol(',');
@@ -459,6 +501,7 @@ Plane InputStream::parse_plane(Scene scene) {
   return Plane(transformation, scene.materials[material_name]);
 }
 
+// Box
 Box InputStream::parse_box(Scene scene) {
   expect_symbol('(');
 
@@ -480,6 +523,8 @@ Box InputStream::parse_box(Scene scene) {
   return Box(point1, point2, transformation, scene.materials[material_name]);
 }
 
+
+// PointLight
 PointLight InputStream::parse_light(Scene scene) {
   
   expect_symbol('(');
@@ -493,6 +538,7 @@ PointLight InputStream::parse_light(Scene scene) {
   return PointLight(point,color,lr);
 }
 
+// Camera
 shared_ptr<Camera> InputStream::parse_camera(Scene scene) { 
   shared_ptr<Camera> result;
   expect_symbol('(');
@@ -517,6 +563,9 @@ shared_ptr<Camera> InputStream::parse_camera(Scene scene) {
 
   return result;
 }
+
+
+//––––––––––––– Scene creation –––––––––––––
 
 Scene InputStream::parse_scene(unordered_map<string, float> variables) {
   if(!stream_in){
@@ -551,7 +600,7 @@ Scene InputStream::parse_scene(unordered_map<string, float> variables) {
           find(scene.overridden_variables.begin(),
                scene.overridden_variables.end(),
                variable_name) == scene.overridden_variables.end())
-        throw GrammarError("variable " + variable_name + " cannot be redefined",
+        throw GrammarError("variable '" + variable_name + "' cannot be redefined",
                            variable_loc);
 
       if (find(scene.overridden_variables.begin(),

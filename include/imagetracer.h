@@ -31,11 +31,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /**
  * A struct that represents image tracing obtained by shooting rays through the image's pixels
  *
- * @param image
- * @param camera
+ * @param image HdrImage object already initialized
+ * @param camera orthogonal or perspective camera
  * @param samples_per_size if larger than zero, it activates the stratified sampling algorithm 
  on each pixel of the image, that uses the random number generator pcg
- * @param pcg
+ * @param pcg PCG object for random number generation
  */
 struct ImageTracer {
 
@@ -47,12 +47,33 @@ struct ImageTracer {
   ImageTracer(HdrImage img, shared_ptr<Camera> cam, int samples = 0, PCG _pcg = PCG()): 
       image{img}, camera{cam}, samples_per_side{samples}, pcg{_pcg} {};
 
+  /**
+   * Shoot a ray through the given pixel (col,row)
+   *
+   * Integer parameters to identify the pixel:
+   * @param col
+   * @param row
+   *
+   *Floating-point parameters ranging [0,1] identifing which position the ray hits the choosen pixel.
+   *Default values are 0.5, that identified the center of the pixel.
+   *@param u_pixel
+   *@param v_pixel
+   *
+   *@return a ray crossing the image pixel with the choosen camera projection
+   */
   Ray fire_ray(int col, int row, float u_pixel=0.5, float v_pixel=0.5){
     float u = (col + u_pixel) / image.width;
     float v = 1.0 - (row + v_pixel) / image.height;
     return camera->fire_ray(u,v);
   }
 
+  /**
+   * Shoot all the rays through each image pixel and set the corrisponding color on the base of the choosen rendering algorithm.
+   *
+   * The passing argument is a function that accepts a 'Ray' as input and returns a 'Color', and depends on the choosen rendering algorithm.
+   * For each pixel of the 'HdrImage', a 'Ray' is fired and passed to the function 'func', that evaluates the 'Color' of the shape hit (or background color if no hit happens).
+   * It also implements the antialiasing algorithm to avoid Moirè pattern effect.
+   */
   void fire_all_rays(function<Color(Ray)> func){
 
     for(int row{}; row<image.height; ++row){

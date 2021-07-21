@@ -27,6 +27,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 using namespace std;
 
+/**
+ Check if two floating-point paraments (if deviation < 1e-4).
+ Needed to avoid floating-point approximation limits.
+ */
 inline bool are_close(float x, float y, float epsilon = 1e-4) {
   return fabs(x - y) < epsilon;
 }
@@ -40,13 +44,13 @@ inline string float_to_string(float number){
   string first_num = float_num.substr(0, float_num.find("."));
   string second_num = float_num.substr(float_num.find("."));
   string final_num = second_num.substr(0,second_num.find("0"));
+  if (final_num==".") final_num = second_num.substr(0,second_num.find("0")+1);
   return first_num+final_num;
 }
 
 /**
  * Return a string of current date_time (format YYYY-MM-DD.HH:mm:ss)
  */
-
 inline string current_date_time() {
     time_t now = time(0);
     struct tm  tstruct;
@@ -55,6 +59,22 @@ inline string current_date_time() {
     strftime(buf, sizeof(buf), "%Y-%m-%d_%X", &tstruct);
 
     return buf;
+}
+
+/**
+ * Return a string of the format (i.e. pfm, png...) of the given file
+ */
+inline string get_format(string filename){
+  size_t find = filename.find_last_of(".");
+  return filename.substr(find);
+}
+
+/**
+ * Return a string of the path (i.e. examples/render/) of the given file
+ */
+inline string get_path(string filename_with_path){
+  size_t find = filename_with_path.find_last_of("/");
+  return filename_with_path.substr(0,find+1);
 }
 
 #endif
