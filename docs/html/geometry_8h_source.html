@@ -23,6 +23,7 @@
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">Photorealistic Rendering
    </div>
+   <div id="projectbrief">A simple raytracing library for generating photorealistic images.</div>
   </td>
  </tr>
  </tbody>
@@ -126,9 +127,9 @@ $(function() {
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">// Normalized scalar product</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> In1, <span class="keyword">typename</span> In2&gt; <span class="keywordtype">float</span> _normalized_dot(<span class="keyword">const</span> In1 &amp;a, <span class="keyword">const</span> In2 &amp;b) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  In1 a_n = (In1(a)).normalize();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  In2 b_n = (In2(b)).normalize();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">return</span> {a_n.x * b_n.x + a_n.y * b_n.y + a_n.z * b_n.z};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  (In1(a)).normalize();</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  (In2(b)).normalize();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">return</span> {a.x * b.x + a.y * b.y + a.z * b.z};</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">// Vector product</span></div>

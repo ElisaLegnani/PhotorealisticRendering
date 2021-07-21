@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['hdrimage_118',['HdrImage',['../classHdrImage.html',1,'']]],
-  ['hitrecord_119',['HitRecord',['../structHitRecord.html',1,'']]]
+  ['hdrimage_114',['HdrImage',['../classHdrImage.html',1,'']]],
+  ['hitrecord_115',['HitRecord',['../structHitRecord.html',1,'']]]
 ];
