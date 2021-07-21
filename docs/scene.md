@@ -2,7 +2,7 @@
 
 This is a guide to write a .TXT file with the instructions of the scene you want to render. 
 
-In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. 
+In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. [Here](https://elisalegnani.github.io/PhotorealisticRendering/html/explore.md) you can have a look to the corrispective results.
 
 🔗 If you desire further information on the meaning of the scene elements and their parameters, look at full descriptions in the [complete documentation](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html).
 
