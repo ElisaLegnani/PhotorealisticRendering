@@ -4,7 +4,7 @@ This is a guide to write a .TXT file with the instructions of the scene you want
 
 In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. 
 
-🔗 If you desire further information on the meaning of the scene elements and their parameters, look at full descriptions in the documentation[link] .
+🔗 If you desire further information on the meaning of the scene elements and their parameters, look at full descriptions in the [complete documentation](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html).
 
 <img align="right" src="https://user-images.githubusercontent.com/59051647/126191811-f2d0a468-7624-43a2-9da4-fd51d96f4444.png" width="250"/>
 
@@ -69,9 +69,26 @@ Before adding elements define their materials:
 
 ### Define arbitrary parameters
 
-You can also set some floating-point parameters `variable_value` to use them in the file. 
+You can also declare parameters `variable_value` to use them in the file itself:
 
-They have to be declared as follows: `variable_name(variable_value)` (e.g. `angle(10)`).
+- `variable_name(variable_value)` (e.g. `angle(10)`).
+
+### Declare floating point parameters from the command line
+
+You may wish to change some floating point parameters directly from the command line. This is possible! 
+
+You just need to:
+1. include an identifier variable where it was supposed a floating point number:
+
+`camera(perspective, rotation_z(ang) * translation([-1, 0, 1]), 1.333, 1.)`;
+
+2. use the right flag in the command line (as exaplained in details [here](https://elisalegnani.github.io/PhotorealisticRendering)): 
+
+`./raytracer render <scene_file> --declare_var ang=10`.
+
+**🤹🏻‍♀️ Now there nothing else to say than.. have fun!**
+
+
 
 
 
