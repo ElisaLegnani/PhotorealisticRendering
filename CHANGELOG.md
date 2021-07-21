@@ -2,9 +2,13 @@
 
 ## HEAD
 
+- Refine code documentation [#29](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/29)
+
+### 2021-7-21
+
 - Add documentation and other minor functionalities [#20](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/20)
 
-### 2021-7-20
+### 2021-7-19
 
 - Implement parse_light to have the possibility of adding lights to the scene file [#28](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/28)
 
