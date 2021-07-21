@@ -10,17 +10,23 @@ The scene files used to render these images are in the [`examples/render`](https
 
 > Scene filename: `demo.txt`
 
-Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally with total reflective, diffusive and emitting surfaces on the different shapes (spheres, box and plane as ground).
-
-You can also appreciate how the other two tracers (flat and pointlight tracer) render the scene with different optical properties.
+Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally with total reflective, diffusive and emitting surfaces on the different shapes (spheres, boxes and planes).
 
 <p align="center">
-       <img width="600" src=https://user-images.githubusercontent.com/59051647/126570183-d4ac3e89-4158-41e7-a75a-bd2246c958b5.png>
+       <img width="700" src=https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png>
+  </p>
+  
+Here is a comparison with the other two tracers (flat and pointlight tracer) to better appreciate the advantages of using the pathtracer:
+
+<p align="center">
+       <img width="300" src=https://user-images.githubusercontent.com/59051647/126571125-4ab12267-9e95-4d17-b2ee-85340a969097.png>
+       <img width="300" src=https://user-images.githubusercontent.com/59051647/126571444-389e17d6-3c6b-4b62-9397-e282843b4dcb.png>
+       <img width="300" src=https://user-images.githubusercontent.com/59051647/126570183-d4ac3e89-4158-41e7-a75a-bd2246c958b5.png>
   </p>
 
 
-> Little edited version for the pointlight renderer because of its inability to represent reflective surfaces.
-> 
+The last image is an edited version for the pointlight renderer because of its inability to represent reflective surfaces.
+
 > Scene filename: `demo_pointlight.txt`
 
 This image is so representative of the pontentials of the code... now let's start exploring a bit more! 🤹🏻‍♀️
