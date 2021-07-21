@@ -10,10 +10,12 @@ The scene files used to render these images are in the [`examples/render`](https
 
 > Scene filename: `demo.txt`
 
-Here are gathered **all the main functionalities** of the library: you can see how the three tracers (flat, path tracer, pointlight tracer) render geometric objects with different optical properties.
+Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally (shadows, reflections, light sources...).
+
+You can also appreciate how the other two tracers (flat and pointlight tracer) render geometric objects with different optical properties.
 
 
-Little edited version for the pointlight renderer because of its inability to represent reflective surfaces.
+> Little edited version for the pointlight renderer because of its inability to represent reflective surfaces.
 > Scene filename: `demo_pointlight.txt`
 
 Okay, now it's time to play! 🤹🏻‍♀️
@@ -82,6 +84,10 @@ Someone may think that the **flat renderer** is a second-class renderer, but it 
 </p>
 
 Being extremely quick it takes little time to generate this wonderful animation!
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59051647/126542691-8f384c07-c567-4276-8116-9e497611da4f.gif" width="500" /> 
+</p>
 
 > Advise: tone down the image setting the luminosity factor `--a_r 0.2` in the command line.
 
