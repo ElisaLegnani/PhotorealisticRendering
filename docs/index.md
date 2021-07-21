@@ -1,6 +1,6 @@
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
-The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
+👩🏻‍💻 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
 # Table of Contents
 
@@ -106,9 +106,9 @@ whose you can set material and geometric properties.
   ./raytracer render ../examples/render/demo.txt -w 640 -h 480 -r pathtracer --output ../my_first_image.png -v angle=30
   ```
   
-  **💡 Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
+  > **💡 Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
   
-  **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
+  > **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
   
   
 ### Generate image
@@ -116,27 +116,32 @@ whose you can set material and geometric properties.
   You may easily try the code running in the `examples/render` directory:
   
   ```sh
-  ./generate-image.sh ANGLE
+  ./generate-image.sh ANGLE <a-factor>
   ```
   
   which automatically runs the following code:
   
   ```sh
-  ../../build/./raytracer render demo_image.txt --declare_var ang=ANGLE --output img/imageANGLE.png
+  ../../build/./raytracer render image.txt --declare_var ang=ANGLE --output img/imageANGLE.png --a_r ${2:-1}
   ```
   
-  You just need to set the `ANGLE` (deg) from which you look at the scene.
+  You just need to set the `ANGLE` (deg) from which you look at the scene and optionally also the luminosity `<a-factor>` (default `1`).
   
-  ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
-
-  If you want to use this script to generate a different image, just change the scene description of the `demo_image.txt` file.
+ <p align="center">
+       <img width="700" src=https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png>
+  </p>
   
-  *Note:* if you change `demo_image.txt` content, remember you are now in `examples/render` directory and you need to adapt the files path properly.
+  The scene description is in `image.txt` file (*support file*).
+  
+  > *Note:* if you change `image.txt` content, remember to:
+  > 
+  > 1) adapt the files path properly, you are now in `examples/render` directory;
+  > 2) keep `rotation_z(ang)` in the `camera` transformation.
     
   
 ### Generate animation
   
-  In the `examples/render` directory, you may generate an animation of a simple scene described in `demo_image.txt`, rotating 360° around the objects.
+  In the `examples/render` directory, you may generate an animation of a simple scene described in `image.txt`, rotating 360° around the objects.
   
   In order to run the code, you need to:
   - install [ffmpeg](http://ffmpeg.org/) : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
@@ -146,10 +151,18 @@ whose you can set material and geometric properties.
   This is needed to run in parallel the code and speed up the execution, otherwise it would take a very long time.
   
   ```sh
-  ./generate-animation.sh NUM_OF_CORES
+  ./generate-animation.sh NUM_OF_CORES <a-factor> <output_filename>
   ```
   
-  ⏳ Pay attention when passing a scene description that takes long to render: even if we are using a parallel execution there are lots of images to render and can take a while.
+  You can also set the luminosity `<a-factor>` (default `1`) and the `<output_filename>` (default `video.mp4`).
+
+Here is a suggestive animation of the solar system:
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59051647/126542691-8f384c07-c567-4276-8116-9e497611da4f.gif" width="500" /> 
+</p>
+
+  > ⏳ Pay attention when passing a scene description that takes long to render: even if we are using a parallel execution there are lots of images to render and can take a while.
  
 ## Convert HDR image into LDR
 
