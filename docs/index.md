@@ -62,8 +62,8 @@ For further details, see below.
   ```sh
   ./raytracer render [SCENE_FILENAME] {OPTIONS}
   ```
-  
-  ### Scene file
+ 
+### Scene file
   
   First argument to pass is:
   
@@ -81,7 +81,7 @@ whose you can set material and geometric properties.
 
   In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
   
-  ### Parameters
+### Parameters
   
   Some parameters are available for users to set properties of the rendered image. You can set them directly in the command line, as explained in `{OPTIONS}` of the help interface (running `./raytracer render`). 
   
