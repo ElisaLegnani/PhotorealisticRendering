@@ -42,7 +42,7 @@ If you want to parallelize the execution or run animations, the required depende
 > *Note*: they are not needed for running the raytracing code.
 
 ### Download latest release
-You can download the latest stable release [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.0.0) (version 1.0.0) and then unpack it running in the command line (Linux):
+You can download the latest stable release [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.1.0) (version 1.1.0) and then unpack it running in the command line (Linux):
 
 ```sh
 tar -xvf PhotorealisticRendering-1.0.0.tar
