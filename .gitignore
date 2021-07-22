@@ -7,4 +7,5 @@ examples/render/*.pfm
 examples/render/*.png
 examples/render/*.jpg
 examples/render/img/*
+examples/render/*.mp4
 .DS_Store

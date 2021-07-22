@@ -1,6 +1,6 @@
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
-The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
+👩🏻‍💻 The main contributors to this repository are [Elisa Legnani](https://github.com/ElisaLegnani) and [Adele Zaini](https://github.com/adelezaini).
 
 # Table of Contents
 
@@ -33,8 +33,8 @@ Here you can find a detailed explanation of the program usage for better underst
 You can run the program through the script `raytracer`, located in the `build` directory. 
 
 The code implements two features, that you can call with commands:
-- `render`: creates a photorealistic image;
-- `hdr2ldr`: converts HDR image to LDR.
+- 🌅 `render`: creates a photorealistic image;
+- 🔄 `hdr2ldr`: converts HDR image to LDR.
 
 The basic usage is the following:
 
@@ -79,7 +79,7 @@ whose you can set material and geometric properties.
 
 🔗 You can find detailed instructions on how to write the scene file at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
 
-  In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
+  In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
   
 ### Parameters
   
@@ -94,7 +94,7 @@ whose you can set material and geometric properties.
   - `--sample|--samples_per_pixel`: number of extracted samples per pixel for antialiasing (default value: `0`, no antialiasing);
   - `-s|--state`: initial seed for the PCG random number generator (default value: `42`);
   - `-i|--seq_id|--seq`: identifier of the sequence produced by the PCG random number generator (default value: `54`);
-  - `--a_r`: luminosity normalization factor (0<a<1, default value: `1.0`);
+  - `--a_r`: luminosity normalization factor (default value: `1.0`);
   - `--g_r|--gamma_r`: monitor calibration factor (default value: `1.0`);
   - `-v|--declare_var [...]`: additional float parameters associated to variable identifiers in the scene file, e.g angle of view, camera distance ... (ex: `--declare_var ang=10`).
   
@@ -106,9 +106,9 @@ whose you can set material and geometric properties.
   ./raytracer render ../examples/render/demo.txt -w 640 -h 480 -r pathtracer --output ../my_first_image.png -v angle=30
   ```
   
-  **💡 Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
+  > **💡 Warning on pointlight tracer**: the pointlight tracer is not able to render reflective surfaces.
   
-  **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
+  > **⏳ Note**: the more parameters values increase, the more the rendering process takes a long time to produce an image.
   
   
 ### Generate image
@@ -116,27 +116,32 @@ whose you can set material and geometric properties.
   You may easily try the code running in the `examples/render` directory:
   
   ```sh
-  ./generate-image.sh ANGLE
+  ./generate-image.sh ANGLE <a-factor>
   ```
   
   which automatically runs the following code:
   
   ```sh
-  ../../build/./raytracer render demo_image.txt --declare_var ang=ANGLE --output img/imageANGLE.png
+  ../../build/./raytracer render image.txt --declare_var ang=ANGLE --output img/imageANGLE.png --a_r a-factor
   ```
   
-  You just need to set the `ANGLE` (deg) from which you look at the scene.
+  You just need to set the `ANGLE` (deg) from which you look at the scene and optionally also the luminosity `<a-factor>` (default `1`).
   
-  ![render](https://user-images.githubusercontent.com/62106779/123851051-0ec3f600-d91b-11eb-9b2d-b5944efe7df6.png)
-
-  If you want to use this script to generate a different image, just change the scene description of the `demo_image.txt` file.
+ <p align="center">
+       <img width="700" src=https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png>
+  </p>
   
-  *Note:* if you change `demo_image.txt` content, remember you are now in `examples/render` directory and you need to adapt the files path properly.
+  The scene description is in `image.txt` file (*support file*).
+  
+  > *Note:* if you change `image.txt` content, remember to:
+  > 
+  > 1) adapt the files path properly, you are now in `examples/render` directory;
+  > 2) keep `rotation_z(ang)` in the `camera` transformation.
     
   
 ### Generate animation
   
-  In the `examples/render` directory, you may generate an animation of a simple scene described in `demo_image.txt`, rotating 360° around the objects.
+  In the `examples/render` directory, you may generate an animation of a simple scene described in `image.txt`, rotating 360° around the objects.
   
   In order to run the code, you need to:
   - install [ffmpeg](http://ffmpeg.org/) : `sudo apt install ffmpeg` (or `brew install ffmpeg` if you use Homebrew);
@@ -146,11 +151,30 @@ whose you can set material and geometric properties.
   This is needed to run in parallel the code and speed up the execution, otherwise it would take a very long time.
   
   ```sh
-  ./generate-animation.sh NUM_OF_CORES
+  ./generate-animation.sh NUM_OF_CORES <a-factor> <output_filename>
   ```
   
-  ⏳ Pay attention when passing a scene description that takes long to render: even if we are using a parallel execution there are lots of images to render and can take a while.
- 
+  You can also set the luminosity `<a-factor>` (default `1`) and the `<output_filename>` (default `video.mp4`).
+
+Here is a suggestive animation of the solar system:
+
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59051647/126542691-8f384c07-c567-4276-8116-9e497611da4f.gif" width="500" /> 
+</p>
+
+  > ⏳ Pay attention when passing a scene description that takes long to render: even if we are using a parallel execution there are lots of images to render and can take a while.
+
+### Parallelize image execution
+
+In the `examples/render` directory, another script called `./parallelize-image.sh` has the functionality to parallelize the program execution when rendering the instructions in `image.txt`. The purpose is to speed up the execution particullarly when running the *pathtracer* algorithm. Here is the usage:
+
+```sh
+./parallelize-image.sh NUM_OF_CORES <angle> <width> <height> <output_filename> <a-factor> <samples> <n_rays> <depth>
+  ```
+You just need to set the `NUM_OF_CORES`, while the other parameters are optional. 
+
+> Default values: `angle` 0 `width` 640 `height` 480 `output_filename` image.png ` a-factor` 1 `samples` 0 `n_rays` 10 `depth` 2
+
 ## Convert HDR image into LDR
 
   In the  `build` directory run: 
@@ -165,7 +189,7 @@ whose you can set material and geometric properties.
   
   - `[HDR_IMAGE]`: input PFM image with path to the directory (REQUIRED);
   - `--out|--out_file`: PNG/JPG file with path to the directory (default: `input-filename_a_gamma.png` in the directory where the HDR image is located);
-  - `-a`: luminosity normalization factor (0<a<1, default value: `0.3`);
+  - `-a`: luminosity normalization factor (default value: `0.3`);
   - `-g|--gamma`: monitor calibration factor (default value: `1.0`).
 
 
@@ -188,11 +212,11 @@ whose you can set material and geometric properties.
 
 # Documentation
 
-The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first version of the documentation, any suggestions are very appreciated!
+📓 The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first version of the documentation, any suggestions are very appreciated!
 
-# Expectations and examples
+# Potentialities and examples
 
-More infos coming soon! Stay tuned!
+🤹🏻‍♀️ There is a nice [overview of the library potentialities](https://elisalegnani.github.io/PhotorealisticRendering/explore) with lots of examples, hoping this can tickle your creativity! 
 
 # Contributing
 
@@ -200,4 +224,4 @@ More infos coming soon! Stay tuned!
 
 # License
 
-The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).
+📋 The code is released under the terms of the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.html). See the file [LICENSE.md](https://github.com/ElisaLegnani/PhotorealisticRendering/blob/master/LICENSE.md).

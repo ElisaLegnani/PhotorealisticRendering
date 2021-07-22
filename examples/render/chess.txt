@@ -1,0 +1,36 @@
+material background_material(
+    diffuse(uniform(<0, 0, 0>)),
+    image("../examples/hdr2ldr/chess_background.pfm")
+)
+material ground_material(
+        diffuse(checkered(<0, 0.1, 0.01>,<0, 0.01, 0.1>, 14)),
+	uniform(<0, 0, 0>)
+    )
+
+material chess_material(
+	diffuse(checkered(<0, 0.01, 0.01>,<0.9, 0.9, 0.9>, 40)),
+	uniform(<0, 0, 0>)
+)
+
+material lamp_material(
+    diffuse(uniform(<0, 0, 0>)),
+    uniform(<10, 10, 10>)
+)
+
+sphere(background_material,
+	scaling([28, 30, 20]) * rotation_z(180)*rotation_y(0)*translation([0, 0, 0.4])
+)
+
+box(chess_material,{-1, -1,-0.5},{0.9,1,0.1}, translation([1.1, 0, 0]))
+plane(ground_material, identity)
+sphere(lamp_material, translation([0.5,0,5])*scaling([1,1,1]))
+
+  
+
+light({0.5,0,1.5},<1,1,1>,10)
+
+light({3.5,-3.5,1},<0.8,0.8,0.8>,5)
+light({3.5,3.5,1},<0.8,0.8,0.8>,5)
+#light({3,0,1.5},<1,1,1>,4)
+
+camera(perspective, translation([-0.1, 0, 1]), 1.333, 1.)

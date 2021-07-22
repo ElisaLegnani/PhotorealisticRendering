@@ -125,7 +125,7 @@ float clamp(float x) { return x / (1 + x); }
 void HdrImage::read_pfm(istream &stream) {
   
   if(!stream){
-        throw runtime_error("Error: input file does not exit.");
+        throw runtime_error("Error: HDR image does not exist.");
     }
   
   string magic;

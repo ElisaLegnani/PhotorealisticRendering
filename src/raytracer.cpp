@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
                              "Identifier of the sequence produced by \n the PCG random number generator \n (default 54)", 
                              {'i', "seq", "seq_id"});
   args::ValueFlag<float> a_r(render_arguments, "",
-                           "Luminosity normalization factor \n 0<a<1 (default 1)", {"a_r"});
+                           "Luminosity normalization factor \n (default 1)", {"a_r"});
   args::ValueFlag<float> gamma_r(render_arguments, "",
                                "Monitor calibration factor gamma \n (default 1)", {"g_r", "gamma_r"});
   args::ValueFlagList<string> declare_variables(render_arguments, "",
@@ -115,9 +115,9 @@ int main(int argc, char **argv) {
                                 args::Options::Global);
   
   //args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "","Input PFM filename", {"pfm", "pfm_file"});
-  args::ValueFlag<string> out_file(hdr2ldr_arguments, "","Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
+  args::ValueFlag<string> out_file(hdr2ldr_arguments, "","Output PNG/JPG filename \n (default input-filename_a_gamma.png)", {"out", "out_file"});
   args::ValueFlag<float> a(hdr2ldr_arguments, "",
-                           "Luminosity normalization factor \n 0<a<1 (default 0.3)", {'a'});
+                           "Luminosity normalization factor \n (default 0.3)", {'a'});
   args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
                                "Monitor calibration factor gamma \n (default 1)", {'g', "gamma"});
   
@@ -330,7 +330,7 @@ void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) 
     
   }catch(runtime_error &e){
     cout << e.what() << endl;
-    exit(1);
+    return;
   }
 }
 

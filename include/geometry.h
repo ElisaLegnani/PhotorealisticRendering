@@ -111,8 +111,11 @@ struct Vec {
     if (i == 0) return x;
 		else if (i == 1) return y;
     else if (i == 2) return z;
-    else abort();
+    else {
+      cerr << "Error: invalid coordinate index." <<endl;
+      abort();
 	}
+  }
   
   /**
    Check if the vector has roughly the same direction as the given one.
@@ -221,7 +224,10 @@ struct Point {
     if (i == 0) return x;
 		else if (i == 1) return y;
     else if (i == 2) return z;
-    else abort();
+    else {
+      cerr << "Error: invalid coordinate index." <<endl;
+      abort();
+  }
 	}
   
   /**
@@ -311,7 +317,10 @@ struct Normal {
     if (i == 0) return x;
 		else if (i == 1) return y;
     else if (i == 2) return z;
-    else abort();
+    else {
+      cerr << "Error: invalid coordinate index." <<endl;
+      abort();
+  }
 	}
   
   /**
