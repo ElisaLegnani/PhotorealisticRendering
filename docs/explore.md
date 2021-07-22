@@ -123,9 +123,13 @@ The one and only cornell box! It is used in photorealistic rendering to test the
 
 As you can notice the pathtracer algorithm has hard times in rendering multiple diffusive surfaces, but it's a good starting point! You can appreciate the red/green faces of the boxes because of the light interaction with the walls, as well as the realistic shadows projected by the boxes and in the room corners.
 
-Since the runtime increases as increasing the parameters value, a script `cornell_box.sh` (in [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render)) has been written to run the executable in parallel:
+👉🏽 *Suggestion*: thanks to the **stratified sampling** implementation increasing `samples` rather than `n_rays` reduces the grainy effect more efficiently.
 
-> Parallelized: `cornell_box.sh`
+### Parallelize Cornell box execution
+
+> Shell script: `cornell_box.sh`
+
+Since the runtime increases as increasing the parameters value, a script `cornell_box.sh` (in [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render)) has been written to run the executable in parallel:
 
 ``` sh
 Usage: ./cornell_box.sh NUM_OF_CORES <n_rays> <depth> <samples> <width> <height> <a-factor>
@@ -137,8 +141,6 @@ of the cornell box. You are welcome to set your own values!
 > Default values: `n_rays` 2 `depth` 2 `samples` 16 `width` 200 `height` 200 `a-factor` 0.6
 
 The output files will be named to track the parameters setting (ex: `cb_n4_d3_s25_w400_h400_a0.6.png`)
-
-👉🏽 *Suggestion*: thanks to the *stratified sampling* implementation increasing `samples` rather than `n_rays` reduces the grainy effect more efficiently.
 
 
 **Voilà! You can see this cornell box example as an invitation to contribute at this library❣️**
