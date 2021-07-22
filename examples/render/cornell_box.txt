@@ -22,7 +22,7 @@ material box_material(
 
 material lamp_material(
 	diffuse(uniform(<0.6, 0.6, 0.6>)),
-	uniform(<0.3, 0.3, 0.3>)
+	uniform(<0.4, 0.4, 0.4>)
 )
 
 # Room
