@@ -138,6 +138,8 @@ of the cornell box. You are welcome to set your own values!
 
 The output files will be named to track the parameters setting (ex: `cb_n4_d3_s25_w400_h400_a0.6.png`)
 
+👉🏽 *Suggestion*: thanks to the *stratified sampling* implementation increasing `samples` rather than `n_rays` reduces the grainy effect more efficiently.
+
 
 **Voilà! You can see this cornell box example as an invitation to contribute at this library❣️**
 
