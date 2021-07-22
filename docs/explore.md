@@ -42,11 +42,11 @@ Here you can see how a **pointlight tracer** is able to wonderfully render a sit
   </p>
 
   
-You can appreciate this tracer looking at the same scene rendered with pathtracer and the flat render:
+You can appreciate this tracer looking at the same scene rendered with the flat and path tracer:
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/59051647/126517847-ff9d1a21-bef5-49e0-a7d7-ac60bb9aac40.png" width="400" />
-  <img src="https://user-images.githubusercontent.com/59051647/126517959-44c6dc55-91d5-4fe4-90c8-c040d588ad03.png" width="400" /> 
+  <img src="https://user-images.githubusercontent.com/59051647/126517959-44c6dc55-91d5-4fe4-90c8-c040d588ad03.png" width="350" />
+  <img src="https://user-images.githubusercontent.com/59051647/126517847-ff9d1a21-bef5-49e0-a7d7-ac60bb9aac40.png" width="350" />
 </p>
 
 
@@ -111,7 +111,26 @@ Here an example rendered with the poinlight tracer:
 > Scene filename: `cornell_box.txt`
 
 The one and only cornell box! It is used in photorealistic rendering to test the accuracy of the code.
-[to be continued...]
 
-Voilà! Here is just an invitation to contribute ❣️
+<p align="center">
+<img src="https://user-images.githubusercontent.com/59051647/126619151-5cdf0016-c9d9-4356-89b6-5e8eb85ca252.png" width="400" /> 
+</p>
+
+> This cornell box was made by setting `--n_rays` 3 `--depth` 3 `--samples` 16 `--width` 400 `--height` 400 `--a_r` 0.55.
+
+As you can notice the pathtracer algorithm has hard times in rendering multiple diffusive surfaces, but it's a good starting point!
+
+Since the runtime increases as increasing the parameters value, a script `cornell_box.sh` (in [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render)) has been written to run the executable in parallel:
+
+> Parallelized: `cornell_box.sh`
+
+``` sh
+Usage: ./cornell_box.sh NUM_OF_CORES <n_rays> <depth> <samples> <width> <height> <a-factor>
+```
+
+You just need to set the `NUM_OF_CORES`, while the other parameters are optional. Default values are set to render quickly an approximate 200x200 image
+of the cornell box. You are welcome to set your own values!
+> Default values: `n_rays` 2 `depth` 2 `samples` 16 `width` 200 `height` 200 `a-factor` 0.6
+
+**Voilà! The cornell box example is an invitation to contribute at this library❣️**
 
