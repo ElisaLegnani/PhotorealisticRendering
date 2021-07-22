@@ -121,7 +121,7 @@ The one and only cornell box! It is used in photorealistic rendering to test the
 
 > This cornell box was made by setting `--n_rays` 4 `--depth` 3 `--samples` 25 `--width` 400 `--height` 400 `--a_r` 0.55.
 
-As you can notice the pathtracer algorithm has hard times in rendering multiple diffusive surfaces, but it's a good starting point!
+As you can notice the pathtracer algorithm has hard times in rendering multiple diffusive surfaces, but it's a good starting point! You can appreciate the red/green faces of the boxes because of the light interaction with the walls, as well as the realistic shadows projected by the boxes and in the room corners.
 
 Since the runtime increases as increasing the parameters value, a script `cornell_box.sh` (in [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render)) has been written to run the executable in parallel:
 
