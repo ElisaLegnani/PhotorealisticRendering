@@ -122,7 +122,7 @@ whose you can set material and geometric properties.
   which automatically runs the following code:
   
   ```sh
-  ../../build/./raytracer render image.txt --declare_var ang=ANGLE --output img/imageANGLE.png --a_r ${2:-1}
+  ../../build/./raytracer render image.txt --declare_var ang=ANGLE --output img/imageANGLE.png --a_r a-factor
   ```
   
   You just need to set the `ANGLE` (deg) from which you look at the scene and optionally also the luminosity `<a-factor>` (default `1`).
@@ -163,7 +163,18 @@ Here is a suggestive animation of the solar system:
 </p>
 
   > ⏳ Pay attention when passing a scene description that takes long to render: even if we are using a parallel execution there are lots of images to render and can take a while.
- 
+
+### Parallelize image execution
+
+In the `examples/render` directory, another script called `./parallelize-image.sh` has the functionality to parallelize the program execution when rendering the instructions in `image.txt`. The purpose is to speed up the execution particullarly when running the *pathtracer* algorithm. Here is the usage:
+
+```sh
+./parallelize-image.sh NUM_OF_CORES <angle> <width> <height> <output_filename> <a-factor> <samples> <n_rays> <depth>
+  ```
+You just need to set the `NUM_OF_CORES`, while the other parameters are optional. 
+
+> Default values: `angle` 0 `width` 640 `height` 480 `output_filename` image.png ` a-factor` 1 `samples` 0 `n_rays` 10 `depth` 2
+
 ## Convert HDR image into LDR
 
   In the  `build` directory run: 
