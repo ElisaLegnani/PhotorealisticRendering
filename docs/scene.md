@@ -2,7 +2,7 @@
 
 This is a guide to write a .TXT file with the instructions of the scene you want to render. 
 
-In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. 
+In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, there are some examples to look for inspirations. [Here](https://elisalegnani.github.io/PhotorealisticRendering/html/explore.md) you can have a look to the corrispective results.
 
 🔗 If you desire further information on the meaning of the scene elements and their parameters, look at full descriptions in the [complete documentation](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html).
 
@@ -18,7 +18,7 @@ Some basic elements are identified as follows:
 - vector (x, y, z): `[float, float, float]`
 - color (R, G, B): `<float, float, float>`
 
-*Note*: The reference system is the one depicted in the side image.
+> *Note*: The reference system is the one depicted in the side image.
 
 🔗 *Practical advise*: you can find [here](https://ziotom78.github.io/raytracing_course/tomasi-ray-tracing-02a-colors.html#/colori-rgb) a quick way to determine the RGB combination for the desired color (credits to professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan)).
 
@@ -51,7 +51,7 @@ Via `camera(type, transformation, aspect_ratio, distance)`, where:
 
 - PointLight: `light(point, color, float)`, where `float` is the linear radius ![formula](https://render.githubusercontent.com/render/math?math=lr) used to compute the soild angle subtended by the light at distance ![formula](https://render.githubusercontent.com/render/math?math=d): ![formula](https://render.githubusercontent.com/render/math?math=\Omega=(lr/d)^2)
 
-*Note*: the PointLight is an element rendered just by the `pointlight` tracer, other renderers will ignore it.
+> *Note*: the PointLight is an element rendered just by the `pointlight` tracer, other renderers will ignore it.
 
 
 ### Define their materials
@@ -63,7 +63,7 @@ Before adding elements define their materials:
 - `pigment`: `uniform(color)`/`checkered(color1, color2, n_steps)`/`image("image_path")`,
 	where `n_steps` is an integer number regulating the pattern alternation between the two colors.
 
-	*Note*: the image for the image pigment must be in PFM format
+>	*Note*: the image for the image pigment must be in PFM format
 
 
 

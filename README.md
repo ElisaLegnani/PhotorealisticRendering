@@ -7,7 +7,7 @@
 ![Top Language](https://img.shields.io/github/languages/top/ElisaLegnani/PhotorealisticRendering)
 
 
-A simple raytracing library for generating photorealistic images written in C++.
+🪄 A simple raytracing library for generating photorealistic images written in C++.
 
 It is developed for the course [*Numerical techniques for photorealistic image generation*](https://www.unimi.it/en/education/degree-programme-courses/2021/numerical-tecniques-photorealistic-image-generation) held by professor [Maurizio Tomasi](https://github.com/ziotom78) (University of Milan, AY2020-2021).
 
@@ -39,7 +39,7 @@ If you want to run animations, the required dependencies are:
 - [FFmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
 - [GNU Parallel](https://www.gnu.org/software/parallel/)
 
-*Note*: they are not needed for running the raytracing code.
+> *Note*: they are not needed for running the raytracing code.
 
 ### Download latest release
 You can download the latest stable release [here](https://github.com/ElisaLegnani/PhotorealisticRendering/releases/tag/v1.0.0) (version 1.0.0) and then unpack it running in the command line (Linux):
@@ -115,7 +115,10 @@ The command line interface is built using the argument parsing library [Taywee/a
 
 Here is just a spoiler of what awaits you!
 
-[nice image]
+<p align="center">
+       <img width="450" src=https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png>
+       <img src="https://user-images.githubusercontent.com/59051647/126542691-8f384c07-c567-4276-8116-9e497611da4f.gif" width="450" /> 
+</p>
 
 ## Documentation
 
