@@ -35,9 +35,9 @@ You also need to install the following dependencies:
 - [Cmake](https://cmake.org/) (version 3.12 or higher);
 - [GD library](https://libgd.github.io/) (version 2.3.0 or higher).
 
-If you want to run animations, the required dependencies are:
-- [FFmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
+If you want to parallelize the execution or run animations, the required dependencies are:
 - [GNU Parallel](https://www.gnu.org/software/parallel/)
+- [FFmpeg](https://www.ffmpeg.org/) (version 4.4 or higher)
 
 > *Note*: they are not needed for running the raytracing code.
 
