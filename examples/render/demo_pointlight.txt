@@ -7,8 +7,8 @@ material lamp_material(
 )
 
 material ground_material(
-    diffuse(uniform(<0.3, 0.4, 0.01>)),
-    image("../examples/hdr2ldr/grass.pfm")
+    diffuse(image("../examples/hdr2ldr/grass.pfm")),
+    uniform(<0, 0, 0>)
 )
 
 material sphere_material(
@@ -17,12 +17,12 @@ material sphere_material(
 )
 
 material semisphere_material(
-    diffuse(uniform(<0.5, 0.3, 0.3>)),
-    image("../examples/hdr2ldr/tree.pfm")
+    diffuse(image("../examples/hdr2ldr/oak.pfm")),
+    uniform(<0, 0, 0>)
 )
 
 material box_material(
-    diffuse(uniform(<0.1, 0.3, 0.3>)),
+    diffuse(image("../examples/hdr2ldr/wood.pfm")),
     uniform(<0, 0, 0>)
 )
 
@@ -38,21 +38,21 @@ sphere (background_material,
 plane (ground_material, identity)
 
 sphere(sphere_material, 
-	translation([0, 0, 0.8])*scaling([0.8,0.8,0.8])
+	translation([0.2, 0, 0.7])*scaling([0.7,0.7,0.7])
 )
 
 sphere(lamp_material, 
-	translation([1, -2, 0.6])*scaling([0.6,0.6,0.6])
+	translation([1, -2.6, 1])*scaling([0.5,0.5,0.5])
 )
 
 sphere(semisphere_material, 
 	translation([1, 2.5, 0.])
 )
 
-box(box_material, {0, 0, 0}, {0.5, 0.8, 0.5},
-	translation([-0.5, -1.6, 0.])*rotation_z(270)
+box(box_material, {0, 0, 0}, {1.5, 2.5, 0.5},
+	translation([0, -2, 0.])*rotation_z(270)
 )
 
 light({-10,10,10},<1,1,1>,0)
 
-camera(perspective, rotation_z(0) * translation([-1, 0, 1]), 1.333, 1.)
+camera(perspective, rotation_z(0) * rotation_y(5) *translation([-1, 0, 1.2]), 1.333, 1.)
