@@ -74,7 +74,7 @@ Look at this animation to better appreciate the differences!
 
 > Scene filename: `fireflies.txt`
 
-The **onoff renderer** is usually used for debugging purposes when starting writing done the code, but you know what? I'm seeing fireflies dancing in a dark night!
+The **onoff renderer** is usually used for debugging purposes when starting writing down the code, but you know what? I'm seeing fireflies dancing in a dark night!
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/59051647/126528098-21cce91a-57f4-49f3-9ab1-c2880919913e.png" width="450" />
