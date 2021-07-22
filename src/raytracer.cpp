@@ -115,7 +115,7 @@ int main(int argc, char **argv) {
                                 args::Options::Global);
   
   //args::ValueFlag<string> pfm_file(hdr2ldr_arguments, "","Input PFM filename", {"pfm", "pfm_file"});
-  args::ValueFlag<string> out_file(hdr2ldr_arguments, "","Output PNG/JPG filename \n (default ldrimage_a_gamma.png)", {"out", "out_file"});
+  args::ValueFlag<string> out_file(hdr2ldr_arguments, "","Output PNG/JPG filename \n (default input-filename_a_gamma.png)", {"out", "out_file"});
   args::ValueFlag<float> a(hdr2ldr_arguments, "",
                            "Luminosity normalization factor \n (default 0.3)", {'a'});
   args::ValueFlag<float> gamma(hdr2ldr_arguments, "",
