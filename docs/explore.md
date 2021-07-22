@@ -113,10 +113,10 @@ Here an example rendered with the poinlight tracer:
 The one and only cornell box! It is used in photorealistic rendering to test the accuracy of the code.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/59051647/126619151-5cdf0016-c9d9-4356-89b6-5e8eb85ca252.png" width="400" /> 
+<img src="https://user-images.githubusercontent.com/59051647/126625863-8e800a45-5d71-4534-8faa-6da954870e6d.png" width="400" /> 
 </p>
 
-> This cornell box was made by setting `--n_rays` 3 `--depth` 3 `--samples` 16 `--width` 400 `--height` 400 `--a_r` 0.55.
+> This cornell box was made by setting `--n_rays` 4 `--depth` 3 `--samples` 25 `--width` 400 `--height` 400 `--a_r` 0.55.
 
 As you can notice the pathtracer algorithm has hard times in rendering multiple diffusive surfaces, but it's a good starting point!
 
@@ -130,7 +130,11 @@ Usage: ./cornell_box.sh NUM_OF_CORES <n_rays> <depth> <samples> <width> <height>
 
 You just need to set the `NUM_OF_CORES`, while the other parameters are optional. Default values are set to render quickly an approximate 200x200 image
 of the cornell box. You are welcome to set your own values!
+
 > Default values: `n_rays` 2 `depth` 2 `samples` 16 `width` 200 `height` 200 `a-factor` 0.6
 
-**Voilà! The cornell box example is an invitation to contribute at this library❣️**
+The output files will be named to track the parameters setting (ex: `cb_n4_d3_s25_w400_h400_a0.6.png`)
+
+
+**Voilà! You can see this cornell box example as an invitation to contribute at this library❣️**
 
