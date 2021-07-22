@@ -2,7 +2,7 @@
 
 ## HEAD
 
-- Refine code documentation [#29](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/29)
+- Refine code documentation and parallelize execution [#29](https://github.com/ElisaLegnani/PhotorealisticRendering/pull/29)
 
 ### 2021-7-21
 
