@@ -330,7 +330,7 @@ void convert_hdr2ldr(string pfm_file, string output_file, float a, float gamma) 
     
   }catch(runtime_error &e){
     cout << e.what() << endl;
-    exit(1);
+    return;
   }
 }
 
