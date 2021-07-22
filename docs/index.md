@@ -128,7 +128,7 @@ whose you can set material and geometric properties.
   You just need to set the `ANGLE` (deg) from which you look at the scene and optionally also the luminosity `<a-factor>` (default `1`).
   
  <p align="center">
-       <img width="700" src=https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png>
+       <img src="https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png" width="700" >
   </p>
   
   The scene description is in `image.txt` file (*support file*).
