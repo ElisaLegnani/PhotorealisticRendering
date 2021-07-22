@@ -13,8 +13,11 @@ The scene files used to render these images are in the [`examples/render`](https
 Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally with total reflective, diffusive and emitting surfaces on the different shapes (spheres, boxes and planes).
 
 <p align="center">
-       <img width="700" src=https://user-images.githubusercontent.com/59051647/126571722-28e2cfe1-0b22-4961-bc0a-b1d05eb507ec.png>
+       <img width="700" src=https://user-images.githubusercontent.com/59051647/126656613-0af7297c-2fb8-46b1-926f-6884629c0cee.png>
   </p>
+  
+> This image was generated running `./parallelize-image.sh` with default parameters except for the 9 `samples` per pixel. 
+> We suggest to use the script to speed up the execution of the pathtracer rendering.
   
 Here is a comparison with the other two tracers (flat and pointlight tracer) to better appreciate the advantages of using the pathtracer:
 
