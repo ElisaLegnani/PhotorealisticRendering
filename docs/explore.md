@@ -13,7 +13,7 @@ The scene files used to render these images are in the [`examples/render`](https
 Here are gathered all the main functionalities of the library, in particular regarding **path tracer**. Note how it can render light interaction so naturally with total reflective, diffusive and emitting surfaces on the different shapes (spheres, boxes and planes).
 
 <p align="center">
-<img width="700" src="https://user-images.githubusercontent.com/59051647/126656613-0af7297c-2fb8-46b1-926f-6884629c0cee.png">
+<img src="https://user-images.githubusercontent.com/59051647/126656613-0af7297c-2fb8-46b1-926f-6884629c0cee.png" width="700" >
 </p>
   
 > This image was generated running `./parallelize-image.sh` with default parameters except for the 9 `samples` per pixel. 
@@ -22,9 +22,9 @@ Here are gathered all the main functionalities of the library, in particular reg
 Here is a comparison with the other two tracers (flat and pointlight tracer) to better appreciate the advantages of using the pathtracer:
 
 <p align="center">
-<img width="250" src="https://user-images.githubusercontent.com/59051647/126571125-4ab12267-9e95-4d17-b2ee-85340a969097.png">
-<img width="250" src="https://user-images.githubusercontent.com/59051647/126571444-389e17d6-3c6b-4b62-9397-e282843b4dcb.png">
-<img width="250" src="https://user-images.githubusercontent.com/59051647/126570183-d4ac3e89-4158-41e7-a75a-bd2246c958b5.png">
+<img src="https://user-images.githubusercontent.com/59051647/126571125-4ab12267-9e95-4d17-b2ee-85340a969097.png" width="250" >
+<img src="https://user-images.githubusercontent.com/59051647/126571444-389e17d6-3c6b-4b62-9397-e282843b4dcb.png" width="250" >
+<img src="https://user-images.githubusercontent.com/59051647/126570183-d4ac3e89-4158-41e7-a75a-bd2246c958b5.png" width="250" >
 </p>
 
 
@@ -41,7 +41,7 @@ This image is so representative of the pontentials of the code... now let's star
 Here you can see how a **pointlight tracer** is able to wonderfully render a situation where the light source is very intense and point-like (or far away, as the sun approaching the horizon...). Look how it can render the romantic long shadows of sunsets!
 
 <p align="center">
-<img width="600" src="https://user-images.githubusercontent.com/59051647/126517271-032815f0-6f9c-4470-869a-6a9f5b4b3a6b.png">
+<img src="https://user-images.githubusercontent.com/59051647/126517271-032815f0-6f9c-4470-869a-6a9f5b4b3a6b.png" width="600" >
 </p>
 
   
