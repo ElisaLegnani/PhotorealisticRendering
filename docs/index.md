@@ -33,8 +33,8 @@ Here you can find a detailed explanation of the program usage for better underst
 You can run the program through the script `raytracer`, located in the `build` directory. 
 
 The code implements two features, that you can call with commands:
-- `render`: creates a photorealistic image;
-- `hdr2ldr`: converts HDR image to LDR.
+- 🌅 `render`: creates a photorealistic image;
+- 🔄 `hdr2ldr`: converts HDR image to LDR.
 
 The basic usage is the following:
 
@@ -79,7 +79,7 @@ whose you can set material and geometric properties.
 
 🔗 You can find detailed instructions on how to write the scene file at the page [Scene description](https://elisalegnani.github.io/PhotorealisticRendering/scene).
 
-  In the `examples/render` directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
+  In the [`examples/render`](https://github.com/ElisaLegnani/PhotorealisticRendering/tree/master/examples/render) directory, some scene file examples are provided to start playing with the code. Expecially, look at `demo.txt` to explore all the potentialities of the code! Our suggestion is to try passing the same scene file with different rendering algorithms while changing the parameters setting, this will surely tickle your creativity! ✨
   
 ### Parameters
   
@@ -203,7 +203,7 @@ Here is a suggestive animation of the solar system:
 
 📓 The complete documentation of the library is available [here](https://elisalegnani.github.io/PhotorealisticRendering/html/index.html). It was generated with [Doxygen](http://www.doxygen.nl). This is the first version of the documentation, any suggestions are very appreciated!
 
-# Expectations and examples
+# Potentialities and examples
 
 🤹🏻‍♀️ There is a nice [overview of the library potentialities](https://elisalegnani.github.io/PhotorealisticRendering/explore) with lots of examples, hoping this can tickle your creativity! 
 
