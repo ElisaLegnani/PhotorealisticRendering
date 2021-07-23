@@ -63,7 +63,7 @@ Before adding elements define their materials:
 - `pigment`: `uniform(color)`/`checkered(color1, color2, n_steps)`/`image("image_path")`,
 	where `n_steps` is an integer number regulating the pattern alternation between the two colors.
 
->	*Note*: the image for the image pigment must be in PFM format
+> *Note*: the image for the image pigment must be in PFM format
 
 
 
