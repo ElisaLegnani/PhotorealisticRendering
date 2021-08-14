@@ -10,7 +10,7 @@ It is developed for the course [*Numerical techniques for photorealistic image g
   - [Create your own photorealistic image](#create-your-own-photorealistic-image)
   - [Convert HDR image into LDR](#convert-hdr-image-into-ldr)
 - [Documentation](#documentation)
-- [Expectations and examples](#expectations-and-examples)
+- [Potentialities and examples](#potentialities-and-examples)
 - [Contributing](#contributing)
 - [License](#license)
 
